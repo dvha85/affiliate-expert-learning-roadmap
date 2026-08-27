@@ -8,7 +8,7 @@
 
 ### Chương 0 — Khởi động chương trình
 
-- [ ] **0.1** — Affiliate Expert là gì?
+- [ ] **0.1** — [Affiliate Expert là gì?](../lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md)
 - [ ] **0.2** — Affiliate Bot Engineer là gì?
 - [ ] **0.3** — Affiliate Intelligence là gì?
 - [ ] **0.4** — Affiliate Bot có thể và không thể làm gì?
