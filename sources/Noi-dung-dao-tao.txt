@@ -1,0 +1,2029 @@
+Được. Mình sẽ coi đây như một **chương trình đào tạo dài hạn**, không phải vài bài hướng dẫn làm TikTok Affiliate.
+
+Mục tiêu cuối cùng là bạn có **hai năng lực kết hợp với nhau**:
+
+> **Affiliate Expert + Affiliate Automation/Bot Engineer**
+> 
+
+Tức là không chỉ biết code bot, mà phải hiểu đủ sâu về thị trường để biết **bot cần quyết định cái gì, dữ liệu nào quan trọng và quyết định nào thực sự tạo ra tiền**.
+
+Vì bạn đã có nền tảng C#/.NET, phần lập trình cơ bản có thể đi nhanh hơn và dành nhiều thời gian cho những thứ mới như affiliate economics, content, attribution, experimentation, data và automation.
+
+---
+
+# 1. Đích đến của chương trình
+
+Sau chương trình, bạn phải có khả năng nhìn một sản phẩm như:
+
+```
+Sản phẩm A
+Giá: 599.000đ
+Commission: 12%
+Đã bán: 18.000
+Rating: 4.9
+Trend: tăng
+Competition: trung bình
+CVR lịch sử: 3.8%
+CTR: 5.1%
+Refund: 2.3%
+```
+
+và không chỉ nói:
+
+> “12% hoa hồng khá cao.”
+> 
+
+Mà phải suy luận:
+
+```
+Traffic potential
+        ×
+CTR
+        ×
+CVR
+        ×
+Commission/order
+        ×
+Refund factor
+        =
+Expected Revenue
+```
+
+Rồi Affiliate Bot có thể tự phát hiện:
+
+```
+🔥 OPPORTUNITY DETECTED
+
+Product: XYZ Powerbank
+
+Price ↓ 18%
+Commission ↑ 7% → 12%
+Sales velocity ↑ 63%
+Competition: Low
+Historical CVR: 4.2%
+
+Expected EPC: 2.840đ
+
+Opportunity Score:
+92 / 100
+
+ACTION:
+Create content within 24h
+```
+
+Đó là trình độ chúng ta hướng đến.
+
+---
+
+# 2. Chương trình tổng thể
+
+Mình đề xuất **12 tháng**, khoảng **8–10 giờ/tuần**.
+
+Không phải 12 tháng mới kiếm được tiền. Chúng ta sẽ bắt đầu thử nghiệm affiliate thật từ khá sớm.
+
+| Giai đoạn | Thời gian | Trọng tâm |
+| --- | --- | --- |
+| 0 | 1 tuần | Chuẩn bị |
+| 1 | 4 tuần | Affiliate Foundation |
+| 2 | 4 tuần | Platform & Ecosystem |
+| 3 | 5 tuần | Product Research |
+| 4 | 6 tuần | Content & Traffic |
+| 5 | 4 tuần | Conversion & Funnel |
+| 6 | 5 tuần | Data & Analytics |
+| 7 | 5 tuần | Affiliate Bot V1 |
+| 8 | 5 tuần | AI Affiliate Bot |
+| 9 | 4 tuần | Experimentation |
+| 10 | 4 tuần | Affiliate Intelligence |
+| 11 | 4 tuần | Scale & Business |
+| 12 | liên tục | Mastery |
+
+Ta sẽ học theo hai luồng song song:
+
+```
+AFFILIATE
+   │
+   ├── Market
+   ├── Product
+   ├── Content
+   ├── Traffic
+   ├── Conversion
+   └── Economics
+
+BOT
+   │
+   ├── Data collection
+   ├── Database
+   ├── Analytics
+   ├── Automation
+   ├── AI
+   └── Decision Engine
+
+         ↓
+
+AFFILIATE INTELLIGENCE SYSTEM
+```
+
+---
+
+# GIAI ĐOẠN 0 — Chuẩn bị
+
+## Tuần 0
+
+Chưa code.
+
+Thiết lập “phòng thí nghiệm affiliate”.
+
+### Học
+
+Hiểu mục tiêu dự án:
+
+```
+Không phải:
+
+"Code bot để kiếm tiền"
+
+Mà là:
+
+"Học cách affiliate tạo ra tiền
+→ thực hiện thủ công
+→ thu thập dữ liệu
+→ tự động hóa những phần có giá trị."
+```
+
+### Thiết lập môi trường
+
+Tạo:
+
+```
+AffiliateLab/
+│
+├── Knowledge/
+├── Products/
+├── Content/
+├── Experiments/
+├── Analytics/
+└── Bot/
+```
+
+Có thể dùng Notion/Obsidian/Git đều được.
+
+### Kết quả
+
+Cuối tuần bạn phải trả lời được:
+
+> Affiliate Bot của mình sẽ giải quyết vấn đề gì?
+> 
+
+Chưa cần biết giải pháp.
+
+---
+
+# GIAI ĐOẠN 1 — AFFILIATE FOUNDATION
+
+## Tuần 1 — Affiliate Marketing là gì?
+
+### Bài 1.1
+
+Hệ sinh thái:
+
+```
+Merchant
+   ↓
+Affiliate Network / Platform
+   ↓
+Publisher / Creator
+   ↓
+Audience
+   ↓
+Customer
+```
+
+### Bài 1.2
+
+Các mô hình:
+
+```
+CPS
+CPA
+CPL
+CPC
+Revenue Share
+Recurring Commission
+```
+
+### Bài 1.3
+
+Luồng tiền:
+
+```
+Content
+ ↓
+Impression
+ ↓
+Click
+ ↓
+Affiliate Link
+ ↓
+Checkout
+ ↓
+Order
+ ↓
+Delivered
+ ↓
+Commission
+```
+
+### Bài tập
+
+Tự vẽ lại toàn bộ flow bằng lời của bạn.
+
+---
+
+# Tuần 2 — Affiliate Economics
+
+Đây là tuần cực kỳ quan trọng.
+
+Học:
+
+```
+CTR
+CVR
+AOV
+EPC
+CPA
+RPM
+ROI
+ROAS
+LTV
+Refund Rate
+Commission Rate
+```
+
+Ví dụ:
+
+```
+10.000 impressions
+
+CTR = 5%
+→ 500 clicks
+
+CVR = 4%
+→ 20 orders
+
+Price = 500k
+Commission = 10%
+→ 50k/order
+
+Revenue:
+20 × 50k
+= 1.000.000đ
+```
+
+EPC:
+
+```
+1.000.000 / 500
+
+= 2.000đ/click
+```
+
+Bạn phải hiểu bản chất từng con số, không học thuộc.
+
+---
+
+# Tuần 3 — Attribution
+
+Học cực kỹ:
+
+```
+Cookie
+Attribution Window
+
+Last Click
+First Click
+
+Direct Attribution
+Indirect Attribution
+
+Cross-device
+Cross-platform
+
+Cancelled order
+Refund
+Invalid order
+```
+
+Ví dụ TikTok Shop Việt Nam hiện hỗ trợ Affiliate Links ngoài ứng dụng và phân biệt direct/indirect attribution.
+
+Đây chính là thứ bot analytics sau này phải xử lý.
+
+---
+
+# Tuần 4 — Affiliate Business Models
+
+Nghiên cứu:
+
+```
+Creator Affiliate
+SEO Affiliate
+Review Website
+Comparison Site
+Deal Site
+Coupon Site
+Email Affiliate
+Community Affiliate
+Influencer Affiliate
+Paid Traffic Affiliate
+```
+
+Phải hiểu ưu/nhược điểm từng mô hình.
+
+### Project #1
+
+Viết:
+
+**Affiliate Business Map**
+
+cho một ngách cụ thể.
+
+Mình đề xuất:
+
+> **Đồ công nghệ / phụ kiện công nghệ**
+> 
+
+---
+
+# GIAI ĐOẠN 2 — PLATFORM EXPERT
+
+# Tuần 5 — TikTok Shop Affiliate
+
+Học:
+
+```
+Creator
+Seller
+Product Marketplace
+Showcase
+Affiliate Link
+Video
+LIVE
+Sample
+Commission
+Order
+Settlement
+```
+
+Hiện TikTok Shop Việt Nam yêu cầu Affiliate Creator đầy đủ phải từ 18 tuổi và có ít nhất 1.000 follower; TikTok cũng có chế độ Link-Share Only với chức năng khác biệt.
+
+---
+
+# Tuần 6 — Commission mechanics
+
+Không chỉ nhìn:
+
+```
+Commission = 10%
+```
+
+Phải hiểu:
+
+```
+Listed Price
+≠
+Paid Price
+```
+
+TikTok hiện tính hoa hồng creator dựa trên giá khách thực trả và tỷ lệ commission; hoàn/trả hàng cũng ảnh hưởng số tiền cuối cùng.
+
+Bot sau này phải phân biệt:
+
+```
+EstimatedCommission
+
+vs
+
+FinalCommission
+```
+
+---
+
+# Tuần 7 — Shopee Affiliate
+
+Nghiên cứu tương tự:
+
+```
+Product
+Campaign
+Tracking
+Attribution
+Commission
+Validation
+Payment
+```
+
+Không cần thuộc lòng UI.
+
+Mục tiêu là hiểu **business logic**.
+
+---
+
+# Tuần 8 — Platform Risk & Compliance
+
+Học:
+
+```
+Spam
+Fake engagement
+Misleading claims
+Copyright
+Brand misuse
+Prohibited products
+Unoriginal content
+AI-generated content
+Disclosure
+Platform manipulation
+```
+
+Một chuyên gia bot phải hiểu điều này vì:
+
+```
+Automation quá mức
+        ↓
+Spam
+        ↓
+Account violation
+        ↓
+Bot kiếm được 0đ
+```
+
+---
+
+# GIAI ĐOẠN 3 — PRODUCT INTELLIGENCE
+
+Đây là phần quan trọng nhất của Affiliate Bot.
+
+# Tuần 9 — Product Research
+
+Học cách đánh giá:
+
+```
+Demand
+Price
+Sales
+Rating
+Reviews
+Commission
+Trend
+Competition
+Availability
+Brand
+Return risk
+```
+
+---
+
+# Tuần 10 — Demand
+
+Phân biệt:
+
+```
+High Sales
+
+vs
+
+High Sales Velocity
+```
+
+Ví dụ:
+
+```
+A:
+100.000 sold
++100/day
+
+B:
+10.000 sold
++1.000/day
+```
+
+Bot nên chú ý B.
+
+---
+
+# Tuần 11 — Competition
+
+Tạo:
+
+```
+CompetitionScore
+```
+
+Dựa trên:
+
+```
+NumberOfCreators
+NumberOfVideos
+AverageViews
+TopCreatorDominance
+ContentSaturation
+```
+
+---
+
+# Tuần 12 — Product Economics
+
+Tạo metric:
+
+```
+ExpectedRevenuePer1000Views
+```
+
+Ví dụ:
+
+```
+CTR = 5%
+CVR = 3%
+Commission = 40k
+
+1000 views
+→ 50 click
+→ 1.5 order
+→ 60k
+```
+
+---
+
+# Tuần 13 — Opportunity Score V1
+
+Xây công thức đầu tiên:
+
+```
+OpportunityScore =
+
+Demand
+× Commission
+× ConversionPotential
+× Trend
+× PriceAttractiveness
+× CompetitionFactor
+```
+
+Chưa AI.
+
+Chỉ toán.
+
+### PROJECT #2
+
+Tự đánh giá **100 sản phẩm công nghệ**.
+
+Sau đó chọn:
+
+```
+TOP 10
+```
+
+---
+
+# GIAI ĐOẠN 4 — CONTENT ENGINEERING
+
+Một Affiliate Expert không thể chỉ hiểu dữ liệu.
+
+Phải hiểu **tại sao con người click và mua**.
+
+---
+
+# Tuần 14 — Customer Psychology
+
+Học:
+
+```
+Pain
+Desire
+Fear
+Convenience
+Status
+Curiosity
+Social proof
+Urgency
+Scarcity
+```
+
+---
+
+# Tuần 15 — Hook
+
+Phân tích 100 hook.
+
+Ví dụ các cấu trúc:
+
+```
+Problem Hook
+Curiosity Hook
+Contrarian Hook
+Comparison Hook
+Price Hook
+Shock Hook
+Result Hook
+```
+
+Bot sau này không nên chỉ có:
+
+```
+GenerateHook(product)
+```
+
+mà:
+
+```
+GenerateHook(
+    product,
+    audience,
+    painPoint,
+    angle,
+    historicalPerformance
+)
+```
+
+---
+
+# Tuần 16 — Review Content
+
+Cấu trúc:
+
+```
+HOOK
+ ↓
+PROBLEM
+ ↓
+PRODUCT
+ ↓
+DEMONSTRATION
+ ↓
+PROOF
+ ↓
+DRAWBACK
+ ↓
+WHO SHOULD BUY
+ ↓
+CTA
+```
+
+---
+
+# Tuần 17 — Comparison content
+
+Ví dụ:
+
+```
+A vs B
+
+Gaming
+Battery
+Build quality
+Price
+Software
+Value
+```
+
+Dạng nội dung này rất phù hợp cho đồ công nghệ.
+
+---
+
+# Tuần 18 — Commercial Intent
+
+Phân biệt:
+
+```
+"Tai nghe Bluetooth là gì?"
+
+Informational
+```
+
+và:
+
+```
+"Tai nghe tốt nhất dưới 500k"
+
+Commercial
+```
+
+và:
+
+```
+"Soundcore R50i mua ở đâu"
+
+Transactional
+```
+
+Affiliate thường đặc biệt thích hai nhóm cuối.
+
+---
+
+# Tuần 19 — Content System
+
+Tạo:
+
+```
+Content Matrix
+
+              Review  Compare  Top X  Deal  Tutorial
+Keyboard        ✓       ✓       ✓      ✓      ✓
+Mouse           ✓       ✓       ✓      ✓      ✓
+Powerbank       ✓       ✓       ✓      ✓      ✓
+```
+
+### PROJECT #3
+
+Xuất bản tối thiểu khoảng:
+
+**20–30 nội dung thật**
+
+Không cần tất cả thành công.
+
+Cần dữ liệu.
+
+---
+
+# GIAI ĐOẠN 5 — TRAFFIC & CONVERSION
+
+# Tuần 20 — Traffic
+
+Hiểu:
+
+```
+Organic
+Search
+Social
+Referral
+Community
+Email
+Paid
+```
+
+---
+
+# Tuần 21 — Funnel
+
+```
+Impression
+ ↓
+View
+ ↓
+Engagement
+ ↓
+Click
+ ↓
+Product View
+ ↓
+Add To Cart
+ ↓
+Checkout
+ ↓
+Order
+ ↓
+Delivered
+```
+
+Mỗi bước đều có conversion rate.
+
+---
+
+# Tuần 22 — Funnel Diagnosis
+
+Ví dụ:
+
+```
+Views: 100k
+Clicks: 200
+
+CTR = 0.2%
+```
+
+Vấn đề có thể nằm ở:
+
+```
+Content
+CTA
+Audience
+Product relevance
+```
+
+Không phải checkout.
+
+---
+
+# Tuần 23 — CRO
+
+Học:
+
+```
+Call To Action
+Trust
+Proof
+Offer
+Pricing
+Urgency
+Landing experience
+```
+
+### PROJECT #4
+
+Tạo dashboard funnel đầu tiên.
+
+---
+
+# GIAI ĐOẠN 6 — DATA & ANALYTICS
+
+Bây giờ mới bắt đầu chuyển mạnh sang bot.
+
+# Tuần 24 — Data Model
+
+Thiết kế:
+
+```
+Product
+Merchant
+Platform
+Campaign
+
+PriceSnapshot
+CommissionSnapshot
+SalesSnapshot
+
+Content
+Channel
+AffiliateLink
+
+Click
+Order
+Commission
+
+Experiment
+```
+
+---
+
+# Tuần 25 — Historical Data
+
+Một mistake rất phổ biến:
+
+```
+Product.Price = 499000
+```
+
+không đủ.
+
+Phải có:
+
+```
+Product
+
+PriceHistory
+------------------
+Date       Price
+01/08      599k
+10/08      549k
+20/08      499k
+```
+
+Tương tự:
+
+```
+CommissionHistory
+SalesHistory
+RankingHistory
+```
+
+---
+
+# Tuần 26 — Metrics Engine
+
+Code:
+
+```
+CalculateCTR()
+CalculateCVR()
+CalculateEPC()
+CalculateRPM()
+CalculateRevenue()
+CalculateRefundRate()
+```
+
+---
+
+# Tuần 27 — Dashboard
+
+Dashboard:
+
+```
+Revenue
+Orders
+Clicks
+CTR
+CVR
+EPC
+Best Products
+Best Content
+Best Channels
+```
+
+---
+
+# Tuần 28 — Cohort & segmentation
+
+Phân tích:
+
+```
+Product Category
+Price Range
+Content Type
+Hook
+Channel
+Day
+Hour
+Audience
+```
+
+### PROJECT #5
+
+Xây:
+
+> **Affiliate Analytics Dashboard V1**
+> 
+
+---
+
+# GIAI ĐOẠN 7 — AFFILIATE BOT V1
+
+Đây là lúc C#/.NET trở thành lợi thế lớn.
+
+# Tuần 29 — Architecture
+
+Mình đề xuất:
+
+```
+              AffiliateBot
+                    │
+        ┌───────────┼───────────┐
+        ↓           ↓           ↓
+    Collector     Engine     Notification
+        ↓           ↓
+       DB        Analytics
+                    ↓
+              Recommendation
+```
+
+Stack có thể là:
+
+```
+.NET 10+
+ASP.NET Core
+Worker Service
+PostgreSQL
+EF Core
+Redis (sau)
+Hangfire/Quartz
+Docker
+```
+
+---
+
+# Tuần 30 — Product Collector
+
+Xây:
+
+```csharp
+interface IProductSource
+{
+    Task<IReadOnlyList<ProductSnapshot>>
+        GetProductsAsync();
+}
+```
+
+Quan trọng:
+
+Collector và logic kinh doanh phải tách nhau.
+
+---
+
+# Tuần 31 — Scheduler
+
+Bot chạy:
+
+```
+08:00
+12:00
+18:00
+23:00
+```
+
+Thu thập:
+
+```
+Price
+Commission
+Sales
+Rating
+Availability
+```
+
+Tần suất thực tế phải tuân theo API/platform terms và rate limits.
+
+---
+
+# Tuần 32 — Change Detection
+
+Ví dụ:
+
+```
+Price:
+599k → 499k
+
+↓16.7%
+```
+
+Bot tạo:
+
+```
+PRICE_DROP
+```
+
+Hoặc:
+
+```
+Commission:
+5% → 12%
+
+COMMISSION_SPIKE
+```
+
+---
+
+# Tuần 33 — Opportunity Engine
+
+```csharp
+score =
+    demandScore * 0.25 +
+    commissionScore * 0.20 +
+    trendScore * 0.20 +
+    conversionScore * 0.20 +
+    competitionScore * 0.15;
+```
+
+Nhưng đây chỉ là V1.
+
+Sau này ta sẽ học từ dữ liệu thật.
+
+### PROJECT #6
+
+Hoàn thành:
+
+# Affiliate Product Finder Bot V1
+
+```
+Collect
+ ↓
+Store
+ ↓
+Analyze
+ ↓
+Rank
+ ↓
+Alert
+```
+
+---
+
+# GIAI ĐOẠN 8 — AI AFFILIATE BOT
+
+# Tuần 34 — LLM Fundamentals
+
+Không cần học train model.
+
+Cần hiểu:
+
+```
+Token
+Context
+Prompt
+Structured Output
+Temperature
+Embeddings
+RAG
+Hallucination
+Evaluation
+```
+
+---
+
+# Tuần 35 — Product Understanding
+
+Input:
+
+```json
+{
+  "product": "...",
+  "price": 499000,
+  "audience": "...",
+  "features": []
+}
+```
+
+Output:
+
+```
+Target audience
+Pain points
+Benefits
+Objections
+Content angles
+```
+
+---
+
+# Tuần 36 — Content Generator
+
+Bot tạo:
+
+```
+Hooks
+Scripts
+Titles
+Descriptions
+CTA
+Comparison
+Review outline
+```
+
+Nhưng luôn:
+
+```
+AI generates
+      ↓
+Human reviews
+      ↓
+Publish
+```
+
+---
+
+# Tuần 37 — Content Knowledge Base
+
+Lưu:
+
+```
+Hook
+Angle
+Script
+Product
+Views
+Clicks
+Orders
+Revenue
+```
+
+Bot bắt đầu biết:
+
+> Hook nào thực sự kiếm được tiền?
+> 
+
+---
+
+# Tuần 38 — AI Recommendation
+
+Thay vì:
+
+> “Viết cho tôi một video.”
+> 
+
+Bot trả lời:
+
+```
+Recommended Product:
+XYZ
+
+Recommended Audience:
+Mobile gamer
+
+Recommended Angle:
+Compact + cheap
+
+Recommended Hook:
+Comparison
+
+Reason:
+Comparison hooks achieved
+1.8× higher CTR
+for this audience.
+```
+
+### PROJECT #7
+
+Xây:
+
+# AI Content Assistant V1
+
+---
+
+# GIAI ĐOẠN 9 — EXPERIMENTATION
+
+Đây là phần biến người làm affiliate thành chuyên gia.
+
+# Tuần 39 — Hypothesis
+
+Không làm content ngẫu nhiên.
+
+Ví dụ:
+
+> “Hook dạng so sánh sẽ tạo CTR cao hơn hook giới thiệu sản phẩm.”
+> 
+
+---
+
+# Tuần 40 — A/B Testing
+
+Test:
+
+```
+Hook A
+vs
+Hook B
+```
+
+Giữ các yếu tố khác tương đối ổn định.
+
+---
+
+# Tuần 41 — Statistical Thinking
+
+Học:
+
+```
+Sample size
+Variance
+Confidence
+Noise
+Selection bias
+Survivorship bias
+Regression to mean
+```
+
+Không cần trở thành statistician.
+
+Nhưng phải tránh:
+
+```
+Video A có 3 đơn
+Video B có 1 đơn
+
+→ A tốt gấp 3
+```
+
+khi sample quá nhỏ.
+
+---
+
+# Tuần 42 — Experiment Engine
+
+Database:
+
+```
+Experiment
+Variant
+Metric
+Result
+Winner
+```
+
+### PROJECT #8
+
+Bot tự báo:
+
+```
+Experiment #37
+
+Comparison Hook
+CTR: 6.7%
+
+Question Hook
+CTR: 4.1%
+
+Sample: 48k views
+
+Likely Winner:
+Comparison Hook
+```
+
+---
+
+# GIAI ĐOẠN 10 — AFFILIATE INTELLIGENCE
+
+Đây là cấp độ mà dự án bắt đầu thực sự thú vị.
+
+# Tuần 43 — Recommendation System
+
+Bot trả lời:
+
+> Hôm nay nên quảng bá sản phẩm nào?
+> 
+
+---
+
+# Tuần 44 — Time-Series
+
+Bot hiểu:
+
+```
+Price trend
+Sales velocity
+Commission trend
+Demand trend
+```
+
+Ví dụ:
+
+```
+Sales velocity
+
+100/day
+120/day
+190/day
+350/day
+700/day
+
+🔥 Breakout
+```
+
+---
+
+# Tuần 45 — Anomaly Detection
+
+Phát hiện:
+
+```
+Commission:
+7%
+7%
+7%
+7%
+15%
+
+⚠ anomaly
+```
+
+hoặc:
+
+```
+Sales:
+300/day
+310/day
+320/day
+2700/day
+
+🔥 viral event
+```
+
+---
+
+# Tuần 46 — Revenue Prediction
+
+Đầu tiên:
+
+```
+ExpectedRevenue =
+ExpectedTraffic
+× CTR
+× CVR
+× Commission
+```
+
+Sau này mới tiến tới ML.
+
+---
+
+# GIAI ĐOẠN 11 — SCALE
+
+# Tuần 47 — Automation
+
+Tự động hóa:
+
+```
+Data collection
+Analysis
+Ranking
+Alerts
+Draft generation
+Reporting
+```
+
+Không nên tự động hóa mù quáng:
+
+```
+Publish
+Fake interaction
+Spam comment
+Spam DM
+Fake traffic
+Fake orders
+```
+
+---
+
+# Tuần 48 — Operations
+
+Học:
+
+```
+Logging
+Monitoring
+Retry
+Queue
+Rate limit
+Data quality
+Secrets
+API failure
+Cost management
+```
+
+---
+
+# Tuần 49 — Multi-platform
+
+Architecture chuyển thành:
+
+```
+        Affiliate Core
+              │
+     ┌────────┼─────────┐
+     ↓        ↓         ↓
+  TikTok    Shopee     Other
+```
+
+---
+
+# Tuần 50 — Affiliate SaaS
+
+Lúc này có thể xuất hiện một business thứ hai:
+
+```
+Affiliate Bot
+     ↓
+Creator khác cũng cần
+     ↓
+SaaS
+```
+
+Ví dụ:
+
+```
+Free
+10 products
+
+Creator
+299k/month
+100 products
+
+Pro
+799k/month
+1000 products
+```
+
+Tức là bạn có thể kiếm tiền theo **hai tầng**:
+
+```
+                  System
+                    │
+            ┌───────┴────────┐
+            ↓                ↓
+     Affiliate income    SaaS income
+```
+
+---
+
+# GIAI ĐOẠN 12 — EXPERT LEVEL
+
+Từ đây không còn học theo giáo trình tuyến tính.
+
+Chúng ta nghiên cứu các chủ đề chuyên sâu:
+
+```
+Recommendation Systems
+Machine Learning
+Ranking Models
+Multi-Armed Bandit
+Bayesian Optimization
+
+NLP
+Embeddings
+RAG
+LLM Agents
+
+Time-series
+Forecasting
+Anomaly Detection
+
+Marketing Attribution
+Incrementality
+Customer Journey
+
+Behavioral Economics
+Consumer Psychology
+
+SEO
+Social algorithms
+Creator economy
+
+Data Engineering
+Distributed Crawling
+Event-driven systems
+```
+
+---
+
+# 3. Các project bắt buộc
+
+Toàn chương trình sẽ có **một dự án duy nhất phát triển dần**, thay vì 20 project vứt đi.
+
+## Affiliate Intelligence Platform
+
+Version 0:
+
+```
+Excel
+```
+
+Version 1:
+
+```
+Manual Product Database
+```
+
+Version 2:
+
+```
+Product Finder
+```
+
+Version 3:
+
+```
+Product Tracker
+```
+
+Version 4:
+
+```
+Opportunity Engine
+```
+
+Version 5:
+
+```
+Content Assistant
+```
+
+Version 6:
+
+```
+Analytics Platform
+```
+
+Version 7:
+
+```
+Experiment Engine
+```
+
+Version 8:
+
+```
+AI Recommendation
+```
+
+Version 9:
+
+```
+Affiliate Intelligence System
+```
+
+Version 10:
+
+```
+Possible SaaS
+```
+
+Điểm này rất quan trọng.
+
+Sau một năm bạn không chỉ có:
+
+> “Tôi đã học Affiliate.”
+> 
+
+Mà có thể có:
+
+> **Một hệ thống Affiliate Intelligence hoàn chỉnh do chính mình thiết kế.**
+> 
+
+---
+
+# 4. Lịch học mỗi tuần
+
+Mình đề xuất khoảng **8–10 giờ**.
+
+Không học kiểu:
+
+```
+70% xem video
+30% đọc
+0% làm
+```
+
+Mà:
+
+| Hoạt động | Thời gian |
+| --- | --- |
+| Học lý thuyết | 2h |
+| Nghiên cứu case thật | 1.5h |
+| Affiliate thực hành | 2h |
+| Code | 2–3h |
+| Phân tích dữ liệu | 1h |
+| Review | 0.5h |
+
+Tỷ lệ:
+
+```
+30% KNOWLEDGE
+70% PRACTICE
+```
+
+---
+
+# 5. Phương pháp học giữa bạn và mình
+
+Mình không muốn chỉ gửi tài liệu cho bạn đọc.
+
+Chúng ta có thể học giống cách đang học thị trường chứng khoán.
+
+Mỗi bài:
+
+```
+① Mình giải thích concept
+
+        ↓
+
+② Ví dụ thật
+
+        ↓
+
+③ Mình hỏi bạn
+
+        ↓
+
+④ Bạn tự trả lời
+
+        ↓
+
+⑤ Mình sửa misconception
+
+        ↓
+
+⑥ Bài tập tình huống
+
+        ↓
+
+⑦ Mini project
+
+        ↓
+
+⑧ Quiz
+
+        ↓
+
+⑨ Pass / chưa pass
+
+        ↓
+
+⑩ Bài tiếp theo
+```
+
+Ví dụ:
+
+> Một sản phẩm 500k, commission 10%, CTR 4%, CVR 3%. Nếu video đạt 100.000 lượt xem thì doanh thu commission kỳ vọng là bao nhiêu?
+> 
+
+Bạn phải tự tính.
+
+Nếu chưa hiểu:
+
+**chưa chuyển bài.**
+
+---
+
+# 6. Knowledge Map cuối cùng
+
+Sau chương trình, kiến thức của bạn sẽ có dạng:
+
+```
+                    AFFILIATE EXPERT
+                          │
+        ┌─────────────────┼──────────────────┐
+        │                 │                  │
+    BUSINESS           MARKETING            TECH
+        │                 │                  │
+ Affiliate model        Traffic             C#
+ Economics              Content             .NET
+ Commission             Funnel              SQL
+ Attribution            Conversion          API
+ Platform               Psychology          Worker
+        │                 │                  │
+        └─────────────────┼──────────────────┘
+                          │
+                         DATA
+                          │
+                  Analytics
+                  Experiments
+                  Statistics
+                  Forecasting
+                          │
+                          ↓
+                         AI
+                          │
+                         LLM
+                     Embeddings
+                         RAG
+                    Recommendation
+                          │
+                          ↓
+               AFFILIATE INTELLIGENCE
+```
+
+---
+
+# 7. Khi nào được coi là “chuyên gia”?
+
+Mình sẽ **không** lấy thời gian học làm tiêu chuẩn.
+
+Không phải:
+
+> Học đủ 12 tháng = chuyên gia.
+> 
+
+Mà bạn cần đạt được các năng lực.
+
+### Level 1 — Beginner
+
+Bạn giải thích được:
+
+```
+CTR
+CVR
+EPC
+AOV
+CPA
+Commission
+Attribution
+```
+
+---
+
+### Level 2 — Practitioner
+
+Bạn đã:
+
+```
+Chọn product
+Tạo content
+Có traffic thật
+Có click thật
+Có conversion thật
+```
+
+---
+
+### Level 3 — Analyst
+
+Bạn có thể nhìn dashboard và nói:
+
+> **Tại sao doanh thu giảm?**
+> 
+
+---
+
+### Level 4 — Strategist
+
+Bạn có thể quyết định:
+
+> **Nên quảng bá sản phẩm nào, cho audience nào, bằng content nào.**
+> 
+
+---
+
+### Level 5 — Automation Engineer
+
+Bạn có thể:
+
+```
+Collect
+Store
+Analyze
+Detect
+Recommend
+Automate
+```
+
+---
+
+### Level 6 — Affiliate Intelligence Expert
+
+Bạn xây được hệ thống:
+
+```
+DATA
+ ↓
+ANALYSIS
+ ↓
+EXPERIMENT
+ ↓
+LEARNING
+ ↓
+DECISION
+ ↓
+CONTENT
+ ↓
+TRAFFIC
+ ↓
+CONVERSION
+ ↓
+REVENUE
+ ↓
+DATA
+ ↺
+```
+
+Đây mới là đích cuối.
+
+---
+
+# 8. Một nguyên tắc mình muốn giữ xuyên suốt khóa học
+
+**Không code thứ mình chưa hiểu bằng tay.**
+
+Ví dụ:
+
+Trước khi viết:
+
+```csharp
+CalculateOpportunityScore()
+```
+
+bạn phải tự nhìn 10 sản phẩm và giải thích được:
+
+> Tại sao A đáng quảng bá hơn B?
+> 
+
+Trước khi viết:
+
+```csharp
+GenerateContent()
+```
+
+bạn phải hiểu:
+
+> Tại sao một hook tốt hơn hook khác?
+> 
+
+Trước khi viết:
+
+```csharp
+RecommendProduct()
+```
+
+bạn phải hiểu:
+
+> Revenue thực sự hình thành như thế nào?
+> 
+
+Nếu không, chúng ta chỉ tạo ra:
+
+> **một bot tự động hóa sự thiếu hiểu biết.**
+> 
+
+---
+
+# 9. Một điều mình sẽ thay đổi so với học bot chứng khoán
+
+Ở chứng khoán:
+
+```
+Học khá nhiều
+      ↓
+Paper trading
+      ↓
+Real money
+```
+
+Affiliate nên:
+
+```
+Học một ít
+ ↓
+Làm thật
+ ↓
+Có dữ liệu
+ ↓
+Học
+ ↓
+Làm
+ ↓
+Đo
+ ↓
+Code
+ ↓
+Đo
+ ↓
+Tối ưu
+ ↺
+```
+
+Bởi vì dữ liệu của **chính bạn** sẽ trở thành tài sản quan trọng nhất của Affiliate Bot.
+
+Không dataset trên Internet nào có thể cho bạn chính xác:
+
+```
+Audience của bạn
++
+Content của bạn
++
+Product của bạn
++
+Channel của bạn
+```
+
+convert như thế nào.
+
+---
+
+# 10. Mốc quan trọng trong 12 tháng
+
+```
+MONTH 1
+Hiểu Affiliate
+        ↓
+MONTH 2
+Hiểu Platform
+        ↓
+MONTH 3
+Biết chọn sản phẩm
+        ↓
+MONTH 4
+Có content thật
+        ↓
+MONTH 5
+Có traffic/click/order data
+        ↓
+MONTH 6
+Analytics
+        ↓
+MONTH 7
+Product Finder Bot
+        ↓
+MONTH 8
+AI Content Bot
+        ↓
+MONTH 9
+Experiment Engine
+        ↓
+MONTH 10
+Recommendation Engine
+        ↓
+MONTH 11
+Affiliate Intelligence
+        ↓
+MONTH 12
+Scale / SaaS
+```
+
+Và mình sẽ đặt mục tiêu quan trọng hơn thu nhập trong những tháng đầu:
+
+```
+Month 1–2:
+KNOWLEDGE
+
+Month 3–4:
+EXECUTION
+
+Month 5–6:
+DATA
+
+Month 7–9:
+AUTOMATION
+
+Month 10–12:
+INTELLIGENCE
+```
+
+**Tiền là output của hệ thống chứ không phải môn học đầu tiên.**
+
+Đây sẽ là roadmap chính mà mình đề xuất chúng ta dùng cho dự án **Affiliate Bot**. Và mình khuyên không nhảy thẳng vào code dù phần đó có thể dễ hơn đối với bạn; kiến thức affiliate, marketing và data mới là phần tạo nên lợi thế của bot.
+
+Bước tiếp theo hợp lý là bắt đầu **Giai đoạn 1 – Bài 1: “Affiliate Marketing thực sự vận hành như thế nào?”**. Ở bài đó mình sẽ dạy từ con số 0, sau đó cho tình huống, câu hỏi kiểm tra và bài tập; chỉ khi bạn thực sự hiểu thì chúng ta mới sang Bài 2.

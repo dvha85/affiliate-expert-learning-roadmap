@@ -1,0 +1,30 @@
+name: Lesson task
+description: Theo dõi một bài học cần hoàn thành
+title: "[Lesson] "
+labels: ["lesson"]
+body:
+  - type: input
+    id: lesson
+    attributes:
+      label: Mã và tên bài
+      placeholder: "0.1 — Affiliate Expert là gì?"
+    validations:
+      required: true
+  - type: checkboxes
+    id: pass
+    attributes:
+      label: PASS criteria
+      options:
+        - label: Tự giải thích được concept
+        - label: Giải được case thực tế
+        - label: Quiz đạt tối thiểu 80%
+        - label: Hoàn thành practice và lưu artifact
+        - label: Explain-back được “Tại sao?”
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / artifact
+  - type: textarea
+    id: learning
+    attributes:
+      label: Learning và next action
