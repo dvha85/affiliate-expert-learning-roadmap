@@ -1,5 +1,14 @@
 # Bài X.Y — Tên bài
 
+## Source refs
+
+- Canonical syllabus: `S:P?/C?/L?.?`
+- Training source: `T:...` (nếu có)
+- Research source: `R:...` (nếu có)
+- External verification: (nếu lesson có claim hiện hành cần kiểm chứng)
+
+> Tra mapping tại [`docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md). Chỉ ghi ref thực sự dùng; không gán nguồn supplement nếu không có counterpart trực tiếp.
+
 ## Mục tiêu
 
 - 
