@@ -11,8 +11,10 @@
 - [ ] **57.1** — Rule
 - [ ] **57.2** — Condition
 - [ ] **57.3** — Threshold
-- [ ] **57.4** — Priority
-- [ ] **57.5** — Explainability
+- [ ] **57.4** — Priority và Risk Level
+- [ ] **57.5** — Explainability và Policy Decision
+
+> Rule Engine không chỉ chấm điểm cơ hội; nó còn là deterministic policy layer bảo vệ action boundary. LLM không được tự quyết một mình liệu hành động consequential có được phép chạy hay không.
 
 ### Chương 58 — Scoring Engine
 
@@ -39,7 +41,9 @@
 - [ ] **60.4** — Hook nào?
 - [ ] **60.5** — Channel nào?
 - [ ] **60.6** — Thời điểm nào?
-- [ ] **60.7** — Khi nào nên dừng?
+- [ ] **60.7** — Khi nào nên dừng, execute hay yêu cầu approval?
+
+> **Decision ≠ Execution.** Recommendation output phải có reason/evidence/confidence/risk. Action execution là boundary riêng và phải tuân theo policy + RISK 0/1/2.
 
 > **2026 freshness note:** recommendation quality increasingly depends on machine-readable product truth, current availability/price, policy eligibility and multi-surface discovery. The engine should return provenance/confidence and explain which facts are current vs inferred; emerging agentic-commerce protocols are inputs to watch, not a reason to remove human approval.
 

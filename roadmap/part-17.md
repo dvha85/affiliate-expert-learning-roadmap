@@ -13,10 +13,12 @@
 - [ ] **61.3** — Context
 - [ ] **61.4** — Prompt
 - [ ] **61.5** — Structured Output
-- [ ] **61.6** — Tool Calling
+- [ ] **61.6** — Tool Engineering, Tool Calling và MCP
 - [ ] **61.7** — Hallucination
 - [ ] **61.8** — Evaluation
 - [ ] **61.9** — Cost
+
+> Tool use phải được xem như một production boundary: schema, validation, permissions, side effects, timeout, retry, idempotency, policy decision và audit. MCP là interoperability concept quan trọng; không bắt buộc dùng cho mọi integration nếu REST/webhook/native API đơn giản hơn.
 
 ### Chương 62 — AI Product Understanding
 
@@ -34,31 +36,37 @@
 - [ ] **63.4** — GenerateReview()
 - [ ] **63.5** — GenerateCTA() và content safety
 
-### Chương 64 — Knowledge Base & RAG
+### Chương 64 — Knowledge Base, RAG & State
 
-- [ ] **64.1** — Knowledge Base
+- [ ] **64.1** — Knowledge Base và knowledge boundary
 - [ ] **64.2** — Embeddings
 - [ ] **64.3** — Vector Search
 - [ ] **64.4** — Retrieval
 - [ ] **64.5** — RAG
-- [ ] **64.6** — Source Grounding
+- [ ] **64.6** — Source Grounding, session state và workflow state
 
-### Chương 65 — AI Evaluation
+> Knowledge ≠ session state ≠ durable workflow state. Approval wait, retry state và action history không được nhét tùy tiện vào prompt/RAG store.
 
-- [ ] **65.1** — Correctness
-- [ ] **65.2** — Relevance
-- [ ] **65.3** — Hallucination
-- [ ] **65.4** — Policy Safety
-- [ ] **65.5** — Brand Consistency
-- [ ] **65.6** — Performance
+### Chương 65 — AI & Agent Evaluation
 
-### Chương 66 — Human-in-the-loop
+- [ ] **65.1** — Correctness và task success
+- [ ] **65.2** — Relevance và tool selection accuracy
+- [ ] **65.3** — Hallucination và unsupported claims
+- [ ] **65.4** — Policy Safety, prompt injection và tool misuse
+- [ ] **65.5** — Brand Consistency và approval quality
+- [ ] **65.6** — Performance, latency, cost và human intervention rate
 
-- [ ] **66.1** — AI Draft và trạng thái workflow
-- [ ] **66.2** — Human Review và checklist duyệt
-- [ ] **66.3** — Approve/Reject và audit trail
-- [ ] **66.4** — Publish boundaries
-- [ ] **66.5** — Performance feedback và learning loop
+> Evaluation không chỉ hỏi “text có hay không?”. Với agent phải đo cả trajectory: chọn đúng tool không, argument đúng không, có gọi tool thừa không, policy có chặn đúng không và task có hoàn thành thật không.
+
+### Chương 66 — Human-in-the-loop & Approval Workflow
+
+- [ ] **66.1** — AI Draft, Action Intent và trạng thái workflow
+- [ ] **66.2** — Human Review, Risk Level và checklist duyệt
+- [ ] **66.3** — Approve/Reject, reason và audit trail
+- [ ] **66.4** — Pause/Resume, publish/action boundaries và expiry
+- [ ] **66.5** — Performance feedback, evaluation và learning loop
+
+> **Default architecture:** single-agent/tool workflow trước; multi-agent chỉ dùng khi decomposition thật sự có lợi. Human approval phải là stateful workflow boundary chứ không chỉ là “người xem lại text”.
 
 > **2026 freshness note:** AIGC policy is an operating constraint, not an optional ethics appendix. AI workflows must preserve source grounding, product fidelity, disclosure state, policy checks and human approval for claims/publishing boundaries. Current platform rules belong in the freshness layer and must be re-verified before production use.
 

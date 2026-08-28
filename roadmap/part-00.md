@@ -25,7 +25,9 @@
 - [ ] **0.11** — Revenue Journal
 - [ ] **0.12** — Baseline Assessment
 
-> **Authoring snapshot:** 0.1 = `ready` nhưng learner vẫn chưa PASS; 0.2 = scaffold `planned`, chưa authored. File `lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md` tồn tại để test scaffolder ở Issue #7 nên roadmap cố ý chưa link tới file đó.
+> **Go-first interpretation:** 0.2 phải giới thiệu Bot Engineer theo mô hình `deterministic Go service → reliable automation → tool-using agent → governed autonomous system`. 0.4 phải phân biệt action tự chạy, action cần approval và action bị cấm. 0.5–0.6 vẫn giữ nguyên nguyên tắc hiểu/làm/đo trước khi automate.
+
+> **Authoring snapshot:** 0.1 = `ready` nhưng learner vẫn chưa PASS; 0.2 = scaffold `planned`, chưa authored. File `lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md` tồn tại để test scaffolder nên roadmap cố ý chưa link tới file đó. PR4 của Go-first migration sẽ author 0.2 thành lesson `ready`.
 
 ## Cổng thực hành
 
