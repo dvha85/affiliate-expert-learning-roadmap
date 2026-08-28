@@ -380,8 +380,9 @@ def validate(root: Path) -> list[Problem]:
         if status == "ready":
             m = FRONT_RE.match(text)
             body = text[m.end():] if m else text
-            if re.search(r"(?m)^\s*\.\.\.\s*$|<artifact-slug>|Bài X\.Y|Tên bài", body):
-                problems.append(Problem("STATE003", str(rel), "ready lesson still contains scaffold placeholders"))
+            authored_body = strip_fenced_code(body)
+            if re.search(r"(?m)^\s*\.\.\.\s*$|<artifact-slug>|Bài X\.Y|Tên bài", authored_body):
+                problems.append(Problem("STATE003", str(rel), "ready lesson still contains scaffold placeholders outside fenced evidence examples"))
 
         check_heading_structure(rel, text, problems)
 
