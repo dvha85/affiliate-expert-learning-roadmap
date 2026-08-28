@@ -238,7 +238,7 @@ def main() -> int:
     parser.add_argument("--effort", choices=["S", "M", "L"], default="M")
     parser.add_argument("--minutes", type=int, default=60)
     parser.add_argument("--prerequisite", action="append", default=[], help="Repeatable prerequisite value")
-    parser.add_argument("--dry-run", action="store_true", help="Print planned files, write nothing")
+    parser.add_argument("--dry-run", action="store_true", help="Print planned/existing files, write nothing")
     parser.add_argument("--validate", action="store_true", help="Validate matching existing files, write nothing")
     args = parser.parse_args()
 
@@ -260,7 +260,7 @@ def main() -> int:
 
     hints_map = parse_source_hints()
     collisions = [lesson_path(x) for x in selected if lesson_path(x).exists()]
-    if collisions:
+    if collisions and not args.dry_run:
         print("ERROR refusing to overwrite existing lesson file(s):", file=sys.stderr)
         for path in collisions:
             print(f"  - {path.relative_to(ROOT)}", file=sys.stderr)
@@ -268,6 +268,9 @@ def main() -> int:
 
     for lesson in selected:
         path = lesson_path(lesson)
+        if path.exists():
+            print(f"EXISTS {lesson.lesson_id}: {path.relative_to(ROOT)} (dry-run; would not overwrite)")
+            continue
         hints = hints_map.get((lesson.part, lesson.chapter), SourceHints([], []))
         print(f"PLAN {lesson.lesson_id}: {path.relative_to(ROOT)}")
         print(f"     source={lesson.part}/{lesson.chapter} effort={args.effort} status=planned")
