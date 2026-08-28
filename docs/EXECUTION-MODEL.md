@@ -2,6 +2,8 @@
 
 > Curriculum dùng **sequential knowledge prerequisites + parallel execution loops** theo active curriculum v2026.09.
 
+> **Beginner reader guide / Hướng dẫn cho người mới:** tài liệu này giữ English terminology làm chuẩn kỹ thuật nhưng giải nghĩa các khái niệm chính tại first use. Tra thêm [`GLOSSARY-VI.md`](GLOSSARY-VI.md). Từ trọng tâm: **Knowledge Spine (Trục kiến thức)**, **Execution Loop (Vòng thực thi)**, **Minimum Prerequisite (Điều kiện tiên quyết tối thiểu)**, **Recommended Context (Bối cảnh khuyến nghị)**, **Evidence (Bằng chứng học tập)**, **Deterministic Policy (Chính sách xác định)**, **ActionIntent (Ý định hành động)**, **Human Approval (Phê duyệt của con người)**, **Governed Action (Hành động có kiểm soát)**.
+
 ## 1. Mental model
 
 ```text
@@ -24,7 +26,7 @@ Orientation → Foundation/Economics/Tracking
 Compliance / Platform Watch ────────────────────→
 Market / Product Watch ─────────────────────────→
 Content Production ─────────────────────────────→
-Traffic Distribution ───────────────────────────→
+Traffic Distribution ──────────────────────────→
 Tracking / Funnel / Data Capture ───────────────→
 Experiment Loop ────────────────────────────────→
 Bot / Automation Loop ──────────────────────────→
@@ -32,16 +34,16 @@ AI-assisted Workflow ───────────────────�
 Governed Action / Approval Loop ────────────────→
 ```
 
-**Knowledge spine** trả lời: cần hiểu gì trước khi học concept tiếp theo.  
-**Execution loop** trả lời: hoạt động thực tế nào đã mở khóa và phải tiếp tục tạo evidence.
+**Knowledge Spine (Trục kiến thức)** trả lời: cần hiểu gì trước khi học concept tiếp theo.  
+**Execution Loop (Vòng thực thi)** trả lời: hoạt động thực tế nào đã mở khóa và phải tiếp tục tạo evidence (bằng chứng học tập).
 
 ## 2. Hai loại dependency
 
-### Minimum prerequisite
+### Minimum Prerequisite (Điều kiện tiên quyết tối thiểu)
 
 Knowledge tối thiểu phải có trước khi bắt đầu Part/lesson. Nếu thiếu, implementation dễ trở thành làm theo mà không hiểu business logic.
 
-### Recommended context
+### Recommended Context (Bối cảnh khuyến nghị)
 
 Kiến thức nên có nhưng có thể overlap nếu capacity phù hợp. Không phải hard gate.
 
@@ -153,6 +155,21 @@ Observe
 → Audit / Trace
 → Measure outcome
 → Learn
+```
+
+Beginner translation:
+
+```text
+Quan sát
+→ Phân tích
+→ Khuyến nghị / Ý định hành động
+→ Chính sách xác định + Rủi ro
+   ├── RISK 0 → Tự thực thi
+   ├── RISK 1 → Tự thực thi + bắt buộc ghi vết
+   └── RISK 2 → Lưu trạng thái → Phê duyệt → Kiểm tra lại → Thực thi/Từ chối
+→ Ghi vết / Theo dõi
+→ Đo kết quả
+→ Học
 ```
 
 Loop này là end-state vận hành: human review **consequential decisions/exceptions**, không babysit từng bước cơ học.
