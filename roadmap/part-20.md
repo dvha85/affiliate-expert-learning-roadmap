@@ -14,6 +14,8 @@
 - [ ] **78.4** — SOP, ownership và escalation
 - [ ] **78.5** — Operating metrics và continuous improvement
 
+> **Go-first operating interpretation:** mature operation hướng tới **management by exception**. Bot xử lý routine collection/analysis/approved automation; human tập trung exceptions, approvals, policy changes, budget changes, strategy changes và high-risk anomalies. Daily/weekly/monthly review là governance cadence, không phải yêu cầu babysit từng job.
+
 ### Chương 79 — Portfolio Strategy
 
 - [ ] **79.1** — Product Portfolio
@@ -40,6 +42,8 @@
 - [ ] **81.6** — Scale Automation
 - [ ] **81.7** — Scale Team
 
+> Scale Automation phải theo `reliability + policy + observability + exception handling`, không chỉ tăng số job/agent. Khi automation volume tăng, approval rate, policy blocks, incident rate và human intervention rate trở thành operating metrics.
+
 ### Chương 82 — Affiliate Bot → SaaS
 
 - [ ] **82.1** — Internal Tool
@@ -53,7 +57,7 @@
 - [ ] **82.9** — Billing
 - [ ] **82.10** — SaaS Analytics
 
-> **2026 freshness note:** creator monetization is increasingly multi-surface (platform affiliate, shopping tags, brand deals, owned products/SaaS). Treat current programs such as YouTube Shopping Affiliate as portfolio examples, not permanent assumptions; platform terms, tax and disclosure remain HIGH-volatility inputs.
+> **2026 freshness note:** creator monetization is increasingly multi-surface. Treat current programs as portfolio examples, not permanent assumptions; platform terms, tax and disclosure remain HIGH-volatility inputs.
 
 ## Hoàn thành phần
 
