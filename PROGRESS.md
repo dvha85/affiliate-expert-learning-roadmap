@@ -17,10 +17,20 @@
 ## Weekly review
 
 - [ ] Đã cập nhật checkbox bài học
-- [ ] Đã liên kết evidence/artifact
-- [ ] Đã cập nhật Experiment Log và Revenue Journal nếu có dữ liệu
-- [ ] Đã ghi điều học được và misconception đã sửa
+- [ ] Đã liên kết evidence/artifact theo [`artifacts/README.md`](artifacts/README.md)
+- [ ] Đã cập nhật [Experiment Log](templates/EXPERIMENT-LOG.md) nếu có experiment
+- [ ] Đã cập nhật [Revenue Journal](templates/REVENUE-JOURNAL.md) nếu có dữ liệu revenue
+- [ ] Đã ghi learning/misconception vào [Knowledge Entry](templates/KNOWLEDGE-ENTRY.md) khi cần
 - [ ] Đã chọn 1–3 kết quả quan trọng nhất cho tuần tới
+
+## Template vận hành
+
+- [Lesson Notes](templates/LESSON-NOTES.md) — evidence cho từng lesson
+- [Experiment Log](templates/EXPERIMENT-LOG.md) — hypothesis → result → learning → decision
+- [Revenue Journal](templates/REVENUE-JOURNAL.md) — revenue/reconciliation/economics
+- [Knowledge Entry](templates/KNOWLEDGE-ENTRY.md) — concept/mental model/misconception/evidence
+- [Project README](templates/PROJECT-README.md) — scope/deliverables/acceptance/evidence
+- [Retrospective](templates/RETROSPECTIVE.md) — review project/lab/period
 
 ## Nhật ký tuần
 
