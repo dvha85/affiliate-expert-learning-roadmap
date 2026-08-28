@@ -24,7 +24,7 @@
 - [ ] **51.4** — Configuration, interfaces, testing và background workers
 - [ ] **51.5** — Docker, observability và lựa chọn production stack
 
-> **Primary stack:** Go là implementation language chính. C#/.NET chỉ còn là comparison/reference stack. Không hard-code framework/library hiện hành vào lesson title nếu concept có thể dạy framework-neutral.
+> **Primary stack:** Go là implementation language chính. Alternate stacks chỉ dùng cho comparison/reference. Không hard-code framework/library hiện hành vào lesson title nếu concept có thể dạy framework-neutral.
 
 ### Chương 52 — Product Collector
 
