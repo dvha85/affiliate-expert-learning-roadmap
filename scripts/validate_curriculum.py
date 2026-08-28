@@ -31,9 +31,6 @@ REQUIRED_META = {
     "lesson_id", "title", "part", "chapter", "effort", "estimated_minutes",
     "status", "prerequisites", "source_refs", "last_verified",
 }
-LEGACY_LESSONS = {
-    Path("lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md"),
-}
 
 
 @dataclass(frozen=True)
@@ -334,9 +331,6 @@ def validate(root: Path) -> list[Problem]:
             problems.append(Problem("META003", str(rel), f"lesson ID {file_id} not found in roadmap"))
 
         text = path.read_text(encoding="utf-8")
-        if rel in LEGACY_LESSONS:
-            continue
-
         parsed = parse_front_matter(text)
         if not parsed:
             problems.append(Problem("META001", str(rel), "missing YAML front matter"))
