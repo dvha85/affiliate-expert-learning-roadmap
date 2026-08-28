@@ -1,6 +1,6 @@
 # Phần 7 — CUSTOMER INTELLIGENCE
 
-- Lịch đề xuất: **Tháng 3**
+- Timeline: **Standard M5 · Accelerated M3** — forecast; PASS evidence mới là gate.
 - Quy mô: **3 chương / 21 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
