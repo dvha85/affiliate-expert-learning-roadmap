@@ -25,6 +25,8 @@ last_verified: null
 
 > `status` mô tả trạng thái biên soạn của lesson, **không phải trạng thái học tập của người học**. Một lesson `ready` vẫn chưa được coi là PASS cho tới khi người học đủ 5 tiêu chí PASS.
 
+> **Quy ước thuật ngữ cho learner-facing content:** ở lần xuất hiện có ý nghĩa đầu tiên, viết **English Term (Tiếng Việt)**. Giữ nguyên code/API/protocol/framework identifiers. Dùng [`docs/GLOSSARY-VI.md`](../docs/GLOSSARY-VI.md) để giữ bản dịch nhất quán.
+
 ## 1. Mục tiêu bài học
 
 Sau bài này, người học phải có khả năng:
@@ -65,6 +67,16 @@ Không yêu cầu prerequisite chỉ vì lesson đứng trước trong file road
 
 Tuân theo [`docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md). Không gắn `T`/`R` nếu nguồn không thật sự hỗ trợ nội dung.
 
+### 3.5. Thuật ngữ trọng tâm
+
+Nếu lesson có nhiều thuật ngữ mới, thêm bảng ngắn:
+
+| English term | Tiếng Việt |
+|---|---|
+| ... | ... |
+
+Không cần lặp toàn bộ glossary; chỉ đưa các từ người học thực sự cần cho lesson này.
+
 ## 4. Concept cốt lõi
 
 Định nghĩa khái niệm bằng ngôn ngữ rõ, ngắn, đúng scope syllabus.
@@ -75,6 +87,14 @@ Nên trả lời:
 - Nó giải quyết câu hỏi nào?
 - Nó nằm ở đâu trong affiliate system?
 - Nó **không** phải là gì?
+
+Khi dùng thuật ngữ chuyên ngành mới trong prose, ưu tiên:
+
+```text
+English Term (Tiếng Việt)
+```
+
+Sau khi đã giải thích rõ, có thể dùng English term/abbreviation ở các đoạn sau.
 
 ## 5. Giải thích sâu
 
@@ -266,7 +286,8 @@ Liệt kê đúng các nguồn đã dùng:
 2. Training supplement: ...
 3. Research supplement: ...
 4. External/current verification: ...
-5. Repo standards: [`PASS-CRITERIA.md`](../docs/PASS-CRITERIA.md), [`SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md), [`EFFORT-MODEL.md`](../docs/EFFORT-MODEL.md), [`EXECUTION-MODEL.md`](../docs/EXECUTION-MODEL.md)
+5. Glossary learner-facing: [`GLOSSARY-VI.md`](../docs/GLOSSARY-VI.md)
+6. Repo standards: [`PASS-CRITERIA.md`](../docs/PASS-CRITERIA.md), [`SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md), [`EFFORT-MODEL.md`](../docs/EFFORT-MODEL.md), [`EXECUTION-MODEL.md`](../docs/EXECUTION-MODEL.md)
 
 Không liệt kê nguồn chỉ vì “có liên quan”; chỉ ghi nguồn thực sự được dùng.
 
