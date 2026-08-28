@@ -1,6 +1,6 @@
 # Phần 3 — TRACKING & ATTRIBUTION
 
-- Lịch đề xuất: **Tháng 1**
+- Timeline: **Standard M2 · Accelerated M2** — forecast; PASS evidence mới là gate.
 - Quy mô: **3 chương / 33 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -47,6 +47,8 @@
 - [ ] **9.8** — Identity Resolution
 - [ ] **9.9** — Reconciliation
 - [ ] **9.10** — Data Ownership
+
+> **2026 freshness note:** khi author Chương 7–9, không mặc định “third-party cookie deprecation” theo narrative cũ. Phải kiểm chứng browser/platform state hiện hành và ưu tiên first-party identifiers, server-side events, reconciliation, consent và modeled/aggregate measurement khi phù hợp. Xem [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md).
 
 ## Cổng thực hành
 
