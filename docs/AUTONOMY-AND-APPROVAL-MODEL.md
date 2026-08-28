@@ -2,9 +2,13 @@
 
 > Governance standard for bots that act automatically while the human operator approves consequential actions.
 
+> **Beginner reader guide / Hướng dẫn cho người mới:** technical spec này giữ English terminology làm chuẩn kỹ thuật. Khi đọc lần đầu, dùng [`GLOSSARY-VI.md`](GLOSSARY-VI.md) và bản đồ sau: **Autonomy (Mức tự chủ)**, **ActionIntent (Ý định hành động)**, **RiskLevel (Mức rủi ro)**, **PolicyDecision (Quyết định chính sách)**, **ApprovalRequest (Yêu cầu phê duyệt)**, **Human Approval (Phê duyệt của con người)**, **Side Effect (Tác động bên ngoài)**, **Idempotency (Tính lặp an toàn)**, **Audit (Ghi vết/kiểm tra)**, **Kill Switch (Công tắc dừng khẩn cấp)**. Code/entity identifiers như `ActionIntent`, `PolicyDecision` giữ nguyên tiếng Anh.
+
 ## 1. Goal
 
 The target system is not fully manual and not unconstrained autonomy.
+
+Nói ngắn cho người mới: hệ thống không phải **fully manual (hoàn toàn thủ công)** và cũng không phải **unconstrained autonomy (tự chủ không giới hạn)**. Mục tiêu là tự động phần phù hợp và giữ quyền phê duyệt cho hành động có hậu quả đáng kể.
 
 ```text
 observe
@@ -22,6 +26,8 @@ observe
 ### ActionIntent
 
 Describes the proposed action before execution.
+
+> `ActionIntent` = **Ý định hành động**: mô tả bot muốn làm gì trước khi hệ thống quyết định có cho phép thực thi hay không.
 
 Minimum fields:
 
@@ -46,6 +52,10 @@ RISK 1 — controlled side effect with mandatory audit
 RISK 2 — consequential; human approval required
 ```
 
+- RISK 0: hành động thường lệ/có thể đảo ngược/nội bộ.
+- RISK 1: có tác động được kiểm soát và bắt buộc ghi vết.
+- RISK 2: có hậu quả đáng kể, cần Human Approval (Phê duyệt của con người).
+
 ### PolicyDecision
 
 ```text
@@ -56,6 +66,8 @@ DENY
 ```
 
 Include policy version and explanation.
+
+> `PolicyDecision` = **Quyết định chính sách**: cho phép, cho phép kèm audit, yêu cầu phê duyệt hoặc từ chối.
 
 ### ApprovalRequest
 
@@ -152,6 +164,20 @@ ActionIntent
 → audit final state
 ```
 
+Beginner translation:
+
+```text
+Ý định hành động
+→ Bộ máy chính sách
+→ Yêu cầu phê duyệt
+→ Lưu trạng thái workflow
+→ Tạo yêu cầu phê duyệt
+→ Báo cho người duyệt
+→ Chờ bền vững
+→ Duyệt/Từ chối/Hết hạn/Hủy
+→ Ghi vết trạng thái cuối
+```
+
 ## 5. Revalidation before execution
 
 Approval does not mean “execute forever”. Before execution, re-check:
@@ -169,6 +195,8 @@ If material context changed, create a new approval request.
 ## 6. Idempotency
 
 Every side-effecting action should have an idempotency strategy.
+
+> **Idempotency (Tính lặp an toàn)** nghĩa là nếu operation bị retry, hệ thống không âm thầm tạo thêm side effect trùng lặp ngoài ý muốn.
 
 Examples:
 
