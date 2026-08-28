@@ -1,6 +1,6 @@
 # Phần 13 — AFFILIATE ANALYTICS
 
-- Lịch đề xuất: **Tháng 6**
+- Timeline: **Standard M8–9 · Accelerated M6** — forecast; PASS evidence mới là gate.
 - Quy mô: **4 chương / 23 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -40,6 +40,8 @@
 - [ ] **45.3** — Traffic và Funnel Dashboard
 - [ ] **45.4** — Revenue và Experiment Dashboard
 - [ ] **45.5** — Dashboard QA và quyết định từ dữ liệu
+
+> **2026 freshness note:** dashboard/channel analytics nên có khả năng tách hoặc annotate AI-search/generative visibility, platform-native commerce và attribution uncertainty khi data source hỗ trợ; không ép mọi discovery event thành click truyền thống.
 
 ## Cổng thực hành
 
