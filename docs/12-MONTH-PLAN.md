@@ -1,22 +1,23 @@
-# Kế hoạch tăng tốc 12 tháng
+# Kế hoạch tăng tốc 12 tháng — Build-First capacity envelope
 
-> **Accelerated track** dành cho capacity khoảng **11–12 giờ/tuần**; khuyến nghị **12 giờ/tuần** để có buffer.
+> **Accelerated track** dành cho khoảng **11–12 giờ/tuần**; khuyến nghị **12 giờ/tuần**. Đây là capacity/coverage forecast, không phải default execution sequence. Learner build theo [`../BUILD-FIRST.md`](../BUILD-FIRST.md).
 
 Đọc cùng:
 
-- [Effort Model](EFFORT-MODEL.md)
+- [Build-First Learning Model](BUILD-FIRST-LEARNING-MODEL.md)
+- [Bot Evolution Roadmap](BOT-EVOLUTION-ROADMAP.md)
+- [Build-First Calibration](BUILD-FIRST-CALIBRATION.md)
 - [Effort Recalibration v2026.09](EFFORT-RECALIBRATION-v2026.09.md)
-- [Hybrid Execution Model](EXECUTION-MODEL.md)
 
 ## 1. Capacity model
 
-Core curriculum cố định:
+Canonical fixed core knowledge coverage vẫn là:
 
 ```text
 Phần 0 → 19 → 21
 ```
 
-Recalibrated v2026.09:
+Current v2026.09 model:
 
 ```text
 content + lesson evidence + incremental integration ≈ 520h
@@ -25,77 +26,73 @@ planned total ≈ 572h
 572 / 52 ≈ 11h/tuần
 ```
 
-Vì estimate có uncertainty, project hardening và RETRY, track này vẫn khuyến nghị **12h/tuần**.
+Vẫn khuyến nghị **12h/tuần** để có retry/project/debug buffer. Không tự giảm 520h chỉ vì Build-First reuse được artifacts; phải đo M00–M05 trước.
 
 Nếu rolling capacity <11h/tuần trong 4 tuần liên tiếp, chuyển về Standard thay vì giảm PASS criteria.
 
 > Part 20 và Part 22 không nằm trong fixed 12-month core.
 
-## 2. Kế hoạch theo tháng
-
-| Tháng | Trọng tâm | Phần/Chương dự kiến | Planning envelope |
-|---:|---|---|---:|
-| 1 | Orientation + Fundamentals + Economics | Phần 0–2 | ~48h |
-| 2 | Tracking + Legal + Platform foundations | Phần 3–5 một phần | ~48h |
-| 3 | Platform + Niche + Customer | Hoàn tất 5–7 | ~48h |
-| 4 | Product Intelligence + Content I | Phần 8, đầu 9 | ~48h |
-| 5 | Content II + Traffic + Funnel | Hoàn tất 9–11 | ~48h |
-| 6 | Data Engineering + Analytics | Phần 12–13 | ~48h |
-| 7 | Experimentation + Go Bot Engineering I | Phần 14, đầu 15 | ~48h |
-| 8 | Go Bot Engineering II + Decision/Policy | Hoàn tất 15–16 | ~48h |
-| 9 | AI Affiliate Bot + governed workflow | Phần 17 | ~48h |
-| 10 | Advanced Intelligence + Production I | Phần 18, đầu 19 | ~48h |
-| 11 | Production II + Capstone start | Hoàn tất 19, đầu 21 | ~48h |
-| 12 | Capstone integration + hardening + catch-up | Hoàn tất 21 | ~48h |
-
-Bảng là capacity envelope, không phải quota lesson.
-
-## 3. Hybrid execution
+## 2. Execution vs coverage
 
 ```text
-ONE primary knowledge focus
-+
-ONLY unlocked execution loops
-+
-ALL within ~12h/tuần
+Mission M00 → ... → M15
+= product/evidence execution spine
+
+Part/month table
+= expected knowledge coverage envelope
 ```
 
-Từ Part 15 trở đi, execution progression là:
+Go được dùng ngay M00. Formal Part 15 mastery vẫn được coverage sâu ở giai đoạn engineering sau.
 
-```text
-reliable Go automation
-→ deterministic decision/policy
-→ AI tool workflow
-→ governed action/approval
-→ production hardening
-```
+## 3. Coverage theo tháng
 
-## 4. Điều kiện dùng accelerated
+| Tháng | Knowledge coverage forecast | Planning envelope |
+|---:|---|---:|
+| 1 | Orientation + Fundamentals + Economics; bootstrap Build-First missions | ~48h |
+| 2 | Tracking + Legal + Platform foundations | ~48h |
+| 3 | Platform + Niche + Customer | ~48h |
+| 4 | Product Intelligence + Content I | ~48h |
+| 5 | Content II + Traffic + Funnel | ~48h |
+| 6 | Data Engineering + Analytics | ~48h |
+| 7 | Experimentation + formal Go Bot Engineering I | ~48h |
+| 8 | formal Go Bot Engineering II + Decision/Policy | ~48h |
+| 9 | AI Affiliate Bot + governed workflow | ~48h |
+| 10 | Advanced Intelligence + Production I | ~48h |
+| 11 | Production II + Capstone start | ~48h |
+| 12 | Capstone integration + hardening + catch-up | ~48h |
 
-Nên dùng khi:
+Bảng không phải quota lesson và không cấm Mission pull knowledge sớm hơn khi có prerequisite phù hợp.
 
-- duy trì gần 12h/tuần trong phần lớn năm;
-- vẫn làm đủ practice/project/evidence;
-- chấp nhận reforecast nếu engineering lesson vượt estimate;
-- không dùng tốc độ để thay thế understanding.
+## 4. Weekly rhythm Build-First
 
-Không nên dùng nếu để kịp lịch phải bỏ artifact, quiz, explain-back, project integration hoặc security/compliance checks.
-
-## 5. Weekly rhythm gợi ý
+Gợi ý:
 
 | Hoạt động | Thời lượng |
 |---|---:|
-| Learn + case | 2.5h |
-| Research thực tế | 1.5h |
-| Affiliate practice | 2.5h |
-| Coding/Data/Artifact | 4.5h |
-| Weekly review | 1h |
+| Build / run / debug / operate | 6–8h |
+| Required knowledge pulls | 2–3h |
+| Evidence / review / calibration | 1–2h |
 
-## 6. Nguyên tắc
+## 5. Điều kiện dùng Accelerated
+
+Nên dùng khi:
+
+- duy trì gần 12h/tuần;
+- vẫn ship/test/operate/evidence đầy đủ;
+- vẫn hoàn thành required knowledge pulls và formal lesson PASS khi cần;
+- không dùng tốc độ để bỏ security/compliance/approval controls;
+- chấp nhận reforecast dựa trên actual mission data.
+
+## 6. Calibration
+
+M00–M05 ghi planned vs actual theo `build/debug/operate/knowledge/retry`. Sau cohort này mới đánh giá Build-First có giảm double-work đủ để thay planning model hay không.
+
+## 7. Nguyên tắc
 
 ```text
 Timeline = forecast
-Execution loops = sustained practice
+Mission = execution
+Knowledge inventory = mastery coverage
 PASS evidence = gate
 Actual data > original estimate
 ```
