@@ -2,7 +2,7 @@
 
 > **Standard track** dành cho nhịp khoảng **9 giờ/tuần**. Đây là lộ trình mặc định của repo sau Issue #2.
 
-Kế hoạch được xây từ [Effort Model S/M/L/XL](EFFORT-MODEL.md), không chia đều 671 checkbox theo tháng.
+Kế hoạch được xây từ [Effort Model S/M/L/XL](EFFORT-MODEL.md), không chia đều 671 checkbox theo tháng, và phải đọc cùng [Hybrid Execution Model](EXECUTION-MODEL.md).
 
 ## 1. Capacity model
 
@@ -54,7 +54,31 @@ Baseline v0.1:
 
 Tổng content + integration envelope: khoảng **510 giờ**, khớp baseline khoảng 509 giờ ở mức làm tròn.
 
-## 3. Vì sao tháng 1–2 được giảm tải
+## 3. Hybrid execution trong timeline này
+
+Bảng tháng chỉ mô tả **primary knowledge focus**. Khi một execution loop đã được mở khóa, nó có thể tiếp tục chạy ở các tháng sau trong cùng quỹ 9h/tuần.
+
+Ví dụ:
+
+```text
+Tháng 6: bắt đầu Part 9 → mở Real Content Production
+Tháng 7: thêm Part 10 → Content + Traffic chạy song song
+Tháng 7–8: thêm Part 11 → Content + Traffic + Funnel/Data tiếp tục
+Tháng 9: Part 14 → formal Experiment loop được mở
+```
+
+Không cộng các loop này như workload ngoài 9h/tuần; chúng chiếm phần practice/evidence trong capacity hiện có.
+
+Guideline khi đã có active loops:
+
+```text
+50–70%: primary knowledge/current Part
+30–50%: active execution loops + evidence + review
+```
+
+Xem [EXECUTION-MODEL.md](EXECUTION-MODEL.md) để biết điểm unlock và dependency cho từng Part.
+
+## 4. Vì sao tháng 1–2 được giảm tải
 
 Lịch cũ dồn:
 
@@ -73,7 +97,7 @@ Thay vào đó:
 
 Mục tiêu là cho người mới đủ thời gian để thực hiện cả quiz, practice, explain-back và artifact thay vì chỉ đọc checkbox.
 
-## 4. Nhịp tuần 9 giờ
+## 5. Nhịp tuần 9 giờ
 
 Khung mặc định:
 
@@ -87,7 +111,7 @@ Khung mặc định:
 
 Không cần giữ đúng tỷ lệ từng tuần. Khi ở phần engineering, Coding/Data có thể tăng; khi ở content/platform/legal, research/practice có thể tăng.
 
-## 5. Monthly gate
+## 6. Monthly gate
 
 Không chuyển tháng chỉ vì hết lịch nếu thiếu evidence quan trọng.
 
@@ -95,15 +119,16 @@ Cuối mỗi tháng review:
 
 - lesson nào PASS / RETRY;
 - actual hours so với effort estimate;
+- active execution loops nào đang tạo evidence;
 - project/lab integration còn thiếu;
 - blocker;
 - forecast tháng kế tiếp.
 
 Nếu actual workload cao hơn baseline, ưu tiên dời scope sang tháng tiếp theo thay vì giảm PASS criteria.
 
-## 6. Prerequisite ở mức timeline
+## 7. Prerequisite ở mức timeline
 
-Ở Step 2 chỉ chốt dependency lớn:
+Knowledge spine lớn:
 
 ```text
 Foundation/Economics/Tracking
@@ -115,9 +140,9 @@ Foundation/Economics/Tracking
 → Capstone
 ```
 
-Cách kết hợp knowledge tuần tự với execution track song song sẽ được chuẩn hóa chi tiết ở **Issue #3 — EXECUTION-MODEL**.
+Execution Model bổ sung lớp song song: một primary knowledge focus + các loop đã unlock.
 
-## 7. Standard vs Accelerated
+## 8. Standard vs Accelerated
 
 Chọn Standard nếu capacity thực tế khoảng **9h/tuần**.
 
