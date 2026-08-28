@@ -1,6 +1,6 @@
 # Affiliate Expert Learning Roadmap
 
-**Structured, evidence-based curriculum for becoming an Affiliate Expert + Affiliate Bot Engineer → Affiliate Intelligence Expert.**
+**Build an Affiliate Intelligence Bot while learning Affiliate, Data, Engineering and AI just-in-time.**
 
 ```text
 Affiliate Expert
@@ -10,311 +10,131 @@ Affiliate Bot Engineer
 Affiliate Intelligence Expert
 ```
 
-## Trạng thái hiện tại
+## START HERE — Build First
+
+The default learner path is now [`BUILD-FIRST.md`](BUILD-FIRST.md).
+
+```text
+Build
+→ Run
+→ Observe
+→ Pull Knowledge
+→ Improve
+→ Test
+→ Operate
+→ Evidence
+→ Next Bot Version
+```
+
+Do **not** interpret this as deleting the knowledge curriculum. [`ROADMAP.md`](ROADMAP.md) remains the normalized canonical knowledge inventory.
+
+## Curriculum authority
 
 - **Active canonical:** `sources/SYLLABUS-v2026.09.md`
-- **Historical structural baseline:** `sources/SYLLABUS-v2026.08.md`
-- **Primary Bot Engineering language:** **Go**
-- **Default timeline:** 15 tháng, khoảng 9 giờ/tuần
-- **Accelerated:** 12 tháng, khoảng 11–12 giờ/tuần
-- **Structure:** 23 Parts · 89 Chapters · 671 lessons · 14 main projects
-- **0.1 — Affiliate Expert là gì?**: `ready`, general lesson reference
-- **0.2 — Affiliate Bot Engineer là gì?**: `ready`, Go-first Bot Engineer/autonomy reference
-- **0.3 trở đi:** chưa được coi là authored nếu chưa có file `draft|ready` đúng lifecycle
+- **Historical baseline:** `sources/SYLLABUS-v2026.08.md`
+- **Knowledge inventory:** 23 Parts · 89 Chapters · 671 lessons
+- **Main projects:** 14
+- **Primary Bot Engineering language:** Go
+- **Standard capacity:** ~9h/week · 15-month planning envelope
+- **Accelerated:** ~11–12h/week · 12-month planning envelope
 
-`ready` là trạng thái biên soạn, **không phải learner PASS**. Checkbox `[x]` chỉ dùng khi người học đạt đủ PASS evidence.
+The source/provenance model is documented in [`sources/CURRICULUM-INDEX-v2026.09.md`](sources/CURRICULUM-INDEX-v2026.09.md).
 
-## Quy ước thuật ngữ cho người mới
-
-Curriculum chủ yếu viết bằng tiếng Việt nhưng giữ thuật ngữ tiếng Anh gốc để người học dần đọc được dashboard, API docs, tài liệu kỹ thuật và tài liệu platform thực tế.
-
-Quy ước learner-facing mặc định:
+## Two layers
 
 ```text
-English Term (Tiếng Việt)
+SYLLABUS / ROADMAP
+= WHAT YOU MUST EVENTUALLY KNOW
+
+BUILD-FIRST
+= WHAT YOU BUILD NEXT
 ```
 
-Ví dụ:
+A Lesson is a knowledge unit. A Mission is a build/operate unit. A Project is one of the 14 canonical integration milestones. A Bot Version is product state.
 
 ```text
-Conversion Potential (Khả năng chuyển đổi)
-Human Approval (Phê duyệt của con người)
-Durable Execution (Thực thi bền vững)
-Observability (Khả năng quan sát hệ thống)
+Mission ≠ Lesson ≠ Project ≠ Bot Version
 ```
 
-Ở lần xuất hiện có ý nghĩa đầu tiên, lesson nên giải nghĩa song ngữ. Sau khi ngữ cảnh đã rõ, có thể quay lại dùng English term hoặc abbreviation để người học quen dần.
+See [`docs/BUILD-FIRST-LEARNING-MODEL.md`](docs/BUILD-FIRST-LEARNING-MODEL.md).
 
-Không dịch code identifier, API name, protocol hoặc framework name bên trong code.
+## Go from the beginning, mastery later
 
-Xem glossary dùng chung: [Glossary VI — Thuật ngữ song ngữ](docs/GLOSSARY-VI.md).
-
-## Go-first Bot Engineering
-
-Từ v2026.09, active engineering spine là:
+Build-First uses enough Go to ship the first runnable bot immediately. Formal Bot Engineering mastery still belongs to the wider Part 15+ evidence scope.
 
 ```text
-Go
-→ Services / Workers
-→ Collectors & Adapters
-→ PostgreSQL / optional Redis
-→ Queue / Workflow
-→ Durable Execution (Thực thi bền vững) when required
-→ Analytics / Decision Engine
-→ Tool Boundary (Ranh giới công cụ) / MCP
-→ AI Agent (Tác tử AI) where justified
-→ Policy & Risk Engine
-→ Human Approval Queue (Hàng đợi phê duyệt của con người)
-→ Action Executor
-→ Audit / Tracing / Feedback
+USE GO EARLY
+≠
+CLAIM GO MASTERY EARLY
 ```
 
-C#/.NET vẫn tồn tại trong historical v2026.08 và có thể dùng làm comparison/reference stack, nhưng không còn là primary implementation path.
+Go-first engineering standards remain:
 
-Đọc:
+- [`docs/ADR-001-GO-FIRST-BOT-STACK.md`](docs/ADR-001-GO-FIRST-BOT-STACK.md)
+- [`docs/GO-BOT-ENGINEERING-STACK.md`](docs/GO-BOT-ENGINEERING-STACK.md)
+- [`docs/AUTONOMY-AND-APPROVAL-MODEL.md`](docs/AUTONOMY-AND-APPROVAL-MODEL.md)
+- [`docs/AGENT-SECURITY-AND-TOOL-GOVERNANCE.md`](docs/AGENT-SECURITY-AND-TOOL-GOVERNANCE.md)
 
-- [ADR — Go-first Bot Stack](docs/ADR-001-GO-FIRST-BOT-STACK.md)
-- [Go Bot Engineering Stack](docs/GO-BOT-ENGINEERING-STACK.md)
-- [Autonomy & Approval Model](docs/AUTONOMY-AND-APPROVAL-MODEL.md)
-- [Agent Security & Tool Governance](docs/AGENT-SECURITY-AND-TOOL-GOVERNANCE.md)
-- [Bot Engineering Refresh 2026.08](docs/BOT-ENGINEERING-REFRESH-2026.08.md)
-
-### Autonomy model
+## Safety and governed autonomy
 
 ```text
-RISK 0
-→ auto execute
+Deterministic Logic before LLM autonomy
+Decision ≠ Execution
+Model Output = Untrusted Input
 
-RISK 1
-→ auto execute + mandatory audit
-
-RISK 2
-→ persist state
-→ pause
-→ human approve/reject
-→ revalidate
-→ resume or terminate
+RISK 0 → auto execute
+RISK 1 → auto execute + audit
+RISK 2 → persist → Human Approval → revalidate → execute/reject
 ```
 
-Mục tiêu là để người vận hành **duyệt quyết định consequential (có hậu quả đáng kể)**, không babysit từng bước cơ học của bot.
+## Knowledge PASS vs product progress
 
-## Architecture principles
+Lesson authoring and learner state remain separate:
 
 ```text
-Modular Monolith (Khối đơn thể mô-đun) first
-+ Deterministic Logic (Logic xác định) before LLM autonomy
-+ Context/Cancellation (Ngữ cảnh/Hủy)
-+ Bounded Concurrency (Đồng thời có giới hạn)
-+ Retry (Thử lại) + Idempotency (Tính lặp an toàn)
-+ Durable State (Trạng thái bền vững) for long waits
-+ Explicit Tool Contracts (Hợp đồng công cụ rõ ràng)
-+ Least Privilege (Quyền tối thiểu cần thiết)
-+ Policy/Risk Boundary (Ranh giới chính sách/rủi ro)
-+ Human Approval (Phê duyệt của con người)
-+ Audit/Tracing/Evaluation (Ghi vết/Theo dõi/Đánh giá)
-+ Kill Switch (Công tắc dừng khẩn cấp)
+Authoring: planned → draft → ready
+Learner:   not PASS → PASS / RETRY
 ```
 
-Không chọn Go chỉ vì benchmark CPU. Affiliate Bot chủ yếu bị chi phối bởi API/network/database/LLM/rate limits; Go được chọn vì concurrency, deployment simplicity, resource footprint và operational simplicity phù hợp hệ thống chạy lâu dài.
+A working bot or future Mission PASS never auto-marks a lesson PASS. Current lesson criteria remain in [`docs/PASS-CRITERIA.md`](docs/PASS-CRITERIA.md).
 
-## Current-knowledge layer
+## Current knowledge layer
 
-Canonical curriculum và current operating facts được tách riêng:
+Current platform/software/legal facts remain separate from stable canonical structure:
 
-```text
-STABLE/VERSIONED CANONICAL
-+
-VERIFIED CURRENT FACTS
-+
-CONTINUOUS WATCH
-=
-AFFILIATE INTELLIGENCE CURRICULUM
-```
+- [`docs/FRESHNESS-POLICY.md`](docs/FRESHNESS-POLICY.md)
+- [`docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
+- [`docs/BOT-ENGINEERING-REFRESH-2026.08.md`](docs/BOT-ENGINEERING-REFRESH-2026.08.md)
 
-Current source registers:
+## Key documents
 
-- [Freshness Policy](docs/FRESHNESS-POLICY.md)
-- [Affiliate Knowledge Refresh 2026.08](docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
-- [Bot Engineering Refresh 2026.08](docs/BOT-ENGINEERING-REFRESH-2026.08.md)
-
-Exact Go/runtime/SDK/protocol/platform/legal facts phải được re-verify theo freshness policy; không biến version hiện tại thành permanent curriculum truth.
-
-## Source model
-
-```text
-ACTIVE CANONICAL:
-sources/SYLLABUS-v2026.09.md
-
-INHERITED STRUCTURAL BASELINE:
-sources/SYLLABUS-v2026.08.md
-
-PACING:
-docs/15-MONTH-PLAN.md / docs/12-MONTH-PLAN.md
-
-EXECUTION:
-docs/EXECUTION-MODEL.md
-
-SUPPLEMENTS:
-sources/Noi-dung-dao-tao.txt
-sources/Nghien-cuu.txt
-
-CURRENT FACTS:
-external source registers + last_verified
-```
-
-`S:P/C/L` source refs remain version-neutral identifiers. `sources/README.md` resolves which canonical revision is active.
-
-Đọc:
-
-- [Source README](sources/README.md)
-- [Source Mapping](docs/SOURCE-MAPPING.md)
-- [Freshness Policy](docs/FRESHNESS-POLICY.md)
-
-## Bắt đầu học
-
-1. Mở [ROADMAP.md](ROADMAP.md).
-2. Chọn [15-month Standard](docs/15-MONTH-PLAN.md) hoặc [12-month Accelerated](docs/12-MONTH-PLAN.md).
-3. Đọc [Hybrid Execution Model](docs/EXECUTION-MODEL.md).
-4. Học [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md).
-5. Học [`0.2 — Affiliate Bot Engineer là gì?`](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) và làm boundary-map artifact.
-6. Khi gặp thuật ngữ chưa quen, tra [Glossary VI](docs/GLOSSARY-VI.md).
-7. Chỉ tick `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
-8. Lưu evidence theo [Artifact conventions](artifacts/README.md).
-9. Review và cập nhật [PROGRESS.md](PROGRESS.md).
-
-## Learning operating system
-
-Mỗi lesson `ready` phải hỗ trợ:
-
-```text
-Concept
-+
-Example / Case
-+
-Quiz ≥80%
-+
-Practice Artifact
-+
-Explain-back
-```
-
-Authoring/evidence resources:
-
-- [Lesson Template](templates/LESSON.md)
-- [Lesson Notes](templates/LESSON-NOTES.md)
-- [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md)
+- [Build-First Roadmap](BUILD-FIRST.md) — default learner execution entry point
+- [Knowledge Roadmap](ROADMAP.md) — canonical normalized lesson inventory
+- [Progress Dashboard](PROGRESS.md)
+- [Execution Model](docs/EXECUTION-MODEL.md)
+- [Build-First Learning Model](docs/BUILD-FIRST-LEARNING-MODEL.md)
+- [Projects](docs/PROJECTS.md)
+- [15-Month Plan](docs/15-MONTH-PLAN.md)
+- [12-Month Plan](docs/12-MONTH-PLAN.md)
+- [Curriculum CI](docs/CURRICULUM-CI.md)
 - [Glossary VI](docs/GLOSSARY-VI.md)
-- [Experiment Log](templates/EXPERIMENT-LOG.md)
-- [Revenue Journal](templates/REVENUE-JOURNAL.md)
-- [Knowledge Entry](templates/KNOWLEDGE-ENTRY.md)
-- [Project README Template](templates/PROJECT-README.md)
-- [Retrospective](templates/RETROSPECTIVE.md)
-
-## Lesson lifecycle
-
-```text
-scaffold
-→ planned
-→ draft
-→ ready
-→ learner evidence
-→ PASS / RETRY
-```
-
-- `planned`: file có thể tồn tại nhưng chưa link từ roadmap;
-- `draft|ready`: phải link từ roadmap;
-- `[x]`: learner PASS only.
-
-Reference implementations:
-
-- [0.1 — Affiliate Expert là gì?](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md) — general Affiliate Expert reference.
-- [0.2 — Affiliate Bot Engineer là gì?](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) — Go-first Bot Engineer/governed-autonomy reference.
-
-## Lesson scaffolding
-
-```bash
-python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 75 --prerequisite 0.1 --dry-run
-```
-
-0.2 đã tồn tại và `ready`, nên dry-run chỉ báo `EXISTS ... would not overwrite`; actual write vẫn từ chối overwrite.
-
-Xem [Lesson Scaffolding Guide](docs/LESSON-SCAFFOLDING.md).
-
-## Curriculum CI
-
-```bash
-python scripts/validate_curriculum.py
-python -m unittest discover -s tests -v
-```
-
-CI bảo vệ:
-
-- active canonical v2026.09 + historical v2026.08;
-- Go-first primary Part 15;
-- 23/89/671 structural counts;
-- Part/Chapter/Lesson IDs;
-- timeline contract;
-- links;
-- lesson metadata;
-- freshness refs ↔ `last_verified`;
-- lifecycle `planned|draft|ready`;
-- heading hierarchy;
-- scaffolder overwrite behavior.
-
-Xem [Curriculum CI](docs/CURRICULUM-CI.md).
-
-## Timeline contract
-
-Per-Part files dùng:
-
-```text
-- Timeline: **Standard ... · Accelerated ...** — forecast; PASS evidence mới là gate.
-```
-
-Part 20 là conditional; Part 22 là post-core continuous.
-
-Timeline là forecast, không phải định nghĩa Expert.
 
 ## Core principles
 
 ```text
-LEARN → EXPLAIN → APPLY → TEST → PASS
+BUILD → RUN → OBSERVE → LEARN → FIX → TEST → OPERATE → MEASURE
 UNDERSTAND → DECIDE → EXECUTE → MEASURE → LEARN → IMPROVE
 ```
 
 - DATA > OPINION.
 - EXPECTED VALUE > COMMISSION RATE.
-- Không automate thứ chưa hiểu bằng tay.
-- Không optimize trước khi đo.
-- Deterministic Logic (Logic xác định) trước LLM autonomy.
-- Decision ≠ Execution.
-- Model Output (Đầu ra mô hình) là Untrusted Input (Đầu vào không được tin cậy mặc định).
-- High-risk action cần deterministic policy + Human Approval (Phê duyệt của con người).
-- AI/agent capability không loại bỏ accountability/compliance.
+- Do not automate what you do not understand manually.
+- Do not optimize before measuring.
+- Deterministic logic before LLM autonomy.
+- High-risk action requires policy/risk control and Human Approval.
 
-## Contributing
+## Contribution model
 
-Repo dùng mô hình **issue-first**. Đọc [CONTRIBUTING.md](CONTRIBUTING.md) trước thay đổi curriculum hoặc engineering direction.
+The repository remains issue-first. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before structural or execution-model changes.
 
-## Licensing
-
-Repository public nhưng **không phát hành theo open-source license**. Xem [Licensing Status](docs/LICENSING.md).
-
-## Tài liệu chính
-
-- [Roadmap](ROADMAP.md)
-- [Active Canonical v2026.09](sources/SYLLABUS-v2026.09.md)
-- [Glossary VI](docs/GLOSSARY-VI.md)
-- [ADR Go-first](docs/ADR-001-GO-FIRST-BOT-STACK.md)
-- [Go Bot Engineering Stack](docs/GO-BOT-ENGINEERING-STACK.md)
-- [Autonomy & Approval](docs/AUTONOMY-AND-APPROVAL-MODEL.md)
-- [Agent Security & Tool Governance](docs/AGENT-SECURITY-AND-TOOL-GOVERNANCE.md)
-- [Bot Engineering Refresh](docs/BOT-ENGINEERING-REFRESH-2026.08.md)
-- [15-Month Standard](docs/15-MONTH-PLAN.md)
-- [12-Month Accelerated](docs/12-MONTH-PLAN.md)
-- [Execution Model](docs/EXECUTION-MODEL.md)
-- [Source Mapping](docs/SOURCE-MAPPING.md)
-- [Freshness Policy](docs/FRESHNESS-POLICY.md)
-- [Curriculum CI](docs/CURRICULUM-CI.md)
-- [PASS Criteria](docs/PASS-CRITERIA.md)
-- [Projects](docs/PROJECTS.md)
+`ready` means authored enough to learn; it never means learner PASS.
