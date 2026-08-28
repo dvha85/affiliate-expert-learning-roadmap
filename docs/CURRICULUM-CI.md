@@ -13,7 +13,57 @@ Exit code `0` nghĩa là PASS; khác `0` nghĩa là phải sửa consistency tr�
 
 ## Các kiểm tra chính
 
-### 1. Roadmap counts
+### 1. Active canonical contract
+
+Từ curriculum v2026.09, CI bảo vệ source-version direction:
+
+```text
+active canonical = sources/SYLLABUS-v2026.09.md
+historical baseline = sources/SYLLABUS-v2026.08.md
+```
+
+CI kiểm tra:
+
+- active canonical manifest phải tồn tại;
+- historical baseline phải còn tồn tại;
+- `sources/README.md` phải khai báo v2026.09 là active canonical;
+- v2026.09 phải giữ các invariant marker:
+  - `PRIMARY IMPLEMENTATION LANGUAGE = Go`;
+  - `Parts: 23`;
+  - `Chapters: 89`;
+  - `Lessons: 671`;
+  - `Main projects: 14`.
+
+Error codes:
+
+- `CANON001` — thiếu active canonical manifest;
+- `CANON002` — thiếu historical baseline;
+- `CANON003` — thiếu source index;
+- `CANON004` — source index không khai báo đúng active canonical;
+- `CANON005` — canonical manifest thiếu decision/invariant marker.
+
+CI không parse toàn bộ 671 lesson từ manifest overlay; structural counts thực tế vẫn được kiểm từ `ROADMAP.md` + 23 part files.
+
+### 2. Go-first technology direction
+
+CI bảo vệ **active primary stack** ở `roadmap/part-15.md`.
+
+Bắt buộc:
+
+```text
+51.1 — Go runtime, modules và project structure
+```
+
+CI fail nếu active Part 15 vô tình đưa các token legacy như `ASP.NET Core`, `EF Core`, `Hangfire`, `Quartz` hoặc C#/.NET trở lại primary stack.
+
+Historical `sources/SYLLABUS-v2026.08.md`, ADR, comparison notes và reference material **không bị cấm** chứa C#/.NET.
+
+Error codes:
+
+- `TECH001` — active Ch51 không còn bắt đầu bằng Go-first direction;
+- `TECH002` — legacy primary-stack token xuất hiện lại trong active Part 15.
+
+### 3. Roadmap counts
 
 Validator đối chiếu:
 
@@ -22,7 +72,7 @@ Validator đối chiếu:
 - chapter range và lesson count của từng Part;
 - Part file ngoài index.
 
-### 2. Timeline contract
+### 4. Timeline contract
 
 Mọi `roadmap/part-XX.md` phải có dòng metadata chuẩn:
 
@@ -32,11 +82,11 @@ Mọi `roadmap/part-XX.md` phải có dòng metadata chuẩn:
 
 CI fail nếu thiếu `Timeline:` hoặc còn header legacy `Lịch đề xuất:`. Mục tiêu là ngăn per-Part files quay lại lịch 12 tháng cũ trong khi repo đã tách Standard 15-month và Accelerated 12-month.
 
-### 3. Lesson IDs
+### 5. Lesson IDs
 
 Kiểm tra duplicate lesson ID, suffix gap, lesson nằm sai chapter, duplicate lesson file ID và lesson file không có ID tương ứng trong roadmap.
 
-### 4. Relative links
+### 6. Relative links
 
 Kiểm tra Markdown relative links trong:
 
@@ -45,7 +95,7 @@ Kiểm tra Markdown relative links trong:
 
 External URL và anchor-only link không được resolve local.
 
-### 5. Lesson metadata
+### 7. Lesson metadata
 
 Mọi lesson file phải có tối thiểu:
 
@@ -66,7 +116,7 @@ Validator cũng kiểm tra `status`, `effort`, `estimated_minutes`, path metadat
 
 Không có legacy lesson exception. Bài 0.1 phải pass cùng contract như mọi lesson khác.
 
-### 6. Freshness metadata contract
+### 8. Freshness metadata contract
 
 Current facts được quản lý theo [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md).
 
@@ -88,7 +138,10 @@ Error codes:
 
 CI **không thể tự chứng minh một policy/law/API còn đúng**. HIGH/MEDIUM/LOW review cadence vẫn cần human research theo Freshness Policy.
 
-Current source register bắt đầu tại [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md).
+Current source registers:
+
+- [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
+- [`BOT-ENGINEERING-REFRESH-2026.08.md`](BOT-ENGINEERING-REFRESH-2026.08.md)
 
 ## Planned-only convention
 
@@ -104,7 +157,9 @@ Lesson phải có đúng một H1, H1 là heading đầu tiên và không nhảy
 
 ## Reference implementation
 
-`lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md` là bài reference cho authored lesson `ready` với front matter, source refs, effort, heading hierarchy, objectives, concept, example/case, misconceptions, artifact, quiz/answer key, explain-back, PASS criteria, Knowledge Base, summary, sources và next action.
+Hiện tại `lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md` là reference lesson `ready` chung.
+
+Sau Go-first migration PR4, bài 0.2 sẽ trở thành reference implementation riêng cho Bot Engineer/autonomy direction; điều này không tự động đánh dấu learner PASS.
 
 ## Mutation / regression tests
 
@@ -116,7 +171,10 @@ Lesson phải có đúng một H1, H1 là heading đầu tiên và không nhảy
 4. duplicate lesson ID;
 5. missing required metadata;
 6. missing normalized timeline;
-7. broken external-ref/verification-date contract.
+7. broken external-ref/verification-date contract;
+8. missing/incorrect active canonical manifest/index;
+9. missing Go canonical decision marker;
+10. legacy C#/.NET-specific primary stack reintroduced in active Part 15.
 
 `tests/test_scaffold_lesson.py` bảo vệ:
 
@@ -129,6 +187,8 @@ Workflow `.github/workflows/curriculum-ci.yml` chạy trên mọi pull request v
 
 ## Error-code groups
 
+- `CANON*` — active canonical version/invariant contract;
+- `TECH*` — active Go-first primary technology direction;
 - `ROADMAP*` — canonical roadmap/index format;
 - `COUNT*` — count/chapter/part mismatch;
 - `TIME*` — per-Part timeline contract;
