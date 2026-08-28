@@ -41,6 +41,27 @@ Authoring và evidence được tách rõ:
 
 Artifact tồn tại không tự động đồng nghĩa PASS. Lesson vẫn cần Concept + Example + Quiz ≥80% + Practice + Explain-back; project/lab/gate cần acceptance criteria riêng.
 
+## Lesson scaffolding
+
+Dùng [`scripts/scaffold_lesson.py`](scripts/scaffold_lesson.py) để tạo lesson scaffold **theo nhu cầu**, không sinh hàng loạt 670 file rỗng.
+
+Ví dụ:
+
+```bash
+python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 60 --prerequisite 0.1 --dry-run
+```
+
+Scaffolder:
+
+- đọc ID/title/chapter từ roadmap;
+- dùng `templates/LESSON.md`;
+- luôn tạo `status: planned`;
+- tạo canonical `source_refs`;
+- không overwrite file đã tồn tại;
+- không tick roadmap và không thay đổi learner PASS state.
+
+Xem [Lesson Scaffolding Guide](docs/LESSON-SCAFFOLDING.md).
+
 ## Hybrid execution
 
 Roadmap không phải tuyến tính tuyệt đối. Knowledge spine đi theo prerequisite; execution loops đã mở khóa tiếp tục chạy song song trong cùng weekly capacity.
@@ -81,6 +102,7 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - Không automate thứ chưa hiểu bằng tay.
 - Timeline là forecast; PASS evidence mới là gate.
 - Reuse artifact bằng link; không double-count effort.
+- Scaffold file ≠ authored lesson ≠ learner PASS.
 
 ## Tài liệu
 
@@ -88,6 +110,7 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - [Hybrid Execution Model](docs/EXECUTION-MODEL.md)
 - [Source Mapping](docs/SOURCE-MAPPING.md)
 - [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md)
+- [Lesson Scaffolding Guide](docs/LESSON-SCAFFOLDING.md)
 - [Effort Model](docs/EFFORT-MODEL.md)
 - [15-Month Standard](docs/15-MONTH-PLAN.md)
 - [12-Month Accelerated](docs/12-MONTH-PLAN.md)
