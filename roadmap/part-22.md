@@ -1,6 +1,6 @@
 # Phần 22 — CONTINUOUS MASTERY
 
-- Lịch đề xuất: **Liên tục sau khóa học**
+- Timeline: **Post-core continuous** — chạy sau core và song song với vận hành thực tế.
 - Quy mô: **4 chương / 20 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -37,6 +37,8 @@
 - [ ] **88.3** — Thực hiện experiment
 - [ ] **88.4** — Phân tích và viết kết luận
 - [ ] **88.5** — Thay đổi hệ thống và lưu learning
+
+> **Freshness operating rule:** áp dụng [`FRESHNESS-POLICY.md`](../docs/FRESHNESS-POLICY.md): HIGH-volatility facts review tối đa 30 ngày, MEDIUM tối đa 90 ngày, LOW tối đa 12 tháng hoặc khi có evidence thay đổi. Current source register bắt đầu tại [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md).
 
 ## Hoàn thành phần
 
