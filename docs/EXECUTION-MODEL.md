@@ -1,11 +1,12 @@
-# Build-First Execution Model
+# Build-First Execution Model — Mô hình thực thi Build-First
 
-> Curriculum v2026.09 dùng **Mission-first execution + just-in-time knowledge pulls + persistent operating loops**.
+> Curriculum v2026.09 dùng **Mission-first execution (thực thi theo Mission) + just-in-time knowledge pulls (lấy kiến thức đúng lúc) + persistent operating loops (các vòng vận hành được duy trì)**.
 
-## 1. Mental model
+## 1. Mental Model — Mô hình tư duy
 
 ```text
                  BUILD-FIRST SPINE
+                 (Xương sống Build-First)
 
 Mission M00 → M01 → M02 → M03 → ...
     │          │      │
@@ -16,122 +17,131 @@ Knowledge   Knowledge Knowledge
     └──────────┴────────┘
              ↓
         Bot Version evolves
+        (Phiên bản Bot tiến hóa)
 ```
 
-`ROADMAP.md` vẫn là canonical knowledge inventory. Mission system quyết định learner build gì tiếp theo; knowledge prerequisites quyết định learner phải hiểu gì để mission đó PASS.
+`ROADMAP.md` vẫn là canonical knowledge inventory (kho kiến thức chuẩn). Mission system quyết định learner build gì tiếp theo; knowledge dependencies quyết định learner phải hiểu **knowledge slice (phần kiến thức cần thiết)** nào để Mission PASS.
 
-## 2. Build-first loop
+## 2. Build-First Loop — Vòng học Build-First
 
 ```text
-Ship Target
-→ Build smallest working slice
-→ Run
-→ Observe failure/gap
-→ Pull required knowledge
-→ Improve
-→ Test
-→ Operate
-→ Measure
-→ Explain
-→ Save evidence
-→ Next Bot Version
+Ship Target (Mục tiêu bàn giao)
+→ Build smallest working slice (Xây phần nhỏ nhất chạy được)
+→ Run (Chạy)
+→ Observe failure/gap (Quan sát lỗi/thiếu sót)
+→ Pull required knowledge (Lấy kiến thức cần ngay)
+→ Improve (Cải tiến)
+→ Test (Kiểm thử)
+→ Operate (Vận hành)
+→ Measure (Đo lường)
+→ Explain (Giải thích)
+→ Save evidence (Lưu bằng chứng)
+→ Next Bot Version (Phiên bản Bot tiếp theo)
 ```
 
-The learner should not wait until Part 15 to touch Go. Early missions use narrow Go concepts; Part 15 remains formal Bot Engineering mastery.
+Learner không chờ tới Part 15 mới chạm Go. Mission đầu dùng Go scope hẹp; Part 15 vẫn là formal Bot Engineering mastery (phạm vi làm chủ Bot Engineering chính thức).
 
-## 3. Knowledge dependency semantics
+## 3. Knowledge Dependency Semantics — Ý nghĩa quan hệ kiến thức
 
-Mission knowledge may be classified as:
+Mission knowledge có ba mức:
 
-- **REQUIRED** — must be understood for Mission PASS.
-- **ON-DEMAND** — pull when implementation or business context triggers the need.
-- **REFERENCE** — useful depth, not a Mission PASS gate.
-
-Mission completion never auto-marks a lesson PASS.
-
-## 4. Operating loops remain cumulative
-
-As capability grows, these loops stay active when relevant:
-
-- Compliance / Platform Watch
-- Market / Customer / Product Watch
-- Content Production
-- Traffic Distribution
-- Funnel / Revenue / Data Capture
-- Experiment Loop
-- Bot / Automation
-- AI-assisted Workflow
-- Governed Action / Approval
-
-Build-First changes **when** capabilities are introduced, not the requirement to keep useful loops running.
-
-## 5. Governed Action / Approval
-
-Consequential execution keeps the current policy model:
+- **REQUIRED (Bắt buộc cho Mission)** — phải hiểu phần cần thiết để Mission PASS.
+- **ON-DEMAND (Khi phát sinh nhu cầu)** — pull khi implementation/business context làm lộ nhu cầu.
+- **REFERENCE (Tham khảo)** — kiến thức đào sâu, không phải Mission PASS gate.
 
 ```text
-Observe
-→ Analyze
-→ Recommend / ActionIntent
-→ deterministic Policy + Risk
-   ├── RISK 0 → auto execute
-   ├── RISK 1 → auto execute + mandatory audit
+REQUIRED FOR MISSION
+≠
+FULL LESSON PASS
+```
+
+Mission completion không bao giờ tự đánh dấu Lesson PASS.
+
+## 4. Operating Loops Remain Cumulative — Các vòng vận hành được tích lũy
+
+Khi capability (năng lực) tăng, các loop sau tiếp tục chạy khi relevant:
+
+- Compliance / Platform Watch — theo dõi tuân thủ/nền tảng;
+- Market / Customer / Product Watch — theo dõi thị trường/khách hàng/sản phẩm;
+- Content Production — sản xuất nội dung;
+- Traffic Distribution — phân phối traffic;
+- Funnel / Revenue / Data Capture — ghi nhận funnel/doanh thu/dữ liệu;
+- Experiment Loop — vòng thử nghiệm;
+- Bot / Automation — Bot/tự động hóa;
+- AI-assisted Workflow — workflow có AI hỗ trợ;
+- Governed Action / Approval — hành động/phê duyệt có kiểm soát.
+
+Build-First thay **thời điểm capability được đưa vào**, không xóa yêu cầu giữ các operating loop hữu ích.
+
+## 5. Governed Action / Approval — Hành động và phê duyệt có kiểm soát
+
+Consequential execution (thực thi có hậu quả đáng kể) giữ policy model hiện hành:
+
+```text
+Observe (Quan sát)
+→ Analyze (Phân tích)
+→ Recommend / ActionIntent (Khuyến nghị / Ý định hành động)
+→ deterministic Policy + Risk (Chính sách + Rủi ro xác định)
+   ├── RISK 0 → auto execute (tự thực thi)
+   ├── RISK 1 → auto execute + mandatory audit (tự thực thi + bắt buộc ghi vết)
    └── RISK 2 → persist → approval → revalidate → execute/reject
-→ Audit / Trace
-→ Measure outcome
-→ Learn
+→ Audit / Trace (Ghi vết)
+→ Measure outcome (Đo kết quả)
+→ Learn (Học)
 ```
 
-Human review is for consequential decisions/exceptions, not mechanical babysitting.
+Human review dùng cho consequential decisions/exceptions (quyết định/ngoại lệ quan trọng), không dùng để babysit từng bước cơ học.
 
-## 6. Go-first progression
+## 6. Go-First Progression — Tiến trình Go-first
 
 ```text
-Early Missions
-→ minimal Go usage to ship
+Early Missions (Mission đầu)
+→ dùng Go tối thiểu để ship
 
-Later Missions
+Later Missions (Mission sau)
 → database / concurrency / reliability / workflow
 
 Part 15+ mastery
-→ broader engineering evidence and project integration
+→ engineering evidence rộng hơn + Project integration
 ```
 
-This is intentionally **USE before MASTER**, not mastery-by-copying.
+Đây là chủ ý **USE BEFORE MASTER (dùng trước, làm chủ sau)**, không phải mastery-by-copying (làm chủ bằng cách copy lời giải).
 
-## 7. AI progression
+Learner workspace và reference implementation phải tách nhau để progression này có ý nghĩa.
+
+## 7. AI Progression — Tiến trình AI
 
 ```text
-Deterministic data/logic
-→ AI summarize/classify/analyze
-→ evaluated recommendation
-→ explicit tool contract
+Deterministic data/logic (Dữ liệu/logic xác định)
+→ AI summarize/classify/analyze (tóm tắt/phân loại/phân tích)
+→ evaluated recommendation (khuyến nghị đã được đánh giá)
+→ explicit tool contract (hợp đồng tool rõ ràng)
 → ActionIntent
-→ Policy/Risk
-→ Auto or Human Approval
+→ Policy / Risk
+→ Auto hoặc Human Approval
 ```
 
-Do not jump from prompt directly to privileged external action.
+Không nhảy từ prompt trực tiếp tới privileged external action (hành động bên ngoài có quyền cao).
 
-## 8. Capacity
+## 8. Capacity — Quỹ thời gian
 
-- Standard: ~9h/week.
-- Accelerated: ~11–12h/week.
+- Standard: khoảng 9h/tuần.
+- Accelerated: khoảng 11–12h/tuần.
 
-Heuristic during Build-First:
+Heuristic (gợi ý) trong Build-First:
 
 ```text
-50–70% build/run/debug/operate
+50–70% build / run / debug / operate
 20–30% required knowledge pull
-10–20% evidence/review
+10–20% evidence / review
 ```
 
-Ratios are adaptive; PASS quality is not reduced to hit a calendar date.
+Tỷ lệ có thể adaptive (thay đổi theo thực tế); không hạ PASS quality chỉ để đạt ngày trên lịch.
 
-## 9. Capstone evolution
+## 9. Capstone Evolution — Tiến hóa tới Capstone
 
 ```text
-Runnable Go Bot
+Runnable Go Bot (Bot Go chạy được)
 → Product Data
 → Product Watcher
 → Product Intelligence
@@ -143,18 +153,33 @@ Runnable Go Bot
 → Affiliate Intelligence Platform
 ```
 
-Project artifacts should evolve and be reused instead of being rebuilt from scratch.
+Project artifact nên tiến hóa và reuse (tái sử dụng), không rebuild toàn bộ từ đầu ở mỗi Project.
 
-## 10. Final operating rule
+## 10. Final Operating Rule — Quy tắc vận hành cuối cùng
 
 ```text
 ONE current Mission
+(MỘT Mission hiện tại)
 +
 ONLY necessary Knowledge Pulls
+(CHỈ kiến thức thật sự cần)
 +
 ACTIVE operating loops within capacity
+(CÁC vòng vận hành cần thiết trong quỹ thời gian)
 +
-PASS evidence before mastery
+PASS evidence before mastery claim
+(BẰNG CHỨNG PASS trước tuyên bố mastery)
 +
 POLICY before consequential execution
+(POLICY trước thực thi có hậu quả đáng kể)
 ```
+
+## 11. Quy tắc code sớm
+
+```text
+BUILD CODE EARLY (viết code sớm)
+≠
+AUTOMATE REAL BUSINESS EARLY (tự động hóa kinh doanh thật quá sớm)
+```
+
+Mission đầu dùng sample/local data và side effect thấp để learner học bằng thực hành mà không vượt quá mức hiểu biết hoặc policy boundary.
