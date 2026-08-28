@@ -107,8 +107,10 @@ Dùng:
 Ví dụ inspection:
 
 ```bash
-python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 60 --prerequisite 0.1 --dry-run
+python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 75 --prerequisite 0.1 --dry-run
 ```
+
+0.2 hiện là lesson `ready`; dry-run phải báo target đã tồn tại và không overwrite.
 
 Status contract:
 
@@ -190,7 +192,7 @@ Checklist:
 ## 8. Reference implementations
 
 - [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md) — general ready-lesson reference.
-- `0.2 — Affiliate Bot Engineer là gì?` sẽ trở thành Go-first Bot Engineer reference sau migration PR4.
+- [`0.2 — Affiliate Bot Engineer là gì?`](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) — Go-first Bot Engineer/governed-autonomy reference.
 
 Không yêu cầu mọi lesson dài bằng 0.1/0.2. Depth phải phù hợp effort S/M/L.
 
