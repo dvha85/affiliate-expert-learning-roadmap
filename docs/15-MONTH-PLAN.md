@@ -1,12 +1,14 @@
 # Kế hoạch chuẩn 15 tháng
 
-> **Standard track** dành cho nhịp khoảng **9 giờ/tuần**. Đây là lộ trình mặc định của repo sau Issue #2.
+> **Standard track** dành cho nhịp khoảng **9 giờ/tuần**. Đây là lộ trình mặc định của repo.
 
-Kế hoạch được xây từ [Effort Model S/M/L/XL](EFFORT-MODEL.md), không chia đều 671 checkbox theo tháng, và phải đọc cùng [Hybrid Execution Model](EXECUTION-MODEL.md).
+Đọc cùng:
+
+- [Effort Model](EFFORT-MODEL.md)
+- [Effort Recalibration v2026.09](EFFORT-RECALIBRATION-v2026.09.md)
+- [Hybrid Execution Model](EXECUTION-MODEL.md)
 
 ## 1. Capacity model
-
-Giả định planning:
 
 ```text
 9 giờ/tuần
@@ -14,94 +16,70 @@ Giả định planning:
 ≈ 585 giờ capacity
 ```
 
-Core curriculum cố định dùng trong timeline này:
+Core curriculum cố định:
 
 ```text
 Phần 0 → 19 → 21
 ```
 
-Baseline v0.1:
+Recalibrated v2026.09 planning envelope:
 
-- lesson + integration workload: khoảng **509 giờ**;
+- content + lesson evidence + incremental integration: khoảng **520 giờ**;
 - weekly review: khoảng **65 giờ**;
-- còn khoảng **10–12 giờ buffer** cho retry/catch-up ở baseline midpoint.
+- tổng midpoint requirement: khoảng **585 giờ**.
 
-Đây là forecast, không phải deadline cứng. Nếu lesson thực tế vượt estimate, ưu tiên PASS evidence và reforecast timeline.
+Khác baseline cũ, Standard 15 tháng giờ gần như **không còn planning buffer ở midpoint**. Đây vẫn là forecast hợp lý cho 9h/tuần nếu artifact được reuse đúng và không double-count project work, nhưng không phải deadline cứng.
 
-> **Không tính vào fixed 15-month core:** Phần 20 — Business & Scale bắt đầu khi có tín hiệu doanh thu; Phần 22 — Continuous Mastery chạy liên tục sau core.
+Nếu rolling actual workload vượt model, ưu tiên kéo dài finish date thay vì giảm PASS criteria. **16 tháng là fallback chấp nhận được**, không phải failure.
+
+> Phần 20 — Business & Scale bắt đầu khi có tín hiệu doanh thu; Phần 22 — Continuous Mastery không nằm trong fixed 15-month core.
 
 ## 2. Kế hoạch theo tháng
 
-`Content + integration` là planning envelope ở midpoint; sẽ được hiệu chỉnh khi Step 5 gán effort cho từng lesson thật.
+| Tháng | Trọng tâm | Phần/Chương dự kiến | Planning envelope |
+|---:|---|---|---:|
+| 1 | Orientation + Fundamentals + Economics mở đầu | Phần 0–1, bắt đầu Phần 2 | ~39h |
+| 2 | Economics + Tracking & Attribution | Hoàn tất Phần 2–3 | ~39h |
+| 3 | Legal/Tax/Compliance + Platform foundations | Phần 4, đầu Phần 5 | ~39h |
+| 4 | Platform Expert + Niche Intelligence | Hoàn tất Phần 5–6 | ~39h |
+| 5 | Customer + Product Intelligence I | Phần 7, Chương 23–25 | ~39h |
+| 6 | Product Intelligence II + Content I | Hoàn tất Phần 8, bắt đầu Phần 9 | ~39h |
+| 7 | Content II + Traffic + Funnel mở đầu | Hoàn tất Phần 9–10, bắt đầu 11 | ~39h |
+| 8 | Funnel + Data Engineering + Analytics mở đầu | Hoàn tất Phần 11–12, bắt đầu 13 | ~39h |
+| 9 | Analytics + Experimentation + Bot Architecture mở đầu | Hoàn tất 13–14, đầu 15 | ~39h |
+| 10 | Go-first Affiliate Bot Engineering | Phần 15 | ~39h |
+| 11 | Decision/Policy + AI foundations | Phần 16, đầu 17 | ~39h |
+| 12 | AI Affiliate Bot + Advanced Intelligence mở đầu | Hoàn tất 17, đầu 18 | ~39h |
+| 13 | Advanced Intelligence + Production foundations | Hoàn tất 18, đầu 19 | ~39h |
+| 14 | Production/Security/Governance + Capstone start | Hoàn tất 19, bắt đầu 21 | ~39h |
+| 15 | Capstone integration + hardening + retry/catch-up | Hoàn tất 21 | ~39h |
 
-| Tháng | Trọng tâm | Phần/Chương dự kiến | Content + integration | Review/buffer | Expected total |
-|---:|---|---|---:|---:|---:|
-| 1 | Orientation + Affiliate Fundamentals + Economics mở đầu | Phần 0–1, bắt đầu Phần 2 | ~34h | ~4–5h | **~38–39h** |
-| 2 | Economics + Tracking & Attribution | Hoàn tất Phần 2–3 | ~35h | ~4h | **~39h** |
-| 3 | Legal/Tax/Compliance + Platform foundations | Phần 4, đầu Phần 5 | ~34h | ~4–5h | **~38–39h** |
-| 4 | Platform Expert + Niche Intelligence | Hoàn tất Phần 5–6 | ~34h | ~4–5h | **~38–39h** |
-| 5 | Customer Intelligence + Product Intelligence I | Phần 7, Chương 23–25 | ~34h | ~4–5h | **~38–39h** |
-| 6 | Product Intelligence II + Content/Psychology I | Hoàn tất Phần 8, bắt đầu Phần 9 | ~35h | ~4h | **~39h** |
-| 7 | Content/Psychology II + Traffic + Funnel mở đầu | Hoàn tất Phần 9, Phần 10, bắt đầu Phần 11 | ~34h | ~4–5h | **~38–39h** |
-| 8 | Funnel/Conversion + Data Engineering + Analytics mở đầu | Hoàn tất Phần 11–12, bắt đầu Phần 13 | ~34h | ~4–5h | **~38–39h** |
-| 9 | Analytics + Experimentation + Bot Architecture mở đầu | Hoàn tất Phần 13–14, đầu Phần 15 | ~34h | ~4–5h | **~38–39h** |
-| 10 | Affiliate Bot Engineering | Phần 15 | ~35h | ~4h | **~39h** |
-| 11 | Decision/Recommendation + AI foundations | Phần 16, đầu Phần 17 | ~34h | ~4–5h | **~38–39h** |
-| 12 | AI Affiliate Bot + Advanced Intelligence mở đầu | Hoàn tất Phần 17, đầu Phần 18 | ~34h | ~4–5h | **~38–39h** |
-| 13 | Time-series/ML + Production foundations | Hoàn tất Phần 18, đầu Phần 19 | ~34h | ~4–5h | **~38–39h** |
-| 14 | Production/Security/Automation + Capstone start | Hoàn tất Phần 19, bắt đầu Phần 21 | ~34h | ~4–5h | **~38–39h** |
-| 15 | Capstone integration + hardening + retry/catch-up | Hoàn tất Phần 21 | ~31h | ~7–8h | **~38–39h** |
+Bảng là **capacity envelope**, không phải quota checkbox.
 
-Tổng content + integration envelope: khoảng **510 giờ**, khớp baseline khoảng 509 giờ ở mức làm tròn.
+## 3. Hybrid execution
 
-## 3. Hybrid execution trong timeline này
-
-Bảng tháng chỉ mô tả **primary knowledge focus**. Khi một execution loop đã được mở khóa, nó có thể tiếp tục chạy ở các tháng sau trong cùng quỹ 9h/tuần.
-
-Ví dụ:
-
-```text
-Tháng 6: bắt đầu Part 9 → mở Real Content Production
-Tháng 7: thêm Part 10 → Content + Traffic chạy song song
-Tháng 7–8: thêm Part 11 → Content + Traffic + Funnel/Data tiếp tục
-Tháng 9: Part 14 → formal Experiment loop được mở
-```
-
-Không cộng các loop này như workload ngoài 9h/tuần; chúng chiếm phần practice/evidence trong capacity hiện có.
-
-Guideline khi đã có active loops:
+Khi loop đã mở, nó tiếp tục chạy trong cùng quỹ 9h/tuần:
 
 ```text
 50–70%: primary knowledge/current Part
 30–50%: active execution loops + evidence + review
 ```
 
-Xem [EXECUTION-MODEL.md](EXECUTION-MODEL.md) để biết điểm unlock và dependency cho từng Part.
-
-## 4. Vì sao tháng 1–2 được giảm tải
-
-Lịch cũ dồn:
+Đặc biệt từ Part 15 trở đi:
 
 ```text
-Tháng 1: Phần 0–3 = 113 lesson
-Tháng 2: Phần 4–6 = 104 lesson
+Go Bot
+→ Decision/Policy
+→ AI Tools
+→ Governed Action/Approval
+→ Production
 ```
 
-Standard plan không còn yêu cầu hoàn tất 217 lesson trong 2 tháng đầu.
+là một progression liên tục; không coi từng Part là project tách biệt.
 
-Thay vào đó:
+## 4. Weekly rhythm gợi ý
 
-- Tháng 1 tập trung orientation + fundamentals và chỉ bắt đầu economics.
-- Tháng 2 hoàn thiện economics/tracking ở pace dựa trên effort.
-- Legal/platform/niche được đẩy sang tháng 3–4.
-
-Mục tiêu là cho người mới đủ thời gian để thực hiện cả quiz, practice, explain-back và artifact thay vì chỉ đọc checkbox.
-
-## 5. Nhịp tuần 9 giờ
-
-Khung mặc định:
-
-| Hoạt động | Thời lượng gợi ý |
+| Hoạt động | Thời lượng |
 |---|---:|
 | Learn + case | 2h |
 | Research thực tế | 1h |
@@ -109,43 +87,27 @@ Khung mặc định:
 | Coding/Data/Artifact | 3h |
 | Weekly review | 1h |
 
-Không cần giữ đúng tỷ lệ từng tuần. Khi ở phần engineering, Coding/Data có thể tăng; khi ở content/platform/legal, research/practice có thể tăng.
+Engineering-heavy weeks có thể dồn nhiều hơn vào coding/artifact nhưng tổng capacity vẫn giữ.
 
-## 6. Monthly gate
+## 5. Monthly gate
 
-Không chuyển tháng chỉ vì hết lịch nếu thiếu evidence quan trọng.
+Cuối tháng review:
 
-Cuối mỗi tháng review:
-
-- lesson nào PASS / RETRY;
-- actual hours so với effort estimate;
-- active execution loops nào đang tạo evidence;
+- lesson PASS/RETRY;
+- actual hours vs estimate;
+- active execution loops;
 - project/lab integration còn thiếu;
 - blocker;
-- forecast tháng kế tiếp.
+- forecast tháng sau.
 
-Nếu actual workload cao hơn baseline, ưu tiên dời scope sang tháng tiếp theo thay vì giảm PASS criteria.
+Nếu actual workload cao hơn baseline, dời scope thay vì giảm evidence quality.
 
-## 7. Prerequisite ở mức timeline
-
-Knowledge spine lớn:
+## 6. Nguyên tắc
 
 ```text
-Foundation/Economics/Tracking
-→ Market/Customer/Product
-→ Content/Traffic/Funnel
-→ Data/Analytics/Experiments
-→ Bot/Recommendation/AI
-→ Advanced Intelligence/Production
-→ Capstone
+Timeline = forecast
+PASS evidence = gate
+Actual data > planning assumption
 ```
 
-Execution Model bổ sung lớp song song: một primary knowledge focus + các loop đã unlock.
-
-## 8. Standard vs Accelerated
-
-Chọn Standard nếu capacity thực tế khoảng **9h/tuần**.
-
-Chỉ chọn [12-month Accelerated](12-MONTH-PLAN.md) nếu có thể duy trì khoảng **11–12h/tuần**, khuyến nghị **12h/tuần** để có buffer.
-
-Không dùng thời gian hoàn thành làm định nghĩa Expert. PASS evidence và năng lực thực tế vẫn là tiêu chuẩn.
+Không dùng “hoàn thành 15 tháng” làm định nghĩa Expert.
