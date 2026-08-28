@@ -1,9 +1,9 @@
 # Freshness Policy
 
-> Mục tiêu: giữ curriculum ổn định về cấu trúc nhưng không để các dữ kiện platform, legal, tax, privacy, API, pricing và AI behavior trở nên lỗi thời.
+> Mục tiêu: giữ curriculum ổn định về cấu trúc nhưng không để các dữ kiện platform, legal, tax, privacy, API, pricing, Go/runtime và AI/agent behavior trở nên lỗi thời.
 
 **Policy version:** 2026-08-28  
-**Applies to:** lesson authoring, source mapping, policy watch, legal/tax watch, platform docs, API/tool behavior và current-market examples.
+**Applies to:** lesson authoring, source mapping, policy/legal/tax watch, platform docs, API/tool behavior, Go/runtime/SDK/protocol facts và current-market examples.
 
 ## 1. Tách canonical knowledge và current facts
 
@@ -11,22 +11,17 @@ Repo có hai lớp tri thức độc lập:
 
 ```text
 CANONICAL CURRICULUM
-= Part / Chapter / Lesson / Project / LAB / PASS Gate từ SYLLABUS v2026.08
+= validated normalized roadmap inventory
++ active SYLLABUS-v2026.09 explicit overrides
++ inherited/historical evidence from SYLLABUS-v2026.08
 
 CURRENT KNOWLEDGE OVERLAY
-= platform policy / law / tax / privacy / API / AI / search / creator-commerce facts được external-verify
+= platform policy / law / tax / privacy / API / software / AI / search / creator-commerce facts được external-verify
 ```
 
-Web research không tự động sửa canonical syllabus.
+Đọc [`../sources/CURRICULUM-INDEX-v2026.09.md`](../sources/CURRICULUM-INDEX-v2026.09.md) để hiểu provenance `source_explicit / normalized_from_chapter / normalized_then_overridden`.
 
-Nếu một thuật ngữ trong syllabus đã lỗi thời nhưng lesson ID/title vẫn là canonical provenance, giữ ID/title và thêm **current-state override** trong lesson/roadmap note.
-
-Ví dụ:
-
-```text
-14.2 — Promotion Quality Points (canonical title)
-Current state 2026-08-27+: TikTok Shop dùng Promotion Performance Score (PPS)
-```
+Web research không tự động sửa canonical curriculum. Nếu current fact đổi nhưng không cần thay lesson structure, cập nhật current-state override/source register thay vì âm thầm rewrite historical source.
 
 ## 2. Volatility classes
 
@@ -35,16 +30,19 @@ Current state 2026-08-27+: TikTok Shop dùng Promotion Performance Score (PPS)
 - platform policy, eligibility, commission, attribution window;
 - seller/creator program terms;
 - legal/tax/privacy/advertising requirements;
-- API availability/limits;
+- API availability/limits khi ảnh hưởng production;
 - AI-generated content rules;
-- payment/settlement/current fee behavior.
+- payment/settlement/current fee behavior;
+- security-sensitive agent/tool protocol changes khi ảnh hưởng control boundary.
 
 ### MEDIUM — review tối đa mỗi 90 ngày
 
 - search/discovery behavior;
 - creator-commerce measurement conventions;
 - browser/privacy measurement ecosystem;
+- Go/runtime/SDK/library status;
 - LLM/agent/tooling capabilities;
+- MCP/A2A/workflow/observability capabilities;
 - vendor product behavior ảnh hưởng exercise.
 
 ### LOW — review tối đa mỗi 12 tháng hoặc khi có evidence thay đổi
@@ -53,7 +51,7 @@ Current state 2026-08-27+: TikTok Shop dùng Promotion Performance Score (PPS)
 - unit economics formulas;
 - statistical concepts;
 - software architecture principles;
-- generic experimentation concepts.
+- generic experimentation/reliability/security concepts.
 
 ## 3. External source priority
 
@@ -76,7 +74,7 @@ Khi lesson có current facts:
 source_refs:
   external:
     - "EXT:TIKTOK:PPS"
-    - "EXT:VN:PDPL-2025"
+    - "EXT:MCP:SDK"
 last_verified: "2026-08-28"
 ```
 
@@ -87,11 +85,12 @@ Quy tắc:
 - external ref phải resolve được trong current external-source register hoặc được ghi rõ URL/nguồn trong lesson;
 - current claim phải phân biệt với author inference/example.
 
-## 5. Source register
+## 5. Source registers
 
-Current external sources được ghi trong:
+Current external sources hiện được quản lý tối thiểu tại:
 
 - [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
+- [`BOT-ENGINEERING-REFRESH-2026.08.md`](BOT-ENGINEERING-REFRESH-2026.08.md)
 
 Mỗi source entry nên có:
 
@@ -104,45 +103,62 @@ Mỗi source entry nên có:
 - curriculum mapping;
 - factual implication.
 
+Future source registers có thể được thêm theo domain, nhưng stable external IDs không được reuse cho nguồn khác nghĩa.
+
 ## 6. Staleness rule khi author lesson
 
 Trước khi chuyển lesson sang `ready`:
 
-1. xác định lesson có current claims không;
-2. nếu có, kiểm tra external source có còn hoạt động và nội dung có còn áp dụng;
-3. nếu source thuộc HIGH và `last_verified` >30 ngày, re-check;
-4. nếu MEDIUM và >90 ngày, re-check;
-5. cập nhật source/ref/date;
-6. không copy một con số/current policy sang lesson khác mà không mang theo provenance.
+1. resolve canonical lesson/provenance;
+2. xác định lesson có current claims không;
+3. nếu có, kiểm tra external source có còn hoạt động và nội dung còn áp dụng;
+4. HIGH >30 ngày → re-check;
+5. MEDIUM >90 ngày → re-check;
+6. cập nhật ref/date;
+7. không copy current policy/version/threshold sang lesson khác mà không mang theo provenance.
 
-CI kiểm tra **metadata contract**, nhưng không thể tự xác minh nội dung pháp lý/platform còn đúng. Human review vẫn bắt buộc.
+CI kiểm metadata contract và source-ID resolution, nhưng không thể tự xác minh nội dung pháp lý/platform còn đúng. Human research vẫn bắt buộc.
 
 ## 7. Current-state override pattern
 
-Khi canonical title cũ nhưng khái niệm hiện hành đổi:
+Khi canonical terminology cũ nhưng operating truth thay đổi:
 
 ```markdown
 > **Current-state override — verified YYYY-MM-DD**
-> Canonical syllabus dùng thuật ngữ X để giữ provenance.
-> Hiện tại platform/regulation dùng Y.
-> Lesson phải dạy Y là operating truth và X là migration/history context.
+> Historical/canonical context dùng X.
+> Current operating truth là Y.
+> Lesson dạy Y để vận hành và X để hiểu migration/provenance.
 ```
 
-Không đổi lesson ID chỉ vì rename platform terminology.
+Không đổi lesson ID chỉ vì platform rename nếu scope curriculum vẫn giữ nguyên.
 
-## 8. Legal/tax disclaimer
+## 8. Engineering freshness pattern
 
-Phần legal/tax/privacy trong repo là **educational research**.
+Không hard-code version hiện hành vào lesson title nếu concept bền hơn version.
 
-Không trình bày như tư vấn pháp lý, kế toán hoặc thuế cho một tình huống cá nhân cụ thể. Khi quyết định thực tế có rủi ro đáng kể, learner phải kiểm tra văn bản hiện hành và/hoặc chuyên gia phù hợp.
+Ví dụ:
 
-## 9. Continuous watch loops
+```text
+canonical lesson:
+Go runtime, modules và project structure
+
+freshness layer:
+current supported Go release / current MCP SDK / current workflow reference
+```
+
+Framework/protocol update thường sửa examples + source register trước; chỉ đổi canonical structure khi có curriculum-level decision rõ ràng.
+
+## 9. Legal/tax disclaimer
+
+Phần legal/tax/privacy trong repo là educational research, không phải tư vấn pháp lý/kế toán/thuế cho tình huống cá nhân cụ thể. Khi quyết định thực tế có rủi ro đáng kể, phải kiểm tra văn bản hiện hành và/hoặc chuyên gia phù hợp.
+
+## 10. Continuous watch loops
 
 Part 22 formalizes maintenance:
 
-- Chương 85 — Platform Watch: HIGH volatility;
-- Chương 86 — Legal & Tax Watch: HIGH volatility;
-- Chương 87 — Technology Watch: MEDIUM volatility;
-- Chương 88 — Research Practice: biến thay đổi thành hypothesis → evidence → system update.
+- Chương 85 — Platform Watch: HIGH;
+- Chương 86 — Legal & Tax Watch: HIGH;
+- Chương 87 — Technology Watch: MEDIUM/HIGH tùy topic;
+- Chương 88 — Research Practice: hypothesis → evidence → system update.
 
 Freshness không phải một lần update; nó là operating loop của Affiliate Intelligence System.
