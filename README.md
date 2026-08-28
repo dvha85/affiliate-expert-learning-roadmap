@@ -10,105 +10,65 @@ Roadmap được chuẩn hóa từ ba tài liệu nguồn v2026.08. Lộ trình 
 
 1. Mở [ROADMAP.md](ROADMAP.md) để xem toàn bộ 23 phần.
 2. Chọn timeline: [15-month Standard](docs/15-MONTH-PLAN.md) hoặc [12-month Accelerated](docs/12-MONTH-PLAN.md).
-3. Đọc [Hybrid Execution Model](docs/EXECUTION-MODEL.md): một primary knowledge focus + các execution loop đã được mở khóa.
-4. Khi author/học lesson, tra [Source-to-Roadmap Traceability Map](docs/SOURCE-MAPPING.md) để biết syllabus ref và các nguồn supplement phù hợp.
-5. Vào file của phần hiện tại và học theo prerequisite, không theo kiểu mọi activity đều tuần tự tuyệt đối.
-6. Chỉ đổi `[ ]` thành `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
-7. Dùng [mẫu ghi chú bài học](templates/LESSON-NOTES.md) để lưu evidence.
-8. Cập nhật [PROGRESS.md](PROGRESS.md) trong buổi review Chủ nhật.
+3. Đọc [Hybrid Execution Model](docs/EXECUTION-MODEL.md).
+4. Tra [Source-to-Roadmap Traceability Map](docs/SOURCE-MAPPING.md) khi author/học lesson.
+5. Chỉ đổi `[ ]` thành `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
+6. Dùng [Lesson Notes](templates/LESSON-NOTES.md) và lưu evidence theo [Artifact conventions](artifacts/README.md).
+7. Cập nhật [PROGRESS.md](PROGRESS.md) vào review Chủ nhật.
 
 ## Quy mô chương trình
 
 - **23 phần**
 - **89 chương**
 - **671 bài học có thể tick**
-- **14 project chính**, kèm Lab và Pass Gate
+- **14 main projects**
+- Labs và Pass Gates là integration checkpoints riêng, không tính thành Project #15+
 - **Standard:** 15 tháng, khoảng 9 giờ/tuần
-- **Accelerated:** 12 tháng, khoảng 11–12 giờ/tuần, khuyến nghị 12 giờ/tuần
-- Fixed core: **Phần 0 → 19 → 21** theo knowledge prerequisites
-- Phần 20 (Business & Scale) và Phần 22 (Continuous Mastery) nằm ngoài fixed core timeline
+- **Accelerated:** 12 tháng, khoảng 11–12 giờ/tuần
+
+## Learning operating system
+
+Authoring và evidence được tách rõ:
+
+- [`templates/LESSON.md`](templates/LESSON.md) — authoring template cho bài giảng
+- [`templates/LESSON-NOTES.md`](templates/LESSON-NOTES.md) — learner evidence cho từng lesson
+- [`templates/EXPERIMENT-LOG.md`](templates/EXPERIMENT-LOG.md) — experiment hypothesis/result/learning
+- [`templates/REVENUE-JOURNAL.md`](templates/REVENUE-JOURNAL.md) — revenue/reconciliation/economics
+- [`templates/KNOWLEDGE-ENTRY.md`](templates/KNOWLEDGE-ENTRY.md) — knowledge base entry
+- [`templates/PROJECT-README.md`](templates/PROJECT-README.md) — project scope/acceptance/evidence
+- [`templates/RETROSPECTIVE.md`](templates/RETROSPECTIVE.md) — retrospective
+- [`artifacts/README.md`](artifacts/README.md) — naming, linking, reuse và sensitive-data rules
+
+Artifact tồn tại không tự động đồng nghĩa PASS. Lesson vẫn cần Concept + Example + Quiz ≥80% + Practice + Explain-back; project/lab/gate cần acceptance criteria riêng.
 
 ## Hybrid execution
 
-Roadmap không phải tuyến tính tuyệt đối.
+Roadmap không phải tuyến tính tuyệt đối. Knowledge spine đi theo prerequisite; execution loops đã mở khóa tiếp tục chạy song song trong cùng weekly capacity.
 
-```text
-Knowledge spine
-→ học theo prerequisite
-
-Execution loops
-→ sau khi được mở khóa thì tiếp tục chạy song song
-```
-
-Các loop chính gồm:
-
-- Compliance & Platform Watch
-- Market / Customer / Product Watch
-- Real Content Production
-- Traffic Distribution
-- Funnel / Revenue / Data Capture
-- Formal Experiments
-- Bot / Automation
-- AI-assisted Workflow
-
-Ví dụ: Part 9 mở content production; Part 10 thêm traffic nhưng **không dừng content**; Part 11 thêm funnel measurement nhưng **content + traffic vẫn tiếp tục**.
-
-Parallel execution không làm tăng capacity vô hạn. Tất cả activity phải nằm trong 9h/tuần của Standard hoặc 11–12h/tuần của Accelerated. Xem [Hybrid Execution Model](docs/EXECUTION-MODEL.md) để biết dependency map cho 23 Part và điểm mở khóa từng loop.
+Xem [Hybrid Execution Model](docs/EXECUTION-MODEL.md).
 
 ## Source traceability
 
-Mọi lesson có canonical mapping về `SYLLABUS-v2026.08.md` theo ID; `Noi-dung-dao-tao.txt` và `Nghien-cuu.txt` chỉ được gắn khi thực sự hỗ trợ scope.
+`SYLLABUS-v2026.08.md` là nguồn cấu trúc chuẩn; training/research files là supplement. Không tạo source mapping giả khi nguồn không hỗ trợ claim.
 
-```text
-STRUCTURE: SYLLABUS
-PACING: current 15/12-month plans
-EXECUTION: EXECUTION-MODEL
-PRACTICE / RATIONALE: training + research supplements
-```
-
-Không tạo source mapping giả cho chapter/lesson mà nguồn supplement không đề cập. Xem [SOURCE-MAPPING.md](docs/SOURCE-MAPPING.md) để tra toàn bộ 23 Part / 89 Chapter và quy ước `source_refs`.
+Xem [SOURCE-MAPPING.md](docs/SOURCE-MAPPING.md).
 
 ## Lesson authoring standard
 
-Lesson mới phải được viết từ [`templates/LESSON.md`](templates/LESSON.md), không dùng `LESSON-NOTES.md` làm authoring template.
+Lesson mới phải được viết từ [`templates/LESSON.md`](templates/LESSON.md). `status: planned|draft|ready` là authoring status, không phải learner PASS state.
 
-Mỗi authored lesson có metadata tối thiểu:
+Lesson `ready` phải có answer key hoặc scoring rubric, artifact rõ ràng và external verification khi có claim hiện hành về platform/legal/tax/policy/API.
 
-```yaml
-lesson_id: "X.Y"
-effort: M
-estimated_minutes: 60
-status: planned
-prerequisites: []
-source_refs:
-  canonical:
-    - "S:PX/CY/LX.Y"
-```
-
-Authoring status:
-
-- `planned` — scaffold/chưa đủ nội dung;
-- `draft` — đã viết nhưng chưa đạt Definition of Done;
-- `ready` — nội dung đã đủ để học theo PASS cycle.
-
-`ready` **không có nghĩa người học đã PASS**. Lesson chỉ được xem là learner-complete khi đủ Concept + Example + Quiz ≥80% + Practice artifact + Explain-back.
-
-Lesson `ready` bắt buộc có answer key hoặc scoring rubric, artifact rõ ràng và external verification khi có claim hiện hành về platform/legal/tax/policy/API. Xem [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md).
+Xem [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md).
 
 ## Effort-aware planning
 
-Không coi 671 checkbox là 671 đơn vị workload bằng nhau.
+- **S:** 15–30 phút
+- **M:** 45–75 phút
+- **L:** 1.5–3 giờ
+- **XL:** Lab/Project/Pass Gate integration
 
-Mỗi lesson được ước lượng theo **thời gian cần để PASS**:
-
-- **S — Small:** 15–30 phút
-- **M — Medium:** 45–75 phút
-- **L — Large:** 1.5–3 giờ
-- **XL — Integration Gate:** Lab/Project/Pass Gate, thường nhiều giờ hoặc nhiều buổi
-
-Xem [Effort Model S/M/L/XL](docs/EFFORT-MODEL.md) để biết rule gán effort, baseline workload theo Part và cách calibration bằng actual time.
-
-Core workload baseline cho Phần 0–19 + 21 hiện khoảng **509 giờ lesson + integration** ở midpoint planning. Standard 15 tháng dành thêm capacity cho weekly review/retry; Accelerated 12 tháng cần capacity cao hơn và không được giảm PASS criteria để kịp lịch.
+Xem [Effort Model](docs/EFFORT-MODEL.md).
 
 ## Nguyên tắc vận hành
 
@@ -116,26 +76,22 @@ Core workload baseline cho Phần 0–19 + 21 hiện khoảng **509 giờ lesson
 LEARN → EXPLAIN → APPLY → TEST → PASS
 ```
 
-- 30% Learn, 70% Do.
 - Data > Opinion.
 - Expected Value > Commission Rate.
 - Không automate thứ chưa hiểu bằng tay.
-- Bot hỗ trợ quyết định; không spam, tạo tương tác giả hoặc né policy.
 - Timeline là forecast; PASS evidence mới là gate.
-- Mỗi thời điểm chỉ có một **primary knowledge focus**, nhưng có thể có nhiều execution loop đã mở khóa.
-- Source mapping phải trung thực: không có source support thì ghi rõ không có.
-- File lesson tồn tại không đồng nghĩa lesson đã authored xong; authored status phải rõ ràng.
+- Reuse artifact bằng link; không double-count effort.
 
 ## Tài liệu
 
-- [Roadmap theo từng phần/chương/bài](ROADMAP.md)
+- [Roadmap](ROADMAP.md)
 - [Hybrid Execution Model](docs/EXECUTION-MODEL.md)
-- [Source-to-Roadmap Traceability Map](docs/SOURCE-MAPPING.md)
+- [Source Mapping](docs/SOURCE-MAPPING.md)
 - [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md)
-- [Canonical Lesson Template](templates/LESSON.md)
-- [Effort Model S/M/L/XL](docs/EFFORT-MODEL.md)
-- [Kế hoạch chuẩn 15 tháng](docs/15-MONTH-PLAN.md)
-- [Kế hoạch tăng tốc 12 tháng](docs/12-MONTH-PLAN.md)
-- [Hệ thống 14 project](docs/PROJECTS.md)
-- [Tiêu chí PASS](docs/PASS-CRITERIA.md)
+- [Effort Model](docs/EFFORT-MODEL.md)
+- [15-Month Standard](docs/15-MONTH-PLAN.md)
+- [12-Month Accelerated](docs/12-MONTH-PLAN.md)
+- [14 Projects + Labs/Pass Gates](docs/PROJECTS.md)
+- [PASS Criteria](docs/PASS-CRITERIA.md)
+- [Artifact conventions](artifacts/README.md)
 - [Tài liệu nguồn](sources/README.md)
