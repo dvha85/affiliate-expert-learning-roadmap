@@ -1,57 +1,60 @@
-# Build-First Calibration
+# Hiệu chỉnh Build-First
 
-> M00–M05 là calibration cohort đầu tiên. Không giảm/tăng toàn bộ workload model chỉ từ cảm giác rằng Build-First nhanh hơn hay chậm hơn.
+> M00–M05 là calibration cohort (nhóm hiệu chỉnh) đầu tiên. Không giảm/tăng toàn bộ workload model (mô hình khối lượng học) chỉ từ cảm giác rằng Build-First nhanh hơn hay chậm hơn.
 
-## Why
+## Vì sao cần hiệu chỉnh bằng dữ liệu
 
-Current v2026.09 planning baseline is approximately:
+Planning baseline (mốc kế hoạch) hiện tại của v2026.09 xấp xỉ:
 
 ```text
-lesson/evidence midpoint ≈ 489h
-incremental integration ≈ 30–31h
-total planning envelope ≈ 520h
+lesson/evidence midpoint      ≈ 489h
+incremental integration       ≈ 30–31h
+total planning envelope       ≈ 520h
 ```
 
-Build-First may reduce double work because code can simultaneously serve as mission evidence, lesson practice evidence and later Project contribution. It may also add real debugging/operation time. Only actual learner data should determine the net effect.
+Build-First có thể giảm double work (làm trùng) vì cùng một code có thể đồng thời là Mission evidence, Lesson practice evidence và đóng góp cho Project về sau. Nhưng Build-First cũng có thể tăng thời gian debug/vận hành thật.
 
-## Per-Mission record
+Chỉ **actual learner data (dữ liệu thời gian thực tế của người học)** mới được dùng để quyết định net effect (tác động ròng).
 
-For M00–M05 record:
+## Dữ liệu cần ghi cho từng Mission
 
-| Field | Meaning |
+Với M00–M05, ghi:
+
+| Field (trường) | Ý nghĩa |
 |---|---|
-| `planned_hours` | mission estimate before execution |
-| `actual_build_hours` | coding/configuration/data work |
-| `actual_debug_hours` | diagnosing/fixing failures |
-| `actual_operate_hours` | running/observing the bot |
-| `actual_knowledge_hours` | required knowledge pull and explain-back |
-| `actual_retry_hours` | redo/review after failed PASS evidence |
+| `planned_hours` | số giờ ước tính trước khi làm Mission |
+| `actual_build_hours` | thời gian coding/configuration/data work |
+| `actual_debug_hours` | thời gian chẩn đoán/sửa lỗi |
+| `actual_operate_hours` | thời gian chạy và quan sát Bot |
+| `actual_knowledge_hours` | thời gian pull required knowledge + explain-back |
+| `actual_retry_hours` | thời gian làm lại/review sau evidence chưa đạt |
 | `result` | PASS / RETRY / BLOCKED / IN_PROGRESS |
 
-Total actual:
+Tổng actual time:
 
 ```text
 build + debug + operate + knowledge + retry
 ```
 
-Do not double-count the same time in multiple buckets.
+Không double-count (tính hai lần) cùng một khoảng thời gian vào nhiều bucket.
 
-## Reforecast rule
+## Quy tắc reforecast (dự báo lại)
 
-After M00–M05:
+Sau M00–M05:
 
-1. calculate median actual vs planned ratio;
-2. identify whether overruns came from learning, engineering setup, debugging or operation;
-3. compare mission evidence reused by lessons/projects vs duplicate work avoided;
-4. update only the remaining comparable scope;
-5. preserve PASS criteria and extend timeline when evidence requires it.
+1. tính median (trung vị) tỷ lệ actual/planned;
+2. xác định overrun (vượt kế hoạch) đến từ learning, engineering setup, debugging hay operation;
+3. so sánh evidence được reuse giữa Mission/Lesson/Project với phần duplicate work đã tránh được;
+4. chỉ re-estimate phần scope còn lại có tính chất tương tự;
+5. giữ nguyên PASS criteria và kéo dài timeline nếu evidence yêu cầu.
 
-## Timeline decision
+## Quyết định timeline
 
-Standard remains ~9h/week and Accelerated remains ~11–12h/week until evidence supports a revision.
+Standard vẫn khoảng 9h/tuần và Accelerated vẫn khoảng 11–12h/tuần cho tới khi dữ liệu thực tế đủ để thay đổi giả định.
 
 ```text
 DATA > OPINION
+(Dữ liệu > Ý kiến)
 ```
 
-Calendar dates are forecasts; evidence is the gate.
+Calendar date (mốc lịch) chỉ là forecast; evidence mới là gate.

@@ -1,41 +1,49 @@
-# Mission PASS Criteria
+# Tiêu chí Mission PASS
 
-Mission PASS is product/evidence progress, separate from canonical lesson PASS.
+Mission PASS phản ánh **product/evidence progress (tiến độ sản phẩm/bằng chứng)** và độc lập với canonical Lesson PASS.
 
-## Base criteria
+## Tiêu chí nền
 
-A Mission is PASS only when all relevant base criteria are satisfied:
+Một Mission chỉ PASS khi toàn bộ tiêu chí liên quan đã đạt:
 
-- [ ] **Feature works** — ship target behavior is demonstrable.
-- [ ] **Bot runs** — documented run path works for the mission scope.
-- [ ] **Tests pass** — required automated/manual checks pass.
-- [ ] **Data flows** — sample/real data reaches the intended output.
-- [ ] **Output is inspectable** — learner can show result, not merely claim completion.
-- [ ] **Failure case tested** — at least one explicit failure/invalid-input scenario is exercised.
-- [ ] **Required knowledge understood** — required mission knowledge is understood enough to justify the implementation/decision.
-- [ ] **Explain-back passes** — learner can explain why the solution works and key trade-offs.
-- [ ] **Evidence saved** — code/result/test evidence is linked or stored.
+- [ ] **Feature works (Tính năng chạy đúng)** — ship target có thể demo được.
+- [ ] **Bot runs (Bot chạy được)** — run path đã ghi trong Mission hoạt động đúng với scope.
+- [ ] **Tests pass (Kiểm thử đạt)** — automated/manual checks cần thiết đều đạt.
+- [ ] **Data flows (Dữ liệu đi qua đúng luồng)** — sample/real data đi tới output dự kiến khi Mission có data flow.
+- [ ] **Output is inspectable (Đầu ra kiểm tra được)** — learner có thể cho xem kết quả, không chỉ nói “đã xong”.
+- [ ] **Failure case tested (Đã thử tình huống lỗi)** — ít nhất một failure/invalid-input scenario phù hợp scope đã được thực hiện.
+- [ ] **Required knowledge understood (Hiểu kiến thức bắt buộc)** — learner hiểu **knowledge slice** đủ để giải thích implementation/quyết định của Mission.
+- [ ] **Explain-back passes (Giải thích lại đạt)** — learner giải thích được vì sao solution hoạt động và trade-off quan trọng.
+- [ ] **Evidence saved (Đã lưu bằng chứng)** — code/result/test evidence được link hoặc lưu lại.
 
-## Scope-dependent engineering criteria
+## Tiêu chí engineering theo scope
 
-Add when the mission actually introduces them:
+Chỉ thêm khi Mission thực sự đưa capability đó vào:
 
-- [ ] timeout/cancellation;
-- [ ] retry/backoff;
-- [ ] idempotency/deduplication;
-- [ ] persistence/recovery;
-- [ ] observability;
-- [ ] least privilege/secrets handling;
-- [ ] deterministic policy/risk;
-- [ ] Human Approval;
-- [ ] rollback/compensation/kill switch;
-- [ ] cost/resource checks.
+- [ ] timeout/cancellation (hết thời gian/hủy);
+- [ ] retry/backoff (thử lại/tăng thời gian chờ);
+- [ ] idempotency/deduplication (lặp an toàn/chống trùng);
+- [ ] persistence/recovery (lưu bền vững/phục hồi);
+- [ ] observability (khả năng quan sát);
+- [ ] least privilege/secrets handling (quyền tối thiểu/xử lý bí mật);
+- [ ] deterministic policy/risk (chính sách/rủi ro xác định);
+- [ ] Human Approval (phê duyệt con người);
+- [ ] rollback/compensation/kill switch (quay lui/bù lỗi/dừng khẩn cấp);
+- [ ] cost/resource checks (kiểm chi phí/tài nguyên).
 
-Do not force advanced controls onto M00 simply to satisfy a checklist. Criteria scale with actual side effects and failure modes.
+Không ép M00 phải có control nâng cao chỉ để “đủ checklist”. Criteria tăng theo side effect (tác động bên ngoài) và failure mode (kiểu lỗi) thật.
 
-## Knowledge PASS remains independent
+## Required knowledge không đồng nghĩa full Lesson PASS
 
-Mission PASS never writes canonical lesson PASS automatically.
+```text
+Mission required knowledge
+= hiểu phần kiến thức cần để build/giải thích Mission
+
+Full Lesson PASS
+= Concept + Example + Quiz + Practice artifact + Explain-back
+```
+
+Do đó:
 
 ```text
 Mission PASS
@@ -43,15 +51,19 @@ Mission PASS
 Lesson PASS
 ```
 
-A Mission may require enough knowledge to ship safely, while the learner may still need a deeper canonical lesson PASS cycle later. Conversely, lesson artifacts can be reused as mission evidence when they genuinely prove the same behavior.
+Mission không bao giờ tự ghi Lesson PASS. Một Mission có thể chỉ cần một slice của Lesson để ship an toàn, trong khi learner vẫn cần hoàn thành PASS cycle đầy đủ của Lesson đó về sau. Ngược lại, Lesson artifact có thể được reuse (tái sử dụng) làm Mission evidence khi thật sự chứng minh cùng yêu cầu.
 
-## Review decision
+## Learner workspace và reference
 
-Possible learner states:
+PASS phải dựa trên implementation/evidence mà learner thực sự build/hiểu trong learner workspace. Reference implementation chỉ dùng để đối chiếu hoặc gỡ blocker; copy reference không tự tạo Mission PASS.
 
-- `✅ PASS` — all required criteria satisfied.
-- `🟦 Awaiting Review` — implementation exists but evidence/explain-back still needs review.
-- `⛔ Blocked` — external prerequisite or unresolved technical/business blocker.
-- `🟨 In Progress` — active work remains.
+## Review decision (quyết định review)
 
-Do not lower PASS quality merely to hit a planned date.
+Các trạng thái learner:
+
+- `✅ PASS` — đủ tiêu chí bắt buộc.
+- `🟦 Awaiting Review (Chờ review)` — implementation có nhưng evidence/explain-back chưa review xong.
+- `⛔ Blocked (Bị chặn)` — có prerequisite bên ngoài hoặc blocker kỹ thuật/business chưa giải quyết.
+- `🟨 In Progress (Đang làm)` — còn công việc trong scope.
+
+Không hạ chất lượng PASS chỉ để đạt ngày kế hoạch.

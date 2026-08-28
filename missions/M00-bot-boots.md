@@ -1,6 +1,6 @@
 ---
 mission_id: "M00"
-title: "Bot Boots"
+title: "Khởi động Affiliate Bot"
 status: ready
 requires_missions: []
 bot_version_from: null
@@ -16,94 +16,179 @@ risk_scope:
   external_side_effects: false
 ---
 
-# Mission M00 — Bot Boots
+# Mission M00 — Khởi động Affiliate Bot
 
-## Ship Target
+## Ship Target — Mục tiêu bàn giao
 
-Chạy được Affiliate Bot bằng Go và nhận output trạng thái + sample product summary.
+Chạy được learner Affiliate Bot bằng Go, hiểu Bot hiện **chỉ khởi động**, thực hiện ít nhất một thay đổi nhỏ do chính bạn làm và lưu evidence (bằng chứng) đầu tiên.
 
-## Starting Bot State
+Expected capability (năng lực mong đợi) sau M00:
 
-Chưa có working bot.
-
-## Build First
-
-Dùng workspace `lab/affiliate-bot/`; đọc code nhỏ nhất trước khi học sâu Go.
-
-## Run
-
-```bash
-cd lab/affiliate-bot
-go run ./cmd/bot
+```text
+start
+→ print Bot version
+→ print Bot status
+→ exit cleanly
 ```
 
-Expected: bot start, load sample products, print count và exit cleanly.
+M00 **chưa** có Product, JSON ingest, database, ranking, AI hay external side effect.
 
-## Observe
+## Starting Bot State — Trạng thái Bot ban đầu
 
-Bạn chưa cần hiểu toàn bộ Go. Điều cần hiểu ngay là bot đang phục vụ business flow nào và boundary của Bot Engineer là gì.
+Learner workspace:
 
-## Knowledge Pull
+```text
+lab/learner/affiliate-bot/
+```
 
-### Required
+Repo cung cấp scaffold (khung tối giản) có thể compile/run để bạn không mất buổi đầu vào boilerplate. Trạng thái learner vẫn là `pre-v0.0` cho tới khi bạn chạy, sửa, test, giải thích và lưu evidence.
 
-- `0.1` — Affiliate Expert là gì?
-- `0.2` — Affiliate Bot Engineer là gì?
+Reference implementation (bản triển khai tham chiếu) nằm ở `lab/affiliate-bot/` và **không phải starting state** của M00.
 
-### On-demand
+## Build First — Xây trước
 
-- `package`, `func`, struct/slice ở mức đọc được code hiện tại.
+1. Mở `lab/learner/affiliate-bot/cmd/bot/main.go`.
+2. Đọc vừa đủ để nhận ra `package`, `func` và chuỗi output.
+3. Chạy Bot trước khi học sâu Go.
+4. Tự thêm một dòng output có ý nghĩa, ví dụ `Learner mission: M00`, rồi cập nhật test tương ứng.
 
-### Reference
+Không mở reference v0.3 trước khi đã có attempt (lần thử) trừ khi có blocker thật.
 
-- Part 15 formal Go/Bot Engineering mastery để sau.
+## Run — Chạy
 
-## Improve
+```bash
+cd lab/learner/affiliate-bot
+go run ./cmd/bot
+go test ./...
+```
 
-Đổi message/status nhỏ hoặc thêm một sample product, chạy lại và quan sát output.
+Expected baseline output:
 
-## Tests
+```text
+Affiliate Bot starting...
+Bot version: v0.0
+Bot status: OK
+```
+
+Sau thay đổi của learner, output phải có thêm/đổi phần bạn chủ động thực hiện và test vẫn PASS.
+
+## Observe — Quan sát
+
+Bot hiện chưa làm Affiliate business logic. Đây là chủ ý: bạn cần thấy ranh giới giữa **một process chạy được** và **một Affiliate Bot có business capability**.
+
+Câu hỏi quan sát:
+
+- Bot hiện biết gì về Product? → chưa biết.
+- Bot đã ra Decision (quyết định) nào? → chưa.
+- Bot có external side effect (tác động bên ngoài) không? → không.
+- Vậy vì sao vẫn đáng build M00? → để có executable learning loop (vòng học bằng chương trình chạy thật) từ ngày đầu.
+
+## Knowledge Pull — Lấy kiến thức đúng lúc
+
+### Required — Bắt buộc cho Mission
+
+`0.1 — Affiliate Expert là gì?`
+
+Chỉ cần slice (phần) này cho M00:
+
+- Affiliate là một business system, không chỉ là link;
+- Affiliate Expert phải hiểu vì sao một quyết định tạo giá trị;
+- không automate hoạt động kinh doanh thật khi chưa hiểu logic bên dưới.
+
+`0.2 — Affiliate Bot Engineer là gì?`
+
+Chỉ cần slice này cho M00:
+
+- Bot Engineer biến business logic thành software có thể chạy/đo/kiểm soát;
+- deterministic logic (logic xác định) trước AI autonomy;
+- Decision (quyết định) ≠ Execution (thực thi).
+
+> **Không yêu cầu full PASS 0.1 và 0.2 trước khi chạy M00.** Full Lesson PASS được đánh giá độc lập.
+
+### On-demand — Khi phát sinh nhu cầu
+
+- `package`, `func`, slice và test syntax ở mức đủ đọc/sửa code hiện tại.
+
+### Reference — Tham khảo
+
+- Part 15 là formal Go/Bot Engineering mastery; để sau.
+
+## Improve — Cải tiến
+
+Thực hiện một thay đổi nhỏ nhưng có chủ ý trong learner workspace, ví dụ:
+
+```text
+Learner mission: M00
+```
+
+Sau đó sửa test để behavior mới được kiểm soát.
+
+Mục tiêu không phải code nhiều; mục tiêu là hoàn thành một vòng:
+
+```text
+edit → run → test → observe → explain
+```
+
+## Tests — Kiểm thử
 
 ```bash
 go test ./...
 ```
 
-## Operate
+Test phải bảo vệ ít nhất Bot Version và Bot Status.
 
-Run bot nhiều lần; output phải deterministic với cùng sample data.
+## Operate — Vận hành
 
-## Failure Case
+Chạy Bot nhiều lần. Với cùng code, output phải deterministic (xác định, lặp lại được).
 
-Đổi data path sang file không tồn tại; bot phải trả lỗi rõ ràng và exit non-success thay vì panic mơ hồ.
+## Failure Case — Tình huống lỗi
 
-## Evidence
+Tạm thời đổi một expected value trong `main_test.go` để test thất bại, chạy:
 
-Lưu command, output, code path/commit và note bạn hiểu bot hiện làm gì/chưa làm gì.
-
-## Explain-back
-
-1. Affiliate Bot hiện tại tự động hóa phần nào?
-2. Vì sao M00 chưa cần AI/Agent?
-3. Khác nhau giữa dùng Go sớm và mastery Part 15 là gì?
-
-## Mission PASS
-
-- [ ] feature works
-- [ ] bot runs
-- [ ] tests pass
-- [ ] sample data flows
-- [ ] output inspectable
-- [ ] missing-file failure case understood/tested
-- [ ] required knowledge understood
-- [ ] explain-back passes
-- [ ] evidence saved
-
-## Bot Version Result
-
-```text
-no bot → v0.0 runnable Go bot
+```bash
+go test ./...
 ```
 
-## Next Mission
+Quan sát failure message, sau đó khôi phục test đúng và chạy lại tới PASS.
 
-M01 — Product Ingest.
+Failure exercise này giúp bạn chứng minh test thật sự phát hiện sai lệch, thay vì chỉ tồn tại cho đẹp.
+
+## Evidence — Bằng chứng
+
+Lưu dưới `artifacts/missions/M00/` hoặc link tương đương:
+
+- command đã chạy;
+- output trước/sau thay đổi;
+- test PASS cuối cùng;
+- một failure output đã quan sát;
+- code path/learner commit;
+- note ngắn: Bot hiện làm gì và chưa làm gì.
+
+## Explain-back — Giải thích lại
+
+1. Tại sao một chương trình chỉ in status vẫn hữu ích cho M00?
+2. Affiliate Bot hiện tại đã tự động hóa business decision nào chưa?
+3. Vì sao M00 chưa cần AI/Agent?
+4. `USE GO EARLY` khác `CLAIM GO MASTERY EARLY` như thế nào?
+5. Vì sao `BUILD CODE EARLY ≠ AUTOMATE REAL BUSINESS EARLY`?
+
+## Mission PASS — Tiêu chí PASS
+
+- [ ] learner Bot chạy được
+- [ ] bạn đã tự sửa ít nhất một behavior nhỏ
+- [ ] tests PASS sau thay đổi
+- [ ] output kiểm tra được
+- [ ] đã quan sát ít nhất một test failure và khôi phục về PASS
+- [ ] hiểu knowledge slice bắt buộc của 0.1 và 0.2
+- [ ] explain-back đạt
+- [ ] evidence đã lưu
+
+## Bot Version Result — Kết quả phiên bản Bot
+
+```text
+pre-v0.0 learner state → v0.0 learner Bot có thể chạy/test/giải thích
+```
+
+## Next Mission — Mission tiếp theo
+
+M01 — Product Ingest (Đọc và kiểm tra dữ liệu sản phẩm).

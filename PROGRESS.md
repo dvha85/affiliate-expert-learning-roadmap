@@ -1,48 +1,50 @@
-# Progress Dashboard
+# Bảng tiến độ
 
-> Review cố định: **12:00 Chủ nhật**. Build-First theo dõi **product progress** và **knowledge progress** riêng biệt.
+> Review cố định: **12:00 Chủ nhật**. Build-First theo dõi **product progress (tiến độ sản phẩm)** và **knowledge progress (tiến độ kiến thức)** độc lập.
 
-## Build Progress
+## Tiến độ Build
 
 | Trường | Giá trị |
 |---|---|
-| Curriculum revision | `v2026.09` active canonical |
-| Learning mode | Build-First v1 |
-| Primary engineering track | Go-first Bot Engineering |
-| Current Mission | **M00 — Bot Boots** |
+| Curriculum revision (phiên bản curriculum) | `v2026.09` active canonical |
+| Learning mode (cách học) | Build-First v1 |
+| Primary engineering track (nhánh kỹ thuật chính) | Go-first Bot Engineering |
+| Current Mission (Mission hiện tại) | **M00 — Khởi động Affiliate Bot** |
 | Mission authoring status | `ready` |
 | Learner Mission status | ⬜ Chưa PASS |
-| Bot version | `pre-v0.0` — repo có reference implementation; learner chưa ship M00 evidence |
+| Learner Bot version | `pre-v0.0` — chưa có evidence M00 của learner |
+| Learner workspace | `lab/learner/affiliate-bot/` |
+| Reference implementation | `lab/affiliate-bot/` — reference v0.3, không phải starting state |
 | Current build state | Chưa bắt đầu learner execution |
 | Latest learner working commit | — |
 | Current blocker | — |
 | Weekly capacity | 0 / 9 giờ |
-| Next build action | Mở `missions/M00-bot-boots.md`, chạy bot và lưu evidence đầu tiên |
+| Next build action | Mở `missions/M00-bot-boots.md`, chạy learner Bot, tự sửa một behavior nhỏ và lưu evidence đầu tiên |
 
-> Repo đã có bootstrap implementation để học và sửa. Điều đó **không** có nghĩa learner đã PASS M00. Bot version trong bảng là learner product state, không phải repository reference state.
+> Reference implementation tồn tại để review/gỡ blocker. Nó **không** có nghĩa learner đã PASS M00–M03 và không được dùng làm starting state của learner.
 
-## Knowledge Progress
+## Tiến độ kiến thức
 
 | Trường | Giá trị |
 |---|---|
 | Knowledge Part context | Part 0 |
-| Current required knowledge | `0.1`, `0.2` cho M00 |
+| Current required knowledge slices | `0.1`, `0.2` cho M00 — chỉ phần cần để hiểu business/Bot boundary |
 | 0.1 — Affiliate Expert là gì? | ⬜ Chưa PASS |
 | 0.2 — Affiliate Bot Engineer là gì? | ⬜ Chưa PASS |
 | Knowledge artifacts/evidence | — |
 
-Lesson PASS vẫn theo [`docs/PASS-CRITERIA.md`](docs/PASS-CRITERIA.md). Mission PASS không tự động tick lesson checkbox.
+Mission chỉ yêu cầu knowledge slice đủ cho implementation. Full Lesson PASS vẫn theo [`docs/PASS-CRITERIA.md`](docs/PASS-CRITERIA.md). Mission PASS không tự động tick Lesson checkbox.
 
-## Mission Progress
+## Tiến độ Mission
 
 | Mission | Target version | Learner status |
 |---|---:|---|
-| M00 — Bot Boots | v0.0 | ⬜ |
-| M01 — Product Ingest | v0.1 | ⬜ |
-| M02 — Product Store & History | v0.2 | ⬜ |
-| M03 — First Product Ranking | v0.3 | ⬜ |
-| M04 — Product Watcher | v0.4 | ⬜ |
-| M05 — Reliable Alerts | v0.5 | ⬜ |
+| M00 — Khởi động Affiliate Bot | v0.0 | ⬜ |
+| M01 — Product Ingest (Đọc dữ liệu sản phẩm) | v0.1 | ⬜ |
+| M02 — Product Store & History (Lưu trữ + lịch sử) | v0.2 | ⬜ |
+| M03 — First Product Ranking (Xếp hạng đầu tiên) | v0.3 | ⬜ |
+| M04 — Product Watcher (Theo dõi sản phẩm) | v0.4 | ⬜ |
+| M05 — Reliable Alerts (Cảnh báo đáng tin cậy) | v0.5 | ⬜ |
 | M06 — Product Intelligence | v1.0 | ⬜ |
 | M07 — Content Intelligence | v2.0 | ⬜ |
 | M08 — Revenue & Attribution Intelligence | v3.0 | ⬜ |
@@ -54,48 +56,49 @@ Lesson PASS vẫn theo [`docs/PASS-CRITERIA.md`](docs/PASS-CRITERIA.md). Mission
 | M14 — Production Bot | v9.0 | ⬜ |
 | M15 — Affiliate Intelligence Platform | v10.0 | ⬜ |
 
-M04–M15 hiện là roadmap targets; chỉ M00–M03 đã được author `ready` ở `missions/`.
+M04–M15 hiện là roadmap targets; chỉ M00–M03 đã được author `ready` trong `missions/`.
 
-## Weekly Build-First Review
+## Review Build-First hằng tuần
 
 Trả lời theo evidence, không theo cảm giác:
 
-1. **What shipped?** Bot/feature/version nào thực sự chạy được?
-2. **What ran?** Command/workflow nào đã execute?
-3. **What failed?** Failure case, bug hoặc assumption nào lộ ra?
-4. **What was measured?** Output/metric/log nào có thể inspect?
-5. **What knowledge did the failure reveal?** Lesson/concept nào cần pull?
-6. **What improved?** Code, logic, data model hoặc decision rule nào đã thay đổi?
-7. **What is the next smallest shippable action?**
+1. **Đã ship gì?** Bot/feature/version nào thực sự chạy được?
+2. **Đã chạy gì?** Command/workflow nào đã execute?
+3. **Đã lỗi gì?** Failure case, bug hoặc assumption nào lộ ra?
+4. **Đã đo gì?** Output/metric/log nào inspect được?
+5. **Lỗi làm lộ kiến thức thiếu nào?** Lesson/concept nào cần pull?
+6. **Đã cải tiến gì?** Code, logic, data model hoặc decision rule nào thay đổi?
+7. **Bước nhỏ nhất tiếp theo có thể ship là gì?**
 
 Checklist:
 
 - [ ] cập nhật learner Mission status;
-- [ ] chỉ cập nhật lesson checkbox khi đạt lesson PASS evidence;
+- [ ] chỉ cập nhật Lesson checkbox khi đạt Lesson PASS evidence;
 - [ ] liên kết Mission evidence dưới `artifacts/missions/`;
 - [ ] ghi latest learner working commit nếu có;
 - [ ] cập nhật blocker;
-- [ ] cập nhật calibration actual hours cho active Mission;
-- [ ] review experiment/revenue/knowledge logs nếu relevant;
-- [ ] giữ tổng effort trong weekly capacity.
+- [ ] cập nhật calibration actual hours cho Mission hiện tại;
+- [ ] review experiment/revenue/knowledge logs khi liên quan;
+- [ ] giữ tổng effort trong weekly capacity;
+- [ ] không copy reference implementation để thay thế learner evidence.
 
-## Calibration — M00 to M05
+## Calibration (hiệu chỉnh) — M00 đến M05
 
-M00–M05 là calibration cohort đầu tiên. Mỗi mission ghi:
+M00–M05 là calibration cohort (nhóm hiệu chỉnh) đầu tiên. Mỗi Mission ghi:
 
 ```text
-planned_hours
-actual_build_hours
-actual_debug_hours
-actual_operate_hours
-actual_knowledge_hours
-actual_retry_hours
-result
+planned_hours                 giờ kế hoạch
+actual_build_hours            giờ build
+actual_debug_hours            giờ debug
+actual_operate_hours          giờ vận hành
+actual_knowledge_hours        giờ học kiến thức cần thiết
+actual_retry_hours            giờ làm lại/review lại
+result                        PASS / RETRY / BLOCKED / IN_PROGRESS
 ```
 
 Dùng [`docs/BUILD-FIRST-CALIBRATION.md`](docs/BUILD-FIRST-CALIBRATION.md). Chưa thay planning baseline ~520h nếu chưa có actual learner data.
 
-## Templates / evidence
+## Templates / Evidence (mẫu / bằng chứng)
 
 - [Mission Template](templates/MISSION.md)
 - [Mission PASS](docs/MISSION-PASS-CRITERIA.md)
@@ -109,6 +112,6 @@ Dùng [`docs/BUILD-FIRST-CALIBRATION.md`](docs/BUILD-FIRST-CALIBRATION.md). Chư
 
 ## Nhật ký tuần
 
-| Tuần | Giờ | Mission | Bot version | Lesson PASS | Kết quả chính | Next build |
+| Tuần | Giờ | Mission | Learner Bot version | Lesson PASS | Kết quả chính | Next build |
 |---|---:|---|---|---:|---|---|
-| 1 | 0 | M00 ⬜ | pre-v0.0 | 0 | — | Run M00 bootstrap bot |
+| 1 | 0 | M00 ⬜ | pre-v0.0 | 0 | — | Run learner M00 Bot, tự sửa behavior nhỏ, test và lưu evidence |
