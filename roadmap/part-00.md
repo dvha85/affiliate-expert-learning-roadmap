@@ -12,8 +12,8 @@
 
 ### Chương 0 — Khởi động chương trình
 
-- [ ] **0.1** — [Affiliate Expert là gì?](../lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md) — authored `ready`, learner chưa PASS
-- [ ] **0.2** — Affiliate Bot Engineer là gì? — scaffold `planned`, chưa authored
+- [ ] **0.1** — [Affiliate Expert là gì?](../lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md)
+- [ ] **0.2** — Affiliate Bot Engineer là gì?
 - [ ] **0.3** — Affiliate Intelligence là gì?
 - [ ] **0.4** — Affiliate Bot có thể và không thể làm gì?
 - [ ] **0.5** — Vì sao không nên bắt đầu bằng automation?
@@ -25,7 +25,7 @@
 - [ ] **0.11** — Revenue Journal
 - [ ] **0.12** — Baseline Assessment
 
-> `lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md` tồn tại để test scaffolder ở Issue #7 nhưng vẫn là `status: planned`; vì vậy roadmap cố ý chưa link tới file đó.
+> **Authoring snapshot:** 0.1 = `ready` nhưng learner vẫn chưa PASS; 0.2 = scaffold `planned`, chưa authored. File `lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md` tồn tại để test scaffolder ở Issue #7 nên roadmap cố ý chưa link tới file đó.
 
 ## Cổng thực hành
 
