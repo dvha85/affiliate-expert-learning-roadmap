@@ -1,6 +1,6 @@
 # Phần 14 — EXPERIMENTATION & STATISTICS
 
-- Lịch đề xuất: **Tháng 7**
+- Timeline: **Standard M9 · Accelerated M7** — forecast; PASS evidence mới là gate.
 - Quy mô: **4 chương / 28 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -45,6 +45,8 @@
 - [ ] **49.3** — Result, Decision và Learning
 - [ ] **49.4** — Experiment database và workflow
 - [ ] **49.5** — Vận hành backlog thí nghiệm
+
+> **2026 freshness note:** platform/search algorithms và creator-quality systems thay đổi trong lúc experiment chạy có thể là confounder. Experiment log nên ghi platform/policy/version context và kiểm tra external shocks trước khi kết luận causal story.
 
 ## Cổng thực hành
 
