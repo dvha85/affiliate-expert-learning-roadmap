@@ -1,46 +1,47 @@
-# Agent Security and Tool Governance
+# Agent Security and Tool Governance — Bảo mật Agent và quản trị công cụ
 
-> Security standard for tool-using Affiliate Bots and AI agents.
+> Security standard (chuẩn bảo mật) cho Affiliate Bot và AI Agent có khả năng gọi tool (công cụ).
 
-> **Beginner reader guide / Hướng dẫn cho người mới:** tài liệu này giữ English terminology làm chuẩn kỹ thuật. Tra [`GLOSSARY-VI.md`](GLOSSARY-VI.md) khi cần. Các từ trọng tâm: **Untrusted Input (Đầu vào không được tin cậy mặc định)**, **Threat Model (Mô hình đe dọa)**, **Prompt Injection (Tấn công/chỉ dẫn tiêm vào prompt)**, **Trust Boundary (Ranh giới tin cậy)**, **Tool Governance (Quản trị công cụ)**, **Side Effect (Tác động bên ngoài)**, **Least Privilege (Quyền tối thiểu cần thiết)**, **Allowlist (Danh sách cho phép)**, **Credential Scope (Phạm vi quyền credential)**, **Sandbox (Môi trường cô lập)**, **Audit Trace (Dấu vết kiểm tra)**, **Kill Switch (Công tắc dừng khẩn cấp)**.
+Tiếng Việt là ngôn ngữ chính. English terminology và code/entity identifiers được giữ khi cần độ chính xác kỹ thuật. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
-## 1. Core principle
+## 1. Core principle — Nguyên tắc cốt lõi
 
 ```text
 MODEL OUTPUT IS UNTRUSTED INPUT
+(ĐẦU RA MÔ HÌNH LÀ ĐẦU VÀO KHÔNG ĐƯỢC TIN CẬY MẶC ĐỊNH)
 ```
 
-Diễn giải cho người mới:
+Nói cách khác:
 
 ```text
-Đầu ra mô hình
+Model output (đầu ra mô hình)
 ≠
-Quyền thực thi
+Execution permission (quyền thực thi)
 ```
 
-An LLM may recommend an action, but production authorization must come from explicit system policy and permissions.
+LLM có thể recommend (đề xuất) action, nhưng production authorization (quyền thực thi trong production) phải đến từ explicit system policy + permission (chính sách và quyền rõ ràng của hệ thống).
 
-## 2. Threat model
+## 2. Threat Model — Mô hình đe dọa
 
-Affiliate agents may read untrusted content from:
+Affiliate Agent có thể đọc untrusted content (nội dung không đáng tin mặc định) từ:
 
-- product descriptions;
-- seller pages;
-- websites;
-- reviews/comments;
-- emails/messages;
-- uploaded files;
-- API responses;
-- RAG documents;
-- MCP resources/tools.
+- Product description;
+- Seller page;
+- website;
+- review/comment;
+- email/message;
+- uploaded file;
+- API response;
+- RAG document;
+- MCP resource/tool metadata.
 
-That content may contain malicious or misleading instructions intended to change agent behavior.
+Nội dung này có thể chứa malicious/misleading instructions (chỉ dẫn độc hại/gây hiểu sai) nhằm thay đổi behavior của Agent.
 
-Treat prompt injection similarly to hostile input crossing a trust boundary.
+Prompt Injection (tấn công/chỉ dẫn tiêm vào prompt) phải được xử lý giống hostile input (đầu vào thù địch) đi qua Trust Boundary (ranh giới tin cậy), không phải chỉ là lỗi viết prompt.
 
-## 3. Tool categories
+## 3. Tool categories — Phân loại công cụ
 
-Every tool should declare:
+Mỗi tool phải khai báo tối thiểu:
 
 ```text
 name
@@ -57,139 +58,137 @@ approval requirement
 audit fields
 ```
 
-Recommended categories:
+### READ_ONLY (Chỉ đọc)
 
-### READ_ONLY
+Ví dụ:
 
-Examples:
+- lấy Product metadata;
+- đọc Analytics;
+- xem current policy snapshot.
 
-- fetch product metadata;
-- read analytics;
-- inspect current policy snapshot.
+### INTERNAL_WRITE (Ghi nội bộ)
 
-### INTERNAL_WRITE
+Ví dụ:
 
-Examples:
+- cập nhật internal ranking;
+- lưu draft;
+- ghi experiment result.
 
-- update internal ranking;
-- save draft;
-- write experiment result.
+### EXTERNAL_SIDE_EFFECT (Tác động bên ngoài)
 
-### EXTERNAL_SIDE_EFFECT
-
-Examples:
+Ví dụ:
 
 - publish;
-- send message;
-- alter account configuration;
+- gửi message;
+- thay account configuration;
 - spend money.
 
-External side-effect tools should default to stricter policy and approval.
+Tool có external side effect phải mặc định có policy/risk/approval chặt hơn.
 
-## 4. Least privilege
+## 4. Least Privilege — Quyền tối thiểu cần thiết
 
-Do not give one agent a universal credential when separate capabilities can be scoped.
+Không cấp một universal credential (credential toàn quyền) cho Agent khi capability có thể tách scope.
 
-Prefer:
+Ưu tiên:
 
 ```text
-collector credential → read scope
-publisher credential → publish scope
-billing credential → isolated high-risk scope
+collector credential → read scope (quyền đọc)
+publisher credential → publish scope (quyền xuất bản)
+billing credential   → isolated high-risk scope (quyền rủi ro cao tách biệt)
 ```
 
-Tool access should be granted per workflow/role, not merely because a tool exists in the registry.
+Tool access phải được cấp theo workflow/role, không chỉ vì tool tồn tại trong registry.
 
-## 5. Prompt injection boundary
+## 5. Prompt Injection Boundary — Ranh giới chống Prompt Injection
 
-Never treat retrieved content as system-level instructions.
+Không coi retrieved content (nội dung truy xuất) là system-level instruction.
 
-Preferred architecture:
+Kiến trúc ưu tiên:
 
 ```text
-UNTRUSTED CONTENT
-→ parser/normalizer
+UNTRUSTED CONTENT (Nội dung không tin cậy)
+→ parser / normalizer
 → data model
 → model reasoning context
 → proposed ActionIntent
 → policy engine
 → permission check
-→ approval if required
+→ approval nếu cần
 → tool execution
 ```
 
-Important defenses:
+Control quan trọng:
 
-- separate instructions from data;
-- minimize unnecessary context;
-- restrict tool set per task;
+- tách instruction và data;
+- chỉ đưa context cần thiết;
+- giới hạn tool set theo task;
 - validate tool arguments;
-- deny unknown fields/targets when practical;
-- use allowlists for sensitive destinations;
-- prevent retrieved text from changing authorization policy;
-- require deterministic approval for consequential side effects.
+- reject unknown field/target khi phù hợp;
+- dùng allowlist (danh sách cho phép) cho sensitive destination;
+- không cho retrieved text thay authorization policy;
+- consequential side effect phải qua deterministic policy/approval.
 
-## 6. Tool misuse controls
+## 6. Tool Misuse Controls — Kiểm soát lạm dụng công cụ
 
-Before a side-effecting tool call, verify:
+Trước side-effecting tool call, xác minh:
 
-1. Is this tool allowed for this workflow?
-2. Is the requested target allowed?
-3. Are arguments schema-valid?
-4. Is the action within risk/policy limits?
-5. Is approval required and still valid?
-6. Has the action already been executed?
-7. Is the current context fresh enough?
+1. Tool này có được phép trong workflow hiện tại không?
+2. Target (đích) được yêu cầu có nằm trong phạm vi cho phép không?
+3. Arguments có đúng schema không?
+4. Action có nằm trong risk/policy limit không?
+5. Approval có bắt buộc không và nếu có thì còn valid không?
+6. Action đã execute trước đó chưa?
+7. Current context có đủ fresh (mới) để thực thi không?
 
-## 7. MCP governance
+## 7. MCP Governance — Quản trị MCP
 
-MCP improves interoperability but does not make every tool trustworthy.
+MCP tăng interoperability (khả năng liên thông) nhưng **không làm mọi tool trở nên đáng tin**.
 
-For MCP servers/clients:
+Với MCP server/client:
 
 - verify server origin/configuration;
-- limit exposed tools/resources;
-- treat remote descriptions/results as untrusted data;
-- scope credentials;
-- apply the same risk/approval policy as native tools;
-- record server/tool identity and protocol/runtime metadata in audit traces when relevant;
-- review protocol/security changes through the freshness process.
+- giới hạn exposed tools/resources;
+- coi remote description/result là untrusted data;
+- scope credential;
+- áp dụng cùng risk/approval policy như native tool;
+- ghi server/tool identity và protocol/runtime metadata vào audit trace khi liên quan;
+- review protocol/security change qua freshness process.
 
-## 8. Generated code / command execution
+## 8. Generated Code / Command Execution — Chạy code/lệnh do model sinh
 
-Do not allow an agent to execute arbitrary generated shell/code in a privileged production environment.
+Không cho Agent chạy arbitrary generated shell/code (lệnh/code tùy ý do model sinh) trong privileged production environment.
 
-If code execution is required:
+Nếu thật sự cần code execution:
 
-- isolate/sandbox it;
-- limit filesystem/network/credential access;
-- use time/resource limits;
-- separate read-only analysis from production writes;
-- require approval for consequential outputs.
+- isolate/sandbox (cô lập);
+- giới hạn filesystem/network/credential access;
+- đặt time/resource limits;
+- tách read-only analysis và production writes;
+- yêu cầu approval cho consequential output/action.
 
-## 9. Secrets
+## 9. Secrets — Bí mật hệ thống
 
-Never place long-lived secrets in prompts, logs or RAG documents.
+Không đặt long-lived secret vào prompt, log hoặc RAG document.
 
-Use:
+Dùng:
 
 - secret manager/environment injection;
-- short-lived tokens where possible;
-- scoped credentials;
+- short-lived token khi có thể;
+- scoped credential;
 - rotation/revocation;
-- redaction in logs/traces.
+- redaction (che dữ liệu nhạy cảm) trong log/trace.
 
-## 10. Audit requirements
+## 10. Audit Requirements — Yêu cầu ghi vết
 
-For significant actions, store:
+Với action quan trọng, lưu:
 
 ```text
 workflow_id
 action_intent_id
-model/provider/version when relevant
-prompt/template version when relevant
+model/provider/version khi liên quan
+prompt/template version khi liên quan
 tool identity
-validated arguments or safe hash/reference
+validated arguments hoặc safe hash/reference
 policy version
 risk level
 approval decision
@@ -199,41 +198,41 @@ trace id
 timestamps
 ```
 
-Do not store sensitive raw data merely for convenience.
+Không lưu sensitive raw data chỉ vì tiện debug.
 
-## 11. Kill switch and containment
+## 11. Kill Switch and Containment — Dừng khẩn cấp và khoanh vùng
 
-The system must support disabling:
+Hệ thống phải hỗ trợ tắt:
 
-- all external actions;
-- one action category;
-- one platform/tool;
-- one agent/workflow.
+- toàn bộ external actions;
+- một action category;
+- một platform/tool;
+- một agent/workflow.
 
-Collection and analysis may remain active while execution is disabled.
+Collection và analysis có thể tiếp tục trong khi execution bị tắt.
 
-## 12. Evaluation and red-team cases
+## 12. Evaluation and Red-Team Cases — Đánh giá và tình huống tấn công mô phỏng
 
-Test at minimum:
+Tối thiểu phải thử:
 
-- malicious product text asking the agent to ignore rules;
+- Product text độc hại yêu cầu Agent bỏ qua rule;
 - tool argument injection;
 - fake approval content;
-- stale approval after product/price change;
-- duplicate execution after retry;
-- compromised/incorrect MCP tool description;
-- excessively broad credentials;
-- model suggesting prohibited platform manipulation;
-- hidden instruction in retrieved content.
+- stale approval sau khi Product/price thay đổi;
+- duplicate execution sau retry;
+- MCP tool description bị compromise/sai;
+- credential quá rộng;
+- model đề xuất platform manipulation bị cấm;
+- hidden instruction trong retrieved content.
 
-## 13. Anti-patterns
+## 13. Anti-patterns — Cách làm cần tránh
 
-Avoid:
+Tránh:
 
-- `LLM → privileged tool` with no policy boundary;
-- one credential for every integration;
-- trusting MCP/server metadata as authorization;
-- logging secrets/full personal data;
-- treating prompt injection as only a prompt-writing problem;
-- assuming human approval fixes poor tool permissions;
-- allowing the same agent to redefine the policy that constrains it.
+- `LLM → privileged tool` không có policy boundary;
+- một credential dùng cho mọi integration;
+- tin MCP/server metadata như authorization;
+- log secret/full personal data;
+- coi Prompt Injection chỉ là prompt-writing problem;
+- giả định Human Approval có thể bù cho tool permission thiết kế kém;
+- cho cùng một Agent tự sửa policy đang giới hạn chính nó.
