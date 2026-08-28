@@ -2,10 +2,20 @@
 
 > Security standard for tool-using Affiliate Bots and AI agents.
 
+> **Beginner reader guide / Hướng dẫn cho người mới:** tài liệu này giữ English terminology làm chuẩn kỹ thuật. Tra [`GLOSSARY-VI.md`](GLOSSARY-VI.md) khi cần. Các từ trọng tâm: **Untrusted Input (Đầu vào không được tin cậy mặc định)**, **Threat Model (Mô hình đe dọa)**, **Prompt Injection (Tấn công/chỉ dẫn tiêm vào prompt)**, **Trust Boundary (Ranh giới tin cậy)**, **Tool Governance (Quản trị công cụ)**, **Side Effect (Tác động bên ngoài)**, **Least Privilege (Quyền tối thiểu cần thiết)**, **Allowlist (Danh sách cho phép)**, **Credential Scope (Phạm vi quyền credential)**, **Sandbox (Môi trường cô lập)**, **Audit Trace (Dấu vết kiểm tra)**, **Kill Switch (Công tắc dừng khẩn cấp)**.
+
 ## 1. Core principle
 
 ```text
 MODEL OUTPUT IS UNTRUSTED INPUT
+```
+
+Diễn giải cho người mới:
+
+```text
+Đầu ra mô hình
+≠
+Quyền thực thi
 ```
 
 An LLM may recommend an action, but production authorization must come from explicit system policy and permissions.
