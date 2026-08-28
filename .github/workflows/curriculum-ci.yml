@@ -29,3 +29,12 @@ jobs:
 
       - name: Run validator mutation tests
         run: python -m unittest discover -s tests -v
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: lab/affiliate-bot/go.mod
+
+      - name: Test bootstrap Affiliate Bot
+        working-directory: lab/affiliate-bot
+        run: go test ./...
