@@ -1,12 +1,14 @@
-# Kế hoạch chuẩn 15 tháng
+# Kế hoạch chuẩn 15 tháng — Build-First capacity envelope
 
-> **Standard track** dành cho nhịp khoảng **9 giờ/tuần**. Đây là lộ trình mặc định của repo.
+> **Standard track** dành cho khoảng **9 giờ/tuần**. Đây là capacity/coverage forecast, **không phải execution sequence**. Learner execution mặc định đi theo [`../BUILD-FIRST.md`](../BUILD-FIRST.md) và Mission hiện tại.
 
 Đọc cùng:
 
+- [Build-First Learning Model](BUILD-FIRST-LEARNING-MODEL.md)
+- [Bot Evolution Roadmap](BOT-EVOLUTION-ROADMAP.md)
+- [Build-First Calibration](BUILD-FIRST-CALIBRATION.md)
 - [Effort Model](EFFORT-MODEL.md)
 - [Effort Recalibration v2026.09](EFFORT-RECALIBRATION-v2026.09.md)
-- [Hybrid Execution Model](EXECUTION-MODEL.md)
 
 ## 1. Capacity model
 
@@ -16,96 +18,93 @@
 ≈ 585 giờ capacity
 ```
 
-Core curriculum cố định:
+Canonical fixed core knowledge coverage vẫn là:
 
 ```text
 Phần 0 → 19 → 21
 ```
 
-Recalibrated v2026.09 planning envelope:
+Current v2026.09 planning envelope:
 
 - content + lesson evidence + incremental integration: khoảng **520 giờ**;
 - weekly review: khoảng **65 giờ**;
 - tổng midpoint requirement: khoảng **585 giờ**.
 
-Khác baseline cũ, Standard 15 tháng giờ gần như **không còn planning buffer ở midpoint**. Đây vẫn là forecast hợp lý cho 9h/tuần nếu artifact được reuse đúng và không double-count project work, nhưng không phải deadline cứng.
+Không tự giảm 520h vì Build-First có vẻ hiệu quả hơn. Build-First có thể giảm double-work nhờ reuse code/evidence, nhưng cũng thêm debugging/operation. **M00–M05 là calibration cohort** để đo net effect.
 
-Nếu rolling actual workload vượt model, ưu tiên kéo dài finish date thay vì giảm PASS criteria. **16 tháng là fallback chấp nhận được**, không phải failure.
+Standard 15 tháng gần như không có planning buffer ở midpoint. Nếu rolling actual workload vượt model, kéo dài finish date thay vì giảm PASS criteria; **16 tháng là fallback chấp nhận được**.
 
-> Phần 20 — Business & Scale bắt đầu khi có tín hiệu doanh thu; Phần 22 — Continuous Mastery không nằm trong fixed 15-month core.
+> Part 20 bắt đầu khi có revenue signal; Part 22 là continuous mastery sau fixed core.
 
-## 2. Kế hoạch theo tháng
-
-| Tháng | Trọng tâm | Phần/Chương dự kiến | Planning envelope |
-|---:|---|---|---:|
-| 1 | Orientation + Fundamentals + Economics mở đầu | Phần 0–1, bắt đầu Phần 2 | ~39h |
-| 2 | Economics + Tracking & Attribution | Hoàn tất Phần 2–3 | ~39h |
-| 3 | Legal/Tax/Compliance + Platform foundations | Phần 4, đầu Phần 5 | ~39h |
-| 4 | Platform Expert + Niche Intelligence | Hoàn tất Phần 5–6 | ~39h |
-| 5 | Customer + Product Intelligence I | Phần 7, Chương 23–25 | ~39h |
-| 6 | Product Intelligence II + Content I | Hoàn tất Phần 8, bắt đầu Phần 9 | ~39h |
-| 7 | Content II + Traffic + Funnel mở đầu | Hoàn tất Phần 9–10, bắt đầu 11 | ~39h |
-| 8 | Funnel + Data Engineering + Analytics mở đầu | Hoàn tất Phần 11–12, bắt đầu 13 | ~39h |
-| 9 | Analytics + Experimentation + Bot Architecture mở đầu | Hoàn tất 13–14, đầu 15 | ~39h |
-| 10 | Go-first Affiliate Bot Engineering | Phần 15 | ~39h |
-| 11 | Decision/Policy + AI foundations | Phần 16, đầu 17 | ~39h |
-| 12 | AI Affiliate Bot + Advanced Intelligence mở đầu | Hoàn tất 17, đầu 18 | ~39h |
-| 13 | Advanced Intelligence + Production foundations | Hoàn tất 18, đầu 19 | ~39h |
-| 14 | Production/Security/Governance + Capstone start | Hoàn tất 19, bắt đầu 21 | ~39h |
-| 15 | Capstone integration + hardening + retry/catch-up | Hoàn tất 21 | ~39h |
-
-Bảng là **capacity envelope**, không phải quota checkbox.
-
-## 3. Hybrid execution
-
-Khi loop đã mở, nó tiếp tục chạy trong cùng quỹ 9h/tuần:
+## 2. Execution vs coverage
 
 ```text
-50–70%: primary knowledge/current Part
-30–50%: active execution loops + evidence + review
+BUILD-FIRST MISSION SPINE
+= thứ tự learner build/operate bot
+
+MONTHLY PART ENVELOPE
+= knowledge coverage forecast
 ```
 
-Đặc biệt từ Part 15 trở đi:
+Một Mission có thể pull lesson từ nhiều Part trước khi formal mastery của Part đó hoàn tất. Dùng sớm không đồng nghĩa mastery sớm.
 
-```text
-Go Bot
-→ Decision/Policy
-→ AI Tools
-→ Governed Action/Approval
-→ Production
-```
+## 3. Kế hoạch coverage theo tháng
 
-là một progression liên tục; không coi từng Part là project tách biệt.
+| Tháng | Knowledge coverage forecast | Planning envelope |
+|---:|---|---:|
+| 1 | Orientation + Fundamentals + Economics mở đầu; bootstrap M00–M03/M04 khi phù hợp | ~39h |
+| 2 | Economics + Tracking & Attribution; tiếp tục early bot iteration | ~39h |
+| 3 | Legal/Tax/Compliance + Platform foundations | ~39h |
+| 4 | Platform Expert + Niche Intelligence | ~39h |
+| 5 | Customer + Product Intelligence I | ~39h |
+| 6 | Product Intelligence II + Content I | ~39h |
+| 7 | Content II + Traffic + Funnel mở đầu | ~39h |
+| 8 | Funnel + Data Engineering + Analytics mở đầu | ~39h |
+| 9 | Analytics + Experimentation + formal Bot Engineering mở đầu | ~39h |
+| 10 | Formal Go-first Affiliate Bot Engineering mastery | ~39h |
+| 11 | Decision/Policy + AI foundations | ~39h |
+| 12 | AI Affiliate Bot + Advanced Intelligence mở đầu | ~39h |
+| 13 | Advanced Intelligence + Production foundations | ~39h |
+| 14 | Production/Security/Governance + Capstone start | ~39h |
+| 15 | Capstone integration + hardening + retry/catch-up | ~39h |
 
-## 4. Weekly rhythm gợi ý
+Bảng không có nghĩa learner phải chờ tháng 10 mới code Go. Go được **dùng từ M00**; tháng 9–10 là formal mastery coverage.
 
-| Hoạt động | Thời lượng |
+## 4. Weekly rhythm Build-First
+
+Heuristic, không phải quota cứng:
+
+| Hoạt động | Tỷ lệ/giờ gợi ý |
 |---|---:|
-| Learn + case | 2h |
-| Research thực tế | 1h |
-| Affiliate practice | 2h |
-| Coding/Data/Artifact | 3h |
-| Weekly review | 1h |
+| Build / run / debug / operate | 4.5–6h |
+| Required knowledge pulls | 1.5–2.5h |
+| Evidence / review / calibration | 1–1.5h |
 
-Engineering-heavy weeks có thể dồn nhiều hơn vào coding/artifact nhưng tổng capacity vẫn giữ.
+Compliance/research work được tính vào bucket phù hợp với Mission đang chạy.
 
 ## 5. Monthly gate
 
-Cuối tháng review:
+Review:
 
-- lesson PASS/RETRY;
-- actual hours vs estimate;
-- active execution loops;
-- project/lab integration còn thiếu;
-- blocker;
-- forecast tháng sau.
+- Mission PASS/RETRY/BLOCKED;
+- Bot Version đã ship;
+- lesson PASS/RETRY thực tế;
+- actual hours vs mission estimates;
+- build/debug/operate/knowledge/retry split;
+- evidence reused giữa Mission/Lesson/Project;
+- active operating loops;
+- blockers và forecast tháng sau.
 
-Nếu actual workload cao hơn baseline, dời scope thay vì giảm evidence quality.
+## 6. Recalibration rule
 
-## 6. Nguyên tắc
+Không sửa global workload từ vài ngày đầu. Sau M00–M05, dùng [`BUILD-FIRST-CALIBRATION.md`](BUILD-FIRST-CALIBRATION.md) để xem actual median, nguồn overrun và reuse benefit trước khi re-estimate remaining scope.
+
+## 7. Nguyên tắc
 
 ```text
 Timeline = forecast
+Mission = execution unit
+Knowledge coverage = mastery inventory
 PASS evidence = gate
 Actual data > planning assumption
 ```
