@@ -2,6 +2,8 @@
 
 > Active implementation standard for the Go-first curriculum from v2026.09 onward.
 
+> **Beginner reader guide / Hướng dẫn cho người mới:** tài liệu này giữ English terminology làm chuẩn kỹ thuật. Khi đọc lần đầu, tra [`GLOSSARY-VI.md`](GLOSSARY-VI.md). Các từ trọng tâm: **Modular Monolith (Khối đơn thể mô-đun)**, **Concurrency (Xử lý đồng thời)**, **Bounded Concurrency (Đồng thời có giới hạn)**, **Backpressure (Cơ chế hãm khi tải vượt khả năng xử lý)**, **Retry (Thử lại)**, **Backoff (Tăng thời gian chờ giữa các lần thử lại)**, **Idempotency (Tính lặp an toàn)**, **Durable Workflow (Workflow bền vững)**, **Tool Boundary (Ranh giới công cụ)**, **Observability (Khả năng quan sát hệ thống)**, **Graceful Shutdown (Tắt dịch vụ có kiểm soát)**.
+
 ## 1. Primary rule
 
 ```text
@@ -12,7 +14,7 @@ C#/.NET is comparison/reference material, not the default implementation path.
 
 ## 2. Default architecture
 
-Start with a modular monolith:
+Start with a **Modular Monolith (Khối đơn thể mô-đun)**:
 
 ```text
 Go application
@@ -53,12 +55,12 @@ Use goroutines/channels/worker pools intentionally.
 
 Teach:
 
-- bounded concurrency;
-- cancellation propagation;
-- backpressure;
-- race avoidance;
-- worker lifecycle;
-- graceful shutdown.
+- bounded concurrency (đồng thời có giới hạn);
+- cancellation propagation (lan truyền tín hiệu hủy);
+- backpressure (hãm tải khi downstream quá tải);
+- race avoidance (tránh race condition);
+- worker lifecycle (vòng đời worker);
+- graceful shutdown (tắt dịch vụ có kiểm soát).
 
 Do not equate “more goroutines” with better throughput when platform rate limits are the bottleneck.
 
