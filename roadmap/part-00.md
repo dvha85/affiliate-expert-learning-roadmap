@@ -1,6 +1,6 @@
 # Phần 0 — ORIENTATION & AFFILIATE LAB
 
-- Lịch đề xuất: **Tháng 1** của Standard plan.
+- Timeline: **Standard M1 · Accelerated M1** — forecast; PASS evidence mới là gate.
 - Quy mô: **1 chương / 12 bài**.
 - Chỉ tick bài khi người học đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 - Link lesson phản ánh **authoring availability**, không phản ánh learner PASS:
