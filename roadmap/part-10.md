@@ -1,6 +1,6 @@
 # Phần 10 — TRAFFIC & DISTRIBUTION
 
-- Lịch đề xuất: **Tháng 4**
+- Timeline: **Standard M7 · Accelerated M5** — forecast; PASS evidence mới là gate.
 - Quy mô: **3 chương / 24 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -38,6 +38,8 @@
 - [ ] **35.7** — Website
 - [ ] **35.8** — Email List
 - [ ] **35.9** — Owned Audience
+
+> **2026 freshness note:** Search discovery now includes AI Overviews/AI Mode and multimodal/agentic shopping surfaces. Core SEO remains relevant; do not replace it with unsupported “GEO/AEO hacks”. Measure generative-AI visibility where data is available, and treat YouTube Shopping Affiliate Vietnam as a current social-commerce case rather than changing canonical chapter count. See [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md).
 
 ## Hoàn thành phần
 
