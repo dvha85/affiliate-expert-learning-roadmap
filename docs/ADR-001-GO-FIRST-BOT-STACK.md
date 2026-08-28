@@ -1,106 +1,101 @@
-# ADR-001 — Go-first Bot Engineering Stack
+# ADR-001 — Quyết định Go-first cho Bot Engineering Stack
 
-- **Status:** Accepted
-- **Decision date:** 2026-08-28
-- **Applies from:** curriculum revision v2026.09
-- **Supersedes:** C#/.NET-first implementation direction in `sources/SYLLABUS-v2026.08.md`
-- **Does not erase:** v2026.08 remains historical provenance
+- **Status (Trạng thái):** Accepted (Đã chấp nhận)
+- **Decision date (Ngày quyết định):** 2026-08-28
+- **Applies from (Áp dụng từ):** curriculum revision v2026.09
+- **Supersedes (Thay thế):** hướng C#/.NET-first trong `sources/SYLLABUS-v2026.08.md`
+- **Does not erase (Không xóa):** v2026.08 vẫn là historical provenance (nguồn gốc lịch sử)
 
-> **Beginner reader guide / Hướng dẫn cho người mới:** ADR = **Architecture Decision Record (Bản ghi quyết định kiến trúc)**. Tài liệu này giữ English terminology làm chuẩn kỹ thuật. Tra [`GLOSSARY-VI.md`](GLOSSARY-VI.md) khi cần. Các từ trọng tâm: **Primary Implementation Language (Ngôn ngữ triển khai chính)**, **Modular Monolith (Khối đơn thể mô-đun)**, **Deterministic Logic (Logic xác định)**, **Durable Execution (Thực thi bền vững)**, **Tool Boundary (Ranh giới công cụ)**, **Human Approval (Phê duyệt của con người)**, **Least Privilege (Quyền tối thiểu cần thiết)**, **Observability (Khả năng quan sát hệ thống)**.
+> ADR = **Architecture Decision Record (Bản ghi quyết định kiến trúc)**. Tiếng Việt là ngôn ngữ chính; English terminology và tên công nghệ được giữ khi cần đối chiếu kỹ thuật. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
-## 1. Context
+## 1. Context (Bối cảnh)
 
-The curriculum targets an **Affiliate Intelligence Platform** that should run continuously, collect and reconcile data, detect changes, rank opportunities, use AI when useful, execute low-risk actions automatically, and pause for human approval before consequential actions.
+Curriculum hướng tới một **Affiliate Intelligence Platform (Nền tảng Affiliate Intelligence)** có thể chạy liên tục, thu thập/đối soát dữ liệu, phát hiện thay đổi, xếp hạng cơ hội, dùng AI khi hữu ích, tự thực hiện action rủi ro thấp và dừng chờ Human Approval (phê duyệt của con người) trước action có hậu quả đáng kể.
 
-The desired operator model is not “human drives every bot step”. It is:
-
-```text
-BOT observes
-→ BOT collects
-→ BOT analyzes
-→ BOT proposes/decides within policy
-→ low-risk action: execute automatically
-→ consequential action: pause for approval
-→ execute or reject
-→ audit result
-→ measure
-→ learn
-```
-
-Beginner translation:
+Operator model (mô hình vận hành) mong muốn **không phải** “con người điều khiển từng bước của Bot”. Mô hình là:
 
 ```text
 Bot quan sát
-→ thu thập
-→ phân tích
-→ đề xuất/quyết định trong policy
-→ low-risk: tự thực thi
-→ consequential: dừng chờ người duyệt
+→ Bot thu thập
+→ Bot phân tích
+→ Bot đề xuất/quyết định trong policy
+→ low-risk action: tự thực thi
+→ consequential action: dừng chờ phê duyệt
 → thực thi hoặc từ chối
-→ ghi vết kết quả
+→ audit kết quả
 → đo lường
 → học
 ```
 
-The previous syllabus selected C#/.NET as the primary engineering path. That remains a valid implementation stack, but it is no longer the preferred primary path for this curriculum.
+Syllabus trước dùng C#/.NET làm primary engineering path. C#/.NET vẫn là stack hợp lệ, nhưng không còn là primary path của curriculum hiện hành.
 
-## 2. Decision
+## 2. Decision (Quyết định)
 
-The active curriculum adopts:
+Active curriculum dùng:
 
 ```text
 PRIMARY IMPLEMENTATION LANGUAGE = Go
+(Ngôn ngữ triển khai chính = Go)
 ```
 
-C#/.NET becomes an **optional/reference stack**, not the active primary implementation path.
+C#/.NET trở thành **optional/reference stack (stack tùy chọn/tham khảo)**.
 
-The preferred engineering spine is:
+Engineering spine (xương sống kỹ thuật) ưu tiên:
 
 ```text
 Go
 → Services / Workers
 → Collectors & Adapters
-→ PostgreSQL / optional Redis
+→ PostgreSQL / Redis khi có lý do
 → Queue / Workflow
-→ Durable Execution when required
+→ Durable Execution khi cần
 → Analytics / Decision Engine
 → Tool Boundary / MCP
-→ AI Agent where justified
+→ AI Agent khi justified (có lý do)
 → Policy & Risk Engine
 → Human Approval Queue
 → Action Executor
 → Audit / Tracing / Feedback
 ```
 
-## 3. Why Go
+## 3. Vì sao chọn Go
 
-The decision is based on system-operating characteristics, not a simplistic claim that “Go is always faster than C#”.
+Quyết định dựa trên đặc tính vận hành hệ thống, **không** dựa trên kết luận đơn giản “Go luôn nhanh hơn C#”.
 
-Affiliate bots are primarily constrained by network/API latency, platform rate limits, databases, queues, external services and LLM calls. Raw CPU throughput is therefore not the primary decision variable.
+Affiliate Bot thường bị giới hạn bởi:
 
-Go is preferred because it fits the target operating model well:
+- network/API latency (độ trễ mạng/API);
+- platform rate limit;
+- database;
+- queue/external services;
+- LLM calls;
+- retry/wait.
 
-- simple deployment as a small service/binary;
-- strong concurrency model for many collectors, watchers and background jobs;
-- good resource efficiency for services intended to stay online continuously;
-- strong standard library for HTTP/network/service work;
-- low operational complexity for a small team or single operator;
-- mature cloud-native ecosystem;
-- first-class support for modern tool/agent interoperability.
+Vì vậy raw CPU throughput không phải biến quyết định chính.
 
-## 4. Current technical baseline
+Go được ưu tiên vì phù hợp target operating model:
 
-These are **freshness-scoped reference facts**, not permanent syllabus constants.
+- deployment đơn giản dưới dạng service/binary nhỏ;
+- concurrency model mạnh cho collector, watcher và background job;
+- resource efficiency tốt cho service chạy liên tục;
+- standard library mạnh cho HTTP/network/service;
+- operational complexity thấp cho team nhỏ/single operator;
+- cloud-native ecosystem trưởng thành;
+- hỗ trợ tốt cho modern tool/agent interoperability.
+
+## 4. Current technical baseline (mốc kỹ thuật hiện hành)
+
+Đây là **freshness-scoped reference facts (dữ kiện tham chiếu có thời hạn)**, không phải permanent syllabus constants.
 
 Verified 2026-08-28:
 
-- Go 1.27.0 was released on 2026-08-19. The curriculum should use a currently supported stable Go release rather than hard-code 1.27 forever.
-- The official Model Context Protocol SDK list classifies **Go as Tier 1**.
-- MCP specification `2026-07-28` is supported by the Tier-1 Go SDK.
-- Temporal Go SDK is a mature reference for durable, asynchronous, long-running workflows.
-- OpenTelemetry Go currently lists traces and metrics as stable; logs remain beta.
+- Go 1.27.0 phát hành 2026-08-19. Curriculum phải dùng một Go stable release đang còn support, không giữ 1.27 vĩnh viễn.
+- Official Model Context Protocol SDK list xếp **Go là Tier 1**.
+- MCP specification `2026-07-28` được Tier-1 Go SDK hỗ trợ.
+- Temporal Go SDK là current reference trưởng thành cho durable, asynchronous, long-running workflow.
+- OpenTelemetry Go hiện liệt kê traces/metrics stable; logs beta.
 
-Primary references:
+Primary references (nguồn chính):
 
 - https://go.dev/doc/devel/release
 - https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/docs/2026-07-28/sdk.mdx
@@ -108,27 +103,29 @@ Primary references:
 - https://github.com/temporalio/sdk-go
 - https://opentelemetry.io/docs/languages/go/
 
-Any implementation lesson that depends on current versions, SDK behavior or protocol details must use the repo freshness policy.
+Implementation lesson phụ thuộc current version/SDK/protocol phải theo repo freshness policy.
 
-## 5. Architecture principles
+Tại thời điểm hardening Issue #37, learner/reference bootstrap dùng `go 1.27` để khớp current supported stable line đã verified.
 
-### 5.1. Modular Monolith (Khối đơn thể mô-đun) first
+## 5. Architecture principles (Nguyên tắc kiến trúc)
 
-Do not make the curriculum microservices-first.
+### 5.1. Modular Monolith (Khối đơn thể mô-đun) trước
 
-Default progression:
+Không thiết kế curriculum theo microservices-first.
+
+Progression mặc định:
 
 ```text
 single Go module
-→ clear packages/modules
-→ workers and adapters
+→ packages/modules rõ ràng
+→ workers + adapters
 → internal queues/workflows
-→ split services only when scaling or failure boundaries justify it
+→ chỉ split services khi scaling/failure boundary thật sự yêu cầu
 ```
 
-### 5.2. Deterministic Logic (Logic xác định) before agent autonomy
+### 5.2. Deterministic Logic (Logic xác định) trước Agent autonomy (Tự chủ Agent)
 
-Preferred progression:
+Progression ưu tiên:
 
 ```text
 manual workflow
@@ -141,11 +138,11 @@ manual workflow
 → governed autonomous system
 ```
 
-LLMs must not replace deterministic business logic when rules, formulas or policy checks can be expressed explicitly.
+LLM không được thay deterministic business logic khi rule, formula hoặc policy check có thể biểu diễn rõ ràng.
 
-### 5.3. Human Approval (Phê duyệt của con người) is a first-class system boundary
+### 5.3. Human Approval là first-class system boundary (ranh giới hệ thống cấp một)
 
-The platform uses three risk levels:
+Platform dùng ba risk level:
 
 ```text
 RISK 0
@@ -157,122 +154,125 @@ RISK 1
 RISK 2
 → pause workflow
 → human approve/reject
-→ resume or terminate
+→ resume hoặc terminate
 ```
 
-Examples of RISK 2 may include publishing, spending money, changing production/account settings, deleting important data, or other externally consequential actions.
+RISK 2 có thể bao gồm publish, spend money, thay production/account settings, xóa dữ liệu quan trọng hoặc external action có hậu quả tương tự.
 
-The exact classification is defined by policy, not by the LLM alone.
+Classification (phân loại) cuối cùng do deterministic policy quyết định, không giao cho LLM tự định đoạt.
 
-### 5.4. Durable Execution (Thực thi bền vững) when workflows can wait
+### 5.4. Durable Execution (Thực thi bền vững) khi workflow có thể chờ
 
-A workflow that can pause for minutes, hours or days for approval must not depend only on in-memory process state.
+Workflow có thể pause nhiều phút/giờ/ngày để chờ approval không được chỉ phụ thuộc in-memory process state.
 
-The curriculum must teach concepts such as:
+Curriculum phải dạy:
 
-- persisted workflow state;
+- persisted workflow state (state workflow lưu bền vững);
 - checkpoint/resume;
-- retries and backoff;
+- retry/backoff;
 - idempotency;
 - timeout/cancellation;
-- compensation;
+- compensation (hành động bù);
 - approval wait;
 - crash/restart recovery.
 
-Temporal is a reference implementation, not a mandatory dependency for every project.
+Temporal là reference implementation, **không** phải dependency bắt buộc mọi Project.
 
-### 5.5. Tool Boundary (Ranh giới công cụ) before unrestricted action
+### 5.5. Tool Boundary (Ranh giới công cụ) trước unrestricted action (hành động không giới hạn)
 
-Agent actions must pass through explicit tools/interfaces.
+Agent action phải đi qua explicit tool/interface.
 
-Tool engineering includes:
+Tool engineering bao gồm:
 
-- schema/contracts;
+- schema/contract;
 - input/output validation;
-- read vs write separation;
+- tách read và write;
 - side-effect classification;
-- permissions;
+- permission;
 - idempotency;
 - timeout/retry;
 - policy check;
-- approval when required;
+- approval khi cần;
 - audit evidence.
 
-MCP is an important interoperability layer, but REST/webhooks/native APIs remain valid where simpler.
+MCP là interoperability layer quan trọng, nhưng REST/webhook/native API vẫn đúng khi đơn giản hơn.
 
-## 6. Agent engineering implications
+## 6. Hệ quả cho Agent Engineering
 
-The curriculum must expand Bot Engineer beyond collector/scheduler code to include:
+Curriculum phải mở rộng Bot Engineer vượt khỏi collector/scheduler code để bao gồm:
 
-- tool engineering and MCP;
+- tool engineering và MCP;
 - state/session/memory boundaries;
 - durable execution;
-- agent evaluation;
-- tracing and observability;
+- agent evaluation (đánh giá agent);
+- tracing và observability;
 - prompt-injection/tool-misuse defenses;
 - least-privilege tool permissions;
-- approval and kill switch;
+- approval và kill switch;
 - policy-aware autonomous actions.
 
-Multi-agent and A2A are advanced patterns. They are **not** default architecture for Phase 1.
+Multi-agent và A2A là advanced patterns (mẫu nâng cao), **không** là default architecture Phase 1.
 
-## 7. Consequences for curriculum
+## 7. Hệ quả cho curriculum
 
 ### Active primary stack
 
 ```text
 Go
 PostgreSQL
-Redis only when justified
+Redis chỉ khi justified
 HTTP/API/Webhook adapters
 queue/worker patterns
 Docker
 OpenTelemetry-style observability
-MCP where useful
+MCP khi hữu ích
 provider-neutral AI boundary
 ```
 
-Reference implementations may include current libraries or workflow engines, but library choices remain freshness-scoped.
+Reference implementation có thể dùng library/workflow engine hiện hành, nhưng library choice vẫn freshness-scoped.
 
 ### C#/.NET
 
 C#/.NET:
 
-- remains valid comparison/reference material;
-- remains present in historical v2026.08 provenance;
-- may be mentioned when comparing runtime/framework tradeoffs;
-- is no longer the active primary implementation path.
+- vẫn là comparison/reference material;
+- vẫn tồn tại trong historical v2026.08 provenance;
+- có thể dùng khi so sánh runtime/framework trade-off;
+- không còn là active primary implementation path.
 
-## 8. Non-goals
+## 8. Non-goals (Những điều ADR không có nghĩa)
 
-This ADR does **not** mean:
+ADR này **không** có nghĩa:
 
-- Go must be used for every future analytical/ML component;
-- Python can never be introduced for a justified ML/data workload;
-- every bot must use MCP;
-- every bot must use Temporal;
-- every bot should use an LLM;
-- every workflow should become multi-agent;
-- microservices are the desired starting architecture.
+- Go bắt buộc cho mọi analytical/ML component tương lai;
+- Python không bao giờ được dùng cho ML/data workload có lý do;
+- mọi Bot phải dùng MCP;
+- mọi Bot phải dùng Temporal;
+- mọi Bot phải dùng LLM;
+- mọi workflow phải thành multi-agent;
+- microservices là kiến trúc khởi đầu mong muốn.
 
-## 9. Migration plan
+## 9. Migration plan (Kế hoạch migration) lịch sử
 
-The migration is deliberately staged:
+Migration Go-first đã được thực hiện theo các stage:
 
-1. **PR 1** — canonical revision + this ADR.
-2. **PR 2** — migrate engineering roadmap/lesson titles without changing counts.
-3. **PR 3** — add Go engineering/autonomy/security operating standards and CI drift guards.
-4. **PR 4** — author lesson 0.2 as the Go-first Bot Engineer reference lesson.
+1. canonical revision + ADR;
+2. migrate engineering roadmap/lesson titles mà không đổi counts;
+3. thêm Go engineering/autonomy/security standards + CI drift guards;
+4. author lesson 0.2 thành Go-first Bot Engineer reference lesson;
+5. Build-First migration sau đó đưa Go vào learner Mission từ M00.
 
-## 10. Invariants
+Phần này là migration history, không phải danh sách việc “sẽ làm” trong tương lai.
 
-The migration must preserve:
+## 10. Invariants (Bất biến phải giữ)
+
+Migration phải bảo toàn:
 
 ```text
 23 Parts
 89 Chapters
 671 lessons
-14 main projects
+14 main Projects
 ```
 
-Technology decisions may change implementation guidance, examples and selected lesson titles, but must not silently alter the curriculum’s structural counts.
+Technology decision có thể thay implementation guidance, example và selected lesson title, nhưng không được âm thầm thay curriculum structural counts.

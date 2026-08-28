@@ -94,7 +94,8 @@ Ví dụ:
 - `id` rỗng: JSON hợp lệ nhưng Product không định danh được;
 - `price < 0`: JSON hợp lệ nhưng business value vô lý;
 - `commission_rate > 1`: parse được nhưng sai semantics;
-- unknown field (field lạ): có thể là schema drift cần phát hiện thay vì âm thầm bỏ qua.
+- unknown field (field lạ): có thể là schema drift cần phát hiện thay vì âm thầm bỏ qua;
+- trailing JSON/garbage (dữ liệu dư sau document hợp lệ): phải bị reject thay vì chỉ đọc document đầu tiên rồi bỏ qua phần sau.
 
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
@@ -120,7 +121,8 @@ Ví dụ:
 ### Reference — Tham khảo
 
 - Part 12 data model đầy đủ để sau;
-- `lab/affiliate-bot/` chỉ đối chiếu sau attempt.
+- `lab/affiliate-bot/` chỉ đối chiếu sau attempt;
+- reference ingest hiện có strict tests cho unknown field, trailing JSON value và trailing garbage để dùng khi review.
 
 ## Improve — Cải tiến
 
@@ -130,6 +132,11 @@ Sau happy path đầu tiên, thêm business validation tối thiểu:
 - price không âm;
 - commission rate trong khoảng hợp lệ;
 - conversion potential trong khoảng hợp lệ nếu field được dùng trong sample schema.
+
+Sau đó harden parser (làm bộ đọc chặt chẽ hơn):
+
+- reject unknown field;
+- sau lần decode chính, xác nhận input đã tới EOF (hết document), không silently accept trailing content.
 
 Không thêm field platform cụ thể khi chưa có business need.
 
@@ -141,23 +148,24 @@ Không thêm field platform cụ thể khi chưa có business need.
 - malformed JSON;
 - invalid Product;
 - unknown field;
+- trailing JSON value;
+- trailing garbage/content;
 - output Product count đúng với sample file.
-
-PR-B sẽ harden thêm strict trailing-content case ở reference implementation; learner nên tự thử nếu kịp trong M01.
 
 ## Operate — Vận hành
 
 Chạy với:
 
 1. file sample chuẩn;
-2. một bản copy tự sửa thành invalid;
-3. một bản có field lạ.
+2. một bản copy tự sửa thành invalid Product;
+3. một bản có field lạ;
+4. một bản có JSON/document dư sau array hợp lệ.
 
 Quan sát error message có giúp tìm nguyên nhân hay không.
 
 ## Failure Case — Tình huống lỗi
 
-Malformed JSON hoặc Product invalid phải trả error rõ ràng và exit non-success; không silently drop (âm thầm bỏ) record lỗi.
+Malformed JSON, Product invalid, unknown field hoặc trailing content phải trả error rõ ràng và exit non-success; không silently drop (âm thầm bỏ) record/phần dữ liệu lỗi.
 
 ## Evidence — Bằng chứng
 
@@ -175,14 +183,17 @@ Lưu:
 
 1. Vì sao decode thành công chưa đủ để tin dữ liệu?
 2. Validation nào là syntax validation, validation nào là business validation?
-3. Vì sao không đưa platform-specific field vào core Product quá sớm?
-4. Nếu API sau này trả schema khác, layer nào nên phát hiện?
+3. Vì sao trailing content phải bị reject?
+4. Vì sao không đưa platform-specific field vào core Product quá sớm?
+5. Nếu API sau này trả schema khác, layer nào nên phát hiện?
 
 ## Mission PASS — Tiêu chí PASS
 
 - [ ] learner tự build Product model + JSON ingest
 - [ ] valid data đi qua đúng luồng
 - [ ] invalid data fail rõ ràng
+- [ ] unknown field bị reject
+- [ ] trailing content bị reject
 - [ ] tests PASS
 - [ ] output kiểm tra được
 - [ ] chưa leak ranking/AI capability vào M01
@@ -193,7 +204,7 @@ Lưu:
 ## Bot Version Result — Kết quả phiên bản Bot
 
 ```text
-v0.0 → v0.1 validated Product ingest
+v0.0 → v0.1 validated strict Product ingest
 ```
 
 ## Next Mission — Mission tiếp theo

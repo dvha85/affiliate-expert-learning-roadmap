@@ -1,35 +1,35 @@
-# Autonomy and Approval Model
+# Autonomy and Approval Model — Mô hình tự chủ và phê duyệt
 
-> Governance standard for bots that act automatically while the human operator approves consequential actions.
+> Governance standard (chuẩn quản trị) cho Bot có thể tự hành động trong phạm vi cho phép, trong khi con người giữ quyền duyệt các consequential actions (hành động có hậu quả đáng kể).
 
-> **Beginner reader guide / Hướng dẫn cho người mới:** technical spec này giữ English terminology làm chuẩn kỹ thuật. Khi đọc lần đầu, dùng [`GLOSSARY-VI.md`](GLOSSARY-VI.md) và bản đồ sau: **Autonomy (Mức tự chủ)**, **ActionIntent (Ý định hành động)**, **RiskLevel (Mức rủi ro)**, **PolicyDecision (Quyết định chính sách)**, **ApprovalRequest (Yêu cầu phê duyệt)**, **Human Approval (Phê duyệt của con người)**, **Side Effect (Tác động bên ngoài)**, **Idempotency (Tính lặp an toàn)**, **Audit (Ghi vết/kiểm tra)**, **Kill Switch (Công tắc dừng khẩn cấp)**. Code/entity identifiers như `ActionIntent`, `PolicyDecision` giữ nguyên tiếng Anh.
+Tiếng Việt là ngôn ngữ chính. Các entity/code identifier như `ActionIntent`, `PolicyDecision`, `ApprovalRequest` giữ nguyên tiếng Anh để dùng thống nhất trong code/schema; phần giải thích dùng tiếng Việt. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
-## 1. Goal
+## 1. Goal — Mục tiêu
 
-The target system is not fully manual and not unconstrained autonomy.
+Hệ thống đích không phải **fully manual (hoàn toàn thủ công)** và cũng không phải **unconstrained autonomy (tự chủ không giới hạn)**.
 
-Nói ngắn cho người mới: hệ thống không phải **fully manual (hoàn toàn thủ công)** và cũng không phải **unconstrained autonomy (tự chủ không giới hạn)**. Mục tiêu là tự động phần phù hợp và giữ quyền phê duyệt cho hành động có hậu quả đáng kể.
+Mục tiêu là:
 
 ```text
-observe
-→ analyze
-→ create ActionIntent
-→ classify risk
-→ policy decision
-→ execute automatically OR request approval
-→ audit
-→ measure result
+Observe (Quan sát)
+→ Analyze (Phân tích)
+→ tạo ActionIntent (Ý định hành động)
+→ classify RiskLevel (Phân loại mức rủi ro)
+→ PolicyDecision (Quyết định chính sách)
+→ tự execute HOẶC request Human Approval
+→ Audit (Ghi vết)
+→ Measure result (Đo kết quả)
 ```
 
-## 2. Core entities
+Con người không babysit (canh) từng bước cơ học; con người giữ quyền ở quyết định/tình huống có hậu quả đáng kể.
 
-### ActionIntent
+## 2. Core entities — Các thực thể cốt lõi
 
-Describes the proposed action before execution.
+### ActionIntent (Ý định hành động)
 
-> `ActionIntent` = **Ý định hành động**: mô tả bot muốn làm gì trước khi hệ thống quyết định có cho phép thực thi hay không.
+Mô tả action Bot **muốn** thực hiện trước khi hệ thống cho phép execution.
 
-Minimum fields:
+Minimum fields (trường tối thiểu):
 
 ```text
 id
@@ -44,19 +44,22 @@ expires_at
 idempotency_key
 ```
 
-### RiskLevel
+`ActionIntent` không phải quyền thực thi. Nó chỉ là đề xuất có cấu trúc để Policy Engine đánh giá.
+
+### RiskLevel (Mức rủi ro)
 
 ```text
-RISK 0 — routine/reversible/internal
-RISK 1 — controlled side effect with mandatory audit
-RISK 2 — consequential; human approval required
+RISK 0 — routine / reversible / internal
+         thường lệ / đảo ngược được / nội bộ
+
+RISK 1 — controlled side effect + mandatory audit
+         tác động có kiểm soát + bắt buộc ghi vết
+
+RISK 2 — consequential + Human Approval required
+         hậu quả đáng kể + bắt buộc con người duyệt
 ```
 
-- RISK 0: hành động thường lệ/có thể đảo ngược/nội bộ.
-- RISK 1: có tác động được kiểm soát và bắt buộc ghi vết.
-- RISK 2: có hậu quả đáng kể, cần Human Approval (Phê duyệt của con người).
-
-### PolicyDecision
+### PolicyDecision (Quyết định chính sách)
 
 ```text
 ALLOW
@@ -65,24 +68,22 @@ REQUIRE_APPROVAL
 DENY
 ```
 
-Include policy version and explanation.
+Record (ghi lại) policy version và explanation/reason (giải thích/lý do) để quyết định có thể audit.
 
-> `PolicyDecision` = **Quyết định chính sách**: cho phép, cho phép kèm audit, yêu cầu phê duyệt hoặc từ chối.
+### ApprovalRequest (Yêu cầu phê duyệt)
 
-### ApprovalRequest
+Phải đủ context (ngữ cảnh) để người duyệt ra quyết định nhanh:
 
-Must include enough context for a fast human decision:
+- điều gì sẽ xảy ra;
+- vì sao Bot đề xuất;
+- evidence/source provenance (bằng chứng/nguồn gốc dữ liệu);
+- expected benefit (lợi ích kỳ vọng);
+- risk/downside (rủi ro/mặt trái);
+- expiry (hết hạn);
+- exact side effect (tác động chính xác);
+- rollback/compensation path (đường quay lui/bù lỗi) nếu có.
 
-- what will happen;
-- why the bot proposes it;
-- evidence/source provenance;
-- expected benefit;
-- risk/downside;
-- expiry;
-- exact side effect;
-- rollback/compensation path when available.
-
-### ApprovalDecision
+### ApprovalDecision (Quyết định phê duyệt)
 
 ```text
 APPROVE
@@ -91,63 +92,63 @@ EXPIRE
 CANCEL
 ```
 
-Store decision time, actor and reason.
+Lưu decision time, actor và reason.
 
-### ExecutionRecord
+### ExecutionRecord (Bản ghi thực thi)
 
-Record:
+Ghi tối thiểu:
 
-- action intent;
-- policy decision;
-- approval decision if any;
-- execution attempt(s);
+- ActionIntent;
+- PolicyDecision;
+- ApprovalDecision nếu có;
+- execution attempt(s) (các lần thử thực thi);
 - external request/result IDs;
 - idempotency key;
 - final state;
 - error/compensation;
 - measured result.
 
-## 3. Risk examples
+## 3. Ví dụ RiskLevel
 
 ### RISK 0
 
-Usually internal/read-only actions:
+Thường là internal/read-only actions (hành động nội bộ/chỉ đọc):
 
-- collect product data;
-- refresh a snapshot;
-- calculate metrics;
-- update ranking cache;
-- generate internal report;
-- detect anomaly;
-- create an alert.
+- thu thập Product data;
+- refresh snapshot;
+- tính metrics;
+- cập nhật ranking cache;
+- tạo internal report;
+- detect anomaly (phát hiện bất thường);
+- tạo alert (cảnh báo).
 
 ### RISK 1
 
-Potential controlled examples:
+Ví dụ có thể được policy cho tự chạy nhưng bắt buộc audit:
 
-- change internal product priority;
-- enable/disable a watcher;
-- create a draft;
-- adjust a bounded experiment configuration;
-- update an internal recommendation state.
+- đổi internal Product priority;
+- bật/tắt watcher;
+- tạo draft;
+- điều chỉnh bounded experiment configuration (cấu hình thử nghiệm trong giới hạn);
+- cập nhật internal recommendation state.
 
-These require audit and bounded policy constraints.
+RISK 1 phải có policy bounds (giới hạn chính sách) rõ ràng, không phải “Bot thích thì làm”.
 
 ### RISK 2
 
-Usually approval-required:
+Thường cần Human Approval:
 
-- publish external content;
-- spend money;
-- change account/platform settings;
-- delete important data;
-- send consequential external communication;
-- modify production/security configuration;
-- execute actions with material legal/compliance impact.
+- publish nội dung ra ngoài;
+- spend money (tiêu tiền);
+- thay account/platform settings;
+- xóa dữ liệu quan trọng;
+- gửi consequential external communication;
+- thay production/security configuration;
+- action có material legal/compliance impact.
 
-Exact classification is policy-specific and may change with scope.
+Risk classification chính xác phụ thuộc policy/scope và có thể thay đổi theo context.
 
-## 4. Approval workflow
+## 4. Approval workflow — Workflow phê duyệt
 
 ```text
 ActionIntent
@@ -156,49 +157,49 @@ ActionIntent
 → persist workflow state
 → create ApprovalRequest
 → notify human
-→ wait durably
+→ wait durably (chờ bền vững)
    ├── APPROVE → resume → revalidate → execute
    ├── REJECT  → terminate
-   ├── EXPIRE  → terminate/re-plan
+   ├── EXPIRE  → terminate / re-plan
    └── CANCEL  → terminate
 → audit final state
 ```
 
-Beginner translation:
+Diễn giải:
 
 ```text
 Ý định hành động
 → Bộ máy chính sách
 → Yêu cầu phê duyệt
-→ Lưu trạng thái workflow
+→ Lưu state workflow
 → Tạo yêu cầu phê duyệt
 → Báo cho người duyệt
 → Chờ bền vững
-→ Duyệt/Từ chối/Hết hạn/Hủy
+→ Duyệt / Từ chối / Hết hạn / Hủy
 → Ghi vết trạng thái cuối
 ```
 
-## 5. Revalidation before execution
+## 5. Revalidation before execution — Kiểm lại trước thực thi
 
-Approval does not mean “execute forever”. Before execution, re-check:
+Approval không có nghĩa “được phép thực thi mãi mãi”. Ngay trước execution phải re-check:
 
-- approval not expired;
-- product/price/commission still current;
-- policy version still valid;
-- action not already executed;
-- credentials/permissions still valid;
-- external target still exists;
-- risk has not increased.
+- approval chưa hết hạn;
+- Product/price/commission còn current (hiện hành);
+- policy version còn áp dụng;
+- action chưa chạy rồi;
+- credential/permission còn hợp lệ;
+- external target còn tồn tại;
+- risk không tăng lên.
 
-If material context changed, create a new approval request.
+Nếu material context (ngữ cảnh quan trọng) đã thay đổi, tạo ApprovalRequest mới thay vì dùng approval cũ.
 
-## 6. Idempotency
+## 6. Idempotency — Tính lặp an toàn
 
-Every side-effecting action should have an idempotency strategy.
+Mọi side-effecting action (hành động tạo tác động bên ngoài) phải có idempotency strategy.
 
-> **Idempotency (Tính lặp an toàn)** nghĩa là nếu operation bị retry, hệ thống không âm thầm tạo thêm side effect trùng lặp ngoài ý muốn.
+Idempotency nghĩa là retry cùng operation không âm thầm tạo thêm external side effect trùng lặp ngoài ý muốn.
 
-Examples:
+Ví dụ key:
 
 ```text
 publish:<content-id>:<version>
@@ -206,34 +207,37 @@ alert:<event-id>:<channel>
 workflow:<workflow-id>:<step>
 ```
 
-Retry must not silently create duplicate external effects.
+Retry không được biến một intent thành nhiều lần publish/spend/send ngoài dự kiến.
 
-## 7. Kill switch
+## 7. Kill Switch — Công tắc dừng khẩn cấp
 
-Production autonomous systems need at least:
+Production autonomous system cần tối thiểu:
 
-- global execution disable;
-- action-type disable;
+- global execution disable (tắt mọi execution);
+- action-type disable (tắt một loại action);
 - platform/tool disable;
 - emergency credential revocation path;
-- ability to keep collection/analysis running while side effects are disabled.
+- khả năng tiếp tục collection/analysis trong khi side effect bị tắt.
 
-Preferred behavior:
+Behavior ưu tiên:
 
 ```text
 ANALYZE may continue
 ACT can be disabled independently
+
+PHÂN TÍCH có thể tiếp tục
+HÀNH ĐỘNG có thể bị tắt độc lập
 ```
 
-## 8. Human experience principle
+## 8. Human experience principle — Nguyên tắc trải nghiệm người vận hành
 
-The operator should review **decisions**, not babysit every mechanical step.
+Operator nên review **decision (quyết định)**, không babysit từng mechanical step (bước cơ học).
 
-A useful approval should be answerable from a concise decision packet, not require reading raw logs.
+Approval tốt phải có concise decision packet (gói quyết định ngắn, đủ thông tin), không bắt người duyệt đọc raw logs để hiểu Bot đang muốn làm gì.
 
-## 9. Metrics
+## 9. Metrics — Chỉ số vận hành
 
-Track:
+Theo dõi tối thiểu:
 
 - auto-execution rate;
 - approval-required rate;
@@ -244,16 +248,18 @@ Track:
 - policy blocks;
 - rollback/compensation rate;
 - human intervention rate;
-- outcome after approved vs auto actions.
+- outcome sau approved action so với auto action.
 
-## 10. Anti-patterns
+Các metric này dùng để tối ưu mức tự chủ mà không làm mất control.
 
-Do not:
+## 10. Anti-patterns — Cách làm cần tránh
 
-- let the LLM assign and approve its own high-risk action;
-- use a chat message as the only approval record;
-- hold approval state only in process memory;
-- execute after approval when critical facts changed materially;
-- retry side effects without idempotency;
-- make the kill switch depend on the same failing agent workflow;
-- classify everything RISK 2 and turn the human into a bottleneck.
+Không:
+
+- để LLM tự assign risk và tự approve high-risk action của chính nó;
+- dùng chat message làm approval record duy nhất;
+- giữ approval state chỉ trong process memory;
+- execute sau approval khi critical facts đã thay đổi đáng kể;
+- retry side effect khi chưa có idempotency;
+- để kill switch phụ thuộc vào chính agent workflow đang lỗi;
+- classify mọi thứ thành RISK 2 khiến con người trở thành bottleneck.
