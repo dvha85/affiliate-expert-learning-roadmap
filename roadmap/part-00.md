@@ -1,8 +1,12 @@
 # Phần 0 — ORIENTATION & AFFILIATE LAB
 
-- Lịch đề xuất: **Tháng 1**
-- Quy mô: **1 chương / 12 bài**
-- Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
+- Lịch đề xuất: **Tháng 1** của Standard plan.
+- Quy mô: **1 chương / 12 bài**.
+- Chỉ tick bài khi người học đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
+- Link lesson phản ánh **authoring availability**, không phản ánh learner PASS:
+  - `planned` scaffold: chưa link từ roadmap;
+  - `draft` / `ready`: link tới lesson file;
+  - checkbox `[x]`: chỉ dùng cho learner PASS.
 
 ## Checklist bài học
 
@@ -21,10 +25,12 @@
 - [ ] **0.11** — Revenue Journal
 - [ ] **0.12** — Baseline Assessment
 
+> **Authoring snapshot:** 0.1 = `ready` nhưng learner vẫn chưa PASS; 0.2 = scaffold `planned`, chưa authored. File `lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md` tồn tại để test scaffolder ở Issue #7 nên roadmap cố ý chưa link tới file đó.
+
 ## Cổng thực hành
 
 - [ ] **LAB 0 — Affiliate Lab hoàn chỉnh**
-- [ ] Có artifact/evidence được lưu trong repo hoặc liên kết từ Issue
+- [ ] Có artifact/evidence được lưu theo [`artifacts/README.md`](../artifacts/README.md)
 - [ ] Viết retrospective: kết quả, sai lệch, điều học được, bước tiếp theo
 
 ## Hoàn thành phần

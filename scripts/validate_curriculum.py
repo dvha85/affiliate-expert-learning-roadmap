@@ -31,9 +31,6 @@ REQUIRED_META = {
     "lesson_id", "title", "part", "chapter", "effort", "estimated_minutes",
     "status", "prerequisites", "source_refs", "last_verified",
 }
-LEGACY_LESSONS = {
-    Path("lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md"),
-}
 
 
 @dataclass(frozen=True)
@@ -334,9 +331,6 @@ def validate(root: Path) -> list[Problem]:
             problems.append(Problem("META003", str(rel), f"lesson ID {file_id} not found in roadmap"))
 
         text = path.read_text(encoding="utf-8")
-        if rel in LEGACY_LESSONS:
-            continue
-
         parsed = parse_front_matter(text)
         if not parsed:
             problems.append(Problem("META001", str(rel), "missing YAML front matter"))
@@ -386,8 +380,9 @@ def validate(root: Path) -> list[Problem]:
         if status == "ready":
             m = FRONT_RE.match(text)
             body = text[m.end():] if m else text
-            if re.search(r"(?m)^\s*\.\.\.\s*$|<artifact-slug>|Bài X\.Y|Tên bài", body):
-                problems.append(Problem("STATE003", str(rel), "ready lesson still contains scaffold placeholders"))
+            authored_body = strip_fenced_code(body)
+            if re.search(r"(?m)^\s*\.\.\.\s*$|<artifact-slug>|Bài X\.Y|Tên bài", authored_body):
+                problems.append(Problem("STATE003", str(rel), "ready lesson still contains scaffold placeholders outside fenced evidence examples"))
 
         check_heading_structure(rel, text, problems)
 
