@@ -27,10 +27,10 @@ jobs:
       - name: Run hardening validator
         run: python scripts/validate_hardening.py
 
-      - name: Run Build-First validator
+      - name: Run Build-First semantic validator
         run: python scripts/validate_build_first.py
 
-      - name: Run validator mutation tests
+      - name: Run validator regression tests
         run: python -m unittest discover -s tests -v
 
       - name: Set up Go
@@ -38,6 +38,26 @@ jobs:
         with:
           go-version-file: lab/affiliate-bot/go.mod
 
-      - name: Test bootstrap Affiliate Bot
+      - name: Check reference Go formatting
         working-directory: lab/affiliate-bot
+        run: test -z "$(gofmt -l .)"
+
+      - name: Vet reference Affiliate Bot
+        working-directory: lab/affiliate-bot
+        run: go vet ./...
+
+      - name: Test reference Affiliate Bot
+        working-directory: lab/affiliate-bot
+        run: go test ./...
+
+      - name: Check learner Go formatting
+        working-directory: lab/learner/affiliate-bot
+        run: test -z "$(gofmt -l .)"
+
+      - name: Vet learner Affiliate Bot
+        working-directory: lab/learner/affiliate-bot
+        run: go vet ./...
+
+      - name: Test learner Affiliate Bot
+        working-directory: lab/learner/affiliate-bot
         run: go test ./...
