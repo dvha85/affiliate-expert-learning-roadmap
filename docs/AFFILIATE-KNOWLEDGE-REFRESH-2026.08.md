@@ -13,6 +13,7 @@
 | TikTok creator quality | PQP → **Promotion Performance Score (PPS)** từ 2026-08-27 | P5/C14; P8; P13; P22/C85 | HIGH |
 | TikTok AIGC | AIGC được phép nhưng phải trung thực, không fake product/results/story; dùng disclosure/label phù hợp | P5/C14; P9; P17/C63–66; P19/C76 | HIGH |
 | TikTok creator eligibility | Vietnam creator application currently includes ≥1,000 followers, age ≥18, compliance/identity conditions | P5/C13–14; P22/C85 | HIGH |
+| Vietnam e-commerce | Luật TMĐT 122/2025/QH15 + NĐ 248/2026/NĐ-CP hiệu lực 2026-07-01 | P4/C10; P5; P20; P22/C86 | HIGH |
 | Vietnam privacy | Luật 91/2025/QH15 + NĐ 356/2025/NĐ-CP hiệu lực 2026-01-01 | P4/C12; P12; P19; P22/C86 | HIGH |
 | Vietnam advertising | Luật 75/2025/QH15 hiệu lực 2026-01-01; NĐ 342/2025/NĐ-CP hiệu lực 2026-02-15 | P4/C10/C12; P5; P9; P22/C86 | HIGH |
 | Vietnam tax | NĐ 68/2026/NĐ-CP và NĐ 141/2026/NĐ-CP thay đổi framework thuế hộ/cá nhân kinh doanh | P4/C11; P20; P22/C86 | HIGH |
@@ -77,9 +78,27 @@ As of verification, the published Vietnam requirements include at least **1,000 
 
 Use this page as one official watch source for current creator/seller policy migration. It documents the August 2026 PPS rollout and other operational changes.
 
-## 3. Vietnam legal, privacy and tax — 2026 baseline
+## 3. Vietnam e-commerce, legal, privacy and tax — 2026 baseline
 
 > Educational research only. Lesson author must verify the exact provision that supports a claim; the list below is a baseline register, not legal advice.
+
+### EXT:VN:ECOM-LAW-122-2025
+
+- **Source:** Chính phủ/Công báo — Luật Thương mại điện tử số 122/2025/QH15
+- **URL:** https://vanban.chinhphu.vn/?docid=216503&pageid=27160
+- **Effective:** 2026-07-01
+- **Verified:** 2026-08-28
+- **Volatility:** HIGH
+- **Maps to:** Ch10, Ch13–16, Ch78–82, Ch86
+
+### EXT:VN:ECOM-ND248-2026
+
+- **Source:** Chính phủ — Nghị định 248/2026/NĐ-CP quy định chi tiết một số điều của Luật Thương mại điện tử
+- **URL:** https://vanban.chinhphu.vn/?docid=218747&orggroupid=2&pageid=27160
+- **Effective:** 2026-07-01
+- **Verified:** 2026-08-28
+- **Volatility:** HIGH
+- **Maps to:** Ch10, Ch13–16, Ch78–82, Ch86
 
 ### EXT:VN:PDPL-91-2025
 
@@ -93,7 +112,7 @@ Use this page as one official watch source for current creator/seller policy mig
 ### EXT:VN:PDPL-ND356-2025
 
 - **Source:** Chính phủ — Nghị định 356/2025/NĐ-CP hướng dẫn Luật Bảo vệ dữ liệu cá nhân
-- **URL:** https://chinhphu.vn/?classid=1&docid=216387&orggroupid=2&pageid=27160
+- **URL:** https://vanban.chinhphu.vn/?classid=1&docid=216387&pageid=27160
 - **Effective:** 2026-01-01
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
@@ -111,7 +130,7 @@ Use this page as one official watch source for current creator/seller policy mig
 ### EXT:VN:AD-ND342-2025
 
 - **Source:** Chính phủ — Nghị định 342/2025/NĐ-CP quy định chi tiết một số điều của Luật Quảng cáo
-- **URL:** https://vanban.chinhphu.vn/?docid=216403&pageid=27160
+- **URL:** https://vanban.chinhphu.vn/?classid=1&docid=216403&orggroupid=2&pageid=27160
 - **Effective:** 2026-02-15
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
@@ -121,6 +140,7 @@ Use this page as one official watch source for current creator/seller policy mig
 
 - **Source:** Chính phủ — Nghị định 68/2026/NĐ-CP
 - **URL:** https://vanban.chinhphu.vn/?classid=1&docid=217111&orggroupid=2&pageid=27160
+- **Effective:** 2026-03-05
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
 - **Maps to:** Ch11, Ch80–82, Ch86
@@ -129,11 +149,12 @@ Use this page as one official watch source for current creator/seller policy mig
 
 - **Source:** Chính phủ — Nghị định 141/2026/NĐ-CP sửa đổi Nghị định 68/2026/NĐ-CP
 - **URL:** https://vanban.chinhphu.vn/?docid=217960&orggroupid=2&pageid=27160
+- **Effective:** 2026-01-01 (the official metadata states this effective date)
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
 - **Maps to:** Ch11, Ch86
 
-**Curriculum implication:** Chương 11 không được hard-code một ngưỡng/biểu thuế/quy trình kê khai từ memory. Mọi numeric threshold và thủ tục phải external-verify tại ngày authoring.
+**Curriculum implication:** Chương 10–11 không được hard-code một nghĩa vụ, ngưỡng, biểu thuế hay thủ tục từ memory. Mọi numeric threshold, platform duty và thủ tục phải external-verify tại ngày authoring.
 
 ## 4. Tracking & attribution in the privacy era
 
