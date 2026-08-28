@@ -6,6 +6,8 @@ Dùng track này khi có thể duy trì khoảng **11–12 giờ/tuần**; khuy�
 
 Nếu capacity thực tế khoảng 9 giờ/tuần, dùng [15-month Standard Plan](15-MONTH-PLAN.md).
 
+Track này phải đọc cùng [Hybrid Execution Model](EXECUTION-MODEL.md): bảng tháng mô tả primary knowledge focus, còn execution loops đã mở khóa tiếp tục chạy song song trong cùng weekly capacity.
+
 ## 1. Capacity model
 
 Baseline core curriculum cố định:
@@ -50,14 +52,38 @@ Vì estimate có uncertainty, track này khuyến nghị **12h/tuần** thay vì
 
 Tổng content + integration envelope khoảng **509 giờ**.
 
-## 3. Điều kiện dùng accelerated track
+## 3. Hybrid execution trong accelerated track
+
+Accelerated không có nghĩa học nhiều Part độc lập cùng lúc. Vẫn giữ:
+
+```text
+ONE primary knowledge focus
++
+ONLY unlocked execution loops
++
+ALL within ~12h/tuần
+```
+
+Ví dụ:
+
+```text
+Month 4: Part 9 mở Content Production
+Month 5: thêm Traffic + Funnel → Content vẫn chạy
+Month 7: Part 14 mở Formal Experiment loop
+Month 7–8: Bot loop mở ở Part 15, dùng data/artifact tích lũy trước đó
+```
+
+Các loop không cộng thêm ngoài capacity; chúng chiếm phần practice/data/evidence trong envelope tháng.
+
+## 4. Điều kiện dùng accelerated track
 
 Nên chọn track này khi:
 
 - có thể duy trì gần 12h/tuần trong phần lớn năm;
 - chấp nhận một số tháng 48–50h;
 - có nền tảng engineering/data đủ tốt để các lesson kỹ thuật không thường xuyên vượt estimate;
-- vẫn giữ đủ 5 PASS criteria.
+- vẫn giữ đủ 5 PASS criteria;
+- có khả năng duy trì execution loops đã unlock mà không làm primary knowledge bị phân tán.
 
 Không nên chọn track này nếu để kịp lịch phải:
 
@@ -65,23 +91,25 @@ Không nên chọn track này nếu để kịp lịch phải:
 - bỏ explain-back;
 - giảm quiz/evidence;
 - tick bài chỉ vì đã đọc;
-- bỏ project integration.
+- bỏ project integration;
+- chạy quá nhiều execution loop nhưng không có learning focus.
 
 Khi đó phải chuyển về Standard 15 tháng.
 
-## 4. Monthly review và reforecast
+## 5. Monthly review và reforecast
 
 Mỗi tháng kiểm tra:
 
 - actual hours;
 - số lesson PASS/RETRY;
+- active execution loops;
 - XL gate còn tồn;
 - rolling 4-week capacity;
 - backlog spillover.
 
 Nếu rolling capacity < 11h/tuần trong 4 tuần liên tiếp, cân nhắc chuyển sang Standard Plan thay vì tăng áp lực bằng cách giảm chất lượng học.
 
-## 5. Nhịp tuần gợi ý 12 giờ
+## 6. Nhịp tuần gợi ý 12 giờ
 
 | Hoạt động | Thời lượng gợi ý |
 |---|---:|
@@ -91,12 +119,20 @@ Nếu rolling capacity < 11h/tuần trong 4 tuần liên tiếp, cân nhắc chu
 | Coding/Data/Artifact | 4.5h |
 | Weekly review | 1h |
 
+Khi execution loops mở, có thể dùng heuristic:
+
+```text
+50–70%: current knowledge / primary Part
+30–50%: execution loops + evidence + review
+```
+
 Tỷ lệ thay đổi theo Part; đây chỉ là capacity envelope.
 
-## 6. Nguyên tắc
+## 7. Nguyên tắc
 
 ```text
 Timeline là forecast.
+Execution loops là hoạt động duy trì.
 PASS evidence là gate.
 ```
 
