@@ -11,28 +11,51 @@ Revision v2026.09 dùng mô hình:
 ```text
 v2026.09 active canonical
 =
-v2026.08 structural baseline
+v2026.08 historical source baseline
 +
 explicit v2026.09 overrides
++
+validated normalized roadmap inventory
 ```
 
-Điều này cho phép giữ nguyên provenance của 23 Part / 89 Chapter / 671 lesson trong v2026.08 nhưng thay technology direction sang **Go-first Bot Engineering** mà không sao chép toàn bộ syllabus và tạo hai bản dễ drift.
+Active curriculum vẫn giữ **23 Part / 89 Chapter / 671 lesson / 14 main projects**, nhưng không giả định rằng mọi lesson ID/title trong normalized roadmap đã xuất hiện verbatim trong historical source.
 
-## Historical structural baseline
+Đọc [`CURRICULUM-INDEX-v2026.09.md`](CURRICULUM-INDEX-v2026.09.md) để hiểu provenance classes và cách resolve đủ 671 active lesson IDs.
 
-`SYLLABUS-v2026.08.md` được giữ nguyên làm historical provenance/base structural source.
+## Historical source baseline
 
-Nó chứa cấu trúc đầy đủ:
+`SYLLABUS-v2026.08.md` được giữ nguyên làm historical provenance/base source.
 
-- Part;
-- Chapter;
-- Lesson ID/title;
-- Project;
-- LAB;
-- PASS Gate;
-- mục tiêu chương trình ban đầu.
+Nó chứa:
+
+- Part và Chapter structure;
+- nhiều lesson ID/title được ghi explicit;
+- một số chapter/design block được roadmap sau đó normalize thành lesson-sized units;
+- Project, LAB, PASS Gate và mục tiêu chương trình ban đầu.
+
+Vì vậy **không được tuyên bố rằng mọi normalized lesson ID hiện tại đều đã tồn tại verbatim trong v2026.08**.
+
+Provenance của active lesson được phân loại:
+
+```text
+source_explicit
+normalized_from_chapter
+normalized_then_overridden
+```
 
 C#/.NET-first trong v2026.08 là quyết định lịch sử và **không còn là active primary implementation path**.
+
+## Normalized active lesson inventory
+
+Inventory lesson đang vận hành nằm ở:
+
+```text
+ROADMAP.md
++
+roadmap/part-00.md ... roadmap/part-22.md
+```
+
+Curriculum CI bảo vệ count, chapter placement, lesson IDs và lifecycle. `CURRICULUM-INDEX-v2026.09.md` định nghĩa cách inventory này truy ngược về historical source + active override mà không tạo thêm một bản copy 671-row dễ drift.
 
 ## Các nguồn supplement
 
@@ -42,11 +65,14 @@ C#/.NET-first trong v2026.08 là quyết định lịch sử và **không còn l
 ## Source precedence
 
 ```text
-ACTIVE STRUCTURE / NORMATIVE OVERRIDES:
+ACTIVE NORMATIVE OVERRIDES:
 SYLLABUS-v2026.09
 
-INHERITED STRUCTURAL BASELINE:
+HISTORICAL SOURCE EVIDENCE:
 SYLLABUS-v2026.08
+
+NORMALIZED ACTIVE LESSON INVENTORY:
+ROADMAP.md + roadmap/part-00..22.md
 
 PACING CURRENT:
 docs/15-MONTH-PLAN.md hoặc docs/12-MONTH-PLAN.md
@@ -61,15 +87,14 @@ Noi-dung-dao-tao.txt + Nghien-cuu.txt
 Quy tắc resolution:
 
 ```text
-v2026.09 explicit override
-→ v2026.09 thắng
-
-v2026.09 không nói tới
-→ kế thừa v2026.08
-
-current platform/legal/API/software fact
-→ external verification + freshness policy
+roadmap lesson ID/title
+→ v2026.09 explicit override nếu có
+→ v2026.08 lesson-level evidence nếu source-explicit
+→ nếu không explicit, dùng chapter/block-level provenance
+→ external verification cho current facts
 ```
+
+`S:P/C/L` là normalized canonical identifier, **không phải lời khẳng định rằng exact lesson token luôn tồn tại trong historical file**.
 
 ## Go-first engineering decision
 
@@ -101,11 +126,12 @@ Canonical source không bị âm thầm sửa bằng web research. Các dữ ki�
 
 - [Freshness Policy](../docs/FRESHNESS-POLICY.md)
 - [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
+- [Bot Engineering Refresh 2026.08](../docs/BOT-ENGINEERING-REFRESH-2026.08.md)
 
 Quy tắc:
 
 ```text
-canonical concepts/structure = active canonical revision + inherited baseline
+canonical concepts/structure = normalized inventory + active overrides + historical provenance
 current operating facts = external source register + verified date
 ```
 
