@@ -18,6 +18,29 @@ Build
 
 `ROADMAP.md` và 23 Part files vẫn là **canonical knowledge inventory** gồm 23 Parts / 89 Chapters / 671 lessons. Build-First không thay, renumber hay xoá lesson; nó thay **thứ tự thực thi việc học**.
 
+## Bot Evolution spine
+
+| Mission | Bot version | Ship target |
+|---|---:|---|
+| M00 | v0.0 | Bot boots |
+| M01 | v0.1 | Product ingest |
+| M02 | v0.2 | Product store + history |
+| M03 | v0.3 | First product ranking |
+| M04 | v0.4 | Product watcher |
+| M05 | v0.5 | Reliable alerts |
+| M06 | v1.0 | Product Intelligence |
+| M07 | v2.0 | Content Intelligence |
+| M08 | v3.0 | Revenue & Attribution Intelligence |
+| M09 | v4.0 | Experiment Engine |
+| M10 | v5.0 | Decision & Policy Engine |
+| M11 | v6.0 | AI Analysis Assistant |
+| M12 | v7.0 | Tool-Using Bot |
+| M13 | v8.0 | Governed Automation |
+| M14 | v9.0 | Production Bot |
+| M15 | v10.0 | Affiliate Intelligence Platform |
+
+Full product progression: [`docs/BOT-EVOLUTION-ROADMAP.md`](docs/BOT-EVOLUTION-ROADMAP.md). Just-in-time mapping: [`docs/MISSION-KNOWLEDGE-MAP.md`](docs/MISSION-KNOWLEDGE-MAP.md).
+
 ## Bốn loại đơn vị
 
 - **Lesson** — một đơn vị kiến thức trong canonical curriculum.
@@ -55,8 +78,6 @@ Go concepts được pull đúng lúc: package/function/struct trước; JSON/er
 
 ## Safety / autonomy
 
-Build-first không bỏ các boundary hiện có:
-
 ```text
 Deterministic logic before LLM autonomy
 Decision ≠ Execution
@@ -68,8 +89,8 @@ RISK 2 → human approval
 
 ## Knowledge mastery vẫn tồn tại
 
-Lesson PASS vẫn theo `docs/PASS-CRITERIA.md`. Mission PASS sẽ được định nghĩa riêng ở PR2. Một mission hoàn thành **không được tự động tick lesson PASS**.
+Lesson PASS vẫn theo `docs/PASS-CRITERIA.md`. Mission PASS theo [`docs/MISSION-PASS-CRITERIA.md`](docs/MISSION-PASS-CRITERIA.md). Một mission hoàn thành **không được tự động tick lesson PASS**.
 
-## Tiếp theo
+## Bootstrap scope
 
-Mission system, Bot Evolution M00–M15 và first working Go bot sẽ được bổ sung tuần tự theo Issue #30. Trong thời gian migration, learner status hiện tại được giữ nguyên.
+M00–M03 là bootstrap missions đầu tiên sẽ được author thành `ready` cùng working Go bot ở phase tiếp theo. Không tạo file placeholder cho M04–M15 trước khi author thực sự.
