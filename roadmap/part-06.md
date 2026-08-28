@@ -1,6 +1,6 @@
 # Phần 6 — MARKET & NICHE INTELLIGENCE
 
-- Lịch đề xuất: **Tháng 2**
+- Timeline: **Standard M4 · Accelerated M3** — forecast; PASS evidence mới là gate.
 - Quy mô: **3 chương / 26 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
