@@ -61,6 +61,8 @@
 
 > **2026 freshness note:** concept/model drift now includes platform-policy, creator-score and AI-discovery changes. Forecast/ranking evaluation should annotate regime changes and avoid treating renamed/redefined platform metrics as a continuous unchanged feature series.
 
+> **Adaptive-automation safety boundary:** explore/exploit models may recommend an action or bounded allocation, but do not bypass Part 16/19 policy controls. Before a model-driven side effect, define action space, budget/risk ceiling, stop condition, freshness/revalidation rule and approval requirement. Preferred flow: `model recommendation → Policy/Risk → auto or approval → execution → outcome/evaluation`, not `bandit/model → privileged action`.
+
 ## Hoàn thành phần
 
 - [ ] Tất cả bài học đã PASS
