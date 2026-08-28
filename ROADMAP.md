@@ -1,6 +1,6 @@
 # Roadmap tổng
 
-> Checkbox bài học nằm trong file từng phần. Đây là nguồn trạng thái duy nhất để tránh tick trùng.
+> Checkbox bài học nằm trong file từng phần. Đây là nguồn trạng thái learner PASS duy nhất để tránh tick trùng.
 
 Tổng cộng: **23 phần · 89 chương · 671 bài học**.
 
@@ -41,6 +41,24 @@ Bảng dưới giữ vai trò **curriculum index**, không phải cam kết “m
 | [Phần 21](roadmap/part-21.md) | CAPSTONE | 83–84 | 17 | ⬜ |
 | [Phần 22](roadmap/part-22.md) | CONTINUOUS MASTERY | 85–88 | 20 | ⬜ |
 
+## Authoring status vs learner status
+
+Hai hệ trạng thái độc lập:
+
+```text
+Authoring: planned → draft → ready
+Learner:   chưa PASS → PASS / RETRY
+```
+
+Quy ước link:
+
+- `planned` scaffold có thể tồn tại trong `lessons/` nhưng chưa được link từ part roadmap;
+- `draft` hoặc `ready` phải được link từ part roadmap;
+- link **không** có nghĩa learner đã PASS;
+- checkbox `[x]` chỉ dùng sau khi đủ 5 PASS criteria.
+
+Bài 0.1 là reference implementation `ready`; learner status vẫn `[ ]` cho tới khi evidence thực tế đạt PASS.
+
 ## Hybrid execution
 
 Knowledge roadmap có một **primary current Part/lesson** để giữ focus, nhưng execution không tuyến tính tuyệt đối.
@@ -70,12 +88,12 @@ Part 11 thêm Funnel/Data Measurement ───────→
 
 Không dừng Content khi sang Traffic; không dừng Content/Traffic khi sang Funnel.
 
-## Quy ước trạng thái
+## Quy ước trạng thái learner
 
-- ⬜ Chưa bắt đầu
+- ⬜ Chưa PASS
 - 🟨 Đang học
 - 🟦 Chờ review / chưa đủ evidence
-- ✅ Hoàn thành
+- ✅ PASS
 - ⛔ Blocked
 
 ## Quy ước effort
