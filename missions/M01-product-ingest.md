@@ -1,13 +1,13 @@
 ---
 mission_id: "M01"
-title: "Product Ingest"
+title: "Đọc và kiểm tra dữ liệu sản phẩm"
 status: ready
 requires_missions: ["M00"]
 bot_version_from: "v0.0"
 bot_version_to: "v0.1"
 estimated_hours: 3
 knowledge:
-  required: []
+  required: ["38.1", "51.1", "52.3", "52.7"]
   on_demand: []
   reference: []
 projects:
@@ -16,93 +16,186 @@ risk_scope:
   external_side_effects: false
 ---
 
-# Mission M01 — Product Ingest
+# Mission M01 — Product Ingest (Đọc và kiểm tra dữ liệu sản phẩm)
 
-## Ship Target
+## Ship Target — Mục tiêu bàn giao
 
-Đọc product JSON thành validated `[]Product` và trả lỗi rõ ràng cho input invalid.
+Từ learner Bot v0.0, tự xây capability (năng lực) đọc `data/sample-products.json` thành `[]Product`, validate (kiểm tra) business data và trả lỗi rõ ràng khi input sai.
 
-## Starting Bot State
+Kết quả M01 không được có ranking hoặc AI.
 
-v0.0 chạy được nhưng product handling còn rất mỏng.
+## Starting Bot State — Trạng thái Bot ban đầu
 
-## Build First
+Starting state là **learner commit đã PASS M00**, không phải reference implementation.
 
-Đọc `internal/product` và `internal/ingest`; chạy sample data trước rồi sửa một field.
+Learner workspace:
 
-## Run
-
-```bash
-cd lab/affiliate-bot
-go run ./cmd/bot
+```text
+lab/learner/affiliate-bot/
 ```
 
-## Observe
+Trước M01, Bot chỉ khởi động/in status và chưa có Product model hay JSON ingest.
 
-Raw JSON không phải business data đáng tin ngay. Bot cần schema/validation trước khi scoring hoặc automation.
+## Build First — Xây trước
 
-## Knowledge Pull
+Tự tạo phần nhỏ nhất theo thứ tự:
 
-### Required
+```text
+Product struct
+→ read file
+→ JSON decode
+→ validate fields
+→ print product count
+```
 
-- Product fields tối thiểu: ID, name, price, commission rate.
-- Go struct, JSON decode, error handling, validation.
+Gợi ý path, không phải bắt buộc copy reference:
 
-### On-demand
+```text
+internal/product/
+internal/ingest/
+cmd/bot/
+```
 
-- Platform-specific fields chỉ thêm khi có adapter thật.
+Chỉ sau khi đã có attempt, bạn có thể đối chiếu `lab/affiliate-bot/` nếu cần.
 
-### Reference
-
-- Part 12 data model đầy đủ để sau.
-
-## Improve
-
-Thêm validation phù hợp business semantics; tránh để price âm, empty ID/name hoặc commission ngoài range.
-
-## Tests
+## Run — Chạy
 
 ```bash
+cd lab/learner/affiliate-bot
+go run ./cmd/bot
 go test ./...
 ```
 
-Phải cover valid JSON, malformed JSON và invalid product.
-
-## Operate
-
-Chạy với sample file và một file chỉnh sửa thủ công để quan sát validation behavior.
-
-## Failure Case
-
-Malformed JSON hoặc product invalid phải trả lỗi, không silently drop data.
-
-## Evidence
-
-Lưu test output, sample input/output và note validation nào bảo vệ decision downstream.
-
-## Explain-back
-
-1. Vì sao decode thành công chưa đủ?
-2. Validation nào là business validation, validation nào chỉ là syntax?
-3. Vì sao không đưa platform-specific field vào core model quá sớm?
-
-## Mission PASS
-
-- [ ] ingest works
-- [ ] tests pass
-- [ ] valid data flows
-- [ ] invalid data fails explicitly
-- [ ] output inspectable
-- [ ] required knowledge understood
-- [ ] explain-back passes
-- [ ] evidence saved
-
-## Bot Version Result
+Expected capability sau M01:
 
 ```text
-v0.0 → v0.1 validated product ingest
+Affiliate Bot starting...
+Loaded products: 2
+Bot version: v0.1
+Bot status: OK
 ```
 
-## Next Mission
+Exact wording có thể khác, nhưng product count phải đến từ file JSON thật chứ không hard-code.
 
-M02 — Product Store & History.
+## Observe — Quan sát
+
+JSON parse được chưa có nghĩa business data hợp lệ.
+
+Bot cần phân biệt:
+
+```text
+syntax hợp lệ
+≠
+business data hợp lệ
+```
+
+Ví dụ:
+
+- `id` rỗng: JSON hợp lệ nhưng Product không định danh được;
+- `price < 0`: JSON hợp lệ nhưng business value vô lý;
+- `commission_rate > 1`: parse được nhưng sai semantics;
+- unknown field (field lạ): có thể là schema drift cần phát hiện thay vì âm thầm bỏ qua.
+
+## Knowledge Pull — Lấy kiến thức đúng lúc
+
+### Required — Bắt buộc cho Mission
+
+- `38.1` — Core marketplace entities.
+  - slice: Product cần identity và field cốt lõi nào.
+- `51.1` — Go runtime, modules và project structure.
+  - slice: package/type/struct đủ để tổ chức Product model.
+- `52.3` — File Import.
+  - slice: local file là ProductSource đầu tiên và cách tách read/decode khỏi domain.
+- `52.7` — Validation.
+  - slice: syntax validation khác business validation.
+
+> Không yêu cầu full PASS bốn Lesson trước khi code M01. Chỉ cần hiểu slice đủ để build và explain-back.
+
+### On-demand — Khi phát sinh nhu cầu
+
+- error wrapping (bọc lỗi) khi lỗi hiện tại khó truy nguyên;
+- JSON decoder behavior khi test lộ edge case;
+- platform-specific fields chỉ khi có adapter thật.
+
+### Reference — Tham khảo
+
+- Part 12 data model đầy đủ để sau;
+- `lab/affiliate-bot/` chỉ đối chiếu sau attempt.
+
+## Improve — Cải tiến
+
+Sau happy path đầu tiên, thêm business validation tối thiểu:
+
+- ID/name không rỗng;
+- price không âm;
+- commission rate trong khoảng hợp lệ;
+- conversion potential trong khoảng hợp lệ nếu field được dùng trong sample schema.
+
+Không thêm field platform cụ thể khi chưa có business need.
+
+## Tests — Kiểm thử
+
+Ít nhất cover:
+
+- valid JSON;
+- malformed JSON;
+- invalid Product;
+- unknown field;
+- output Product count đúng với sample file.
+
+PR-B sẽ harden thêm strict trailing-content case ở reference implementation; learner nên tự thử nếu kịp trong M01.
+
+## Operate — Vận hành
+
+Chạy với:
+
+1. file sample chuẩn;
+2. một bản copy tự sửa thành invalid;
+3. một bản có field lạ.
+
+Quan sát error message có giúp tìm nguyên nhân hay không.
+
+## Failure Case — Tình huống lỗi
+
+Malformed JSON hoặc Product invalid phải trả error rõ ràng và exit non-success; không silently drop (âm thầm bỏ) record lỗi.
+
+## Evidence — Bằng chứng
+
+Lưu:
+
+- Product model;
+- ingest code path;
+- sample input/output;
+- test output;
+- ít nhất một invalid-input output;
+- learner commit;
+- note: validation nào bảo vệ downstream decision.
+
+## Explain-back — Giải thích lại
+
+1. Vì sao decode thành công chưa đủ để tin dữ liệu?
+2. Validation nào là syntax validation, validation nào là business validation?
+3. Vì sao không đưa platform-specific field vào core Product quá sớm?
+4. Nếu API sau này trả schema khác, layer nào nên phát hiện?
+
+## Mission PASS — Tiêu chí PASS
+
+- [ ] learner tự build Product model + JSON ingest
+- [ ] valid data đi qua đúng luồng
+- [ ] invalid data fail rõ ràng
+- [ ] tests PASS
+- [ ] output kiểm tra được
+- [ ] chưa leak ranking/AI capability vào M01
+- [ ] hiểu required knowledge slices
+- [ ] explain-back đạt
+- [ ] evidence đã lưu
+
+## Bot Version Result — Kết quả phiên bản Bot
+
+```text
+v0.0 → v0.1 validated Product ingest
+```
+
+## Next Mission — Mission tiếp theo
+
+M02 — Product Store & History (Lưu trữ và lịch sử sản phẩm).
