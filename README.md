@@ -18,8 +18,9 @@ Affiliate Intelligence Expert
 - **Default timeline:** 15 tháng, khoảng 9 giờ/tuần
 - **Accelerated:** 12 tháng, khoảng 11–12 giờ/tuần
 - **Structure:** 23 Parts · 89 Chapters · 671 lessons · 14 main projects
-- **0.1 — Affiliate Expert là gì?**: `ready`
-- **0.2 — Affiliate Bot Engineer là gì?**: `planned`; Go-first authoring sẽ hoàn tất ở migration PR4
+- **0.1 — Affiliate Expert là gì?**: `ready`, general lesson reference
+- **0.2 — Affiliate Bot Engineer là gì?**: `ready`, Go-first Bot Engineer/autonomy reference
+- **0.3 trở đi:** chưa được coi là authored nếu chưa có file `draft|ready` đúng lifecycle
 
 `ready` là trạng thái biên soạn, **không phải learner PASS**. Checkbox `[x]` chỉ dùng khi người học đạt đủ PASS evidence.
 
@@ -149,10 +150,11 @@ external source registers + last_verified
 1. Mở [ROADMAP.md](ROADMAP.md).
 2. Chọn [15-month Standard](docs/15-MONTH-PLAN.md) hoặc [12-month Accelerated](docs/12-MONTH-PLAN.md).
 3. Đọc [Hybrid Execution Model](docs/EXECUTION-MODEL.md).
-4. Học lesson đã `ready`.
-5. Chỉ tick `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
-6. Lưu evidence theo [Artifact conventions](artifacts/README.md).
-7. Review và cập nhật [PROGRESS.md](PROGRESS.md).
+4. Học [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md).
+5. Học [`0.2 — Affiliate Bot Engineer là gì?`](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) và làm boundary-map artifact.
+6. Chỉ tick `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
+7. Lưu evidence theo [Artifact conventions](artifacts/README.md).
+8. Review và cập nhật [PROGRESS.md](PROGRESS.md).
 
 ## Learning operating system
 
@@ -196,18 +198,18 @@ scaffold
 - `draft|ready`: phải link từ roadmap;
 - `[x]`: learner PASS only.
 
-Reference implementation hiện tại:
-- [0.1 — Affiliate Expert là gì?](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md)
+Reference implementations:
 
-Sau Go-first migration, 0.2 sẽ là Bot Engineer reference implementation riêng.
+- [0.1 — Affiliate Expert là gì?](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md) — general Affiliate Expert reference.
+- [0.2 — Affiliate Bot Engineer là gì?](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) — Go-first Bot Engineer/governed-autonomy reference.
 
 ## Lesson scaffolding
 
 ```bash
-python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 60 --prerequisite 0.1 --dry-run
+python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 75 --prerequisite 0.1 --dry-run
 ```
 
-Scaffolder không overwrite file hiện hữu và không thay đổi learner PASS.
+0.2 đã tồn tại và `ready`, nên dry-run chỉ báo `EXISTS ... would not overwrite`; actual write vẫn từ chối overwrite.
 
 Xem [Lesson Scaffolding Guide](docs/LESSON-SCAFFOLDING.md).
 

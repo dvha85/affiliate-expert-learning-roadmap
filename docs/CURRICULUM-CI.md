@@ -114,7 +114,7 @@ last_verified:
 
 Validator cũng kiểm tra `status`, `effort`, `estimated_minutes`, path metadata và canonical `S:P/C/L` source ref.
 
-Không có legacy lesson exception. Bài 0.1 phải pass cùng contract như mọi lesson khác.
+Không có legacy lesson exception. Bài 0.1 và 0.2 phải pass cùng contract như mọi lesson khác.
 
 ### 8. Freshness metadata contract
 
@@ -151,15 +151,18 @@ Scaffold `status: planned` **không được link từ roadmap như một lesson
 scaffold file ≠ authored lesson ≠ learner PASS
 ```
 
+Bài 0.2 hiện là ví dụ cụ thể: file từng là scaffold `planned`, đã được author thành `ready`, được link từ roadmap nhưng learner checkbox vẫn `[ ]`.
+
 ## Heading checks
 
 Lesson phải có đúng một H1, H1 là heading đầu tiên và không nhảy heading level.
 
-## Reference implementation
+## Reference implementations
 
-Hiện tại `lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md` là reference lesson `ready` chung.
+- `lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md` — general Affiliate Expert `ready` lesson reference.
+- `lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md` — Go-first Bot Engineer/governed-autonomy `ready` reference.
 
-Sau Go-first migration PR4, bài 0.2 sẽ trở thành reference implementation riêng cho Bot Engineer/autonomy direction; điều này không tự động đánh dấu learner PASS.
+Cả hai đều phải tuân cùng metadata/heading/lifecycle contract và không tự động đồng nghĩa learner PASS.
 
 ## Mutation / regression tests
 
