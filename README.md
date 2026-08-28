@@ -42,6 +42,29 @@ Authoring và evidence được tách rõ:
 
 Artifact tồn tại không tự động đồng nghĩa PASS. Lesson vẫn cần Concept + Example + Quiz ≥80% + Practice + Explain-back; project/lab/gate cần acceptance criteria riêng.
 
+## Lesson status convention
+
+Repo tách ba trạng thái khác nhau:
+
+```text
+File scaffold
+→ authoring status: planned
+
+Nội dung đang viết / đã đủ học
+→ authoring status: draft / ready
+
+Người học hoàn thành evidence
+→ learner result: PASS / RETRY
+```
+
+Quy ước roadmap:
+
+- `planned` scaffold tồn tại trong `lessons/` nhưng **chưa link** từ roadmap;
+- `draft` hoặc `ready` phải được link từ roadmap;
+- checkbox `[x]` chỉ phản ánh **learner PASS**, không phản ánh authoring status.
+
+Bài [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md) là **reference implementation** cho một lesson `ready`. Bài 0.2 hiện vẫn chỉ là scaffold `planned`.
+
 ## Lesson scaffolding
 
 Dùng [`scripts/scaffold_lesson.py`](scripts/scaffold_lesson.py) để tạo lesson scaffold **theo nhu cầu**, không sinh hàng loạt 670 file rỗng.
@@ -80,11 +103,11 @@ Validator kiểm tra tối thiểu:
 - Part/Chapter/Lesson counts giữa `ROADMAP.md` và part files;
 - duplicate/gap lesson IDs;
 - lesson path/link consistency;
-- metadata bắt buộc cho lesson mới;
+- metadata bắt buộc cho mọi lesson file;
 - `planned|draft|ready` linkage convention;
 - heading hierarchy cơ bản.
 
-Lesson 0.1 đang có legacy exception tạm thời cho metadata/heading tới Issue #9; relative links vẫn được kiểm tra bình thường.
+Từ Step 9, **không còn legacy exception cho lesson 0.1**. Tất cả lesson file đều phải pass cùng metadata/heading contract.
 
 Xem [Curriculum CI Guide](docs/CURRICULUM-CI.md).
 
@@ -105,6 +128,8 @@ Xem [SOURCE-MAPPING.md](docs/SOURCE-MAPPING.md).
 Lesson mới phải được viết từ [`templates/LESSON.md`](templates/LESSON.md). `status: planned|draft|ready` là authoring status, không phải learner PASS state.
 
 Lesson `ready` phải có answer key hoặc scoring rubric, artifact rõ ràng và external verification khi có claim hiện hành về platform/legal/tax/policy/API.
+
+Reference implementation: [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md).
 
 Xem [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md).
 
