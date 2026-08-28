@@ -67,6 +67,20 @@ Tổng cộng: **1 phần · 1 chương · 2 bài học**.
 ''')
         self.write("lessons/part-00/chapter-00/0.1-ready-lesson.md", self.lesson("0.1", "ready", "Ready lesson"))
         self.write("lessons/part-00/chapter-00/0.2-planned-lesson.md", self.lesson("0.2", "planned", "Planned lesson"))
+        self.write("sources/README.md", '''# Sources
+
+`SYLLABUS-v2026.09.md` is the active canonical manifest.
+''')
+        self.write("sources/SYLLABUS-v2026.08.md", "# Historical baseline\n")
+        self.write("sources/SYLLABUS-v2026.09.md", '''# Active canonical
+
+PRIMARY IMPLEMENTATION LANGUAGE = Go
+
+Parts: 23
+Chapters: 89
+Lessons: 671
+Main projects: 14
+''')
 
     def codes(self) -> set[str]:
         return {p.code for p in validate(self.root)}
@@ -83,7 +97,7 @@ Tổng cộng: **1 phần · 1 chương · 2 bài học**.
         self.assertIn("LINK001", self.codes())
 
     def test_source_markdown_link_is_checked(self) -> None:
-        self.write("sources/README.md", "# Sources\n\n[missing](missing-source.md)\n")
+        self.write("sources/README.md", "# Sources\n\nactive canonical SYLLABUS-v2026.09.md\n\n[missing](missing-source.md)\n")
         self.assertIn("LINK001", self.codes())
 
     def test_count_mismatch_fails(self) -> None:
@@ -130,6 +144,31 @@ Tổng cộng: **1 phần · 1 chương · 2 bài học**.
         )
         self.write("lessons/part-00/chapter-00/0.2-planned-lesson.md", content)
         self.assertIn("FRESH003", self.codes())
+
+    def test_active_canonical_manifest_is_required(self) -> None:
+        (self.root / "sources/SYLLABUS-v2026.09.md").unlink()
+        self.assertIn("CANON001", self.codes())
+
+    def test_source_index_must_declare_active_canonical(self) -> None:
+        self.write("sources/README.md", "# Sources\n\nHistorical only.\n")
+        self.assertIn("CANON004", self.codes())
+
+    def test_active_canonical_requires_go_decision_marker(self) -> None:
+        text = (self.root / "sources/SYLLABUS-v2026.09.md").read_text(encoding="utf-8").replace(
+            "PRIMARY IMPLEMENTATION LANGUAGE = Go\n", ""
+        )
+        self.write("sources/SYLLABUS-v2026.09.md", text)
+        self.assertIn("CANON005", self.codes())
+
+    def test_legacy_primary_stack_is_rejected_in_active_part15(self) -> None:
+        self.write("roadmap/part-15.md", '''# Phần 15 — TEST
+
+### Chương 51 — Technology Stack
+- [ ] **51.1** — Go runtime, modules và project structure
+
+ASP.NET Core
+''')
+        self.assertIn("TECH002", self.codes())
 
 
 if __name__ == "__main__":
