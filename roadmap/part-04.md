@@ -1,6 +1,6 @@
 # Phần 4 — VIETNAM LEGAL, TAX & COMPLIANCE
 
-- Lịch đề xuất: **Tháng 2**
+- Timeline: **Standard M3 · Accelerated M2** — forecast; PASS evidence mới là gate.
 - Quy mô: **3 chương / 28 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -42,6 +42,8 @@
 - [ ] **12.8** — Personal Data
 - [ ] **12.9** — Consent
 - [ ] **12.10** — Data Retention
+
+> **2026 freshness note:** Chương 10–12 là nhóm `high-volatility`. Khi author phải external-verify luật/quy định đang có hiệu lực tại ngày viết, tối thiểu gồm bảo vệ dữ liệu cá nhân, quảng cáo/người có ảnh hưởng, thương mại điện tử, thuế và hóa đơn/chứng từ. Nội dung trong repo chỉ phục vụ đào tạo, không thay thế tư vấn pháp lý/thuế. Xem [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md) và [Freshness Policy](../docs/FRESHNESS-POLICY.md).
 
 ## Hoàn thành phần
 
