@@ -10,10 +10,11 @@ Roadmap được chuẩn hóa từ ba tài liệu nguồn v2026.08. Lộ trình 
 
 1. Mở [ROADMAP.md](ROADMAP.md) để xem toàn bộ 23 phần.
 2. Chọn timeline: [15-month Standard](docs/15-MONTH-PLAN.md) hoặc [12-month Accelerated](docs/12-MONTH-PLAN.md).
-3. Vào file của phần hiện tại và học theo đúng prerequisite của roadmap.
-4. Chỉ đổi `[ ]` thành `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
-5. Dùng [mẫu ghi chú bài học](templates/LESSON-NOTES.md) để lưu evidence.
-6. Cập nhật [PROGRESS.md](PROGRESS.md) trong buổi review Chủ nhật.
+3. Đọc [Hybrid Execution Model](docs/EXECUTION-MODEL.md): một primary knowledge focus + các execution loop đã được mở khóa.
+4. Vào file của phần hiện tại và học theo prerequisite, không theo kiểu mọi activity đều tuần tự tuyệt đối.
+5. Chỉ đổi `[ ]` thành `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
+6. Dùng [mẫu ghi chú bài học](templates/LESSON-NOTES.md) để lưu evidence.
+7. Cập nhật [PROGRESS.md](PROGRESS.md) trong buổi review Chủ nhật.
 
 ## Quy mô chương trình
 
@@ -23,7 +24,35 @@ Roadmap được chuẩn hóa từ ba tài liệu nguồn v2026.08. Lộ trình 
 - **14 project chính**, kèm Lab và Pass Gate
 - **Standard:** 15 tháng, khoảng 9 giờ/tuần
 - **Accelerated:** 12 tháng, khoảng 11–12 giờ/tuần, khuyến nghị 12 giờ/tuần
+- Fixed core: **Phần 0 → 19 → 21** theo knowledge prerequisites
 - Phần 20 (Business & Scale) và Phần 22 (Continuous Mastery) nằm ngoài fixed core timeline
+
+## Hybrid execution
+
+Roadmap không phải tuyến tính tuyệt đối.
+
+```text
+Knowledge spine
+→ học theo prerequisite
+
+Execution loops
+→ sau khi được mở khóa thì tiếp tục chạy song song
+```
+
+Các loop chính gồm:
+
+- Compliance & Platform Watch
+- Market / Customer / Product Watch
+- Real Content Production
+- Traffic Distribution
+- Funnel / Revenue / Data Capture
+- Formal Experiments
+- Bot / Automation
+- AI-assisted Workflow
+
+Ví dụ: Part 9 mở content production; Part 10 thêm traffic nhưng **không dừng content**; Part 11 thêm funnel measurement nhưng **content + traffic vẫn tiếp tục**.
+
+Parallel execution không làm tăng capacity vô hạn. Tất cả activity phải nằm trong 9h/tuần của Standard hoặc 11–12h/tuần của Accelerated. Xem [Hybrid Execution Model](docs/EXECUTION-MODEL.md) để biết dependency map cho 23 Part và điểm mở khóa từng loop.
 
 ## Effort-aware planning
 
@@ -52,10 +81,12 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - Không automate thứ chưa hiểu bằng tay.
 - Bot hỗ trợ quyết định; không spam, tạo tương tác giả hoặc né policy.
 - Timeline là forecast; PASS evidence mới là gate.
+- Mỗi thời điểm chỉ có một **primary knowledge focus**, nhưng có thể có nhiều execution loop đã mở khóa.
 
 ## Tài liệu
 
 - [Roadmap theo từng phần/chương/bài](ROADMAP.md)
+- [Hybrid Execution Model](docs/EXECUTION-MODEL.md)
 - [Effort Model S/M/L/XL](docs/EFFORT-MODEL.md)
 - [Kế hoạch chuẩn 15 tháng](docs/15-MONTH-PLAN.md)
 - [Kế hoạch tăng tốc 12 tháng](docs/12-MONTH-PLAN.md)
