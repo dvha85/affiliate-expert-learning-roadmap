@@ -14,7 +14,8 @@ Roadmap được chuẩn hóa từ ba tài liệu nguồn v2026.08. Lộ trình 
 4. Tra [Source-to-Roadmap Traceability Map](docs/SOURCE-MAPPING.md) khi author/học lesson.
 5. Chỉ đổi `[ ]` thành `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
 6. Dùng [Lesson Notes](templates/LESSON-NOTES.md) và lưu evidence theo [Artifact conventions](artifacts/README.md).
-7. Cập nhật [PROGRESS.md](PROGRESS.md) vào review Chủ nhật.
+7. Trước khi merge thay đổi curriculum, chạy [Curriculum CI](docs/CURRICULUM-CI.md).
+8. Cập nhật [PROGRESS.md](PROGRESS.md) vào review Chủ nhật.
 
 ## Quy mô chương trình
 
@@ -62,6 +63,31 @@ Scaffolder:
 
 Xem [Lesson Scaffolding Guide](docs/LESSON-SCAFFOLDING.md).
 
+## Curriculum CI
+
+Repo có validator không cần dependency ngoài:
+
+```bash
+python scripts/validate_curriculum.py
+python -m unittest discover -s tests -v
+```
+
+GitHub Action chạy trên mọi pull request và mọi push vào `main`.
+
+Validator kiểm tra tối thiểu:
+
+- broken relative links;
+- Part/Chapter/Lesson counts giữa `ROADMAP.md` và part files;
+- duplicate/gap lesson IDs;
+- lesson path/link consistency;
+- metadata bắt buộc cho lesson mới;
+- `planned|draft|ready` linkage convention;
+- heading hierarchy cơ bản.
+
+Lesson 0.1 đang có legacy exception tạm thời cho metadata/heading tới Issue #9; relative links vẫn được kiểm tra bình thường.
+
+Xem [Curriculum CI Guide](docs/CURRICULUM-CI.md).
+
 ## Hybrid execution
 
 Roadmap không phải tuyến tính tuyệt đối. Knowledge spine đi theo prerequisite; execution loops đã mở khóa tiếp tục chạy song song trong cùng weekly capacity.
@@ -103,6 +129,7 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - Timeline là forecast; PASS evidence mới là gate.
 - Reuse artifact bằng link; không double-count effort.
 - Scaffold file ≠ authored lesson ≠ learner PASS.
+- Curriculum CI phải PASS trước khi merge thay đổi curriculum.
 
 ## Tài liệu
 
@@ -111,6 +138,7 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - [Source Mapping](docs/SOURCE-MAPPING.md)
 - [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md)
 - [Lesson Scaffolding Guide](docs/LESSON-SCAFFOLDING.md)
+- [Curriculum CI Guide](docs/CURRICULUM-CI.md)
 - [Effort Model](docs/EFFORT-MODEL.md)
 - [15-Month Standard](docs/15-MONTH-PLAN.md)
 - [12-Month Accelerated](docs/12-MONTH-PLAN.md)
