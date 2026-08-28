@@ -1,6 +1,6 @@
 ---
 mission_id: "MXX"
-title: "Mission title"
+title: "Tên Mission"
 status: planned
 requires_missions: []
 bot_version_from: null
@@ -16,101 +16,105 @@ risk_scope:
   external_side_effects: false
 ---
 
-# Mission MXX — Mission title
+# Mission MXX — Tên Mission
 
-## Ship Target
+## Ship Target — Mục tiêu bàn giao
 
-Mô tả một output/behavior có thể quan sát được.
+Mô tả một output/behavior (đầu ra/hành vi) có thể quan sát được.
 
-## Starting Bot State
+## Starting Bot State — Trạng thái Bot ban đầu
 
-Bot đang có gì trước mission này?
+Bot learner đang có gì trước Mission này? Ghi rõ path/previous Mission để starting state có thể tái lập.
 
-## Build First
+## Build First — Xây trước
 
-Build smallest working slice trước khi đi sâu theory.
+Build smallest working slice (phần nhỏ nhất chạy được) trước khi đi sâu theory (lý thuyết).
 
-## Run
+## Run — Chạy
 
 ```bash
-# exact command(s)
+# command(s) chính xác
 ```
 
-Expected output/behavior:
+Expected output/behavior (đầu ra/hành vi mong đợi):
 
 ```text
 ...
 ```
 
-## Observe
+## Observe — Quan sát
 
-Điều gì còn sai, thiếu, brittle hoặc chưa hiểu?
+Điều gì còn sai, thiếu, brittle (dễ vỡ) hoặc chưa hiểu?
 
-## Knowledge Pull
+## Knowledge Pull — Lấy kiến thức đúng lúc
 
-### Required
+### Required — Bắt buộc cho Mission
 
-- Lesson X.Y — vì sao cần ngay bây giờ?
+- Lesson X.Y — knowledge slice nào cần ngay và vì sao?
 
-### On-demand
+> Required for Mission không đồng nghĩa full Lesson PASS.
 
-- ...
-
-### Reference
+### On-demand — Khi phát sinh nhu cầu
 
 - ...
 
-## Improve
+### Reference — Tham khảo
+
+- ...
+
+## Improve — Cải tiến
 
 Áp dụng knowledge pull để cải thiện code/logic/architecture.
 
-## Tests
+## Tests — Kiểm thử
 
-- happy path;
-- boundary/invalid input;
-- additional scope-dependent tests.
+- happy path (luồng đúng);
+- boundary/invalid input (biên/đầu vào sai);
+- additional scope-dependent tests (kiểm thử bổ sung theo scope).
 
-## Operate
+## Operate — Vận hành
 
 Bot phải được chạy/quan sát như thế nào để chứng minh feature hữu ích?
 
-## Failure Case
+## Failure Case — Tình huống lỗi
 
-Một failure case bắt buộc và expected handling.
+Một failure case bắt buộc và expected handling (cách xử lý mong đợi).
 
-## Evidence
+## Evidence — Bằng chứng
 
 - code path / commit:
 - test output:
 - data/output:
-- notes:
+- notes (ghi chú):
 
-## Explain-back
+## Explain-back — Giải thích lại
 
 1. Vì sao implementation này đúng với ship target?
 2. Knowledge nào làm thay đổi quyết định/implementation?
 3. Failure mode quan trọng nhất là gì?
 
-## Mission PASS
+## Mission PASS — Tiêu chí PASS
 
 Dùng [`../docs/MISSION-PASS-CRITERIA.md`](../docs/MISSION-PASS-CRITERIA.md).
 
-- [ ] feature works
-- [ ] bot runs
-- [ ] tests pass
-- [ ] data flows
-- [ ] output inspectable
-- [ ] failure case tested
-- [ ] required knowledge understood
-- [ ] explain-back passes
-- [ ] evidence saved
+- [ ] feature works — tính năng chạy đúng
+- [ ] bot runs — Bot chạy được
+- [ ] tests pass — kiểm thử đạt
+- [ ] data flows — dữ liệu đi qua đúng luồng khi có data flow
+- [ ] output inspectable — đầu ra kiểm tra được
+- [ ] failure case tested — đã thử tình huống lỗi
+- [ ] required knowledge understood — hiểu knowledge slice bắt buộc
+- [ ] explain-back passes — giải thích lại đạt
+- [ ] evidence saved — đã lưu bằng chứng
 
-## Bot Version Result
+## Bot Version Result — Kết quả phiên bản Bot
 
 ```text
 before → after
 ```
 
-## Next Mission
+## Next Mission — Mission tiếp theo
 
 MXX — ...
+
+> Tiếng Việt là ngôn ngữ chính thức của nội dung; English term chỉ giữ khi cần kỹ thuật và có giải thích tiếng Việt khi quan trọng.
