@@ -1,6 +1,6 @@
 # Phần 8 — PRODUCT INTELLIGENCE
 
-- Lịch đề xuất: **Tháng 3**
+- Timeline: **Standard M5–6 · Accelerated M4** — forecast; PASS evidence mới là gate.
 - Quy mô: **5 chương / 40 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -60,6 +60,8 @@
 - [ ] **27.4** — Threshold
 - [ ] **27.5** — Explainable Score
 - [ ] **27.6** — Score Validation
+
+> **2026 freshness note:** platform quality systems increasingly combine product quality with creator/content compliance signals. Product/Opportunity models should store source, observed-at time and platform-specific quality signals rather than treating a single rating/commission value as timeless. TikTok PPS is one current example; see [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md).
 
 ## Cổng thực hành
 

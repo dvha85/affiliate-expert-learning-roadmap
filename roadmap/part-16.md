@@ -1,6 +1,6 @@
 # Phần 16 — DECISION & RECOMMENDATION ENGINE
 
-- Lịch đề xuất: **Tháng 9**
+- Timeline: **Standard M11 · Accelerated M8** — forecast; PASS evidence mới là gate.
 - Quy mô: **4 chương / 23 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -40,6 +40,8 @@
 - [ ] **60.5** — Channel nào?
 - [ ] **60.6** — Thời điểm nào?
 - [ ] **60.7** — Khi nào nên dừng?
+
+> **2026 freshness note:** recommendation quality increasingly depends on machine-readable product truth, current availability/price, policy eligibility and multi-surface discovery. The engine should return provenance/confidence and explain which facts are current vs inferred; emerging agentic-commerce protocols are inputs to watch, not a reason to remove human approval.
 
 ## Cổng thực hành
 

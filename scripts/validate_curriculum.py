@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate curriculum structure, lesson metadata, and relative Markdown links.
+"""Validate curriculum structure, lesson metadata, freshness contract, and relative Markdown links.
 
 No third-party dependencies. Intended for local use and GitHub Actions.
 """
@@ -9,12 +9,14 @@ import argparse
 import re
 import sys
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from urllib.parse import unquote
 
 SUMMARY_RE = re.compile(r"Tổng cộng:\s*\*\*(\d+) phần · (\d+) chương · (\d+) bài học\*\*")
 PART_LINK_RE = re.compile(r"\[Phần\s+(\d+)\]\(([^)]+)\)")
 PART_TITLE_RE = re.compile(r"^# Phần (\d+) — (.+)$")
+TIMELINE_RE = re.compile(r"^- Timeline: \*\*(.+)\*\*(?: — (.+))?\.?$")
 CHAPTER_RE = re.compile(r"^### Chương (\d+) — (.+)$")
 LESSON_RE = re.compile(r"^- \[[ xX]\] \*\*(\d+\.\d+)\*\* — (.+)$")
 LESSON_LINK_RE = re.compile(r"^\[([^\]]+)\]\(([^)]+)\)$")
@@ -138,6 +140,7 @@ def parse_part_file(root: Path, exp: PartExpectation, problems: list[Problem]):
         return [], set()
 
     part_title_seen = False
+    timeline_seen = False
     current_chapter: int | None = None
     chapters: set[int] = set()
     lessons: list[RoadmapLesson] = []
@@ -149,6 +152,9 @@ def parse_part_file(root: Path, exp: PartExpectation, problems: list[Problem]):
             part_title_seen = True
             if int(pm.group(1)) != exp.part:
                 problems.append(Problem("STRUCT001", str(exp.path), f"H1 says Part {pm.group(1)}, expected {exp.part}"))
+            continue
+        if TIMELINE_RE.match(line):
+            timeline_seen = True
             continue
         cm = CHAPTER_RE.match(line)
         if cm:
@@ -177,6 +183,10 @@ def parse_part_file(root: Path, exp: PartExpectation, problems: list[Problem]):
 
     if not part_title_seen:
         problems.append(Problem("STRUCT003", str(exp.path), "missing Part H1"))
+    if not timeline_seen:
+        problems.append(Problem("TIME001", str(exp.path), "missing normalized '- Timeline:' metadata line"))
+    if "- Lịch đề xuất:" in text:
+        problems.append(Problem("TIME002", str(exp.path), "legacy '- Lịch đề xuất:' timeline remains"))
     return lessons, chapters
 
 
@@ -193,6 +203,55 @@ def parse_front_matter(text: str):
         if km:
             values[km.group(1)] = (km.group(2) or "").strip().strip('"\'')
     return values, raw
+
+
+def nested_external_refs(raw_front: str) -> list[str]:
+    refs: list[str] = []
+    in_source_refs = False
+    in_external = False
+    for raw in raw_front.splitlines():
+        if raw == "source_refs:":
+            in_source_refs = True
+            in_external = False
+            continue
+        if in_source_refs and raw and not raw.startswith(" "):
+            break
+        if not in_source_refs:
+            continue
+        m = re.match(r"^  external:\s*(.*)$", raw)
+        if m:
+            inline = m.group(1).strip()
+            in_external = inline != "[]"
+            if inline and inline != "[]":
+                if inline.startswith("[") and inline.endswith("]"):
+                    body = inline[1:-1].strip()
+                    if body:
+                        refs.extend(x.strip().strip('"\'') for x in body.split(",") if x.strip())
+            continue
+        if in_external:
+            item = re.match(r"^    -\s*[\"']?(.*?)[\"']?\s*$", raw)
+            if item:
+                refs.append(item.group(1).strip())
+                continue
+            if re.match(r"^  [A-Za-z_][A-Za-z0-9_-]*:", raw):
+                in_external = False
+    return [x for x in refs if x]
+
+
+def check_freshness_contract(rel: Path, meta: dict[str, str], raw_front: str, problems: list[Problem]) -> None:
+    refs = nested_external_refs(raw_front)
+    verified = (meta.get("last_verified") or "").strip()
+    has_date = verified not in {"", "null", "None", "~"}
+
+    if refs and not has_date:
+        problems.append(Problem("FRESH001", str(rel), "external source_refs require last_verified date"))
+    if has_date and not refs:
+        problems.append(Problem("FRESH002", str(rel), "last_verified date requires at least one external source ref"))
+    if has_date:
+        try:
+            date.fromisoformat(verified)
+        except ValueError:
+            problems.append(Problem("FRESH003", str(rel), "last_verified must use YYYY-MM-DD"))
 
 
 def headings_without_code(text: str) -> list[int]:
@@ -221,16 +280,12 @@ def check_heading_structure(rel: Path, text: str, problems: list[Problem]) -> No
 
 
 def markdown_files_for_links(root: Path) -> list[Path]:
-    paths: list[Path] = []
-    for top in ["README.md", "ROADMAP.md", "PROGRESS.md"]:
-        p = root / top
-        if p.exists():
-            paths.append(p)
-    for directory in ["docs", "roadmap", "lessons", "templates", "artifacts"]:
+    paths: set[Path] = set(root.glob("*.md"))
+    for directory in ["docs", "roadmap", "lessons", "templates", "artifacts", "sources"]:
         d = root / directory
         if d.exists():
-            paths.extend(sorted(d.rglob("*.md")))
-    return paths
+            paths.update(d.rglob("*.md"))
+    return sorted(paths)
 
 
 def normalize_link_target(raw: str) -> str:
@@ -372,6 +427,8 @@ def validate(root: Path) -> list[Problem]:
         canonical = f"S:P{part_dir}/C{chapter_dir}/L{file_id}"
         if "source_refs:" in raw_front and canonical not in raw_front:
             problems.append(Problem("META012", str(rel), f"canonical source ref missing: {canonical}"))
+
+        check_freshness_contract(rel, meta, raw_front, problems)
 
         if status == "planned" and file_id in linked_ids:
             problems.append(Problem("STATE001", str(rel), "planned scaffold must remain unlinked from roadmap until draft/ready"))

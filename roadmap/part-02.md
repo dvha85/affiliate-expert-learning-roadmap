@@ -1,6 +1,6 @@
 # Phần 2 — AFFILIATE ECONOMICS
 
-- Lịch đề xuất: **Tháng 1**
+- Timeline: **Standard M1–2 · Accelerated M1** — forecast; PASS evidence mới là gate.
 - Quy mô: **3 chương / 34 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 

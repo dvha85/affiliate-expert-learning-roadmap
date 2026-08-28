@@ -1,6 +1,6 @@
 # Phần 19 — PRODUCTION, SECURITY & AUTOMATION
 
-- Lịch đề xuất: **Tháng 12**
+- Timeline: **Standard M13–14 · Accelerated M10–11** — forecast; PASS evidence mới là gate.
 - Quy mô: **5 chương / 32 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -52,6 +52,8 @@
 - [ ] **77.5** — Cloud
 - [ ] **77.6** — Backup
 - [ ] **77.7** — Cost Monitoring
+
+> **2026 freshness note:** automation governance must include provenance, disclosure, AIGC/product-fidelity checks, data/privacy boundaries, human approval and kill switch. “Agentic” capability does not remove accountability for current platform/legal requirements.
 
 ## Cổng thực hành
 

@@ -1,6 +1,6 @@
 # Phần 17 — AI AFFILIATE BOT
 
-- Lịch đề xuất: **Tháng 10**
+- Timeline: **Standard M11–12 · Accelerated M9** — forecast; PASS evidence mới là gate.
 - Quy mô: **6 chương / 36 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -59,6 +59,8 @@
 - [ ] **66.3** — Approve/Reject và audit trail
 - [ ] **66.4** — Publish boundaries
 - [ ] **66.5** — Performance feedback và learning loop
+
+> **2026 freshness note:** AIGC policy is an operating constraint, not an optional ethics appendix. AI workflows must preserve source grounding, product fidelity, disclosure state, policy checks and human approval for claims/publishing boundaries. Current platform rules belong in the freshness layer and must be re-verified before production use.
 
 ## Cổng thực hành
 

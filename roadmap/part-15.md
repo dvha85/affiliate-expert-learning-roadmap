@@ -1,6 +1,6 @@
 # Phần 15 — AFFILIATE BOT ENGINEERING
 
-- Lịch đề xuất: **Tháng 8**
+- Timeline: **Standard M9–10 · Accelerated M7–8** — forecast; PASS evidence mới là gate.
 - Quy mô: **7 chương / 42 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -68,6 +68,8 @@
 - [ ] **56.3** — Recommended Action có thể giải thích
 - [ ] **56.4** — Chống alert fatigue
 - [ ] **56.5** — Delivery, acknowledgement và audit trail
+
+> **2026 freshness note:** collectors/trackers must capture source provenance and observed/effective timestamps for changing platform facts. Automation must prefer official APIs/exports and compliant collection paths; rate limits, terms and allowed data access are current facts that require verification before implementation.
 
 ## Cổng thực hành
 

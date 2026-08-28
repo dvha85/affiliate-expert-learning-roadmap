@@ -1,6 +1,6 @@
 # Phần 21 — CAPSTONE
 
-- Lịch đề xuất: **Tháng 12**
+- Timeline: **Standard M14–15 · Accelerated M11–12** — forecast; PASS evidence mới là gate.
 - Quy mô: **2 chương / 17 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -28,6 +28,8 @@
 - [ ] **84.9** — V8 — Recommendation Engine
 - [ ] **84.10** — V9 — Affiliate Intelligence Platform
 - [ ] **84.11** — V10 — Affiliate SaaS
+
+> **2026 freshness note:** capstone should treat policy/platform/legal/search updates as first-class data inputs with provenance and effective dates. The target loop is not just `collect → rank → publish`; it is `collect → verify → analyze → recommend → approve/act → measure → learn`, with compliance and freshness gates throughout.
 
 ## Cổng thực hành
 

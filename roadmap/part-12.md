@@ -1,6 +1,6 @@
 # Phần 12 — DATA ENGINEERING FOR AFFILIATE
 
-- Lịch đề xuất: **Tháng 6**
+- Timeline: **Standard M8 · Accelerated M6** — forecast; PASS evidence mới là gate.
 - Quy mô: **4 chương / 23 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -40,6 +40,8 @@
 - [ ] **41.3** — Tính EPC, RPM và AOV
 - [ ] **41.4** — Tính Revenue và Refund Rate
 - [ ] **41.5** — Tính Sales Velocity và kiểm thử công thức
+
+> **2026 freshness note:** current platform/policy/product signals cần lưu `source`, `observed_at/effective_at`, version và confidence khi có thể. Data model không nên biến commission, eligibility, policy state hoặc product-quality score thành thuộc tính bất biến.
 
 ## Cổng thực hành
 

@@ -1,6 +1,6 @@
 # Phần 9 — CONTENT & CONSUMER PSYCHOLOGY
 
-- Lịch đề xuất: **Tháng 4–5**
+- Timeline: **Standard M6–7 · Accelerated M4–5** — forecast; PASS evidence mới là gate.
 - Quy mô: **5 chương / 44 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -64,6 +64,8 @@
 - [ ] **32.5** — Versioning
 - [ ] **32.6** — Content Database
 - [ ] **32.7** — Performance History
+
+> **2026 freshness note:** AI-assisted/AIGC content vẫn phải chịu cùng chuẩn truthfulness, disclosure, proof và policy compliance. Không dùng AI để giả trải nghiệm, giả kết quả hoặc tạo social proof không có thật. Current platform rules phải được external-verify khi author lesson cụ thể.
 
 ## Cổng thực hành
 

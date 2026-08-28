@@ -1,6 +1,6 @@
 # Phần 20 — AFFILIATE BUSINESS & SCALE
 
-- Lịch đề xuất: **Sau nền tảng / song song khi có doanh thu**
+- Timeline: **Conditional — bắt đầu khi có tín hiệu doanh thu; ngoài fixed Standard/Accelerated core**.
 - Quy mô: **5 chương / 32 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -52,6 +52,8 @@
 - [ ] **82.8** — Multi-tenant
 - [ ] **82.9** — Billing
 - [ ] **82.10** — SaaS Analytics
+
+> **2026 freshness note:** creator monetization is increasingly multi-surface (platform affiliate, shopping tags, brand deals, owned products/SaaS). Treat current programs such as YouTube Shopping Affiliate as portfolio examples, not permanent assumptions; platform terms, tax and disclosure remain HIGH-volatility inputs.
 
 ## Hoàn thành phần
 
