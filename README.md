@@ -24,6 +24,31 @@ Affiliate Intelligence Expert
 
 `ready` là trạng thái biên soạn, **không phải learner PASS**. Checkbox `[x]` chỉ dùng khi người học đạt đủ PASS evidence.
 
+## Quy ước thuật ngữ cho người mới
+
+Curriculum chủ yếu viết bằng tiếng Việt nhưng giữ thuật ngữ tiếng Anh gốc để người học dần đọc được dashboard, API docs, tài liệu kỹ thuật và tài liệu platform thực tế.
+
+Quy ước learner-facing mặc định:
+
+```text
+English Term (Tiếng Việt)
+```
+
+Ví dụ:
+
+```text
+Conversion Potential (Khả năng chuyển đổi)
+Human Approval (Phê duyệt của con người)
+Durable Execution (Thực thi bền vững)
+Observability (Khả năng quan sát hệ thống)
+```
+
+Ở lần xuất hiện có ý nghĩa đầu tiên, lesson nên giải nghĩa song ngữ. Sau khi ngữ cảnh đã rõ, có thể quay lại dùng English term hoặc abbreviation để người học quen dần.
+
+Không dịch code identifier, API name, protocol hoặc framework name bên trong code.
+
+Xem glossary dùng chung: [Glossary VI — Thuật ngữ song ngữ](docs/GLOSSARY-VI.md).
+
 ## Go-first Bot Engineering
 
 Từ v2026.09, active engineering spine là:
@@ -34,12 +59,12 @@ Go
 → Collectors & Adapters
 → PostgreSQL / optional Redis
 → Queue / Workflow
-→ Durable Execution when required
+→ Durable Execution (Thực thi bền vững) when required
 → Analytics / Decision Engine
-→ Tool Boundary / MCP
-→ AI Agent where justified
+→ Tool Boundary (Ranh giới công cụ) / MCP
+→ AI Agent (Tác tử AI) where justified
 → Policy & Risk Engine
-→ Human Approval Queue
+→ Human Approval Queue (Hàng đợi phê duyệt của con người)
 → Action Executor
 → Audit / Tracing / Feedback
 ```
@@ -71,23 +96,23 @@ RISK 2
 → resume or terminate
 ```
 
-Mục tiêu là để người vận hành **duyệt quyết định consequential**, không babysit từng bước cơ học của bot.
+Mục tiêu là để người vận hành **duyệt quyết định consequential (có hậu quả đáng kể)**, không babysit từng bước cơ học của bot.
 
 ## Architecture principles
 
 ```text
-modular monolith first
-+ deterministic logic before LLM autonomy
-+ context/cancellation
-+ bounded concurrency
-+ retry + idempotency
-+ durable state for long waits
-+ explicit tool contracts
-+ least privilege
-+ policy/risk boundary
-+ human approval
-+ audit/tracing/evaluation
-+ kill switch
+Modular Monolith (Khối đơn thể mô-đun) first
++ Deterministic Logic (Logic xác định) before LLM autonomy
++ Context/Cancellation (Ngữ cảnh/Hủy)
++ Bounded Concurrency (Đồng thời có giới hạn)
++ Retry (Thử lại) + Idempotency (Tính lặp an toàn)
++ Durable State (Trạng thái bền vững) for long waits
++ Explicit Tool Contracts (Hợp đồng công cụ rõ ràng)
++ Least Privilege (Quyền tối thiểu cần thiết)
++ Policy/Risk Boundary (Ranh giới chính sách/rủi ro)
++ Human Approval (Phê duyệt của con người)
++ Audit/Tracing/Evaluation (Ghi vết/Theo dõi/Đánh giá)
++ Kill Switch (Công tắc dừng khẩn cấp)
 ```
 
 Không chọn Go chỉ vì benchmark CPU. Affiliate Bot chủ yếu bị chi phối bởi API/network/database/LLM/rate limits; Go được chọn vì concurrency, deployment simplicity, resource footprint và operational simplicity phù hợp hệ thống chạy lâu dài.
@@ -152,9 +177,10 @@ external source registers + last_verified
 3. Đọc [Hybrid Execution Model](docs/EXECUTION-MODEL.md).
 4. Học [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md).
 5. Học [`0.2 — Affiliate Bot Engineer là gì?`](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) và làm boundary-map artifact.
-6. Chỉ tick `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
-7. Lưu evidence theo [Artifact conventions](artifacts/README.md).
-8. Review và cập nhật [PROGRESS.md](PROGRESS.md).
+6. Khi gặp thuật ngữ chưa quen, tra [Glossary VI](docs/GLOSSARY-VI.md).
+7. Chỉ tick `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
+8. Lưu evidence theo [Artifact conventions](artifacts/README.md).
+9. Review và cập nhật [PROGRESS.md](PROGRESS.md).
 
 ## Learning operating system
 
@@ -177,6 +203,7 @@ Authoring/evidence resources:
 - [Lesson Template](templates/LESSON.md)
 - [Lesson Notes](templates/LESSON-NOTES.md)
 - [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md)
+- [Glossary VI](docs/GLOSSARY-VI.md)
 - [Experiment Log](templates/EXPERIMENT-LOG.md)
 - [Revenue Journal](templates/REVENUE-JOURNAL.md)
 - [Knowledge Entry](templates/KNOWLEDGE-ENTRY.md)
@@ -259,10 +286,10 @@ UNDERSTAND → DECIDE → EXECUTE → MEASURE → LEARN → IMPROVE
 - EXPECTED VALUE > COMMISSION RATE.
 - Không automate thứ chưa hiểu bằng tay.
 - Không optimize trước khi đo.
-- Deterministic logic trước LLM autonomy.
+- Deterministic Logic (Logic xác định) trước LLM autonomy.
 - Decision ≠ Execution.
-- Model output là untrusted input.
-- High-risk action cần deterministic policy + human approval.
+- Model Output (Đầu ra mô hình) là Untrusted Input (Đầu vào không được tin cậy mặc định).
+- High-risk action cần deterministic policy + Human Approval (Phê duyệt của con người).
 - AI/agent capability không loại bỏ accountability/compliance.
 
 ## Contributing
@@ -277,6 +304,7 @@ Repository public nhưng **không phát hành theo open-source license**. Xem [L
 
 - [Roadmap](ROADMAP.md)
 - [Active Canonical v2026.09](sources/SYLLABUS-v2026.09.md)
+- [Glossary VI](docs/GLOSSARY-VI.md)
 - [ADR Go-first](docs/ADR-001-GO-FIRST-BOT-STACK.md)
 - [Go Bot Engineering Stack](docs/GO-BOT-ENGINEERING-STACK.md)
 - [Autonomy & Approval](docs/AUTONOMY-AND-APPROVAL-MODEL.md)
