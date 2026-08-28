@@ -1,10 +1,25 @@
 # Affiliate Expert Learning Roadmap
 
+**Structured, evidence-based curriculum for becoming an Affiliate Expert + Affiliate Bot Engineer → Affiliate Intelligence Expert.**
+
 Roadmap thực hành để phát triển đồng thời ba năng lực:
 
 **Affiliate Expert + Affiliate Bot Engineer = Affiliate Intelligence Expert**
 
 Roadmap được chuẩn hóa từ ba tài liệu nguồn v2026.08. Lộ trình mặc định hiện là **15 tháng ở khoảng 9 giờ/tuần**, review cố định **12:00 Chủ nhật**. Track **12 tháng** được giữ dưới dạng accelerated plan cho người có thể duy trì khoảng **11–12 giờ/tuần**.
+
+## Trạng thái curriculum hiện tại
+
+Repo đã hoàn tất **Curriculum Repair Program v1** về architecture, timeline, source traceability, authoring standard, evidence system, scaffolding và Curriculum CI.
+
+Trạng thái nội dung không được suy diễn từ số file:
+
+- **0.1 — Affiliate Expert là gì?**: `ready`, reference implementation;
+- **0.2 — Affiliate Bot Engineer là gì?**: `planned`, scaffold test, chưa authored;
+- các lesson còn lại: chỉ được coi là authored khi có file `draft|ready` đúng contract và được link từ roadmap;
+- checkbox `[x]` chỉ phản ánh **learner PASS**, không phản ánh file existence hay authoring status.
+
+Repo có **23 Part · 89 Chapter · 671 lesson**, nhưng điều đó **không có nghĩa 671 lesson đã có nội dung hoàn chỉnh**.
 
 ## Bắt đầu ở đây
 
@@ -142,6 +157,25 @@ Xem [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md).
 
 Xem [Effort Model](docs/EFFORT-MODEL.md).
 
+## Contributing
+
+Repo dùng mô hình **issue-first** cho thay đổi curriculum. Không bulk-generate lesson placeholder và không thay đổi canonical structure khi chưa có quyết định rõ ràng.
+
+Trước PR, chạy:
+
+```bash
+python scripts/validate_curriculum.py
+python -m unittest discover -s tests -v
+```
+
+Đọc [`CONTRIBUTING.md`](CONTRIBUTING.md) để xem authoring workflow, source policy, current-fact verification và PR checklist.
+
+## Licensing
+
+Repository hiện **public nhưng không được phát hành theo open-source license**. Không mặc định MIT/Apache/GPL và không có quyền sao chép, sửa đổi, tái phân phối hoặc thương mại hóa nội dung chỉ vì repo có thể xem công khai.
+
+Xem [`docs/LICENSING.md`](docs/LICENSING.md) để biết trạng thái và phạm vi licensing hiện tại.
+
 ## Nguyên tắc vận hành
 
 ```text
@@ -170,4 +204,6 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - [14 Projects + Labs/Pass Gates](docs/PROJECTS.md)
 - [PASS Criteria](docs/PASS-CRITERIA.md)
 - [Artifact conventions](artifacts/README.md)
+- [Contribution Guide](CONTRIBUTING.md)
+- [Licensing Status](docs/LICENSING.md)
 - [Tài liệu nguồn](sources/README.md)
