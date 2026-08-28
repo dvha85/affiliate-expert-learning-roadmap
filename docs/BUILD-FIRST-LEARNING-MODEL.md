@@ -1,119 +1,173 @@
-# Build-First Learning Model v1
+# Mô hình học Build-First v1
 
-## 1. Authority
+## 1. Authority (nguồn có thẩm quyền)
 
-Build-First is an **execution layer** on top of the active canonical curriculum.
+Build-First là một **execution layer (lớp thực thi việc học)** nằm trên active canonical curriculum (curriculum chuẩn hiện hành).
 
 ```text
-WHAT MUST EVENTUALLY BE KNOWN
+NHỮNG GÌ CUỐI CÙNG PHẢI BIẾT
 = sources/SYLLABUS-v2026.09.md
-+ inherited v2026.08 baseline
-+ normalized ROADMAP inventory
++ baseline v2026.08 được kế thừa
++ ROADMAP inventory đã chuẩn hóa
 
-WHAT TO BUILD NEXT
+TIẾP THEO CẦN XÂY GÌ
 = BUILD-FIRST.md + Mission system
 ```
 
-It does not create a new canonical syllabus revision and does not change 23 Parts / 89 Chapters / 671 lessons / 14 main projects.
+Build-First không tạo một canonical syllabus revision (bản syllabus chuẩn mới) và không thay đổi 23 Parts / 89 Chapters / 671 lessons / 14 main Projects.
 
-## 2. Learning loop
+## 2. Vòng học
 
 ```text
-Ship Target
-→ Build smallest working slice
-→ Run
-→ Observe gap/failure
-→ Pull required knowledge
-→ Improve implementation/decision logic
-→ Test
-→ Operate
-→ Measure result
-→ Explain
-→ Save evidence
-→ Ship bot version
+Ship Target (Mục tiêu bàn giao)
+→ Build smallest working slice (Xây phần nhỏ nhất chạy được)
+→ Run (Chạy)
+→ Observe gap/failure (Quan sát thiếu sót/lỗi)
+→ Pull required knowledge (Lấy kiến thức cần thiết)
+→ Improve implementation/decision logic (Cải tiến code/logic quyết định)
+→ Test (Kiểm thử)
+→ Operate (Vận hành)
+→ Measure result (Đo kết quả)
+→ Explain (Giải thích)
+→ Save evidence (Lưu bằng chứng)
+→ Ship Bot Version (Bàn giao phiên bản Bot)
 ```
 
-The learner should encounter a concrete reason to learn a concept before spending large blocks of time studying that concept in isolation.
+Người học nên gặp một **lý do cụ thể** để cần một concept (khái niệm) trước khi dành nhiều giờ học concept đó trong trạng thái tách rời thực hành.
 
-## 3. Four entities
+## 3. Bốn thực thể
 
-### Lesson
-Canonical knowledge unit. Lesson PASS remains independent and evidence-based.
+### Lesson (Bài học)
 
-### Mission
-Build/operate unit with one inspectable ship target. Mission may pull several lessons from different Parts.
+Đơn vị kiến thức chuẩn. Lesson PASS độc lập và dựa trên evidence (bằng chứng).
 
-### Canonical Project
-One of the 14 integration milestones defined by the curriculum. Missions may contribute reusable evidence to a Project, but Mission IDs never become Project IDs.
+### Mission (Nhiệm vụ thực hành)
 
-### Bot Version
-Product state after a mission. It is not a learner grade.
+Đơn vị build/run/operate với một ship target có thể quan sát. Một Mission có thể kéo kiến thức từ nhiều Part khác nhau.
 
-## 4. Two progress axes
+### Canonical Project (Dự án chuẩn)
+
+Một trong 14 integration milestones (mốc tích hợp) của curriculum. Mission có thể đóng góp evidence tái sử dụng cho Project, nhưng Mission ID không bao giờ trở thành Project ID.
+
+### Bot Version (Phiên bản Bot)
+
+Trạng thái sản phẩm sau một Mission. Đây không phải điểm số của learner.
+
+## 4. Hai trục tiến độ
 
 ```text
-PRODUCT PROGRESS
-Mission → working Bot Version → operational evidence
+PRODUCT PROGRESS (TIẾN ĐỘ SẢN PHẨM)
+Mission → Bot Version chạy được → operational evidence (bằng chứng vận hành)
 
-KNOWLEDGE PROGRESS
-Lesson → knowledge evidence → PASS/RETRY
+KNOWLEDGE PROGRESS (TIẾN ĐỘ KIẾN THỨC)
+Lesson → knowledge evidence → PASS / RETRY
 ```
 
-A learner may ship a small feature while still having lessons not yet PASS. A mission may require a subset of those lessons to be understood before Mission PASS, but must never mutate lesson PASS automatically.
+Learner có thể ship (bàn giao) một feature nhỏ trong khi nhiều Lesson vẫn chưa PASS. Mission có thể yêu cầu hiểu một **knowledge slice (phần kiến thức cần dùng)** của các Lesson đó trước Mission PASS, nhưng Mission không được tự thay đổi Lesson PASS.
 
-## 5. Just-in-time knowledge classes
+## 5. Ba lớp kiến thức just-in-time (đúng lúc cần)
 
-Mission knowledge links use three levels:
+Mission dùng ba mức:
 
-- **REQUIRED** — must be understood for Mission PASS.
-- **ON-DEMAND** — pull when implementation/decision context triggers the need.
-- **REFERENCE** — useful deeper material; not a Mission PASS gate.
+- **REQUIRED (Bắt buộc cho Mission)** — phải hiểu đủ để giải thích implementation/quyết định của Mission.
+- **ON-DEMAND (Khi phát sinh nhu cầu)** — lấy khi implementation hoặc business context làm lộ nhu cầu thực sự.
+- **REFERENCE (Tham khảo)** — hữu ích để đào sâu nhưng không phải Mission PASS gate (cổng PASS).
 
-This mapping lives outside the 671 lesson front matter to avoid a bulk metadata migration before lessons are authored.
-
-## 6. Go-first progression
-
-Part 15 remains formal Bot Engineering mastery. Build-First permits early Go usage with narrow scope.
+Điểm quan trọng:
 
 ```text
-M00: package/main/functions/basic tests
-M01: struct/JSON/errors/validation
-M02: SQL/repository/migrations/history
+REQUIRED FOR MISSION
+≠
+FULL LESSON PASS
+```
+
+Ví dụ M00 có thể cần một phần của 0.1 và 0.2 để hiểu Bot đang phục vụ business flow nào; learner không bắt buộc phải hoàn thành toàn bộ PASS cycle của hai Lesson trước khi chạy dòng code đầu tiên.
+
+Mapping (ánh xạ) Mission ↔ Knowledge được quản lý tập trung để không bulk-edit (sửa hàng loạt) front matter của 671 Lesson.
+
+## 6. Learner workspace và reference implementation
+
+Người học trực tiếp build tại:
+
+```text
+lab/learner/affiliate-bot/
+```
+
+Bản triển khai tham chiếu hiện tại:
+
+```text
+lab/affiliate-bot/
+```
+
+Reference implementation (bản tham chiếu) không phải starting state (trạng thái bắt đầu) của learner.
+
+Quy tắc:
+
+```text
+learner attempt (tự thử)
+→ observe failure/gap
+→ knowledge pull
+→ improve
+→ reference chỉ dùng để đối chiếu khi cần
+```
+
+Điều này ngăn Build-First biến thành “đọc lời giải có sẵn”.
+
+## 7. Tiến trình Go-first
+
+Part 15 vẫn là formal Bot Engineering mastery (phạm vi làm chủ Bot Engineering chính thức). Build-First cho phép dùng Go sớm với scope hẹp.
+
+```text
+M00: package/main/function + test tối thiểu
+M01: struct/JSON/error/validation
+M02: SQL/repository/migration/history
 M04+: context/scheduling/concurrency
 M05+: retry/backoff/idempotency/timeout
-later: durable workflow/tool/AI/governance
+sau đó: durable workflow/tool/AI/governance
 ```
 
-Formal mastery is proven later through broader engineering evidence.
+Mastery được chứng minh về sau bằng engineering evidence rộng hơn.
 
-## 7. Build-first does not mean unsafe-first
-
-Early missions should minimize external side effects. Consequential execution remains behind deterministic policy/risk boundaries and Human Approval where required.
-
-## 8. Capacity rule
-
-Build-first changes sequencing, not weekly capacity. Standard remains ~9h/week; Accelerated remains ~11–12h/week until actual mission data supports recalibration.
-
-## 9. Anti-patterns
-
-Do not:
-
-- delete or renumber canonical lessons because missions cross Parts;
-- create Project 15+ from Mission IDs;
-- bulk-mark lessons PASS when a mission ships;
-- teach months of Go syntax before the first runnable bot;
-- add AI autonomy before deterministic decision/policy boundaries;
-- count the same implementation separately as lesson artifact + mission artifact + project artifact when it is genuinely the same evidence.
-
-## 10. End state
-
-The curriculum should ultimately feel like:
+## 8. Build-first không có nghĩa unsafe-first (làm nguy hiểm trước)
 
 ```text
-I build a real Affiliate Intelligence Bot
-→ the bot exposes what I do not understand
-→ I learn exactly that concept
-→ I improve the bot
-→ I operate and measure it
-→ the evidence proves both product and knowledge progress
+BUILD CODE EARLY (viết code sớm)
+≠
+AUTOMATE REAL BUSINESS EARLY (tự động hóa kinh doanh thật sớm)
 ```
+
+Các Mission đầu phải giảm external side effects (tác động bên ngoài). Consequential execution (thực thi có hậu quả đáng kể) vẫn phải đi qua deterministic policy/risk boundary (ranh giới chính sách/rủi ro xác định) và Human Approval khi cần.
+
+## 9. Quy tắc capacity (quỹ thời gian)
+
+Build-First thay sequencing (thứ tự học), không thay weekly capacity. Standard vẫn khoảng 9h/tuần; Accelerated vẫn khoảng 11–12h/tuần cho tới khi actual Mission data (dữ liệu thực tế từ Mission) đủ để recalibrate (hiệu chỉnh lại).
+
+## 10. Anti-patterns (cách làm cần tránh)
+
+Không:
+
+- xóa hoặc đổi số Lesson chỉ vì Mission kéo kiến thức xuyên Part;
+- tạo Project 15+ từ Mission ID;
+- đánh dấu hàng loạt Lesson PASS khi một Mission ship;
+- dạy nhiều tháng cú pháp Go trước Bot chạy đầu tiên;
+- thêm AI autonomy trước deterministic decision/policy boundary;
+- đưa external side effect có hậu quả vào Mission đầu chỉ để Bot trông “nâng cao” hơn;
+- mở reference implementation trước khi learner có attempt nếu không có blocker thật;
+- tính cùng một implementation nhiều lần thành Lesson artifact + Mission artifact + Project artifact khi đó thực sự là cùng một evidence.
+
+## 11. Trạng thái cuối mong muốn
+
+Curriculum cuối cùng phải tạo cảm giác:
+
+```text
+Tôi xây một Affiliate Intelligence Bot thật
+→ Bot làm lộ thứ tôi chưa hiểu
+→ Tôi học đúng concept đó
+→ Tôi cải tiến Bot
+→ Tôi vận hành và đo nó
+→ Evidence chứng minh cả product progress và knowledge progress
+```
+
+## 12. Ngôn ngữ
+
+Tiếng Việt là ngôn ngữ chính thức. English term (thuật ngữ tiếng Anh) được giữ khi cần độ chính xác kỹ thuật và phải có giải thích tiếng Việt khi quan trọng. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md).
