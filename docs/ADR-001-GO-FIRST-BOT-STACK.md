@@ -6,6 +6,8 @@
 - **Supersedes:** C#/.NET-first implementation direction in `sources/SYLLABUS-v2026.08.md`
 - **Does not erase:** v2026.08 remains historical provenance
 
+> **Beginner reader guide / Hướng dẫn cho người mới:** ADR = **Architecture Decision Record (Bản ghi quyết định kiến trúc)**. Tài liệu này giữ English terminology làm chuẩn kỹ thuật. Tra [`GLOSSARY-VI.md`](GLOSSARY-VI.md) khi cần. Các từ trọng tâm: **Primary Implementation Language (Ngôn ngữ triển khai chính)**, **Modular Monolith (Khối đơn thể mô-đun)**, **Deterministic Logic (Logic xác định)**, **Durable Execution (Thực thi bền vững)**, **Tool Boundary (Ranh giới công cụ)**, **Human Approval (Phê duyệt của con người)**, **Least Privilege (Quyền tối thiểu cần thiết)**, **Observability (Khả năng quan sát hệ thống)**.
+
 ## 1. Context
 
 The curriculum targets an **Affiliate Intelligence Platform** that should run continuously, collect and reconcile data, detect changes, rank opportunities, use AI when useful, execute low-risk actions automatically, and pause for human approval before consequential actions.
@@ -23,6 +25,21 @@ BOT observes
 → audit result
 → measure
 → learn
+```
+
+Beginner translation:
+
+```text
+Bot quan sát
+→ thu thập
+→ phân tích
+→ đề xuất/quyết định trong policy
+→ low-risk: tự thực thi
+→ consequential: dừng chờ người duyệt
+→ thực thi hoặc từ chối
+→ ghi vết kết quả
+→ đo lường
+→ học
 ```
 
 The previous syllabus selected C#/.NET as the primary engineering path. That remains a valid implementation stack, but it is no longer the preferred primary path for this curriculum.
@@ -95,7 +112,7 @@ Any implementation lesson that depends on current versions, SDK behavior or prot
 
 ## 5. Architecture principles
 
-### 5.1. Modular monolith first
+### 5.1. Modular Monolith (Khối đơn thể mô-đun) first
 
 Do not make the curriculum microservices-first.
 
@@ -109,7 +126,7 @@ single Go module
 → split services only when scaling or failure boundaries justify it
 ```
 
-### 5.2. Deterministic logic before agent autonomy
+### 5.2. Deterministic Logic (Logic xác định) before agent autonomy
 
 Preferred progression:
 
@@ -126,7 +143,7 @@ manual workflow
 
 LLMs must not replace deterministic business logic when rules, formulas or policy checks can be expressed explicitly.
 
-### 5.3. Human approval is a first-class system boundary
+### 5.3. Human Approval (Phê duyệt của con người) is a first-class system boundary
 
 The platform uses three risk levels:
 
@@ -147,7 +164,7 @@ Examples of RISK 2 may include publishing, spending money, changing production/a
 
 The exact classification is defined by policy, not by the LLM alone.
 
-### 5.4. Durable execution when workflows can wait
+### 5.4. Durable Execution (Thực thi bền vững) when workflows can wait
 
 A workflow that can pause for minutes, hours or days for approval must not depend only on in-memory process state.
 
@@ -164,7 +181,7 @@ The curriculum must teach concepts such as:
 
 Temporal is a reference implementation, not a mandatory dependency for every project.
 
-### 5.5. Tool boundary before unrestricted action
+### 5.5. Tool Boundary (Ranh giới công cụ) before unrestricted action
 
 Agent actions must pass through explicit tools/interfaces.
 
