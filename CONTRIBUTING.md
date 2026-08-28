@@ -102,6 +102,7 @@ Dùng:
 
 - [`templates/LESSON.md`](templates/LESSON.md)
 - [`docs/LESSON-AUTHORING-STANDARD.md`](docs/LESSON-AUTHORING-STANDARD.md)
+- [`docs/GLOSSARY-VI.md`](docs/GLOSSARY-VI.md)
 - [`scripts/scaffold_lesson.py`](scripts/scaffold_lesson.py)
 
 Ví dụ inspection:
@@ -129,6 +130,34 @@ Lesson `ready` phải có đủ:
 3. Quiz ≥80% + answer key/rubric
 4. Practice artifact
 5. Explain-back
+
+### 4.1. Thuật ngữ learner-facing bắt buộc song ngữ
+
+Curriculum viết chủ yếu bằng tiếng Việt nhưng phải giúp người học quen với English terminology thực tế.
+
+Với thuật ngữ chuyên ngành ở lần xuất hiện có ý nghĩa đầu tiên, dùng:
+
+```text
+English Term (Tiếng Việt)
+```
+
+Ví dụ:
+
+```text
+Conversion Potential (Khả năng chuyển đổi)
+Durable Execution (Thực thi bền vững)
+Human Approval (Phê duyệt của con người)
+Observability (Khả năng quan sát hệ thống)
+```
+
+Quy tắc:
+
+- learner-facing prose/bảng/list: ưu tiên song ngữ ở first meaningful use;
+- sau khi đã định nghĩa, có thể dùng English term hoặc abbreviation ở đoạn sau;
+- không dịch code identifier, API/protocol/framework name bên trong code;
+- dùng [`docs/GLOSSARY-VI.md`](docs/GLOSSARY-VI.md) để giữ bản dịch nhất quán;
+- nếu xuất hiện thuật ngữ dùng lại nhiều bài mà glossary chưa có, bổ sung glossary;
+- không mass-rewrite historical/canonical source chỉ để dịch thuật ngữ.
 
 ## 5. Source refs và current facts
 
@@ -187,12 +216,14 @@ Checklist:
 - [ ] Không tick learner checkbox chỉ vì file tồn tại.
 - [ ] Current facts đã external-verify khi cần.
 - [ ] Bot side effects có risk/policy/approval boundary nếu relevant.
+- [ ] Beginner-facing thuật ngữ mới đã dùng `English Term (Tiếng Việt)` và khớp `docs/GLOSSARY-VI.md`.
+- [ ] Code/API/protocol/framework identifiers không bị dịch làm sai tên kỹ thuật.
 - [ ] Không làm mất answer key/rubric/PASS evidence contract.
 
 ## 8. Reference implementations
 
-- [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md) — general ready-lesson reference.
-- [`0.2 — Affiliate Bot Engineer là gì?`](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) — Go-first Bot Engineer/governed-autonomy reference.
+- [`0.1 — Affiliate Expert là gì?`](lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md) — general ready-lesson reference + Affiliate terminology bilingual pattern.
+- [`0.2 — Affiliate Bot Engineer là gì?`](lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md) — Go-first Bot Engineer/governed-autonomy reference + Engineering terminology bilingual pattern.
 
 Không yêu cầu mọi lesson dài bằng 0.1/0.2. Depth phải phù hợp effort S/M/L.
 
