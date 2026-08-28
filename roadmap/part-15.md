@@ -9,41 +9,47 @@
 ### Chương 50 — Bot Architecture
 
 - [ ] **50.1** — AffiliateBot boundaries và module map
-- [ ] **50.2** — Collectors và Storage
-- [ ] **50.3** — Core Analytics
-- [ ] **50.4** — Decision và Recommendation
-- [ ] **50.5** — Interface, dependency flow và architecture review
+- [ ] **50.2** — Collectors, adapters và Storage
+- [ ] **50.3** — Core Analytics và Decision boundary
+- [ ] **50.4** — Policy, Risk, Approval và Action boundary
+- [ ] **50.5** — Interface, dependency flow, audit và architecture review
+
+> **Architecture direction:** modular monolith first. Tách service khi scaling/failure boundary thật sự yêu cầu; không bắt đầu bằng microservices chỉ vì capstone lớn.
 
 ### Chương 51 — Technology Stack
 
-- [ ] **51.1** — C#/.NET và ASP.NET Core
-- [ ] **51.2** — Worker Service và background jobs
-- [ ] **51.3** — EF Core, PostgreSQL và Redis
-- [ ] **51.4** — Message Queue, Hangfire và Quartz
-- [ ] **51.5** — Docker, REST API và lựa chọn stack theo chi phí
+- [ ] **51.1** — Go runtime, modules và project structure
+- [ ] **51.2** — HTTP/API, context, goroutines và concurrency
+- [ ] **51.3** — PostgreSQL, Redis và data access
+- [ ] **51.4** — Configuration, interfaces, testing và background workers
+- [ ] **51.5** — Docker, observability và lựa chọn production stack
+
+> **Primary stack:** Go là implementation language chính. C#/.NET chỉ còn là comparison/reference stack. Không hard-code framework/library hiện hành vào lesson title nếu concept có thể dạy framework-neutral.
 
 ### Chương 52 — Product Collector
 
-- [ ] **52.1** — IProductSource
-- [ ] **52.2** — API Adapter
+- [ ] **52.1** — ProductSource interface và adapter boundary
+- [ ] **52.2** — API Adapter, HTTP client và context
 - [ ] **52.3** — File Import
 - [ ] **52.4** — Export Import
 - [ ] **52.5** — Web Data Collection
-- [ ] **52.6** — Normalization
+- [ ] **52.6** — Normalization và source provenance
 - [ ] **52.7** — Validation
 - [ ] **52.8** — Rate Limit
-- [ ] **52.9** — Retry
+- [ ] **52.9** — Retry, timeout và cancellation
 - [ ] **52.10** — Compliance
 
 ### Chương 53 — Scheduler & Pipeline
 
-- [ ] **53.1** — Job
-- [ ] **53.2** — Scheduler
-- [ ] **53.3** — Queue
-- [ ] **53.4** — Retry
-- [ ] **53.5** — Idempotency
-- [ ] **53.6** — Dead Letter
-- [ ] **53.7** — Backoff
+- [ ] **53.1** — Job, Workflow và execution state
+- [ ] **53.2** — Scheduler, Trigger và event-driven execution
+- [ ] **53.3** — Queue, Worker Pool và concurrency control
+- [ ] **53.4** — Retry, Backoff và Timeout
+- [ ] **53.5** — Idempotency và Deduplication
+- [ ] **53.6** — Dead Letter, failure handling và Compensation
+- [ ] **53.7** — Checkpoint, Resume và long-running Human Wait
+
+> **Durable execution:** khi workflow có thể chờ approval hàng phút/giờ/ngày hoặc phải sống qua process restart, state phải được persist. Temporal có thể dùng làm reference implementation nhưng không phải dependency bắt buộc của mọi bot.
 
 ### Chương 54 — Product Tracker
 
@@ -51,7 +57,7 @@
 - [ ] **54.2** — Theo dõi Sales và Rating
 - [ ] **54.3** — Theo dõi Availability
 - [ ] **54.4** — Theo dõi SellerQuality và ProductQuality
-- [ ] **54.5** — Snapshot, history và tracker validation
+- [ ] **54.5** — Snapshot, provenance, history và tracker validation
 
 ### Chương 55 — Change Detection
 
@@ -64,10 +70,12 @@
 ### Chương 56 — Alert Bot
 
 - [ ] **56.1** — Thiết kế alert payload
-- [ ] **56.2** — Severity, priority và routing
+- [ ] **56.2** — Severity, priority, risk level và routing
 - [ ] **56.3** — Recommended Action có thể giải thích
 - [ ] **56.4** — Chống alert fatigue
-- [ ] **56.5** — Delivery, acknowledgement và audit trail
+- [ ] **56.5** — Delivery, acknowledgement, approval link và audit trail
+
+> **Autonomy boundary:** alert/recommendation không tự động đồng nghĩa execution. Action phải qua policy/risk classification; high-risk action đi vào approval queue.
 
 > **2026 freshness note:** collectors/trackers must capture source provenance and observed/effective timestamps for changing platform facts. Automation must prefer official APIs/exports and compliant collection paths; rate limits, terms and allowed data access are current facts that require verification before implementation.
 
