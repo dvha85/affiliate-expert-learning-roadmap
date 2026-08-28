@@ -1,32 +1,35 @@
-# Bot Engineering Refresh — 2026.08
+# Bot Engineering Refresh — Cập nhật kỹ thuật Bot 2026.08
 
-> Current-knowledge register for the Go-first Bot Engineer track. This file supplements, but does not replace, the active canonical `sources/SYLLABUS-v2026.09.md`.
+> Đây là **current-knowledge register (sổ đăng ký kiến thức hiện hành)** cho Go-first Bot Engineer track. File này bổ sung nhưng **không thay thế** active canonical `sources/SYLLABUS-v2026.09.md`.
 
-> **Beginner reader guide / Hướng dẫn cho người mới:** đây là **current-knowledge register (sổ đăng ký kiến thức hiện hành)**, nên giữ English terminology và tên công nghệ chính xác để đối chiếu nguồn ngoài. Khi đọc, tra [`GLOSSARY-VI.md`](GLOSSARY-VI.md). Từ trọng tâm: **Runtime (Môi trường chạy)**, **SDK (Bộ công cụ phát triển phần mềm)**, **Interoperability (Khả năng liên thông)**, **Durable Workflow (Workflow bền vững)**, **Observability (Khả năng quan sát hệ thống)**, **Agent Security (Bảo mật tác tử AI)**, **Least Privilege (Quyền tối thiểu cần thiết)**, **Prompt Injection (Tấn công/chỉ dẫn tiêm vào prompt)**, **Side Effect (Tác động bên ngoài)**, **Freshness (Độ mới của thông tin)**.
+Tiếng Việt là ngôn ngữ chính. English terminology (thuật ngữ tiếng Anh) và tên công nghệ được giữ để đối chiếu nguồn ngoài; khi quan trọng có nghĩa Việt đi kèm. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
-**Verified:** 2026-08-28  
-**Scope:** Go runtime, MCP, durable workflows, observability, agent security and agent interoperability.  
-**Policy:** see [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md).
+**Verified (đã kiểm chứng):** 2026-08-28  
+**Scope (phạm vi):** Go runtime, MCP, durable workflows, observability, agent security và agent interoperability.  
+**Policy:** xem [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md).
 
-## Executive update map
+## Bản đồ cập nhật chính
 
-| Area | Current operating update | Curriculum mapping | Volatility |
+| Khu vực | Operating update (cập nhật vận hành) | Curriculum mapping | Volatility |
 |---|---|---|---|
-| Go runtime | Go 1.27.0 released 2026-08-19 | P15/C51; P19/C77; P22/C87 | MEDIUM |
-| MCP | Go SDK is Tier 1; protocol line includes 2026-07-28 | P15/C51–52; P17/C61; P21; P22/C87 | MEDIUM/HIGH |
-| Durable workflows | Temporal Go SDK is a strong current reference for long-running durable execution | P15/C53; P17/C66; P19/C74 | MEDIUM |
+| Go runtime | Go 1.27.0 phát hành 2026-08-19 | P15/C51; P19/C77; P22/C87 | MEDIUM |
+| MCP | Go SDK là Tier 1; protocol line có 2026-07-28 | P15/C51–52; P17/C61; P21; P22/C87 | MEDIUM/HIGH |
+| Durable workflows | Temporal Go SDK là current reference mạnh cho durable long-running execution | P15/C53; P17/C66; P19/C74 | MEDIUM |
 | Observability | OpenTelemetry Go traces/metrics stable; logs beta | P15/C51; P19/C73 | MEDIUM |
-| Agent security | Agent/tool systems require prompt-injection, tool-misuse and least-privilege controls beyond classic API security | P17/C65–66; P19/C75–76 | MEDIUM/HIGH |
-| Agent interoperability | A2A is relevant to watch, but not a Phase-1 requirement | P22/C87 | MEDIUM |
+| Agent security | Agent/tool system cần prompt-injection, tool-misuse và least-privilege controls ngoài classic API security | P17/C65–66; P19/C75–76 | MEDIUM/HIGH |
+| Agent interoperability | A2A đáng theo dõi nhưng chưa phải Phase-1 requirement | P22/C87 | MEDIUM |
 
-Beginner translation of the areas:
+Giải thích nhanh:
 
-- Go runtime = môi trường chạy Go hiện hành;
-- MCP = lớp/protocol liên thông giữa model/agent và tools/resources;
-- durable workflows = workflow giữ state qua chờ lâu/restart;
-- observability = khả năng hiểu hệ thống đang làm gì qua logs/metrics/traces;
-- agent security = bảo mật khi AI agent có quyền gọi tool và tạo side effect;
-- agent interoperability = khả năng các agent/hệ thống agent tương tác theo chuẩn.
+- **Runtime (Môi trường chạy)** — phiên bản Go đang dùng để build/run.
+- **SDK (Bộ công cụ phát triển phần mềm)** — thư viện/chương trình hỗ trợ tích hợp chuẩn hoặc dịch vụ.
+- **Interoperability (Khả năng liên thông)** — khả năng các hệ thống/tool/agent giao tiếp theo contract chung.
+- **Durable Workflow (Workflow bền vững)** — workflow giữ state qua chờ lâu/restart.
+- **Observability (Khả năng quan sát)** — hiểu hệ thống đang làm gì qua logs/metrics/traces.
+- **Agent Security (Bảo mật tác tử AI)** — kiểm soát rủi ro khi model/agent được quyền gọi tool.
+- **Least Privilege (Quyền tối thiểu)** — chỉ cấp quyền cần thiết cho nhiệm vụ.
+- **Prompt Injection (Tấn công/chỉ dẫn tiêm vào prompt)** — nội dung không tin cậy cố điều khiển model/agent.
+- **Side Effect (Tác động bên ngoài)** — hành động làm thay đổi hệ thống hoặc môi trường ngoài process.
 
 ## EXT:GO:RELEASES
 
@@ -36,17 +39,18 @@ Beginner translation of the areas:
 - **Volatility:** MEDIUM
 - **Maps to:** 51.1–51.2, 77.x, 87.1
 
-Current reference fact:
+Current reference fact (dữ kiện tham chiếu hiện hành):
 
-- Go 1.27.0 was released on 2026-08-19.
+- Go 1.27.0 phát hành ngày 2026-08-19.
 
 Curriculum rule:
 
 ```text
 use a currently supported stable Go release
+(dùng một bản Go ổn định đang còn support)
 ```
 
-Do not turn `Go 1.27` into a permanent canonical lesson title.
+Không biến `Go 1.27` thành lesson title hoặc permanent canonical truth. Bootstrap learner/reference của repo dùng Go 1.27 tại thời điểm verified này và phải được cập nhật khi freshness policy yêu cầu.
 
 ## EXT:MCP:SDK
 
@@ -58,12 +62,12 @@ Do not turn `Go 1.27` into a permanent canonical lesson title.
 
 Current reference facts:
 
-- Go is classified as a Tier-1 official MCP SDK language.
-- The current SDK documentation covers the `2026-07-28` MCP protocol line.
+- Go được phân loại là **Tier-1 official MCP SDK language**.
+- SDK documentation hiện hành bao phủ protocol line `2026-07-28`.
 
-Curriculum implication:
+Curriculum implication (hàm ý cho chương trình):
 
-MCP is now mature enough to be a required interoperability concept for Bot Engineer, but it is still not mandatory for every integration. REST/webhooks/native APIs remain valid when simpler.
+MCP đã đủ trưởng thành để là interoperability concept (khái niệm liên thông) Bot Engineer phải hiểu, nhưng **không** có nghĩa mọi integration đều phải dùng MCP. REST, webhook và native API vẫn đúng khi đơn giản hơn.
 
 ## EXT:MCP:GO-SDK
 
@@ -73,7 +77,7 @@ MCP is now mature enough to be a required interoperability concept for Bot Engin
 - **Volatility:** MEDIUM/HIGH
 - **Maps to:** 51.x, 61.6, 83.4
 
-Use this as a current implementation reference, not a reason to couple domain logic directly to MCP SDK types.
+Dùng SDK này như current implementation reference, không coupling (gắn chặt) domain logic trực tiếp vào MCP SDK types nếu không cần.
 
 ## EXT:TEMPORAL:GO-SDK
 
@@ -83,18 +87,20 @@ Use this as a current implementation reference, not a reason to couple domain lo
 - **Volatility:** MEDIUM
 - **Maps to:** 53.1–53.7, 66.4, 74.x
 
-Current reference implication:
+Current implication:
 
-Temporal is a mature example of durable, asynchronous, long-running workflows where state and retries survive process restarts.
+Temporal là ví dụ trưởng thành cho durable, asynchronous, long-running workflow nơi state và retry có thể sống qua process restart.
 
 Curriculum rule:
 
 ```text
 teach durable-execution concepts first
-→ use Temporal as a reference implementation when the problem justifies it
+(dạy khái niệm durable execution trước)
+→ use Temporal as reference when the problem justifies it
+(chỉ dùng Temporal khi bài toán thực sự cần)
 ```
 
-Do not require Temporal for simple cron/job workers.
+Không bắt buộc Temporal cho cron/job worker đơn giản.
 
 ## EXT:OTEL:GO
 
@@ -112,7 +118,7 @@ Current reference facts:
 
 Curriculum implication:
 
-Observability should use OpenTelemetry concepts and semantic correlation where practical, while exact package/version decisions remain freshness-scoped.
+Observability nên dùng OpenTelemetry concepts và semantic correlation (liên kết dấu vết có ngữ nghĩa) khi phù hợp; package/version chính xác thuộc freshness layer.
 
 ## EXT:OWASP:AGENTIC-2026
 
@@ -122,16 +128,16 @@ Observability should use OpenTelemetry concepts and semantic correlation where p
 - **Volatility:** MEDIUM/HIGH
 - **Maps to:** 65.4, 75.x, 76.x
 
-Security implication:
+Security implication (hàm ý bảo mật):
 
-Agent systems introduce risks such as goal hijacking, tool misuse, excessive privilege, supply-chain trust and unsafe code/action execution. These cannot be solved only by authentication/API-key lessons.
+Agent system tạo thêm rủi ro như goal hijacking (chiếm mục tiêu), tool misuse (lạm dụng công cụ), excessive privilege (quyền quá mức), supply-chain trust và unsafe code/action execution. Authentication/API key một mình không giải quyết được các rủi ro này.
 
 Curriculum response:
 
-- model output is untrusted input;
-- tool permissions are least-privilege;
-- high-impact side effects require deterministic policy and/or approval;
-- prompt injection must be treated as a system-boundary problem, not only a prompt-writing problem.
+- model output là untrusted input (đầu vào không được tin mặc định);
+- tool permission theo least privilege;
+- high-impact side effect phải qua deterministic policy và/hoặc approval;
+- prompt injection phải được coi là system-boundary problem (vấn đề ranh giới hệ thống), không chỉ là prompt-writing problem.
 
 ## EXT:A2A:SPEC
 
@@ -144,50 +150,31 @@ Curriculum response:
 Curriculum status:
 
 ```text
-MCP = MUST UNDERSTAND
-A2A = SHOULD / WATCH
+MCP = MUST UNDERSTAND (phải hiểu)
+A2A = SHOULD / WATCH (nên biết / theo dõi)
 ```
 
-The curriculum should adopt A2A only when a real remote-agent interoperability use case appears.
+Chỉ adopt (áp dụng) A2A khi có remote-agent interoperability use case thật; không đưa multi-agent/A2A thành mặc định Phase 1.
 
-## What remains stable despite framework changes
+## Những gì vẫn ổn định dù framework thay đổi
 
-The core Bot Engineer concepts should remain valid even if current libraries change:
+Core Bot Engineer concepts nên giữ giá trị ngay cả khi library hiện hành đổi:
 
 ```text
-context/cancellation
-bounded concurrency
-validation
-provenance
-retry/backoff
-idempotency
-durable state
-explicit tool contracts
-least privilege
-risk classification
-human approval
-tracing/audit
-evaluation
-kill switch
+context/cancellation        ngữ cảnh/hủy
+bounded concurrency         đồng thời có giới hạn
+validation                  kiểm tra/xác thực dữ liệu
+provenance                  nguồn gốc dữ liệu
+retry/backoff               thử lại/tăng thời gian chờ
+idempotency                 tính lặp an toàn
+durable state               trạng thái bền vững
+explicit tool contracts     hợp đồng công cụ rõ ràng
+least privilege             quyền tối thiểu
+risk classification         phân loại rủi ro
+human approval              phê duyệt của con người
+tracing/audit               theo dõi/ghi vết
+evaluation                  đánh giá
+kill switch                 công tắc dừng khẩn cấp
 ```
 
-Bilingual reading map:
-
-```text
-context/cancellation → ngữ cảnh/hủy
-bounded concurrency → đồng thời có giới hạn
-validation → kiểm tra/xác thực dữ liệu
-provenance → nguồn gốc dữ liệu
-retry/backoff → thử lại/tăng thời gian chờ
-idempotency → tính lặp an toàn
-durable state → trạng thái bền vững
-explicit tool contracts → hợp đồng công cụ rõ ràng
-least privilege → quyền tối thiểu cần thiết
-risk classification → phân loại rủi ro
-human approval → phê duyệt của con người
-tracing/audit → theo dõi/ghi vết
-evaluation → đánh giá
-kill switch → công tắc dừng khẩn cấp
-```
-
-Framework/version changes should normally update examples and the freshness register, not force a new curriculum structure.
+Framework/version change thường phải cập nhật example + freshness register trước, không tự động ép curriculum đổi cấu trúc.
