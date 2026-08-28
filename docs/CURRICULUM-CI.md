@@ -52,7 +52,7 @@ External URL và anchor-only link không được resolve local.
 
 ### 4. Lesson metadata
 
-Mọi lesson mới phải có tối thiểu:
+Mọi lesson file phải có tối thiểu:
 
 ```yaml
 lesson_id:
@@ -75,6 +75,8 @@ Validator cũng kiểm tra:
 - part/chapter metadata khớp path;
 - canonical source ref `S:P/C/L` khớp lesson.
 
+Từ Step 9 trở đi **không còn legacy lesson exception**. Bài 0.1 đã được migrate thành reference implementation và phải pass cùng contract như các lesson khác.
+
 ## Planned-only convention
 
 Scaffold `status: planned` **không được link từ roadmap như một lesson đã authored**.
@@ -89,19 +91,25 @@ scaffold file ≠ authored lesson ≠ learner PASS
 
 ## Heading checks
 
-Lesson mới phải:
+Lesson phải:
 
 - có đúng một H1;
 - H1 là heading đầu tiên;
 - không nhảy heading level, ví dụ H2 → H4.
 
-## Temporary legacy exception: lesson 0.1
+## Reference implementation
 
-`lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md` được tạm miễn metadata/heading contract ở Step 8 vì đây là lesson được author trước chuẩn Step 5.
+`lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md` là bài reference cho authored lesson `ready`:
 
-Issue #9 sẽ migrate 0.1 sang canonical template; sau migration phải xóa exception này.
-
-Exception **không** miễn relative-link validation.
+- front matter đầy đủ;
+- source refs và prerequisites rõ;
+- effort estimate cụ thể;
+- đúng heading hierarchy;
+- có objectives, concept, explanation, example, real case, misconceptions;
+- có artifact + DoD;
+- có quiz + answer key;
+- có explain-back + 5 PASS criteria;
+- có Knowledge Base update, summary, source list và next action.
 
 ## Mutation tests
 
