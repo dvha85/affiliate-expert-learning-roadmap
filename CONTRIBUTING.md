@@ -56,6 +56,8 @@ reference v0.3:    lab/affiliate-bot/
 
 Reference không phải learner starting state. Không copy reference rồi coi là Mission PASS.
 
+`PROGRESS.md` xác định Current Mission. Semantic CI dùng Current Mission để đặt capability ceiling (trần năng lực) cho learner workspace, tránh leak lời giải Mission sau nhưng vẫn cho workspace tiến hóa đúng M00 → M03.
+
 ## 4. Hướng Go-first
 
 Primary implementation language (ngôn ngữ triển khai chính) là **Go**.
@@ -125,21 +127,36 @@ English term được giữ khi cần độ chính xác kỹ thuật hoặc đ�
 
 Xem [`docs/LANGUAGE-POLICY.md`](docs/LANGUAGE-POLICY.md).
 
-## 9. Checklist Pull Request
+## 9. Kiểm tra trước Pull Request / Merge
 
-Trước merge, chạy đầy đủ current fast gates:
+Từ root repository:
 
 ```bash
 python scripts/validate_curriculum.py
 python scripts/validate_hardening.py
 python scripts/validate_build_first.py
 python -m unittest discover -s tests -v
+```
 
+Reference Bot:
+
+```bash
 cd lab/affiliate-bot
+test -z "$(gofmt -l .)"
+go vet ./...
 go test ./...
 ```
 
-PR-C của Issue #37 sẽ bổ sung semantic Build-First gates và kiểm learner workspace; khi workflow thay đổi, tài liệu này phải được cập nhật cùng PR.
+Learner Bot:
+
+```bash
+cd lab/learner/affiliate-bot
+test -z "$(gofmt -l .)"
+go vet ./...
+go test ./...
+```
+
+Chi tiết error codes và semantic guards: [`docs/CURRICULUM-CI.md`](docs/CURRICULUM-CI.md).
 
 Checklist:
 
@@ -151,11 +168,29 @@ Checklist:
 - [ ] freshness metadata hợp lệ;
 - [ ] không thay learner checkbox chỉ vì content/code tồn tại;
 - [ ] không làm mờ Mission/Lesson/Project/Bot Version semantics;
-- [ ] learner starting state không chứa sẵn capability của Mission sau;
+- [ ] `bot_version_from` nối đúng version của Mission trước;
+- [ ] Mission dependency thực sự tồn tại;
+- [ ] Mission `ready` có explicit canonical required knowledge;
+- [ ] Mission Project mapping khớp central Bot Evolution map;
+- [ ] learner workspace không vượt capability ceiling của Current Mission;
+- [ ] learner/reference Go line đồng bộ;
 - [ ] consequential side effects vẫn giữ policy/risk/approval boundary;
 - [ ] code/evidence không chứa secret;
 - [ ] Markdown tuân thủ Language Policy.
 
-## 10. Licensing (giấy phép)
+## 10. Repository governance (quản trị repo)
+
+Không merge PR khi `Curriculum CI` fail.
+
+`main` nên được GitHub branch protection/ruleset cưỡng chế:
+
+- require Pull Request;
+- require `Curriculum CI / validate-curriculum` hoặc status check tương ứng;
+- block force push;
+- block deletion.
+
+Xem [`docs/REPOSITORY-GOVERNANCE.md`](docs/REPOSITORY-GOVERNANCE.md).
+
+## 11. Licensing (giấy phép)
 
 Repository là public nhưng hiện chưa publish open-source license cho curriculum/content. Xem [`docs/LICENSING.md`](docs/LICENSING.md).
