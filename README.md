@@ -68,6 +68,33 @@ PRACTICE / RATIONALE: training + research supplements
 
 Không tạo source mapping giả cho chapter/lesson mà nguồn supplement không đề cập. Xem [SOURCE-MAPPING.md](docs/SOURCE-MAPPING.md) để tra toàn bộ 23 Part / 89 Chapter và quy ước `source_refs`.
 
+## Lesson authoring standard
+
+Lesson mới phải được viết từ [`templates/LESSON.md`](templates/LESSON.md), không dùng `LESSON-NOTES.md` làm authoring template.
+
+Mỗi authored lesson có metadata tối thiểu:
+
+```yaml
+lesson_id: "X.Y"
+effort: M
+estimated_minutes: 60
+status: planned
+prerequisites: []
+source_refs:
+  canonical:
+    - "S:PX/CY/LX.Y"
+```
+
+Authoring status:
+
+- `planned` — scaffold/chưa đủ nội dung;
+- `draft` — đã viết nhưng chưa đạt Definition of Done;
+- `ready` — nội dung đã đủ để học theo PASS cycle.
+
+`ready` **không có nghĩa người học đã PASS**. Lesson chỉ được xem là learner-complete khi đủ Concept + Example + Quiz ≥80% + Practice artifact + Explain-back.
+
+Lesson `ready` bắt buộc có answer key hoặc scoring rubric, artifact rõ ràng và external verification khi có claim hiện hành về platform/legal/tax/policy/API. Xem [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md).
+
 ## Effort-aware planning
 
 Không coi 671 checkbox là 671 đơn vị workload bằng nhau.
@@ -97,12 +124,15 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - Timeline là forecast; PASS evidence mới là gate.
 - Mỗi thời điểm chỉ có một **primary knowledge focus**, nhưng có thể có nhiều execution loop đã mở khóa.
 - Source mapping phải trung thực: không có source support thì ghi rõ không có.
+- File lesson tồn tại không đồng nghĩa lesson đã authored xong; authored status phải rõ ràng.
 
 ## Tài liệu
 
 - [Roadmap theo từng phần/chương/bài](ROADMAP.md)
 - [Hybrid Execution Model](docs/EXECUTION-MODEL.md)
 - [Source-to-Roadmap Traceability Map](docs/SOURCE-MAPPING.md)
+- [Lesson Authoring Standard](docs/LESSON-AUTHORING-STANDARD.md)
+- [Canonical Lesson Template](templates/LESSON.md)
 - [Effort Model S/M/L/XL](docs/EFFORT-MODEL.md)
 - [Kế hoạch chuẩn 15 tháng](docs/15-MONTH-PLAN.md)
 - [Kế hoạch tăng tốc 12 tháng](docs/12-MONTH-PLAN.md)
