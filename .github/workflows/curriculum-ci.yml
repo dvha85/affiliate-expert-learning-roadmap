@@ -27,6 +27,9 @@ jobs:
       - name: Run hardening validator
         run: python scripts/validate_hardening.py
 
+      - name: Run Build-First validator
+        run: python scripts/validate_build_first.py
+
       - name: Run validator mutation tests
         run: python -m unittest discover -s tests -v
 
