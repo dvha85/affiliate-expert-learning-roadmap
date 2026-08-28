@@ -11,10 +11,11 @@ Roadmap được chuẩn hóa từ ba tài liệu nguồn v2026.08. Lộ trình 
 1. Mở [ROADMAP.md](ROADMAP.md) để xem toàn bộ 23 phần.
 2. Chọn timeline: [15-month Standard](docs/15-MONTH-PLAN.md) hoặc [12-month Accelerated](docs/12-MONTH-PLAN.md).
 3. Đọc [Hybrid Execution Model](docs/EXECUTION-MODEL.md): một primary knowledge focus + các execution loop đã được mở khóa.
-4. Vào file của phần hiện tại và học theo prerequisite, không theo kiểu mọi activity đều tuần tự tuyệt đối.
-5. Chỉ đổi `[ ]` thành `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
-6. Dùng [mẫu ghi chú bài học](templates/LESSON-NOTES.md) để lưu evidence.
-7. Cập nhật [PROGRESS.md](PROGRESS.md) trong buổi review Chủ nhật.
+4. Khi author/học lesson, tra [Source-to-Roadmap Traceability Map](docs/SOURCE-MAPPING.md) để biết syllabus ref và các nguồn supplement phù hợp.
+5. Vào file của phần hiện tại và học theo prerequisite, không theo kiểu mọi activity đều tuần tự tuyệt đối.
+6. Chỉ đổi `[ ]` thành `[x]` sau khi đạt đủ [5 tiêu chí PASS](docs/PASS-CRITERIA.md).
+7. Dùng [mẫu ghi chú bài học](templates/LESSON-NOTES.md) để lưu evidence.
+8. Cập nhật [PROGRESS.md](PROGRESS.md) trong buổi review Chủ nhật.
 
 ## Quy mô chương trình
 
@@ -54,6 +55,19 @@ Ví dụ: Part 9 mở content production; Part 10 thêm traffic nhưng **không 
 
 Parallel execution không làm tăng capacity vô hạn. Tất cả activity phải nằm trong 9h/tuần của Standard hoặc 11–12h/tuần của Accelerated. Xem [Hybrid Execution Model](docs/EXECUTION-MODEL.md) để biết dependency map cho 23 Part và điểm mở khóa từng loop.
 
+## Source traceability
+
+Mọi lesson có canonical mapping về `SYLLABUS-v2026.08.md` theo ID; `Noi-dung-dao-tao.txt` và `Nghien-cuu.txt` chỉ được gắn khi thực sự hỗ trợ scope.
+
+```text
+STRUCTURE: SYLLABUS
+PACING: current 15/12-month plans
+EXECUTION: EXECUTION-MODEL
+PRACTICE / RATIONALE: training + research supplements
+```
+
+Không tạo source mapping giả cho chapter/lesson mà nguồn supplement không đề cập. Xem [SOURCE-MAPPING.md](docs/SOURCE-MAPPING.md) để tra toàn bộ 23 Part / 89 Chapter và quy ước `source_refs`.
+
 ## Effort-aware planning
 
 Không coi 671 checkbox là 671 đơn vị workload bằng nhau.
@@ -82,11 +96,13 @@ LEARN → EXPLAIN → APPLY → TEST → PASS
 - Bot hỗ trợ quyết định; không spam, tạo tương tác giả hoặc né policy.
 - Timeline là forecast; PASS evidence mới là gate.
 - Mỗi thời điểm chỉ có một **primary knowledge focus**, nhưng có thể có nhiều execution loop đã mở khóa.
+- Source mapping phải trung thực: không có source support thì ghi rõ không có.
 
 ## Tài liệu
 
 - [Roadmap theo từng phần/chương/bài](ROADMAP.md)
 - [Hybrid Execution Model](docs/EXECUTION-MODEL.md)
+- [Source-to-Roadmap Traceability Map](docs/SOURCE-MAPPING.md)
 - [Effort Model S/M/L/XL](docs/EFFORT-MODEL.md)
 - [Kế hoạch chuẩn 15 tháng](docs/15-MONTH-PLAN.md)
 - [Kế hoạch tăng tốc 12 tháng](docs/12-MONTH-PLAN.md)
