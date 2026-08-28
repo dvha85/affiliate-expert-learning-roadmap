@@ -1,6 +1,6 @@
 # Phần 11 — FUNNEL & CONVERSION
 
-- Lịch đề xuất: **Tháng 5**
+- Timeline: **Standard M7–8 · Accelerated M5** — forecast; PASS evidence mới là gate.
 - Quy mô: **2 chương / 14 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -25,6 +25,8 @@
 - [ ] **37.8** — Trust
 - [ ] **37.9** — Social Proof
 - [ ] **37.10** — Urgency
+
+> **2026 freshness note:** funnel analysis must support journeys where AI/search/platform surfaces mediate discovery, comparison or cart/checkout. Keep the canonical funnel, but record additional touchpoints and attribution uncertainty instead of assuming every path is `content → click → product page`.
 
 ## Cổng thực hành
 
