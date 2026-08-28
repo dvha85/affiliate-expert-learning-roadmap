@@ -4,6 +4,8 @@
 
 Tổng cộng: **23 phần · 89 chương · 671 bài học**.
 
+> **Planning note:** 671 bài không có trọng lượng bằng nhau. Từ Issue #1, workload phải được lập theo [Effort Model S/M/L/XL](docs/EFFORT-MODEL.md), dựa trên **thời gian để PASS**, không dựa riêng vào số checkbox. Bảng tháng bên dưới vẫn là lịch v1 hiện tại và sẽ được cân lại ở Issue #2.
+
 | Phần | Trọng tâm | Chương | Bài | Thời gian | Trạng thái |
 |---|---|---:|---:|---|---|
 | [Phần 0](roadmap/part-00.md) | ORIENTATION & AFFILIATE LAB | 0 | 12 | Tháng 1 | ⬜ |
@@ -38,6 +40,17 @@ Tổng cộng: **23 phần · 89 chương · 671 bài học**.
 - ✅ Hoàn thành
 - ⛔ Blocked
 
+## Quy ước effort
+
+- **S — Small:** 15–30 phút để PASS.
+- **M — Medium:** 45–75 phút để PASS.
+- **L — Large:** 1.5–3 giờ để PASS.
+- **XL — Integration Gate:** LAB/PROJECT/PASS Gate, thường nhiều giờ hoặc nhiều buổi.
+
+Xem rule chi tiết, baseline 671 bài và cách chống double-count tại [docs/EFFORT-MODEL.md](docs/EFFORT-MODEL.md).
+
 ## Thứ tự thực hiện
 
 Đi theo Phần 0 → 19 → 21. Phần 20 (Business & Scale) bắt đầu khi đã có tín hiệu doanh thu; Phần 22 là vòng học liên tục sau khóa chính.
+
+> Cách thực hiện tuần tự/song song sẽ được chuẩn hóa ở Issue #3; câu trên hiện mô tả thứ tự knowledge roadmap v1, không có nghĩa mọi execution activity phải dừng khi chuyển Part.
