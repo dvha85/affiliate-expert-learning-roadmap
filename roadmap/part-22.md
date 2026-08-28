@@ -24,11 +24,13 @@
 
 ### Chương 87 — Technology Watch
 
-- [ ] **87.1** — Theo dõi LLM và AI Agents
-- [ ] **87.2** — Theo dõi APIs và Tracking
-- [ ] **87.3** — Theo dõi Analytics và Recommendation
-- [ ] **87.4** — Theo dõi ML và Automation
-- [ ] **87.5** — Technology evaluation và adoption decision
+- [ ] **87.1** — Theo dõi Go runtime, LLM và AI Agent evolution
+- [ ] **87.2** — Theo dõi APIs, MCP, A2A và Tracking integrations
+- [ ] **87.3** — Theo dõi Analytics, Recommendation và agent evaluation
+- [ ] **87.4** — Theo dõi ML, Workflow, Automation và observability
+- [ ] **87.5** — Technology evaluation, security review và adoption decision
+
+> **Adoption rule:** protocol/framework mới không tự động trở thành dependency. MCP là interoperability concept quan trọng; A2A là SHOULD/WATCH cho tới khi có use case remote-agent interoperability thật. Mọi adoption phải đánh giá value, operational complexity, security, maturity, cost và exit path.
 
 ### Chương 88 — Research Practice
 
