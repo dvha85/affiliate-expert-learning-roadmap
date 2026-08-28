@@ -1,8 +1,8 @@
-# Mission Evidence
+# Bằng chứng Mission
 
-Mission evidence should prove what was built, run, observed, tested and learned without duplicating the whole codebase.
+Mission evidence (bằng chứng Mission) phải chứng minh người học đã **build, run, observe, test và learn (xây, chạy, quan sát, kiểm thử và học)** những gì, nhưng không copy lại toàn bộ codebase.
 
-Recommended structure:
+Cấu trúc khuyến nghị:
 
 ```text
 artifacts/missions/MXX/
@@ -13,8 +13,34 @@ artifacts/missions/MXX/
 └── decision-notes.md
 ```
 
-Actual source code remains under the bot workspace. Artifact files should reference code paths and commit SHAs where useful.
+Source code thật vẫn nằm trong learner bot workspace. Artifact nên reference (tham chiếu) code path và commit SHA khi hữu ích.
 
-Do not commit secrets, credentials or unnecessary personal/raw production data.
+Với bootstrap M00–M03, learner workspace mặc định là:
 
-Mission evidence may be reused by canonical lessons/projects when it proves the same requirement. Reuse does not automatically mark either Mission, Lesson or Project PASS.
+```text
+lab/learner/affiliate-bot/
+```
+
+`lab/affiliate-bot/` là reference implementation (bản triển khai tham chiếu), không phải evidence rằng learner đã tự build capability.
+
+## Evidence nên trả lời được
+
+- Bạn đã build gì?
+- Bạn đã chạy command nào?
+- Output trước/sau khác nhau thế nào?
+- Failure case nào đã được thử?
+- Test nào bảo vệ behavior?
+- Knowledge slice nào làm thay đổi implementation/quyết định?
+- Commit nào đại diện cho learner work?
+
+## An toàn dữ liệu
+
+Không commit:
+
+- secret, API key, token, password;
+- credential;
+- raw production data không cần thiết;
+- dữ liệu cá nhân/sensitive data;
+- nội dung không có quyền phân phối.
+
+Mission evidence có thể được reuse (tái sử dụng) cho canonical Lesson/Project khi nó thực sự chứng minh cùng requirement. Reuse không tự động đánh dấu Mission, Lesson hay Project PASS.
