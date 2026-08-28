@@ -1,6 +1,6 @@
 # Lesson Scaffolding Guide
 
-`script/scaffold_lesson.py` không tồn tại; script chuẩn là:
+Script chuẩn:
 
 ```text
 scripts/scaffold_lesson.py
@@ -143,3 +143,13 @@ prerequisites: []
 ```
 
 Điều này phù hợp với Lesson Authoring Standard: chỉ ghi dependency thật.
+
+## Smoke-test fixture 0.2
+
+Issue #7 có một scaffold test tại:
+
+```text
+lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md
+```
+
+File này giữ `status: planned`, có placeholder rõ ràng và **không được coi là lesson hoàn chỉnh**. Bài 0.1 không bị sửa/overwrite.
