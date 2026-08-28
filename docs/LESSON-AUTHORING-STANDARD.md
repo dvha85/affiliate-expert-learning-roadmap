@@ -95,7 +95,71 @@ Contract:
 
 Bài 0.1 là reference implementation hiện tại cho hierarchy và content contract.
 
-## 4. Minimum content contract
+## 4. Quy ước thuật ngữ song ngữ
+
+Curriculum được viết chủ yếu bằng tiếng Việt nhưng phải giúp người học làm quen với thuật ngữ tiếng Anh thực tế dùng trong Affiliate, Marketing, Data và Engineering.
+
+Quy tắc mặc định cho thuật ngữ chuyên ngành beginner-facing:
+
+```text
+English Term (Tiếng Việt)
+```
+
+Ví dụ:
+
+```text
+Conversion Potential (Khả năng chuyển đổi)
+Product–Audience Fit (Mức độ phù hợp giữa sản phẩm và đối tượng)
+Refund Risk (Rủi ro hoàn tiền/trả hàng)
+```
+
+### 4.1. Lần xuất hiện đầu tiên
+
+Ở lần xuất hiện có ý nghĩa đầu tiên trong lesson hoặc section, ưu tiên viết song ngữ.
+
+Ví dụ:
+
+> CVR (Conversion Rate — Tỷ lệ chuyển đổi) là tỷ lệ chuyển đổi từ một bước funnel sang hành động mục tiêu.
+
+Sau khi đã giải thích, có thể dùng `CVR` hoặc `Conversion Rate` ở các đoạn sau nếu ngữ cảnh rõ.
+
+### 4.2. Bảng/list dùng để học hoặc ra quyết định
+
+Nếu bảng/list chứa các tiêu chí người học phải ghi nhớ hoặc sử dụng để phân tích, ưu tiên giữ song ngữ trực tiếp trong bảng/list.
+
+Ví dụ:
+
+```text
+Demand (Nhu cầu thị trường)
+Conversion Potential (Khả năng chuyển đổi)
+Competition (Mức độ cạnh tranh)
+```
+
+### 4.3. Code, identifier, protocol và framework
+
+Không dịch tên function, API, identifier, protocol hoặc framework bên trong code.
+
+Ví dụ giữ nguyên:
+
+```text
+CalculateOpportunityScore()
+ActionIntent
+PostgreSQL
+Model Context Protocol (MCP)
+OpenTelemetry
+```
+
+Phần giải thích xung quanh phải dùng tiếng Việt dễ hiểu.
+
+### 4.4. Không dịch máy móc
+
+Bản dịch trong ngoặc là **learner aid**, không nhất thiết là tên chính thức của platform/vendor. Nếu thuật ngữ có nhiều cách dịch, giữ English term để bảo toàn nghĩa và dùng một bản dịch nhất quán trong curriculum.
+
+Glossary dùng chung: [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
+
+Lesson có thuật ngữ reusable chưa có trong glossary nên bổ sung glossary hoặc ít nhất dùng bản dịch nhất quán với các lesson hiện có.
+
+## 5. Minimum content contract
 
 Lesson `ready` phải có:
 
@@ -119,7 +183,7 @@ Lesson `ready` phải có:
 
 Không bắt buộc mọi section dài ngang nhau. S lesson phải gọn; L lesson có thể sâu hơn.
 
-## 5. Mapping tới 5 PASS criteria
+## 6. Mapping tới 5 PASS criteria
 
 | PASS criterion | Authoring section tối thiểu |
 |---|---|
@@ -131,7 +195,7 @@ Không bắt buộc mọi section dài ngang nhau. S lesson phải gọn; L less
 
 Lesson không được `ready` nếu thiếu bất kỳ hàng nào.
 
-## 6. Quiz và rubric
+## 7. Quiz và rubric
 
 ### Quiz size guideline
 
@@ -152,7 +216,7 @@ Rubric phải chỉ rõ:
 
 PASS quiz mặc định ≥80% theo [`PASS-CRITERIA.md`](PASS-CRITERIA.md).
 
-## 7. Artifact và practice
+## 8. Artifact và practice
 
 Artifact phải là evidence inspect được, ví dụ:
 
@@ -167,7 +231,7 @@ Artifact phải là evidence inspect được, ví dụ:
 
 Không dùng “đã đọc”, “đã xem video”, “đã hiểu” làm artifact.
 
-## 8. External verification & freshness
+## 9. External verification & freshness
 
 External verification bắt buộc với claim có thể thay đổi theo thời gian, đặc biệt:
 
@@ -219,7 +283,7 @@ Trong lesson phải phân biệt:
 - current verified fact;
 - author inference/example.
 
-## 9. Authoring status Definition of Done
+## 10. Authoring status Definition of Done
 
 ### `planned`
 
@@ -241,6 +305,7 @@ Chỉ dùng khi:
 - source refs đúng;
 - heading hierarchy chuẩn;
 - objectives measurable;
+- thuật ngữ chuyên ngành beginner-facing có learner aid song ngữ khi phù hợp;
 - đủ Concept/Example/Quiz/Practice/Explain-back;
 - answer key/rubric đầy đủ;
 - artifact path rõ;
@@ -248,14 +313,15 @@ Chỉ dùng khi:
 - không còn placeholder/TODO;
 - links nội bộ hợp lý.
 
-## 10. Reference implementation — bài 0.1
+## 11. Reference implementation — bài 0.1
 
-Bài `0.1 — Affiliate Expert là gì?` đã được migrate thành reference implementation `ready`:
+Bài `0.1 — Affiliate Expert là gì?` là reference implementation `ready`:
 
 - YAML metadata đầy đủ;
 - heading hierarchy chuẩn;
 - canonical/source mapping rõ;
 - effort estimate;
+- beginner-facing terminology theo chuẩn song ngữ;
 - objectives, concept, explanations, case A/B;
 - exercise, quiz 10 câu, answer key;
 - explain-back, PASS, Knowledge Base update;
@@ -263,7 +329,7 @@ Bài `0.1 — Affiliate Expert là gì?` đã được migrate thành reference 
 
 Template là **minimum contract**, không phải giới hạn chiều sâu.
 
-## 11. Authoring workflow
+## 12. Authoring workflow
 
 ```text
 1. Read canonical lesson in S
@@ -272,16 +338,17 @@ Template là **minimum contract**, không phải giới hạn chiều sâu.
 4. Assign S/M/L + estimated minutes
 5. Identify volatility/current-fact needs
 6. Author concept/example/case
-7. Design artifact
-8. Design quiz + answer key/rubric
-9. Verify current facts + register external refs
-10. Design explain-back
-11. Check 5 PASS coverage
-12. Run Curriculum CI
-13. Set status=ready only when DoD passes
+7. Add bilingual learner aids for specialized terms
+8. Design artifact
+9. Design quiz + answer key/rubric
+10. Verify current facts + register external refs
+11. Design explain-back
+12. Check 5 PASS coverage
+13. Run Curriculum CI
+14. Set status=ready only when DoD passes
 ```
 
-## 12. Anti-patterns
+## 13. Anti-patterns
 
 Không:
 
@@ -293,5 +360,6 @@ Không:
 - hard-code current platform thresholds như sự thật vĩnh viễn;
 - dùng SEO/affiliate aggregator làm nguồn duy nhất cho current policy/legal claim;
 - ép mọi lesson có độ dài như nhau;
+- để beginner-facing lesson dùng dày đặc specialized English terms mà không có learner aid/glossary;
 - tick roadmap vì lesson file tồn tại;
 - nhầm `status: ready` với learner PASS.
