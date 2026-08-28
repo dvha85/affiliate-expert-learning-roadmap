@@ -1,6 +1,6 @@
 # Phần 18 — ADVANCED AFFILIATE INTELLIGENCE
 
-- Lịch đề xuất: **Tháng 11**
+- Timeline: **Standard M12–13 · Accelerated M10** — forecast; PASS evidence mới là gate.
 - Quy mô: **6 chương / 35 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -58,6 +58,8 @@
 - [ ] **72.3** — Multi-Armed Bandit
 - [ ] **72.4** — Thompson Sampling — concept
 - [ ] **72.5** — Adaptive Experimentation
+
+> **2026 freshness note:** concept/model drift now includes platform-policy, creator-score and AI-discovery changes. Forecast/ranking evaluation should annotate regime changes and avoid treating renamed/redefined platform metrics as a continuous unchanged feature series.
 
 ## Hoàn thành phần
 
