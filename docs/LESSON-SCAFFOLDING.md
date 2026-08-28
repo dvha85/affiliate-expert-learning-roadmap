@@ -21,7 +21,7 @@ Scaffolder:
 - không overwrite file lesson đã tồn tại;
 - không tick roadmap;
 - không đổi learner PASS state;
-- không đổi lesson sang `ready`.
+- không tự đổi lesson sang `ready`.
 
 > File scaffold tồn tại **không đồng nghĩa lesson đã authored**.
 
@@ -30,16 +30,16 @@ Scaffolder:
 ### Dry-run
 
 ```bash
-python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 60 --prerequisite 0.1 --dry-run
+python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 75 --prerequisite 0.1 --dry-run
 ```
 
-Bài 0.2 hiện đã tồn tại dưới dạng smoke-test scaffold. Vì vậy dry-run phải **không fail** và báo:
+Bài 0.2 hiện đã được author thành lesson `ready`, nên dry-run vẫn phải **không fail** và báo:
 
 ```text
 EXISTS 0.2: ... (dry-run; would not overwrite)
 ```
 
-Dry-run là chế độ inspection: không ghi file, và collision hiện có không phải lỗi.
+Đây là regression example cho collision safety: dry-run chỉ inspection, không ghi file và không coi file hiện hữu là lỗi.
 
 ### Tạo thật
 
@@ -108,10 +108,10 @@ Exit code vẫn là `0` nếu target hợp lệ.
 
 Nếu bất kỳ file đích nào đã tồn tại, script dừng và trả exit code `3` trước khi ghi file mới.
 
-Ví dụ bài 0.1 đã tồn tại:
+Ví dụ bài 0.1 hoặc 0.2 đã tồn tại:
 
 ```bash
-python scripts/scaffold_lesson.py --lesson 0.1
+python scripts/scaffold_lesson.py --lesson 0.2
 ```
 
 phải bị từ chối. Không có `--force` để tránh overwrite nội dung thật.
@@ -135,7 +135,7 @@ scaffold
 → PASS / RETRY
 ```
 
-Scaffolder chỉ thực hiện bước đầu tiên.
+Scaffolder chỉ thực hiện bước đầu tiên. Bài 0.2 là ví dụ cho một scaffold đã đi hết lifecycle authoring tới `ready`; nó vẫn chưa được coi là learner PASS cho tới khi có đủ evidence.
 
 ## Effort
 
@@ -165,9 +165,9 @@ Dùng `--prerequisite` lặp lại khi dependency đã biết:
 
 ```bash
 python scripts/scaffold_lesson.py \
-  --lesson 0.2 \
+  --lesson 0.3 \
   --prerequisite 0.1 \
-  --prerequisite "concept: affiliate system flow" \
+  --prerequisite 0.2 \
   --dry-run
 ```
 
@@ -178,13 +178,3 @@ prerequisites: []
 ```
 
 Điều này phù hợp với Lesson Authoring Standard: chỉ ghi dependency thật.
-
-## Smoke-test fixture 0.2
-
-Issue #7 có một scaffold test tại:
-
-```text
-lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md
-```
-
-File này giữ `status: planned`, có placeholder rõ ràng và **không được coi là lesson hoàn chỉnh**. Bài 0.1 không bị sửa/overwrite.
