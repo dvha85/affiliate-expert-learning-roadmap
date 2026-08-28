@@ -43,6 +43,8 @@
 
 > **2026 freshness note:** current platform/policy/product signals cần lưu `source`, `observed_at/effective_at`, version và confidence khi có thể. Data model không nên biến commission, eligibility, policy state hoặc product-quality score thành thuộc tính bất biến.
 
+> **Operational-data evolution:** Part 12 xây **affiliate domain data**. Parts 15–19 mở rộng cùng hệ thống bằng operational entities như `Workflow`, `ActionIntent`, `PolicyDecision`, `ApprovalRequest`, `ApprovalDecision`, `ExecutionRecord` và trace/correlation IDs. Không cần nhồi các entity này vào Ch38 trước khi học automation, nhưng schema/correlation phải cho phép nối `business event → decision → action → result` thay vì tạo một “bot database” tách rời không truy vết được.
+
 ## Cổng thực hành
 
 - [ ] **PROJECT 7 — Affiliate Data Warehouse**
