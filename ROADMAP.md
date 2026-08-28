@@ -1,4 +1,6 @@
-# Roadmap tổng
+# Roadmap tổng — Knowledge Inventory
+
+> **Vai trò từ Build-First v1:** file này là canonical normalized **knowledge inventory**, không còn là default learner execution sequence. Đường học mặc định nằm ở [`BUILD-FIRST.md`](BUILD-FIRST.md). Mission có thể pull lesson từ nhiều Part theo đúng prerequisite cần thiết.
 
 > Checkbox bài học nằm trong file từng phần. Đây là nguồn trạng thái learner PASS duy nhất để tránh tick trùng.
 
@@ -8,12 +10,12 @@ Tổng cộng: **23 phần · 89 chương · 671 bài học**.
 
 ## Timeline chính
 
-- **Standard:** [15 tháng](docs/15-MONTH-PLAN.md) ở khoảng **9 giờ/tuần** — lộ trình mặc định.
+- **Standard:** [15 tháng](docs/15-MONTH-PLAN.md) ở khoảng **9 giờ/tuần** — planning envelope.
 - **Accelerated:** [12 tháng](docs/12-MONTH-PLAN.md) ở khoảng **11–12 giờ/tuần**, khuyến nghị 12 giờ/tuần.
 - Fixed core knowledge spine: **Phần 0 → 19 → 21**.
 - Phần 20 bắt đầu khi có tín hiệu doanh thu; Phần 22 là Continuous Mastery sau core.
 
-Bảng dưới giữ vai trò **curriculum index**, không phải cam kết “mỗi Part phải xong trong đúng tháng”. Phân bổ tháng nằm trong hai timeline docs.
+Bảng dưới là **curriculum index**. Build-First Mission system quyết định learner build gì tiếp theo; bảng này xác định knowledge nào tồn tại và trạng thái PASS của learner.
 
 | Phần | Trọng tâm | Chương | Bài | Trạng thái |
 |---|---|---:|---:|---|
@@ -43,50 +45,39 @@ Bảng dưới giữ vai trò **curriculum index**, không phải cam kết “m
 
 ## Authoring status vs learner status
 
-Hai hệ trạng thái độc lập:
-
 ```text
 Authoring: planned → draft → ready
 Learner:   chưa PASS → PASS / RETRY
 ```
 
-Quy ước link:
-
 - `planned` scaffold có thể tồn tại trong `lessons/` nhưng chưa được link từ part roadmap;
 - `draft` hoặc `ready` phải được link từ part roadmap;
-- link **không** có nghĩa learner đã PASS;
-- checkbox `[x]` chỉ dùng sau khi đủ 5 PASS criteria.
+- link không có nghĩa learner đã PASS;
+- checkbox `[x]` chỉ dùng sau khi đủ PASS criteria.
 
-Bài 0.1 là reference implementation `ready`; learner status vẫn `[ ]` cho tới khi evidence thực tế đạt PASS.
+Bài 0.1 và 0.2 là authored references; learner status vẫn `[ ]` cho tới khi evidence thực tế đạt PASS.
 
-## Hybrid execution
+## Build-First execution
 
-Knowledge roadmap có một **primary current Part/lesson** để giữ focus, nhưng execution không tuyến tính tuyệt đối.
-
-Sau khi đủ prerequisite, các loop sau được mở và có thể tiếp tục chạy trong các Part sau:
-
-- Compliance & Platform Watch
-- Market / Customer / Product Watch
-- Real Content Production
-- Traffic Distribution
-- Funnel / Revenue / Data Capture
-- Formal Experiments
-- Bot / Automation
-- AI-assisted Workflow
-
-Đọc [docs/EXECUTION-MODEL.md](docs/EXECUTION-MODEL.md) để xem dependency map cho toàn bộ 23 Part.
-
-### Part 9 → 10 → 11
-
-Cách hiểu đúng:
+Knowledge spine vẫn mô tả prerequisite/mastery coverage, nhưng learner execution mặc định là:
 
 ```text
-Part 9 mở Content Production ───────────────→
-Part 10 thêm Traffic Distribution ──────────→
-Part 11 thêm Funnel/Data Measurement ───────→
+ONE current Mission
++
+small working Bot slice
++
+required/on-demand Knowledge Pulls
++
+active operating loops
++
+ALL within weekly capacity
++
+PASS evidence before mastery
 ```
 
-Không dừng Content khi sang Traffic; không dừng Content/Traffic khi sang Funnel.
+Go có thể được **dùng** từ Mission đầu tiên; Part 15 vẫn là formal Bot Engineering mastery scope.
+
+Các execution loops và governed action model nằm trong [docs/EXECUTION-MODEL.md](docs/EXECUTION-MODEL.md).
 
 ## Quy ước trạng thái learner
 
@@ -103,20 +94,13 @@ Không dừng Content khi sang Traffic; không dừng Content/Traffic khi sang F
 - **L — Large:** 1.5–3 giờ để PASS.
 - **XL — Integration Gate:** LAB/PROJECT/PASS Gate, thường nhiều giờ hoặc nhiều buổi.
 
-Xem rule chi tiết, baseline 671 bài và cách chống double-count tại [docs/EFFORT-MODEL.md](docs/EFFORT-MODEL.md).
+Xem [docs/EFFORT-MODEL.md](docs/EFFORT-MODEL.md).
 
-## Thứ tự thực hiện
-
-Knowledge spine mặc định đi theo **Phần 0 → 19 → 21**, nhưng chỉ là thứ tự prerequisite chính. Execution loops đã mở khóa tiếp tục chạy song song trong cùng weekly capacity.
+## Authority rule
 
 ```text
-ONE primary knowledge focus
-+
-ONLY unlocked execution loops
-+
-ALL within weekly capacity
-+
-PASS evidence before mastery
+BUILD-FIRST tells learner WHAT TO BUILD NEXT.
+ROADMAP tells the system WHAT KNOWLEDGE EXISTS and WHAT HAS PASSED.
 ```
 
-Phần 20 (Business & Scale) bắt đầu khi có tín hiệu doanh thu; Part 22 formalizes Continuous Mastery sau core, dù một số watch loop đã bắt đầu sớm hơn.
+Build-first changes sequencing, not canonical IDs, project inventory or learner evidence history.
