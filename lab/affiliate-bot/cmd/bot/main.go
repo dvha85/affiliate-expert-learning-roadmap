@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/dvha85/affiliate-expert-learning-roadmap/lab/affiliate-bot/internal/ingest"
 	"github.com/dvha85/affiliate-expert-learning-roadmap/lab/affiliate-bot/internal/ranking"
+	"github.com/dvha85/affiliate-expert-learning-roadmap/lab/affiliate-bot/internal/store"
 )
 
 func main() {
@@ -26,8 +28,17 @@ func main() {
 		log.Fatalf("ingest product data: %v", err)
 	}
 
+	repository := store.NewMemoryRepository()
+	capturedAt := time.Unix(0, 0).UTC()
+	for _, p := range products {
+		if err := repository.SaveSnapshot(store.Snapshot{Product: p, CapturedAt: capturedAt}); err != nil {
+			log.Fatalf("save product snapshot: %v", err)
+		}
+	}
+
 	fmt.Printf("Affiliate Bot starting...\n")
 	fmt.Printf("Loaded products: %d\n", len(products))
+	fmt.Printf("Stored snapshots: %d\n", len(products))
 
 	fmt.Println("\nCommission-only ranking:")
 	for i, item := range ranking.ByCommissionRate(products) {
