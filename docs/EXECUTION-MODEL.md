@@ -1,8 +1,6 @@
 # Hybrid Execution Model
 
-> Curriculum dùng **sequential knowledge prerequisites + parallel execution loops**.
-
-Syllabus v2026.08 định nghĩa 4 track học song song: Business & Marketing, Data & Intelligence, Engineering & AI, Compliance & Operations. Đồng thời roadmap cần dependency để tránh học implementation trước khi hiểu business/domain. Hai yêu cầu này không mâu thuẫn nếu tách **knowledge spine** khỏi **execution loops**.
+> Curriculum dùng **sequential knowledge prerequisites + parallel execution loops** theo active curriculum v2026.09.
 
 ## 1. Mental model
 
@@ -23,120 +21,99 @@ Orientation → Foundation/Economics/Tracking
 
               PARALLEL EXECUTION LOOPS
 
-Compliance watch ───────────────────────────────→
-Market/Product watch ───────────────────────────→
-Content production ─────────────────────────────→
-Traffic distribution ───────────────────────────→
-Tracking/Funnel/Data capture ───────────────────→
-Experiment loop ────────────────────────────────→
-Bot/automation loop ────────────────────────────→
-AI-assisted workflow ───────────────────────────→
+Compliance / Platform Watch ────────────────────→
+Market / Product Watch ─────────────────────────→
+Content Production ─────────────────────────────→
+Traffic Distribution ───────────────────────────→
+Tracking / Funnel / Data Capture ───────────────→
+Experiment Loop ────────────────────────────────→
+Bot / Automation Loop ──────────────────────────→
+AI-assisted Workflow ───────────────────────────→
+Governed Action / Approval Loop ────────────────→
 ```
 
-**Knowledge spine** trả lời: “Cần hiểu gì trước khi học concept tiếp theo?”
-
-**Execution loop** trả lời: “Hoạt động thực tế nào đã được mở khóa và không nên dừng chỉ vì chuyển sang Part mới?”
+**Knowledge spine** trả lời: cần hiểu gì trước khi học concept tiếp theo.  
+**Execution loop** trả lời: hoạt động thực tế nào đã mở khóa và phải tiếp tục tạo evidence.
 
 ## 2. Hai loại dependency
 
 ### Minimum prerequisite
 
-Knowledge tối thiểu nên có trước khi bắt đầu Part. Nếu thiếu, Part mới dễ trở thành học thuộc hoặc implementation không hiểu business logic.
+Knowledge tối thiểu phải có trước khi bắt đầu Part/lesson. Nếu thiếu, implementation dễ trở thành làm theo mà không hiểu business logic.
 
 ### Recommended context
 
-Kiến thức nên có nhưng có thể học overlap nếu timeline/capacity phù hợp. Đây không phải hard gate.
+Kiến thức nên có nhưng có thể overlap nếu capacity phù hợp. Không phải hard gate.
 
-Không dùng dependency để buộc mọi activity tuần tự tuyệt đối.
+Không dùng dependency để biến toàn bộ curriculum thành tuyến tính tuyệt đối.
 
 ## 3. Dependency map cho 23 Part
 
-Bảng này là **curriculum execution convention v1**, dùng để điều hành roadmap. Step 4 sẽ bổ sung traceability về nguồn.
+| Part | Trọng tâm | Minimum prerequisite | Unlock chính |
+|---:|---|---|---|
+| 0 | Orientation & Affiliate Lab | — | learning/evidence system |
+| 1 | Affiliate Fundamentals | Part 0 baseline | ecosystem/business vocabulary |
+| 2 | Affiliate Economics | Part 1 | revenue/economic decision lens |
+| 3 | Tracking & Attribution | Part 1 | tracking/data capture |
+| 4 | Legal, Tax & Compliance | Part 1 | Compliance Watch |
+| 5 | Platform Expert | Part 1 + Parts 3–4 context | Platform Policy Watch |
+| 6 | Market & Niche | Parts 1–2 | Market/Niche Watch |
+| 7 | Customer Intelligence | Part 6 baseline | customer research |
+| 8 | Product Intelligence | Parts 2,6,7 | Product Watch/scoring evidence |
+| 9 | Content & Psychology | Parts 7–8 + compliance context | Real Content Production |
+| 10 | Traffic & Distribution | Part 9 | Traffic Distribution |
+| 11 | Funnel & Conversion | Parts 2–3 + 9–10 baseline | Funnel/Revenue Measurement |
+| 12 | Data Engineering | Parts 3,8,11 | structured historical data |
+| 13 | Analytics | Parts 2,11,12 | diagnostic analytics |
+| 14 | Experimentation | Part 13 | Formal Experiment Loop |
+| 15 | Bot Engineering | Parts 12–13; Part14 useful | Bot/Automation Loop |
+| 16 | Decision & Recommendation | Parts 8,13–15 | deterministic decision/policy |
+| 17 | AI Affiliate Bot | Parts 9,15–16 | AI-assisted workflow + approval |
+| 18 | Advanced Intelligence | Parts 13–14,16 | forecasting/adaptive decision models |
+| 19 | Production/Security/Automation | Parts 15,17 | reliable governed production action |
+| 20 | Business & Scale | revenue signal + relevant loops | management by exception / scale |
+| 21 | Capstone | core deliverables Parts 0–19 | integrated intelligence platform |
+| 22 | Continuous Mastery | formal mastery after Part 21 | continuous watch/research cycle |
 
-| Part | Trọng tâm | Minimum prerequisite | Recommended context / overlap | Khi PASS/mở đủ nền tảng thì unlock |
-|---:|---|---|---|---|
-| 0 | Orientation & Affiliate Lab | — | — | learning system, evidence habit |
-| 1 | Affiliate Fundamentals | Part 0 baseline | — | business vocabulary, ecosystem map |
-| 2 | Affiliate Economics | Part 1 | — | revenue modeling, economic decision lens |
-| 3 | Tracking & Attribution | Part 1 | Part 2 đang học/đã có baseline | tracking/data-capture thinking |
-| 4 | Legal, Tax & Compliance | Part 1 | Part 3 context | **Compliance Watch loop** |
-| 5 | Affiliate Platform Expert | Part 1 | Parts 3–4 baseline | **Platform Policy Watch loop** |
-| 6 | Market & Niche Intelligence | Parts 1–2 baseline | Part 5 platform context | **Market/Niche Watch loop** |
-| 7 | Customer Intelligence | Part 6 baseline | — | customer research loop |
-| 8 | Product Intelligence | Parts 2, 6, 7 baseline | Part 5 platform context | **Product Watch / scoring evidence loop** |
-| 9 | Content & Consumer Psychology | Parts 7–8 baseline | Parts 4–5 compliance/platform rules | **Real Content Production loop** |
-| 10 | Traffic & Distribution | Part 9 foundation | Part 3 tracking | **Traffic Distribution loop**; content continues |
-| 11 | Funnel & Conversion | Parts 2–3 + Part 9/10 baseline | content + traffic đang chạy | **Funnel/Revenue Measurement loop**; content/traffic continue |
-| 12 | Data Engineering | Parts 3, 8, 11 baseline | historical execution data nếu có | structured data/history pipeline |
-| 13 | Affiliate Analytics | Parts 2, 11, 12 | active content/traffic data | diagnostic analytics loop |
-| 14 | Experimentation & Statistics | Part 13 baseline | active content/traffic/funnel | **Formal Experiment loop** |
-| 15 | Affiliate Bot Engineering | Parts 12–13 | Part 5 platform constraints; Part 14 useful | **Bot/Automation loop** |
-| 16 | Decision & Recommendation | Parts 8, 13–15 | real experiment history | decision/ranking/recommendation loop |
-| 17 | AI Affiliate Bot | Parts 9, 15–16 | knowledge/evidence accumulated earlier | **AI-assisted workflow**, human review remains |
-| 18 | Advanced Affiliate Intelligence | Parts 13–14, 16 | sufficient historical data | forecasting/anomaly/learning models |
-| 19 | Production, Security & Automation | Parts 15, 17 | Part 18 models | production operations/reliability loop |
-| 20 | Affiliate Business & Scale | Có tín hiệu revenue + relevant operating loops | Parts 9–19 as needed | scale/productization; outside fixed core |
-| 21 | Capstone | Core deliverables Parts 0–19 | capstone versions được tích lũy từ trước | integrated Affiliate Intelligence Platform |
-| 22 | Continuous Mastery | Formal mastery after Part 21 | watch loops bắt đầu sớm hơn | continuous platform/legal/tech/research cycle |
+`baseline` không mặc định nghĩa là mọi lesson trước đó đều PASS; lesson-level prerequisites có thể hẹp hơn khi được author.
 
-`baseline` không nhất thiết nghĩa là 100% mọi lesson trong Part trước phải hoàn tất nếu lesson hiện tại chỉ cần một subset rõ ràng. Step 5 sẽ cho phép lesson-level `prerequisites` chính xác hơn.
-
-## 4. Execution loops và điểm mở khóa
+## 4. Execution loops
 
 ### Loop A — Compliance & Platform Watch
 
-**Mở khóa:** Parts 4–5.
-
-Sau khi mở khóa, không “học xong compliance rồi bỏ”. Trong các phần content, traffic, bot, AI và production vẫn phải kiểm tra policy/risk khi quyết định có liên quan.
+**Mở:** Parts 4–5.
 
 ```text
-Policy / legal change
+Policy/legal change
 → impact analysis
 → required action
-→ update workflow/bot/content
-→ log evidence
+→ update workflow/content/bot
+→ evidence/change log
 ```
 
 ### Loop B — Market / Customer / Product Watch
 
-**Mở khóa:** Parts 6–8.
-
-Niche, customer và product không phải snapshot một lần. Evidence mới từ market, content và revenue quay lại cập nhật lựa chọn product/audience.
+**Mở:** Parts 6–8. Market, customer và product là state thay đổi, không phải snapshot một lần.
 
 ### Loop C — Real Content Production
 
-**Mở khóa:** Part 9 foundation.
-
-Content là hoạt động tạo data, không phải module đọc xong rồi dừng.
+**Mở:** Part 9 foundation.
 
 ```text
-Create → Publish → Measure → Learn → Create next version
+Create → Publish → Measure → Learn → next version
 ```
-
-Loop tiếp tục qua Parts 10, 11, 13, 14, 17 và Capstone.
 
 ### Loop D — Traffic Distribution
 
-**Mở khóa:** Part 10 foundation.
-
-Traffic chạy song song với content. Part 10 không thay Part 9; nó thêm lớp distribution.
+**Mở:** Part 10 foundation. Traffic bổ sung cho Content, không thay thế Content.
 
 ### Loop E — Funnel / Revenue / Data Capture
 
-**Mở khóa theo hai lớp:**
-
-- tracking thinking bắt đầu từ Part 3;
-- operational funnel measurement được mở đầy đủ ở Part 11.
-
-Sau đó data tiếp tục được thu thập để Parts 12–18 có dữ liệu thật.
+Tracking thinking bắt đầu Part 3; operational funnel measurement mở đầy đủ ở Part 11 và tiếp tục cung cấp dữ liệu cho Parts 12–18.
 
 ### Loop F — Formal Experiments
 
-**Mở khóa:** Part 14.
-
-Trước Part 14 có thể ghi observation/hypothesis, nhưng không nên tuyên bố A/B winner hoặc statistical conclusion khi chưa học measurement/statistical thinking cần thiết.
-
-Sau Part 14:
+**Mở:** Part 14.
 
 ```text
 Hypothesis → Experiment → Measure → Decision → Learning backlog
@@ -144,118 +121,113 @@ Hypothesis → Experiment → Measure → Decision → Learning backlog
 
 ### Loop G — Bot / Automation
 
-**Mở khóa:** Part 15.
-
-Automation kế thừa manual understanding và data model đã có. Giữ nguyên rule:
+**Mở:** Part 15.
 
 ```text
-Không automate thứ chưa hiểu bằng tay.
+manual understanding
+→ deterministic Go implementation
+→ reliable pipeline
+→ automation
 ```
+
+Giữ rule: **không automate thứ chưa hiểu bằng tay**.
 
 ### Loop H — AI-assisted Workflow
 
-**Mở khóa:** Part 17.
+**Mở:** Part 17.
 
-AI hỗ trợ draft/analysis/recommendation nhưng không thay thế customer understanding, evidence, policy review hoặc human approval khi cần.
+AI có thể draft/analyze/recommend/use tools, nhưng không thay evidence, policy hoặc authorization boundary.
 
-## 5. Part 9 → 10 → 11: cách chạy đúng
+### Loop I — Governed Action / Approval
 
-Đây là chỗ dễ hiểu nhầm nhất trong roadmap cũ.
-
-### Sai
+**Mở dần:** deterministic policy từ Part 16; HITL/action intents ở Part 17; production hardening ở Part 19.
 
 ```text
-Học xong toàn bộ Content
-→ dừng Content
-→ học Traffic
-→ dừng Traffic
-→ học Funnel
+Observe
+→ Analyze
+→ Recommend / ActionIntent
+→ deterministic Policy + Risk
+   ├── RISK 0 → auto execute
+   ├── RISK 1 → auto execute + mandatory audit
+   └── RISK 2 → persist → approval → revalidate → execute/reject
+→ Audit / Trace
+→ Measure outcome
+→ Learn
 ```
 
-### Đúng
+Loop này là end-state vận hành: human review **consequential decisions/exceptions**, không babysit từng bước cơ học.
+
+## 5. Part 9 → 10 → 11
+
+Sai:
 
 ```text
-Part 9: học content foundation
-        ↓
-        mở Real Content Production ───────────────→
-
-Part 10: thêm traffic/distribution foundation
-        ↓
-        Content + Traffic ────────────────────────→
-
-Part 11: thêm funnel/conversion measurement
-        ↓
-        Content + Traffic + Funnel/Data ──────────→
+xong Content → dừng Content → học Traffic → dừng Traffic → học Funnel
 ```
 
-Vì vậy Standard month 6–8 và Accelerated month 4–6 có thể có Part overlap mà vẫn tuân prerequisite.
+Đúng:
 
-## 6. Weekly capacity rule
+```text
+Part 9  mở Content ───────────────────────────→
+Part 10 thêm Traffic ─────────────────────────→
+Part 11 thêm Funnel/Data ─────────────────────→
+```
 
-Parallel không có nghĩa cộng thêm vô hạn công việc.
+## 6. Part 15 → 16 → 17 → 19
 
-Tất cả loop phải nằm trong capacity của track đã chọn:
+Đây là progression engineering mới:
+
+```text
+Part 15: reliable Go bot + workflow primitives
+→ Part 16: deterministic decision/policy
+→ Part 17: AI/tool workflow + HITL
+→ Part 19: production reliability/security/governance
+```
+
+Không nhảy thẳng từ LLM prompt sang privileged external action.
+
+## 7. Weekly capacity rule
+
+Tất cả active loops phải nằm trong track capacity:
 
 - Standard: khoảng **9h/tuần**;
 - Accelerated: khoảng **11–12h/tuần**.
 
-Khi execution loops đã mở, dùng guideline:
+Heuristic:
 
 ```text
-50–70% capacity: primary knowledge / current Part
-30–50% capacity: active execution loops + evidence + review
+50–70%: primary knowledge/current Part
+30–50%: active execution loops + evidence + review
 ```
 
-Tỷ lệ là heuristic, không phải PASS rule. Tuần có project/experiment thật có thể đảo tỷ lệ.
+Nếu vượt capacity:
 
-Nếu tổng active loops vượt capacity:
+1. ưu tiên evidence cho current Part/project;
+2. giữ compliance/security bắt buộc;
+3. giảm frequency của watch/maintenance loops;
+4. không giảm PASS criteria.
 
-1. ưu tiên loop đang tạo evidence cho current Part/project;
-2. giữ compliance/risk check bắt buộc;
-3. giảm frequency của watch/maintenance loop;
-4. không giảm PASS criteria để “chạy đủ track”.
+## 8. Current Part và active loops
 
-## 7. Definition of “current Part”
+Repo giữ một **primary current Part/lesson** trong `PROGRESS.md`. Active loops có thể chạy song song nhưng không có nghĩa đang học nhiều Part ngang nhau.
 
-Repo vẫn giữ một **primary current Part/lesson** trong `PROGRESS.md` để tránh học phân tán.
-
-Song song, có thể có các **active execution loops** đã mở khóa.
-
-Ví dụ:
-
-```text
-Primary knowledge:
-Part 13 — Analytics
-
-Active loops:
-- Compliance Watch
-- Product Watch
-- Content Production
-- Traffic Distribution
-- Funnel/Data Capture
-```
-
-Điều này không có nghĩa đang học 5 Part cùng lúc; chỉ có một primary knowledge focus, còn các loop là thực hành duy trì.
-
-## 8. Capstone được build dần, không đợi Part 21 mới bắt đầu
-
-Part 21 là integration gate cuối, nhưng các thành phần capstone xuất hiện dần:
+## 9. Capstone được build dần
 
 ```text
 Manual Affiliate Lab
 → Product/Content/Tracking artifacts
 → Data Warehouse/Dashboard
 → Experiment System
-→ Product Tracker Bot
-→ Opportunity Engine
-→ AI Assistant
-→ Production system
+→ Go Product Tracker Bot
+→ Opportunity/Policy Engine
+→ AI Tool Workflow
+→ Governed Production Bot
 → Capstone integration
 ```
 
-Do đó project artifact từ Part trước phải được giữ và nâng cấp thay vì làm xong rồi bỏ.
+Project artifact từ Part trước được nâng cấp/reuse, không làm xong rồi bỏ.
 
-## 9. Quy tắc vận hành cuối cùng
+## 10. Quy tắc vận hành cuối
 
 ```text
 ONE primary knowledge focus
@@ -264,7 +236,7 @@ ONLY unlocked execution loops
 +
 ALL within weekly capacity
 +
-PASS evidence before claiming mastery
+PASS evidence before mastery
++
+POLICY before consequential execution
 ```
-
-Timeline cho biết **trọng tâm học ở đâu**. Execution Model cho biết **hoạt động nào tiếp tục chạy**. Hai lớp này phải được đọc cùng nhau.
