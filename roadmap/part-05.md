@@ -1,6 +1,6 @@
 # Phần 5 — AFFILIATE PLATFORM EXPERT
 
-- Lịch đề xuất: **Tháng 2**
+- Timeline: **Standard M3–4 · Accelerated M2–3** — forecast; PASS evidence mới là gate.
 - Quy mô: **4 chương / 50 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
@@ -41,6 +41,8 @@
 - [ ] **14.9** — Restricted Categories
 - [ ] **14.10** — Account Risk
 
+> **Current-state override — verified 2026-08-28:** canonical syllabus giữ tên `14.2 — Promotion Quality Points` để bảo toàn provenance. TikTok Shop Vietnam công bố **Promotion Performance Score (PPS)** thay PQP làm active score từ **2026-08-27**. Lesson 14.2 phải dạy PPS là operating truth hiện hành; PQP là migration/history context. PPS hiện kết hợp product-selection quality và content quality/compliance. Chương 14 cũng phải cover AIGC truthfulness/disclosure theo policy hiện hành. Xem [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md).
+
 ### Chương 15 — Shopee Affiliate
 
 - [ ] **15.1** — Shopee Affiliate Ecosystem
@@ -58,6 +60,8 @@
 - [ ] **15.13** — Campaign
 - [ ] **15.14** — Pay per Post
 - [ ] **15.15** — Platform Policies
+
+> **Freshness rule:** mọi commission/attribution/payment/eligibility value trong Chương 13–15 là HIGH volatility và phải external-verify từ nguồn chính thức tại ngày authoring. Không copy threshold từ ví dụ cũ thành rule hiện hành.
 
 ### Chương 16 — Platform Change Management
 
