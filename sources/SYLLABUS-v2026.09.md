@@ -106,7 +106,7 @@ Go
 ### Primary implementation language
 
 ```text
-Go = primary active implementation language
+PRIMARY IMPLEMENTATION LANGUAGE = Go
 C#/.NET = optional/reference stack
 ```
 

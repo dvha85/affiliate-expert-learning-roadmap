@@ -1,40 +1,50 @@
 # Source-to-Roadmap Traceability Map
 
-> Mục tiêu: mọi Part/Chapter/Lesson trong roadmap đều truy ngược được về nguồn, đồng thời phân biệt rõ **cấu trúc chuẩn**, **pacing/practice**, và **research supplement**.
+> Mục tiêu: mọi Part/Chapter/Lesson trong roadmap đều truy ngược được về nguồn, đồng thời phân biệt rõ **active canonical revision**, **historical structural baseline**, **pacing/practice**, và **research supplement**.
 
 ## 1. Source precedence
 
-Repo dùng ba nguồn do chủ repo cung cấp:
+Repo dùng source model có versioning:
 
-1. **`S` — `sources/SYLLABUS-v2026.08.md`**  
-   Nguồn chuẩn cho cấu trúc curriculum: Part, Chapter, Lesson ID/title, Project, LAB, PASS Gate và mục tiêu chương trình.
-2. **`T` — `sources/Noi-dung-dao-tao.txt`**  
+1. **`S` — active canonical resolution**  
+   `sources/SYLLABUS-v2026.09.md` là active canonical manifest. Revision này kế thừa structural baseline từ `sources/SYLLABUS-v2026.08.md` và override các quyết định được ghi rõ, gồm Go-first Bot Engineering.
+2. **Historical baseline — `sources/SYLLABUS-v2026.08.md`**  
+   Giữ provenance đầy đủ của Part/Chapter/Lesson/Project/LAB/PASS Gate trước Go-first migration. Không dùng C#/.NET-first trong file này làm active implementation direction.
+3. **`T` — `sources/Noi-dung-dao-tao.txt`**  
    Nguồn bổ sung cho lộ trình 50 tuần, cách học, practice, project evolution và pacing ban đầu.
-3. **`R` — `sources/Nghien-cuu.txt`**  
+4. **`R` — `sources/Nghien-cuu.txt`**  
    Nguồn bổ sung cho rationale, ví dụ Affiliate Bot, Product Intelligence, feedback loop, architecture và định hướng triển khai.
 
 Quy tắc:
 
 ```text
+ACTIVE CANONICAL: v2026.09 explicit override > inherited v2026.08 baseline
 STRUCTURE: S > T > R
 PACING CURRENT: 15/12-month plans > T
 EXECUTION ORDER CURRENT: EXECUTION-MODEL > linear source schedule
 EXAMPLES / RATIONALE: T + R supplement S
+CURRENT FACTS: external verification + freshness policy
 ```
 
-Không dùng `T` hoặc `R` để tự ý đổi Lesson ID/title/scope của syllabus.
+`S:P/C/L` là **version-neutral canonical ID**. `sources/README.md` quyết định revision nào đang active; lesson không cần đổi toàn bộ `S:` ref mỗi khi syllabus revision thay implementation direction mà không renumber IDs.
+
+Không dùng `T` hoặc `R` để tự ý đổi Lesson ID/title/scope của active syllabus.
 
 ## 2. Conflict rules
 
 Khi nguồn khác nhau:
 
-- **Part/Chapter/Lesson/Project/LAB/PASS Gate:** `S` thắng.
+- **Explicit v2026.09 override:** v2026.09 thắng v2026.08.
+- **v2026.09 không override:** kế thừa v2026.08 structural baseline.
+- **Part/Chapter/Lesson/Project/LAB/PASS Gate:** resolved `S` thắng `T/R`.
 - **Timeline:** dùng [15-MONTH-PLAN](15-MONTH-PLAN.md) hoặc [12-MONTH-PLAN](12-MONTH-PLAN.md); số tuần trong `T` chỉ còn là provenance/context.
 - **Tuần tự vs song song:** dùng [EXECUTION-MODEL](EXECUTION-MODEL.md).
 - **Ví dụ/practice/architecture:** có thể lấy từ `T`/`R` nếu phù hợp scope của lesson, nhưng phải giữ nhãn supplemental.
 - **Không có counterpart trực tiếp:** ghi `—`; không gán nguồn bằng suy đoán.
 - **Chỉ tương đồng một phần:** ghi `(partial)` hoặc mô tả context cụ thể.
-- **Platform/legal/tax/current-policy facts:** mapping nguồn không đồng nghĩa dữ kiện còn hiện hành. Lesson author phải kiểm chứng nguồn ngoài tại thời điểm viết nếu lesson yêu cầu factual freshness.
+- **Platform/legal/tax/API/software/runtime/current-policy facts:** canonical mapping không đồng nghĩa dữ kiện còn hiện hành. Lesson author phải kiểm chứng nguồn ngoài theo [FRESHNESS-POLICY](FRESHNESS-POLICY.md).
+
+Go-first architecture decision được ghi tại [ADR-001-GO-FIRST-BOT-STACK](ADR-001-GO-FIRST-BOT-STACK.md).
 
 ## 3. Source reference IDs
 
@@ -55,6 +65,14 @@ S:P8/C27/L27.4
 
 ```text
 S:P8/C27
+```
+
+Resolution rule:
+
+```text
+S ref
+→ read active v2026.09 override if present
+→ otherwise inherit v2026.08 baseline
 ```
 
 ### Training source
@@ -91,9 +109,25 @@ R:feedback loop
 R:roadmap stages
 ```
 
+### External/current refs
+
+Current facts dùng source register + ngày kiểm chứng, ví dụ:
+
+```text
+EXT:TIKTOK:PPS
+EXT:GO:RELEASES
+EXT:MCP:SDK
+EXT:TEMPORAL:GO-SDK
+```
+
+Xem:
+
+- [Affiliate Knowledge Refresh 2026.08](AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
+- [Bot Engineering Refresh 2026.08](BOT-ENGINEERING-REFRESH-2026.08.md)
+
 ## 4. Lesson-level mapping rule
 
-Tất cả **671 lesson** có mapping canonical theo chính ID trong syllabus:
+Tất cả **671 lesson** có mapping canonical theo chính ID trong resolved syllabus:
 
 ```text
 Roadmap lesson X.Y
@@ -114,7 +148,7 @@ roadmap/part-12.md → 38.4
 
 ## 5. `source_refs` contract cho lesson
 
-Canonical lesson template ở Step 5 phải hỗ trợ tối thiểu:
+Canonical lesson template hỗ trợ tối thiểu:
 
 ```yaml
 source_refs:
@@ -131,7 +165,8 @@ Quy tắc:
 
 - `canonical` bắt buộc có ít nhất một `S:` ref.
 - `training`/`research` chỉ thêm khi thực sự hỗ trợ lesson.
-- `external` dành cho tài liệu kiểm chứng mới hơn, đặc biệt policy/legal/tax/platform facts.
+- `external` dành cho tài liệu kiểm chứng mới hơn, gồm platform/legal/tax/API/runtime/SDK/protocol/software facts.
+- external refs phải đi cùng `last_verified` theo freshness contract.
 - Không dùng source ref để thay thế citation/evidence khi lesson có claim cần kiểm chứng.
 
 ## 6. Chapter traceability — 23 Part / 89 Chapter
@@ -266,6 +301,8 @@ Track key:
 | 55 — Change Detection | `S:P15/C55` | T:G7/W32 | R:Product Intelligence | M9–10 | C |
 | 56 — Alert Bot | `S:P15/C56` | T:G7/W32–33 | R:Product Intelligence alert example | M9–10 | C |
 
+> Part 15 `S:` refs resolve through v2026.09 Go-first overrides. `T/R` technology-stack references are historical/supplemental and do not override the active Go implementation direction.
+
 ### Part 16 — DECISION & RECOMMENDATION ENGINE
 | Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
 |---|---|---|---|---|---|
@@ -280,9 +317,9 @@ Track key:
 | 61 — LLM Foundation | `S:P17/C61` | T:G8/W34 | R:AI layer / roadmap | M11–12 | C |
 | 62 — AI Product Understanding | `S:P17/C62` | T:G8/W35 | R:AI product→content flow | M11–12 | C |
 | 63 — AI Content Engine | `S:P17/C63` | T:G8/W36 | R:AI content example | M11–12 | C |
-| 64 — Knowledge Base & RAG | `S:P17/C64` | T:G8/W34 + W37 | R:AI layer / knowledge feedback | M11–12 | C |
-| 65 — AI Evaluation | `S:P17/C65` | T:G8/W34 (evaluation intro) | R:human review warning | M11–12 | C |
-| 66 — Human-in-the-loop | `S:P17/C66` | T:G8/W36 | R:AI generates → human reviews | M11–12 | C |
+| 64 — Knowledge Base, RAG & State | `S:P17/C64` | T:G8/W34 + W37 | R:AI layer / knowledge feedback | M11–12 | C |
+| 65 — AI & Agent Evaluation | `S:P17/C65` | T:G8/W34 (evaluation intro) | R:human review warning | M11–12 | C |
+| 66 — Human-in-the-loop & Approval Workflow | `S:P17/C66` | T:G8/W36 | R:AI generates → human reviews | M11–12 | C |
 
 ### Part 18 — ADVANCED AFFILIATE INTELLIGENCE
 | Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
@@ -297,10 +334,10 @@ Track key:
 ### Part 19 — PRODUCTION, SECURITY & AUTOMATION
 | Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
 |---|---|---|---|---|---|
-| 73 — Production Engineering | `S:P19/C73` | T:G11/W47–48 | R:Technology stack | M13–14 | C/D |
-| 74 — Reliability | `S:P19/C74` | T:G11/W48 | R:Technology stack | M13–14 | C/D |
-| 75 — Security | `S:P19/C75` | T:G11/W48 (partial) | R:anti-spam / platform safety context | M13–14 | C/D |
-| 76 — Automation Governance | `S:P19/C76` | T:G11/W47 | R:do not auto-publish / anti-spam | M13–14 | C/D |
+| 73 — Production Engineering & Observability | `S:P19/C73` | T:G11/W47–48 | R:Technology stack | M13–14 | C/D |
+| 74 — Reliability & Durable Execution | `S:P19/C74` | T:G11/W48 | R:Technology stack | M13–14 | C/D |
+| 75 — Security & Agent Tool Security | `S:P19/C75` | T:G11/W48 (partial) | R:anti-spam / platform safety context | M13–14 | C/D |
+| 76 — Automation & Agent Governance | `S:P19/C76` | T:G11/W47 | R:do not auto-publish / anti-spam | M13–14 | C/D |
 | 77 — Deployment | `S:P19/C77` | T:G11/W48 (partial) | R:Technology stack | M13–14 | C/D |
 
 ### Part 20 — AFFILIATE BUSINESS & SCALE
@@ -331,19 +368,20 @@ Track key:
 - Chapter mapping count: **89/89**.
 - Part coverage: **23/23**.
 - Canonical lesson relation: deterministic for all **671** lesson IDs via `S:P/C/L`.
+- `S:` refs are version-neutral; active resolution is v2026.09 override → v2026.08 inheritance.
 - `—` means source supplement does not contain a direct counterpart; it is intentional, not missing data.
 - `(partial)` means source section supports only một phần scope của chapter.
 - Research supplements are intentionally selective because `Nghien-cuu.txt` mirrors most of the 50-week training plan before adding extra bot/product/architecture material.
 
-## 8. Authoring rule from Step 5 onward
+## 8. Authoring rule
 
 Khi tạo lesson mới:
 
-1. lấy ID/title/scope từ `S`;
+1. resolve ID/title/scope từ active `S` (v2026.09 override → v2026.08 inheritance);
 2. tra chapter row trong file này;
 3. đọc đúng `T`/`R` sections được map trước khi viết;
 4. thêm only the refs actually used vào `source_refs`;
-5. nếu cần dữ kiện hiện hành, thêm external verification riêng;
+5. nếu cần dữ kiện hiện hành, thêm external verification + `last_verified`;
 6. nếu source conflict, áp dụng precedence ở đầu tài liệu và ghi note nếu conflict ảnh hưởng nội dung.
 
-Traceability không có nghĩa phải nhồi mọi nguồn vào mọi lesson. Mục tiêu là **biết nội dung đến từ đâu và biết khi nào nguồn không hỗ trợ một claim**.
+Traceability không có nghĩa phải nhồi mọi nguồn vào mọi lesson. Mục tiêu là **biết nội dung đến từ đâu, biết revision nào đang active và biết khi nào nguồn không hỗ trợ một claim**.
