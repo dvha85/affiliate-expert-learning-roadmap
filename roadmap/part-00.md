@@ -13,7 +13,7 @@
 ### Chương 0 — Khởi động chương trình
 
 - [ ] **0.1** — [Affiliate Expert là gì?](../lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md)
-- [ ] **0.2** — Affiliate Bot Engineer là gì?
+- [ ] **0.2** — [Affiliate Bot Engineer là gì?](../lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md)
 - [ ] **0.3** — Affiliate Intelligence là gì?
 - [ ] **0.4** — Affiliate Bot có thể và không thể làm gì?
 - [ ] **0.5** — Vì sao không nên bắt đầu bằng automation?
@@ -25,9 +25,9 @@
 - [ ] **0.11** — Revenue Journal
 - [ ] **0.12** — Baseline Assessment
 
-> **Go-first interpretation:** 0.2 phải giới thiệu Bot Engineer theo mô hình `deterministic Go service → reliable automation → tool-using agent → governed autonomous system`. 0.4 phải phân biệt action tự chạy, action cần approval và action bị cấm. 0.5–0.6 vẫn giữ nguyên nguyên tắc hiểu/làm/đo trước khi automate.
+> **Go-first interpretation:** 0.2 giới thiệu Bot Engineer theo mô hình `deterministic Go service → reliable automation → tool-using agent → governed autonomous system`. 0.4 tiếp tục phân biệt action tự chạy, action cần approval và action bị cấm. 0.5–0.6 giữ nguyên nguyên tắc hiểu/làm/đo trước khi automate.
 
-> **Authoring snapshot:** 0.1 = `ready` nhưng learner vẫn chưa PASS; 0.2 = scaffold `planned`, chưa authored. File `lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md` tồn tại để test scaffolder nên roadmap cố ý chưa link tới file đó. PR4 của Go-first migration sẽ author 0.2 thành lesson `ready`.
+> **Authoring snapshot:** 0.1 = `ready`; 0.2 = `ready` Go-first Bot Engineer reference. Cả hai checkbox vẫn `[ ]` cho tới khi người học hoàn thành đủ 5 tiêu chí PASS. Lesson 0.3 trở đi chưa authored trừ khi có file `draft|ready` được link.
 
 ## Cổng thực hành
 
