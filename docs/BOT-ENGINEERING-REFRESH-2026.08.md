@@ -2,6 +2,8 @@
 
 > Current-knowledge register for the Go-first Bot Engineer track. This file supplements, but does not replace, the active canonical `sources/SYLLABUS-v2026.09.md`.
 
+> **Beginner reader guide / Hướng dẫn cho người mới:** đây là **current-knowledge register (sổ đăng ký kiến thức hiện hành)**, nên giữ English terminology và tên công nghệ chính xác để đối chiếu nguồn ngoài. Khi đọc, tra [`GLOSSARY-VI.md`](GLOSSARY-VI.md). Từ trọng tâm: **Runtime (Môi trường chạy)**, **SDK (Bộ công cụ phát triển phần mềm)**, **Interoperability (Khả năng liên thông)**, **Durable Workflow (Workflow bền vững)**, **Observability (Khả năng quan sát hệ thống)**, **Agent Security (Bảo mật tác tử AI)**, **Least Privilege (Quyền tối thiểu cần thiết)**, **Prompt Injection (Tấn công/chỉ dẫn tiêm vào prompt)**, **Side Effect (Tác động bên ngoài)**, **Freshness (Độ mới của thông tin)**.
+
 **Verified:** 2026-08-28  
 **Scope:** Go runtime, MCP, durable workflows, observability, agent security and agent interoperability.  
 **Policy:** see [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md).
@@ -16,6 +18,15 @@
 | Observability | OpenTelemetry Go traces/metrics stable; logs beta | P15/C51; P19/C73 | MEDIUM |
 | Agent security | Agent/tool systems require prompt-injection, tool-misuse and least-privilege controls beyond classic API security | P17/C65–66; P19/C75–76 | MEDIUM/HIGH |
 | Agent interoperability | A2A is relevant to watch, but not a Phase-1 requirement | P22/C87 | MEDIUM |
+
+Beginner translation of the areas:
+
+- Go runtime = môi trường chạy Go hiện hành;
+- MCP = lớp/protocol liên thông giữa model/agent và tools/resources;
+- durable workflows = workflow giữ state qua chờ lâu/restart;
+- observability = khả năng hiểu hệ thống đang làm gì qua logs/metrics/traces;
+- agent security = bảo mật khi AI agent có quyền gọi tool và tạo side effect;
+- agent interoperability = khả năng các agent/hệ thống agent tương tác theo chuẩn.
 
 ## EXT:GO:RELEASES
 
@@ -158,6 +169,25 @@ human approval
 tracing/audit
 evaluation
 kill switch
+```
+
+Bilingual reading map:
+
+```text
+context/cancellation → ngữ cảnh/hủy
+bounded concurrency → đồng thời có giới hạn
+validation → kiểm tra/xác thực dữ liệu
+provenance → nguồn gốc dữ liệu
+retry/backoff → thử lại/tăng thời gian chờ
+idempotency → tính lặp an toàn
+durable state → trạng thái bền vững
+explicit tool contracts → hợp đồng công cụ rõ ràng
+least privilege → quyền tối thiểu cần thiết
+risk classification → phân loại rủi ro
+human approval → phê duyệt của con người
+tracing/audit → theo dõi/ghi vết
+evaluation → đánh giá
+kill switch → công tắc dừng khẩn cấp
 ```
 
 Framework/version changes should normally update examples and the freshness register, not force a new curriculum structure.
