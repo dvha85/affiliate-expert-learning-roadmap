@@ -9,14 +9,18 @@
 | Phần hiện tại | 0 |
 | Chương hiện tại | 0 |
 | Bài hiện tại | 0.1 — Affiliate Expert là gì? |
-| Trạng thái | ⬜ Chưa bắt đầu |
+| Authoring status | `ready` — bài đã đủ để học theo PASS cycle |
+| Learner status | ⬜ Chưa PASS |
+| Effort planning | L · ~120 phút |
 | Số giờ tuần này | 0 / 9 giờ |
 | Blocker lớn nhất | — |
-| Next action | Hoàn thành bài 0.1 theo PASS criteria |
+| Next action | Học bài 0.1, hoàn thành artifact + quiz + explain-back rồi quyết định PASS/RETRY |
+
+> `ready` là trạng thái **biên soạn nội dung**. Nó không đồng nghĩa người học đã PASS. Checkbox roadmap chỉ đổi thành `[x]` khi đủ 5 PASS criteria.
 
 ## Weekly review
 
-- [ ] Đã cập nhật checkbox bài học
+- [ ] Đã cập nhật checkbox bài học theo learner PASS state
 - [ ] Đã liên kết evidence/artifact theo [`artifacts/README.md`](artifacts/README.md)
 - [ ] Đã cập nhật [Experiment Log](templates/EXPERIMENT-LOG.md) nếu có experiment
 - [ ] Đã cập nhật [Revenue Journal](templates/REVENUE-JOURNAL.md) nếu có dữ liệu revenue
