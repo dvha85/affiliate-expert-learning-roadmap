@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate curriculum structure, lesson metadata, freshness contract, and relative Markdown links.
+"""Validate curriculum structure, canonical source direction, freshness contract, and Markdown links.
 
 No third-party dependencies. Intended for local use and GitHub Actions.
 """
@@ -33,6 +33,17 @@ REQUIRED_META = {
     "lesson_id", "title", "part", "chapter", "effort", "estimated_minutes",
     "status", "prerequisites", "source_refs", "last_verified",
 }
+
+ACTIVE_CANONICAL = "SYLLABUS-v2026.09.md"
+HISTORICAL_BASELINE = "SYLLABUS-v2026.08.md"
+LEGACY_PRIMARY_STACK_TOKENS = (
+    "C#/.NET",
+    "C# / .NET",
+    "ASP.NET Core",
+    "EF Core",
+    "Hangfire",
+    "Quartz",
+)
 
 
 @dataclass(frozen=True)
@@ -254,6 +265,48 @@ def check_freshness_contract(rel: Path, meta: dict[str, str], raw_front: str, pr
             problems.append(Problem("FRESH003", str(rel), "last_verified must use YYYY-MM-DD"))
 
 
+def check_active_canonical(root: Path, problems: list[Problem]) -> None:
+    active = root / "sources" / ACTIVE_CANONICAL
+    historical = root / "sources" / HISTORICAL_BASELINE
+    index = root / "sources" / "README.md"
+
+    if not active.exists():
+        problems.append(Problem("CANON001", f"sources/{ACTIVE_CANONICAL}", "active canonical manifest is missing"))
+        return
+    if not historical.exists():
+        problems.append(Problem("CANON002", f"sources/{HISTORICAL_BASELINE}", "historical structural baseline is missing"))
+    if not index.exists():
+        problems.append(Problem("CANON003", "sources/README.md", "source index is missing"))
+    else:
+        text = index.read_text(encoding="utf-8")
+        if ACTIVE_CANONICAL not in text or "active canonical" not in text.lower():
+            problems.append(Problem("CANON004", "sources/README.md", f"source index must declare {ACTIVE_CANONICAL} as active canonical"))
+
+    active_text = active.read_text(encoding="utf-8")
+    required_markers = (
+        "PRIMARY IMPLEMENTATION LANGUAGE = Go",
+        "Parts: 23",
+        "Chapters: 89",
+        "Lessons: 671",
+        "Main projects: 14",
+    )
+    for marker in required_markers:
+        if marker not in active_text:
+            problems.append(Problem("CANON005", f"sources/{ACTIVE_CANONICAL}", f"missing canonical invariant/decision marker: {marker}"))
+
+
+def check_primary_technology_direction(root: Path, problems: list[Problem]) -> None:
+    part15 = root / "roadmap" / "part-15.md"
+    if not part15.exists():
+        return
+    text = part15.read_text(encoding="utf-8")
+    if "51.1** — Go runtime" not in text:
+        problems.append(Problem("TECH001", "roadmap/part-15.md", "active Ch51 must begin with the Go-first primary stack"))
+    for token in LEGACY_PRIMARY_STACK_TOKENS:
+        if token in text:
+            problems.append(Problem("TECH002", "roadmap/part-15.md", f"legacy primary-stack token reintroduced in active Part 15: {token}"))
+
+
 def headings_without_code(text: str) -> list[int]:
     text = strip_fenced_code(text)
     result: list[int] = []
@@ -323,6 +376,10 @@ def check_relative_links(root: Path, problems: list[Problem]) -> None:
 def validate(root: Path) -> list[Problem]:
     root = root.resolve()
     problems: list[Problem] = []
+
+    check_active_canonical(root, problems)
+    check_primary_technology_direction(root, problems)
+
     summary, expectations = parse_roadmap(root, problems)
 
     all_roadmap_lessons: list[RoadmapLesson] = []
