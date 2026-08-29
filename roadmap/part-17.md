@@ -22,6 +22,10 @@
 
 > Structured output nên normalize về domain contract như `AnalysisPacket`/`DecisionPacket`, không để provider response object trở thành business model. Tool use là production boundary: schema, validation, permissions, side effects, timeout, retry, idempotency, policy decision và audit.
 
+> **M12 tool runtime:** tool nên đăng ký theo namespace/permission/risk ceiling; runtime có thể dùng deferred tool discovery (nạp tool đúng lúc) và bounded programmatic orchestration cho nhiều READ_ONLY calls. Đây là capability pattern trung lập provider; implementation cụ thể thuộc freshness layer. Xem [`TOOL-REGISTRY-STANDARD.md`](../docs/TOOL-REGISTRY-STANDARD.md), [`AGENT-RUNTIME-STANDARD.md`](../docs/AGENT-RUNTIME-STANDARD.md) và [`PROGRAMMATIC-TOOL-ORCHESTRATION.md`](../docs/PROGRAMMATIC-TOOL-ORCHESTRATION.md).
+
+> **MCP 2026 note:** protocol line `2026-07-28` có stateless core, MRTR, header routing, cacheable lists, authorization hardening và extension/Tasks. Stateless transport không thay durable business/workflow state. Xem [`MCP-2026-OPERATING-NOTES.md`](../docs/MCP-2026-OPERATING-NOTES.md).
+
 ### Chương 62 — AI Product Understanding
 
 - [ ] **62.1** — Trích xuất Product Features
@@ -74,7 +78,7 @@
 
 > **Provider-neutral rule:** model routing/tool capability có thể khác nhau giữa provider; domain Decision/Policy core phải giữ interface trung lập và có exit path.
 
-> **2026 freshness note:** AIGC policy là operating constraint. AI workflow phải giữ source grounding, product fidelity, disclosure state, policy checks và Human Approval cho claims/publishing boundary. Current platform/provider rules thuộc freshness layer và phải re-verify trước production use.
+> **2026 freshness note:** AIGC policy là operating constraint. AI workflow phải giữ source grounding, product fidelity, disclosure state, policy checks và Human Approval cho claims/publishing boundary. Current platform/provider/tool capabilities thuộc freshness layer và phải re-verify trước production use.
 
 ## Cổng thực hành
 
