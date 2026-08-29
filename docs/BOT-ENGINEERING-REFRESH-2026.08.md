@@ -2,34 +2,25 @@
 
 > Đây là **current-knowledge register (sổ đăng ký kiến thức hiện hành)** cho Go-first Bot Engineer track. File này bổ sung nhưng **không thay thế** active canonical `sources/SYLLABUS-v2026.09.md`.
 
-Tiếng Việt là ngôn ngữ chính. English terminology (thuật ngữ tiếng Anh) và tên công nghệ được giữ để đối chiếu nguồn ngoài; khi quan trọng có nghĩa Việt đi kèm. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
+Tiếng Việt là ngôn ngữ chính. English terminology và tên công nghệ được giữ để đối chiếu nguồn ngoài; khi quan trọng có nghĩa Việt đi kèm. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
-**Verified (đã kiểm chứng):** 2026-08-28  
-**Scope (phạm vi):** Go runtime, MCP, durable workflows, observability, agent security và agent interoperability.  
+**Verified:** 2026-08-29  
+**Scope:** Go runtime, MCP, durable workflows, observability, agent security/interoperability và current agent-tool implementation references.  
 **Policy:** xem [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md).
 
 ## Bản đồ cập nhật chính
 
-| Khu vực | Operating update (cập nhật vận hành) | Curriculum mapping | Volatility |
+| Khu vực | Operating update | Curriculum mapping | Volatility |
 |---|---|---|---|
 | Go runtime | Go 1.27.0 phát hành 2026-08-19 | P15/C51; P19/C77; P22/C87 | MEDIUM |
-| MCP | Go SDK là Tier 1; protocol line có 2026-07-28 | P15/C51–52; P17/C61; P21; P22/C87 | MEDIUM/HIGH |
-| Durable workflows | Temporal Go SDK là current reference mạnh cho durable long-running execution | P15/C53; P17/C66; P19/C74 | MEDIUM |
-| Observability | OpenTelemetry Go traces/metrics stable; logs beta | P15/C51; P19/C73 | MEDIUM |
-| Agent security | Agent/tool system cần prompt-injection, tool-misuse và least-privilege controls ngoài classic API security | P17/C65–66; P19/C75–76 | MEDIUM/HIGH |
-| Agent interoperability | A2A đáng theo dõi nhưng chưa phải Phase-1 requirement | P22/C87 | MEDIUM |
-
-Giải thích nhanh:
-
-- **Runtime (Môi trường chạy)** — phiên bản Go đang dùng để build/run.
-- **SDK (Bộ công cụ phát triển phần mềm)** — thư viện/chương trình hỗ trợ tích hợp chuẩn hoặc dịch vụ.
-- **Interoperability (Khả năng liên thông)** — khả năng các hệ thống/tool/agent giao tiếp theo contract chung.
-- **Durable Workflow (Workflow bền vững)** — workflow giữ state qua chờ lâu/restart.
-- **Observability (Khả năng quan sát)** — hiểu hệ thống đang làm gì qua logs/metrics/traces.
-- **Agent Security (Bảo mật tác tử AI)** — kiểm soát rủi ro khi model/agent được quyền gọi tool.
-- **Least Privilege (Quyền tối thiểu)** — chỉ cấp quyền cần thiết cho nhiệm vụ.
-- **Prompt Injection (Tấn công/chỉ dẫn tiêm vào prompt)** — nội dung không tin cậy cố điều khiển model/agent.
-- **Side Effect (Tác động bên ngoài)** — hành động làm thay đổi hệ thống hoặc môi trường ngoài process.
+| MCP | Spec `2026-07-28`: stateless core, MRTR, header routing, cacheable lists, auth hardening, extensions/Tasks | P15/C51–52; P17/C61; P21; P22/C87 | HIGH |
+| MCP Go | Go SDK là Tier 1 current reference | P15/C51–52; P17/C61; P21 | MEDIUM/HIGH |
+| Durable workflows | Temporal Go SDK là reference cho long-running durable execution | P15/C53; P17/C66; P19/C74 | MEDIUM |
+| Agent tool discovery | Current provider runtimes có deferred tool loading/tool search và programmatic tool orchestration | P17/C61; M12; P22/C87 | HIGH |
+| Durable HITL | Current Agent runtime có pattern serialize paused state → approve/reject → resume | P17/C66; P19/C74/76 | HIGH |
+| Observability | OpenTelemetry Go traces/metrics stable; logs beta ở snapshot trước | P15/C51; P19/C73 | MEDIUM |
+| Agent security | Agent/tool system cần prompt-injection, tool-misuse và least-privilege controls | P17/C65–66; P19/C75–76 | MEDIUM/HIGH |
+| Agent interoperability | A2A đáng theo dõi nhưng không phải dependency mặc định | P22/C87 | MEDIUM/HIGH |
 
 ## EXT:GO:RELEASES
 
@@ -39,35 +30,59 @@ Giải thích nhanh:
 - **Volatility:** MEDIUM
 - **Maps to:** 51.1–51.2, 77.x, 87.1
 
-Current reference fact (dữ kiện tham chiếu hiện hành):
-
-- Go 1.27.0 phát hành ngày 2026-08-19.
+Current reference: Go 1.27.0 phát hành ngày 2026-08-19.
 
 Curriculum rule:
 
 ```text
 use a currently supported stable Go release
-(dùng một bản Go ổn định đang còn support)
 ```
 
-Không biến `Go 1.27` thành lesson title hoặc permanent canonical truth. Bootstrap learner/reference của repo dùng Go 1.27 tại thời điểm verified này và phải được cập nhật khi freshness policy yêu cầu.
+Không biến `Go 1.27` thành permanent canonical truth.
 
 ## EXT:MCP:SDK
 
-- **Source:** Model Context Protocol — official SDK tier documentation
-- **URL:** https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/docs/2026-07-28/sdk.mdx
-- **Verified:** 2026-08-28
-- **Volatility:** MEDIUM/HIGH
-- **Maps to:** 51.x, 52.2, 61.6, 83.4, 87.2
+- **Source:** Model Context Protocol — official SDK/spec release context
+- **URL:** https://blog.modelcontextprotocol.io/posts/2026-07-28/
+- **Verified:** 2026-08-29
+- **Volatility:** HIGH
+- **Maps to:** 0.2, 51.x, 52.2, 61.6, 83.4, 87.2
 
-Current reference facts:
+Đây là **compatibility source ID (ID nguồn tương thích)** được giữ để các lesson/source_refs đã author trước đây, đặc biệt Lesson `0.2`, tiếp tục resolve và bảo toàn provenance. Current operating detail được tách rõ hơn ở `EXT:MCP:2026-07-28` và `EXT:MCP:GO-SDK` bên dưới.
 
-- Go được phân loại là **Tier-1 official MCP SDK language**.
-- SDK documentation hiện hành bao phủ protocol line `2026-07-28`.
+Không xóa/rename source ID đã được lesson tham chiếu chỉ vì freshness register được chi tiết hóa; nếu cần migration ID phải có explicit compatibility/migration plan.
 
-Curriculum implication (hàm ý cho chương trình):
+## EXT:MCP:2026-07-28
 
-MCP đã đủ trưởng thành để là interoperability concept (khái niệm liên thông) Bot Engineer phải hiểu, nhưng **không** có nghĩa mọi integration đều phải dùng MCP. REST, webhook và native API vẫn đúng khi đơn giản hơn.
+- **Source:** Model Context Protocol Blog — The 2026-07-28 Specification
+- **URL:** https://blog.modelcontextprotocol.io/posts/2026-07-28/
+- **Verified:** 2026-08-29
+- **Volatility:** HIGH
+- **Maps to:** 51.x, 52.2, 61.6, 74.x, 83.4, 87.2
+
+Current official release facts:
+
+- protocol core chuyển sang **stateless** request/response;
+- request self-describing, optional discovery;
+- `Mcp-Method` và `Mcp-Name` hỗ trợ header-based routing/authorization;
+- Multi Round-Trip Requests (MRTR) thay server-initiated flow cần stream mở liên tục;
+- list results có deterministic order/cache hints để cache catalog;
+- authorization hardening;
+- formal extensions framework;
+- Tasks là một extension cho work kéo dài;
+- TypeScript/Python/Go/C# SDKs được cập nhật theo release line.
+
+Implication:
+
+```text
+MCP
+≠
+chỉ “LLM gọi tool”
+```
+
+M12 cần hiểu discovery, routing, auth, task/long-running interaction, tool identity và audit. Stateless transport **không** loại bỏ durable application/workflow state.
+
+Chi tiết repo: [`MCP-2026-OPERATING-NOTES.md`](MCP-2026-OPERATING-NOTES.md).
 
 ## EXT:MCP:GO-SDK
 
@@ -77,7 +92,53 @@ MCP đã đủ trưởng thành để là interoperability concept (khái niệm
 - **Volatility:** MEDIUM/HIGH
 - **Maps to:** 51.x, 61.6, 83.4
 
-Dùng SDK này như current implementation reference, không coupling (gắn chặt) domain logic trực tiếp vào MCP SDK types nếu không cần.
+Dùng SDK như current implementation reference; không để MCP SDK types leak vào domain Decision/Policy model.
+
+## EXT:AGENT:TOOL-SEARCH-PROGRAMMATIC
+
+- **Source:** OpenAI Agents SDK — Tools
+- **URL:** https://openai.github.io/openai-agents-python/tools/
+- **Verified:** 2026-08-29
+- **Volatility:** HIGH
+- **Maps to:** 61.6, M12, 83.4, 87.1–87.2
+
+Current implementation reference:
+
+- `ToolSearchTool` có thể defer large tool surfaces và load subset/namespace cần cho current turn;
+- tools có thể group theo namespace;
+- `ProgrammaticToolCallingTool` cho model coordinate eligible tools từ generated JavaScript;
+- đây là **provider/runtime-specific capability**, không phải domain invariant.
+
+Repo abstraction:
+
+```text
+Deferred Tool Discovery
++ Bounded Programmatic Tool Orchestration
+```
+
+có thể implement bằng provider feature hoặc deterministic Go workflow. External side-effect tools không được free-orchestrate ngoài Policy/Risk.
+
+Xem [`TOOL-REGISTRY-STANDARD.md`](TOOL-REGISTRY-STANDARD.md) và [`PROGRAMMATIC-TOOL-ORCHESTRATION.md`](PROGRAMMATIC-TOOL-ORCHESTRATION.md).
+
+## EXT:AGENT:DURABLE-HITL
+
+- **Source:** OpenAI Agents SDK — Human-in-the-loop
+- **URL:** https://openai.github.io/openai-agents-python/human_in_the_loop/
+- **Verified:** 2026-08-29
+- **Volatility:** HIGH
+- **Maps to:** 66.x, 74.x, 76.x
+
+Current implementation reference cho phép tool declare approval, Agent run pause khi có interruption, serialize `RunState`, approve/reject và resume. Đây phù hợp với repo durable HITL architecture nhưng **không** thay repo policy authority.
+
+Rule:
+
+```text
+SDK approval mechanism
+≠
+Business Policy/Risk model
+```
+
+RISK2 vẫn phải revalidate business facts/policy sau approval và trước execution.
 
 ## EXT:TEMPORAL:GO-SDK
 
@@ -87,20 +148,7 @@ Dùng SDK này như current implementation reference, không coupling (gắn ch�
 - **Volatility:** MEDIUM
 - **Maps to:** 53.1–53.7, 66.4, 74.x
 
-Current implication:
-
-Temporal là ví dụ trưởng thành cho durable, asynchronous, long-running workflow nơi state và retry có thể sống qua process restart.
-
-Curriculum rule:
-
-```text
-teach durable-execution concepts first
-(dạy khái niệm durable execution trước)
-→ use Temporal as reference when the problem justifies it
-(chỉ dùng Temporal khi bài toán thực sự cần)
-```
-
-Không bắt buộc Temporal cho cron/job worker đơn giản.
+Temporal là reference cho durable, asynchronous, long-running workflow. Dạy durable concepts trước, chỉ dùng Temporal khi bài toán justify complexity.
 
 ## EXT:OTEL:GO
 
@@ -110,15 +158,7 @@ Không bắt buộc Temporal cho cron/job worker đơn giản.
 - **Volatility:** MEDIUM
 - **Maps to:** 51.5, 73.1–73.6
 
-Current reference facts:
-
-- traces: stable;
-- metrics: stable;
-- logs: beta.
-
-Curriculum implication:
-
-Observability nên dùng OpenTelemetry concepts và semantic correlation (liên kết dấu vết có ngữ nghĩa) khi phù hợp; package/version chính xác thuộc freshness layer.
+Observability dùng OpenTelemetry concepts/semantic correlation khi phù hợp; exact package/version thuộc freshness layer.
 
 ## EXT:OWASP:AGENTIC-2026
 
@@ -128,16 +168,15 @@ Observability nên dùng OpenTelemetry concepts và semantic correlation (liên 
 - **Volatility:** MEDIUM/HIGH
 - **Maps to:** 65.4, 75.x, 76.x
 
-Security implication (hàm ý bảo mật):
-
-Agent system tạo thêm rủi ro như goal hijacking (chiếm mục tiêu), tool misuse (lạm dụng công cụ), excessive privilege (quyền quá mức), supply-chain trust và unsafe code/action execution. Authentication/API key một mình không giải quyết được các rủi ro này.
+Agent system có thêm rủi ro goal hijacking, tool misuse, excessive privilege, supply-chain trust và unsafe execution.
 
 Curriculum response:
 
-- model output là untrusted input (đầu vào không được tin mặc định);
-- tool permission theo least privilege;
-- high-impact side effect phải qua deterministic policy và/hoặc approval;
-- prompt injection phải được coi là system-boundary problem (vấn đề ranh giới hệ thống), không chỉ là prompt-writing problem.
+- model output = untrusted input;
+- tool permissions = least privilege;
+- external input/tool metadata = untrusted;
+- high-impact side effect qua deterministic policy/approval;
+- prompt injection là system-boundary problem.
 
 ## EXT:A2A:SPEC
 
@@ -150,31 +189,31 @@ Curriculum response:
 Curriculum status:
 
 ```text
-MCP = MUST UNDERSTAND (phải hiểu)
-A2A = SHOULD / WATCH (nên biết / theo dõi)
+MCP = MUST UNDERSTAND
+A2A = SHOULD / WATCH
 ```
 
-Chỉ adopt (áp dụng) A2A khi có remote-agent interoperability use case thật; không đưa multi-agent/A2A thành mặc định Phase 1.
+Chỉ adopt A2A khi có independent remote-agent interoperability use case thật; A4 multi-agent không phải default.
 
-## Những gì vẫn ổn định dù framework thay đổi
-
-Core Bot Engineer concepts nên giữ giá trị ngay cả khi library hiện hành đổi:
+## Những gì ổn định dù framework đổi
 
 ```text
-context/cancellation        ngữ cảnh/hủy
-bounded concurrency         đồng thời có giới hạn
-validation                  kiểm tra/xác thực dữ liệu
-provenance                  nguồn gốc dữ liệu
-retry/backoff               thử lại/tăng thời gian chờ
-idempotency                 tính lặp an toàn
-durable state               trạng thái bền vững
-explicit tool contracts     hợp đồng công cụ rõ ràng
-least privilege             quyền tối thiểu
-risk classification         phân loại rủi ro
-human approval              phê duyệt của con người
-tracing/audit               theo dõi/ghi vết
-evaluation                  đánh giá
-kill switch                 công tắc dừng khẩn cấp
+context/cancellation
+bounded concurrency
+validation
+provenance/freshness
+retry/backoff
+idempotency
+durable state
+explicit tool contracts
+deferred tool discovery concept
+least privilege
+risk classification
+human approval
+tracing/audit
+evaluation
+kill switch
+provider-neutral domain boundary
 ```
 
-Framework/version change thường phải cập nhật example + freshness register trước, không tự động ép curriculum đổi cấu trúc.
+Framework/version change thường cập nhật example + freshness register, không tự ép canonical curriculum đổi cấu trúc.
