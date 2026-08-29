@@ -1,213 +1,34 @@
-# Hệ thống project
+# Milestone demos
 
-## 1. 14 main projects
+Curriculum không còn yêu cầu nhiều project rời. Người học phát triển **một Bot duy nhất** và demo bốn milestone tích lũy.
 
-| # | Project | Phần | Evidence cốt lõi |
-|---:|---|---:|---|
-| 1 | Affiliate Business Map | 1 | Ecosystem, money flow, role map |
-| 2 | Tracking & Attribution Architecture | 3 | Event map, ID strategy, reconciliation |
-| 3 | Niche Intelligence | 6 | Niche scorecard và quyết định chọn niche |
-| 4 | Product Intelligence | 8 | Dataset, score, ranking, validation; grounded AI enrichment khi dùng |
-| 5 | Real Content Portfolio | 9 | Nội dung thật và performance history |
-| 6 | Funnel Analysis | 11 | Funnel map, drop-off, bottleneck, actions |
-| 7 | Affiliate Data Warehouse | 12 | Schema, history, data quality, metrics |
-| 8 | Analytics Dashboard | 13 | Dashboard ra quyết định được |
-| 9 | Experiment System | 14 | Tối thiểu 10 experiments có hypothesis; AI copilot không thay statistical evidence |
-| 10 | Product Tracker Bot | 15 | Go collector/workflow, history/provenance, reliable alerts + optional A1 triage |
-| 11 | Opportunity Engine | 16 | Rule/score/rank/recommendation + evidence/confidence/uncertainty/freshness/risk/policy |
-| 12 | AI Content Assistant | 17 | Grounded tool workflow, evaluation, prompt-injection controls, human approval |
-| 13 | Production Affiliate Bot | 19 | Durable HITL/recovery, observability/evaluation, security, RISK 0/1/2, outcome learning, kill switch, deployment |
-| 14 | Affiliate Intelligence Platform | 21 | End-to-end Decision Intelligence + governed action + outcome/evaluation/learning loop |
+## G1 — First Evidence-Backed Decision
 
-Số lượng main project vẫn là **14**. Labs và Pass Gates không phải Project #15+.
+- public product observations có provenance;
+- human judgment trước Bot output;
+- baseline decision có reason, weakest assumption và khả năng abstain;
+- learner đã sửa/test behavior.
 
-Mỗi project dùng [`templates/PROJECT-README.md`](../templates/PROJECT-README.md) và cần tối thiểu: scope, deliverables, acceptance criteria, evidence/demo, retrospective và next version.
+## G2 — Trustworthy Data & Grounded AI
 
-A1 AI advisory patterns xem [`AI-ADVISORY-PATTERNS.md`](AI-ADVISORY-PATTERNS.md). AI output tồn tại **không tự động là Project evidence**; phải chứng minh grounding, schema validity, fallback và evaluation phù hợp.
+- history không overwrite evidence;
+- stale/missing/invalid được phân biệt;
+- deterministic baseline vẫn chạy khi AI unavailable;
+- AI claim thiếu evidence không được trở thành fact.
 
-## 2. AI advisory evidence cho Projects 4/7/9/10
+## G3 — First Market Learning Loop
 
-### Project 4 — Product Intelligence
+- public artifact do learner review/thực hiện;
+- tracking và declared observation window;
+- analytics thật, kể cả zero/inconclusive;
+- một proposed improvement được test/review/version hoặc bị reject có lý do.
 
-Nếu dùng AI Product Research, evidence phải cho thấy:
+## G4 — Governed Production Loop
 
-- unstructured source → structured extraction;
-- mỗi fact/claim quan trọng có source/evidence ref;
-- unsupported AI claim không đi vào scoring fact;
-- uncertainty/missing evidence được giữ;
-- deterministic score/ranking baseline vẫn chạy khi AI unavailable;
-- ít nhất một extraction/evidence-quality evaluation case.
+- reliable automatic observation;
+- Decision/Outcome Memory;
+- read-only agent path;
+- shadow approval và limited governed action;
+- recovery, kill switch, evaluation và closed-loop trace.
 
-### Project 7 — Affiliate Data Warehouse
-
-Nếu lưu AI analysis/revenue investigation:
-
-- tách observed facts khỏi hypotheses;
-- không ghi hypothesis đè transaction/reconciliation truth;
-- AnalysisPacket có model/evidence metadata khi relevant;
-- raw sensitive data không bị lưu chỉ để phục vụ prompt/evaluation.
-
-### Project 9 — Experiment System
-
-Nếu dùng AI Experiment Copilot:
-
-- hypothesis/variant proposal phải lưu như proposal;
-- primary metric/statistical result do Experiment Engine tính;
-- AI interpretation tách khỏi measured result;
-- conflict giữa AI interpretation và statistics phải trở thành evaluation/learning evidence;
-- AI không được tự tăng experiment budget/action scope vượt policy.
-
-### Project 10 — Product Tracker Bot
-
-PASS core vẫn phải hoạt động không cần AI. Nếu thêm Alert Triage A1:
-
-- deterministic alert được tạo trước AI enrichment;
-- AI output có structured schema + evidence refs;
-- AI unavailable vẫn giữ alert pipeline chạy;
-- không để AI âm thầm suppress alert mà deterministic policy yêu cầu giữ;
-- đo latency/cost và ít nhất một unsupported/invalid-output case.
-
-## 3. Engineering acceptance — Projects 10–14
-
-### Project 10 — Product Tracker Bot
-
-PASS evidence phải cho thấy tối thiểu:
-
-- Go implementation hoặc executable artifact theo primary track;
-- collector/adapters có validation + provenance;
-- bounded concurrency hoặc chứng minh không cần concurrency;
-- timeout/cancellation;
-- retry strategy + idempotency/dedup khi phù hợp;
-- snapshot/history;
-- alerting;
-- basic logs/metrics;
-- compliance/data-access boundary.
-
-AI triage chỉ là enrichment A1, không thay các core gate trên.
-
-### Project 11 — Opportunity Engine
-
-PASS evidence phải có:
-
-```text
-input features / evidence
-→ score/rank/recommendation
-→ DecisionPacket
-   evidence
-   confidence
-   uncertainty
-   freshness/expiry
-→ RiskLevel
-→ PolicyDecision
-```
-
-Decision output không được tự động đồng nghĩa external execution. AI AnalysisPacket nếu có chỉ là một evidence channel trong Decision Fusion.
-
-### Project 12 — AI Content Assistant
-
-PASS evidence phải có:
-
-- grounded/source-aware generation;
-- explicit tool contracts nếu dùng tools/MCP;
-- tool/input/output validation;
-- evaluation cases;
-- prompt-injection/tool-misuse test case;
-- human approval boundary cho publish/consequential claims;
-- audit/evidence của approve/reject.
-
-### Project 13 — Production Affiliate Bot
-
-PASS evidence phải chứng minh:
-
-- process restart/recovery strategy;
-- durable state cho long wait/approval;
-- **durable HITL**: pause → persist → approve/reject → reload → revalidate → resume/terminate;
-- approval expiry và changed-context revalidation;
-- duplicate approval/execution không tạo side effect trùng;
-- retry/backoff/timeout/idempotency;
-- secrets/least privilege/tool permissions;
-- service/workflow/**decision/tool/action** tracing hoặc correlation;
-- Agent evaluation có ít nhất task success, tool behavior, unsupported claim/policy case, decision latency/cost và confidence/freshness case phù hợp scope;
-- Decision↔Action↔Outcome↔Evaluation linkage khi action có measurable outcome;
-- RISK 0/1/2 policy behavior;
-- approval queue cho RISK 2;
-- kill switch/containment kể cả khi approval đã tồn tại;
-- backup/restore hoặc recovery verification;
-- cost/operational monitoring;
-- evidence rằng outcome learning chỉ tạo **proposed change** và không tự rewrite production policy/prompt/weights.
-
-Tài liệu:
-
-- [`AGENT-HITL-RUNTIME.md`](AGENT-HITL-RUNTIME.md)
-- [`AGENT-EVALUATION-STANDARD.md`](AGENT-EVALUATION-STANDARD.md)
-- [`DECISION-OUTCOME-MEMORY.md`](DECISION-OUTCOME-MEMORY.md)
-
-### Project 14 — Affiliate Intelligence Platform
-
-Capstone phải demo được closed loop đầy đủ:
-
-```text
-SENSE / COLLECT
-→ SignalPacket
-→ UNDERSTAND / AnalysisPacket
-→ PREDICT / Forecast-ML evidence khi relevant
-→ REASON / Evidence Escalation
-→ DECIDE / DecisionPacket
-→ POLICY + RISK
-→ ActionIntent
-→ RISK 0/1 controlled auto action OR RISK 2 durable Human Approval
-→ ACT / Execute
-→ Audit / Trace
-→ MEASURE / Outcome
-→ EVALUATE / Decision-Outcome Memory
-→ LEARN / Proposed Improvement
-→ Offline Test / Experiment / Review
-→ Deploy approved improvement
-↺
-```
-
-PASS evidence tối thiểu phải có:
-
-- ít nhất một A0/A1 path chứng minh deterministic core + advisory fallback;
-- ít nhất một A2 path dùng Tool Registry với permission/risk ceiling và evidence escalation;
-- ít nhất một RISK 0 hoặc RISK 1 controlled auto-action path;
-- ít nhất một RISK 2 durable approval path với restart/resume/revalidation;
-- một stale/missing/conflicting-evidence case dẫn tới `WAIT`, `GET_MORE_DATA` hoặc `HUMAN_REVIEW` đúng;
-- một tool failure/retry/idempotency case;
-- một prompt-injection/tool-misuse case chứng minh model/tool output không bypass policy;
-- DecisionPacket có evidence/confidence/uncertainty/freshness/expiry/risk/policy;
-- trace/correlation từ trigger → decision → action → outcome;
-- Agent evaluation có quality + trajectory + latency/cost + safety + outcome metric phù hợp;
-- Decision↔Outcome learning tạo proposed improvement qua test/review, không tự sửa production;
-- provider-neutral core/adapter boundary;
-- A4 multi-agent/A2A **không bắt buộc**; nếu dùng phải chứng minh independent-agent boundary và value rõ.
-
-## 4. Labs
-
-Labs là work package tích hợp, thường effort `XL`.
-
-| Lab | Vị trí | Vai trò | Project? |
-|---|---|---|---|
-| Affiliate Lab / orientation practice | Part 0 | Môi trường thực hành, baseline, evidence workflow | Không |
-| Platform Policy Monitoring System | Part 5 | Theo dõi policy/rule và impact | Không |
-
-Nếu syllabus chứa thêm lab, thêm theo đúng canonical scope; không tự đổi thành main project.
-
-## 5. Pass Gates
-
-Pass Gate:
-
-- có acceptance criteria riêng;
-- có evidence link;
-- có thể reuse artifact lesson/project;
-- chỉ tính effort incremental cho integration/review/hardening/demo;
-- không double-count artifact đã tồn tại.
-
-## 6. Evidence convention
-
-- Lesson evidence: [`artifacts/README.md`](../artifacts/README.md)
-- Project scope/acceptance: [`templates/PROJECT-README.md`](../templates/PROJECT-README.md)
-- Experiment evidence: [`templates/EXPERIMENT-LOG.md`](../templates/EXPERIMENT-LOG.md)
-- Retrospective: [`templates/RETROSPECTIVE.md`](../templates/RETROSPECTIVE.md)
-
-Project/Lab/Pass Gate chỉ hoàn thành khi acceptance criteria và evidence tương ứng tồn tại; file/folder tồn tại không tự động nghĩa complete.
+Milestone evidence có thể dùng lại cho lesson/Mission khi chứng minh cùng requirement. Không sao chép artifact chỉ để tăng số lượng portfolio item.

@@ -1,4 +1,6 @@
-# Effort Recalibration — v2026.09 Go-first hardening
+# Effort Recalibration — v2026.09 Go-first hardening (superseded)
+
+> **Historical planning record.** Tài liệu này áp dụng cho inventory cũ. Active planning nằm tại [EFFORT-MODEL.md](EFFORT-MODEL.md); không dùng baseline bên dưới để ước lượng Core hiện hành.
 
 > Recalibrates planning after the Go-first Bot Engineering migration without changing 23/89/671/14.
 

@@ -23,7 +23,7 @@ Mọi pattern A1 phải có:
 - latency/cost measurement;
 - không external side effect.
 
-## 2. Alert Triage — M05
+## 2. Alert Triage — M06
 
 ```text
 Change Detector
@@ -65,7 +65,7 @@ AI unavailable
 → analysis_status = unavailable
 ```
 
-## 3. Product Research — M06
+## 3. Product Research — M02
 
 AI xử lý dữ liệu phi cấu trúc như description, review, seller text, policy notes, customer comments rồi normalize thành structured evidence.
 
@@ -103,7 +103,7 @@ AI INVENTS PRODUCT TRUTH
 
 Product claims phải trace được về source. AI-generated feature không có evidence không được trở thành scoring fact.
 
-## 4. Revenue / Attribution Investigation — M08
+## 4. Outcome / Attribution Investigation — M04
 
 Trigger bằng anomaly hoặc reconciliation mismatch.
 
@@ -129,7 +129,7 @@ recommended_checks: []
 
 AI không được rewrite order/commission ledger truth. Transaction reconciliation vẫn deterministic/data-driven.
 
-## 5. Experiment Copilot — M09
+## 5. Experiment Copilot — M05
 
 AI đứng quanh statistical engine, không thay statistical engine.
 

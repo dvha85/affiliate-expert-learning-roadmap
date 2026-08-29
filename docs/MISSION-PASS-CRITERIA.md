@@ -1,69 +1,76 @@
 # Tiêu chí Mission PASS
 
-Mission PASS phản ánh **product/evidence progress (tiến độ sản phẩm/bằng chứng)** và độc lập với canonical Lesson PASS.
+Mission là progress gate của curriculum. Mỗi Mission mở rộng cùng một evidence chain:
 
-## Tiêu chí nền
+~~~text
+Observation
+→ HumanPrediction
+→ BotDecision
+→ Action hoặc ActionIntent
+→ Outcome
+→ Evaluation
+→ ChangeProposal
+→ BotVersion
+~~~
 
-Một Mission chỉ PASS khi toàn bộ tiêu chí liên quan đã đạt:
+Không phải Mission nào cũng có đủ mọi record ngay từ đầu; field chưa xuất hiện phải được ghi rõ là chưa nằm trong scope, không được giả lập rồi gọi là reality.
 
-- [ ] **Feature works (Tính năng chạy đúng)** — ship target có thể demo được.
-- [ ] **Bot runs (Bot chạy được)** — run path đã ghi trong Mission hoạt động đúng với scope.
-- [ ] **Tests pass (Kiểm thử đạt)** — automated/manual checks cần thiết đều đạt.
-- [ ] **Data flows (Dữ liệu đi qua đúng luồng)** — sample/real data đi tới output dự kiến khi Mission có data flow.
-- [ ] **Output is inspectable (Đầu ra kiểm tra được)** — learner có thể cho xem kết quả, không chỉ nói “đã xong”.
-- [ ] **Failure case tested (Đã thử tình huống lỗi)** — ít nhất một failure/invalid-input scenario phù hợp scope đã được thực hiện.
-- [ ] **Required knowledge understood (Hiểu kiến thức bắt buộc)** — learner hiểu **knowledge slice** đủ để giải thích implementation/quyết định của Mission.
-- [ ] **Explain-back passes (Giải thích lại đạt)** — learner giải thích được vì sao solution hoạt động và trade-off quan trọng.
-- [ ] **Evidence saved (Đã lưu bằng chứng)** — code/result/test evidence được link hoặc lưu lại.
+## Ba chiều trạng thái
 
-## Tiêu chí engineering theo scope
+- **Capability PASS:** Bot/learner làm được behavior kỹ thuật.
+- **Reality verified:** có đúng evidence level mà Mission yêu cầu.
+- **Operated:** capability đã chạy đủ cycle/window để quan sát failure/outcome.
 
-Chỉ thêm khi Mission thực sự đưa capability đó vào:
+Mission chỉ được đánh dấu DONE khi ba chiều bắt buộc của Mission đều đạt. Fixture có thể giúp Capability PASS nhưng không thay Reality verified.
 
-- [ ] timeout/cancellation (hết thời gian/hủy);
-- [ ] retry/backoff (thử lại/tăng thời gian chờ);
-- [ ] idempotency/deduplication (lặp an toàn/chống trùng);
-- [ ] persistence/recovery (lưu bền vững/phục hồi);
-- [ ] observability (khả năng quan sát);
-- [ ] least privilege/secrets handling (quyền tối thiểu/xử lý bí mật);
-- [ ] deterministic policy/risk (chính sách/rủi ro xác định);
-- [ ] Human Approval (phê duyệt con người);
-- [ ] rollback/compensation/kill switch (quay lui/bù lỗi/dừng khẩn cấp);
-- [ ] cost/resource checks (kiểm chi phí/tài nguyên).
+## Tiêu chí chung
 
-Không ép M00 phải có control nâng cao chỉ để “đủ checklist”. Criteria tăng theo side effect (tác động bên ngoài) và failure mode (kiểu lỗi) thật.
+- [ ] learner đã TRY trước khi kéo knowledge;
+- [ ] Bot có behavior/output quan sát được;
+- [ ] learner tự thay đổi phần có ý nghĩa;
+- [ ] human prediction/judgment được ghi trước Bot output khi Mission có decision;
+- [ ] happy path và failure case đạt;
+- [ ] evidence kind được ghi đúng: real, test, synthetic hoặc replay;
+- [ ] trước/sau hoặc baseline comparison được lưu;
+- [ ] safety gate tương ứng đạt;
+- [ ] uncertainty, limitation và bước đo tiếp theo được giải thích;
+- [ ] không trình bày test/synthetic/replay như reality;
+- [ ] Bot version và evidence record có thể truy lại.
 
-## Required knowledge không đồng nghĩa full Lesson PASS
+## Reality gate
 
-```text
-Mission required knowledge
-= hiểu phần kiến thức cần để build/giải thích Mission
+- M00–M02 yêu cầu public evidence E1; sample chỉ là fallback cho Capability.
+- M03 yêu cầu public artifact do learner tự review/thực hiện, không yêu cầu bot publish.
+- M04 yêu cầu analytics/export thật; observed zero hợp lệ, missing phải giữ là missing.
+- M05 yêu cầu một real improvement cycle; negative/inconclusive vẫn PASS nếu measurement trung thực.
+- M06–M11 tăng dần từ automatic read-only tới governed action và production loop.
 
-Full Lesson PASS
-= Concept + Example + Quiz + Practice artifact + Explain-back
-```
+Order, valid order và paid commission là maturity milestone, không phải PASS gate.
 
-Do đó:
+## Safety gate
 
-```text
-Mission PASS
-≠
-Lesson PASS
-```
+Mỗi Mission phải khai báo S0–S6:
 
-Mission không bao giờ tự ghi Lesson PASS. Một Mission có thể chỉ cần một slice của Lesson để ship an toàn, trong khi learner vẫn cần hoàn thành PASS cycle đầy đủ của Lesson đó về sau. Ngược lại, Lesson artifact có thể được reuse (tái sử dụng) làm Mission evidence khi thật sự chứng minh cùng yêu cầu.
+- S0 evidence/data;
+- S1 AI advisory;
+- S2 manual publish;
+- S3 automatic collection;
+- S4 read-only tool agent;
+- S5 shadow/durable approval;
+- S6 limited governed automation.
 
-## Learner workspace và reference
+Prohibited actions như fake clicks/orders, spam, policy bypass, credential sharing và unbounded spend không thể được human approval để hợp thức hóa.
 
-PASS phải dựa trên implementation/evidence mà learner thực sự build/hiểu trong learner workspace. Reference implementation chỉ dùng để đối chiếu hoặc gỡ blocker; copy reference không tự tạo Mission PASS.
+## Review record
 
-## Review decision (quyết định review)
+Review phải lưu:
 
-Các trạng thái learner:
+- reviewer hoặc self-review stage;
+- timestamp;
+- Capability/Reality/Operated result;
+- evidence links;
+- blocking misconception hoặc safety failure;
+- PASS/RETRY/BLOCKED;
+- next action.
 
-- `✅ PASS` — đủ tiêu chí bắt buộc.
-- `🟦 Awaiting Review (Chờ review)` — implementation có nhưng evidence/explain-back chưa review xong.
-- `⛔ Blocked (Bị chặn)` — có prerequisite bên ngoài hoặc blocker kỹ thuật/business chưa giải quyết.
-- `🟨 In Progress (Đang làm)` — còn công việc trong scope.
-
-Không hạ chất lượng PASS chỉ để đạt ngày kế hoạch.
+CI xanh không tự tạo Mission PASS.

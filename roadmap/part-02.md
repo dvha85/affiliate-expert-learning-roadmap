@@ -1,65 +1,43 @@
-# Phần 2 — AFFILIATE ECONOMICS
+# Phần 2 — FIRST TRACKED MARKET LOOP
 
-- Timeline: **Standard M1–2 · Accelerated M1** — forecast; PASS evidence mới là gate.
-- Quy mô: **3 chương / 34 bài**
-- Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
+- Timeline: **Evidence-gated; includes a real observation window**.
+- **Chapters:** C6–C8
+- **Core:** 9 micro-lessons
+- **Missions:** M03–M04
+- **Outcome:** Learner thực hiện một publication thủ công có disclosure/tracking, đọc outcome thật và so human baseline với AI-assisted variant.
 
-## Checklist bài học
+## Attempt trước knowledge pull
 
-### Chương 4 — Core Metrics
+1. M03: chọn một product/audience problem và tự viết micro-content trước khi dùng framework hoặc AI.
+2. Human review và manual publish; Bot không có publish authority.
+3. M04: chờ declared observation window, import analytics thật rồi mới giải thích outcome.
 
-- [ ] **4.1** — Impression
-- [ ] **4.2** — Reach
-- [ ] **4.3** — View
-- [ ] **4.4** — Engagement
-- [ ] **4.5** — Click
-- [ ] **4.6** — CTR
-- [ ] **4.7** — CVR
-- [ ] **4.8** — AOV
-- [ ] **4.9** — Commission Rate
-- [ ] **4.10** — EPC
-- [ ] **4.11** — RPM
-- [ ] **4.12** — CPA
-- [ ] **4.13** — CAC
-- [ ] **4.14** — ROI
-- [ ] **4.15** — ROAS
-- [ ] **4.16** — Refund Rate
-- [ ] **4.17** — Cancellation Rate
+## Core checklist
 
-### Chương 5 — Affiliate Unit Economics
+### Chương 6 — Compliant micro-pilot
 
-- [ ] **5.1** — Gross Commission
-- [ ] **5.2** — Valid Commission
-- [ ] **5.3** — Final Commission
-- [ ] **5.4** — Net Affiliate Revenue
-- [ ] **5.5** — Revenue per Click
-- [ ] **5.6** — Revenue per 1.000 Views
-- [ ] **5.7** — Revenue per Content
-- [ ] **5.8** — Revenue per Product
-- [ ] **5.9** — Revenue per Channel
-- [ ] **5.10** — Revenue per Hour of Work
-- [ ] **5.11** — Expected Value
-- [ ] **5.12** — Opportunity Cost
+- [ ] **6.1** — Audience problem, product fit và một testable content angle
+- [ ] **6.2** — Proof, claims, disclosure và current platform boundary
+- [ ] **6.3** — Human review, manual publish và Decision ≠ Execution
 
-### Chương 6 — Revenue Modeling
+### Chương 7 — Track real market signals
 
-- [ ] **6.1** — Scenario Analysis
-- [ ] **6.2** — Sensitivity Analysis
-- [ ] **6.3** — Break-even
-- [ ] **6.4** — Best/Base/Worst Case
-- [ ] **6.5** — Revenue Forecast cơ bản
+- [ ] **7.1** — Tracking ID, UTM/link, impression, click và outcome event
+- [ ] **7.2** — Observation window, zero, missing và not-yet-observable
+- [ ] **7.3** — Import analytics/export, provenance và reconciliation
 
-## Cổng thực hành
+### Chương 8 — Human-vs-AI content comparison
 
-- [ ] **PASS GATE 1 — Revenue Model cho một niche**
-- [ ] Có artifact/evidence được lưu trong repo hoặc liên kết từ Issue
-- [ ] Viết retrospective: kết quả, sai lệch, điều học được, bước tiếp theo
+- [ ] **8.1** — Human baseline trước AI-assisted variant
+- [ ] **8.2** — Publish manually, freeze variants và record performance
+- [ ] **8.3** — Compare outcome, preserve uncertainty và chọn next measurement
 
-## Hoàn thành phần
+## Part PASS
 
-- [ ] Tất cả bài học đã PASS
-- [ ] Project/Lab/Pass Gate (nếu có) đã hoàn tất
-- [ ] Knowledge Base đã cập nhật
-- [ ] Đã chọn bài đầu tiên của phần tiếp theo
+- [ ] M03 đạt E2: có publication thật do human duyệt/thực hiện
+- [ ] M04 đạt E3: có analytics/export thật sau observation window
+- [ ] Disclosure và claim boundary được kiểm tra
+- [ ] `0` không bị lẫn với missing data
+- [ ] Có human-vs-AI comparison; outcome xấu hoặc inconclusive vẫn hợp lệ nếu measurement trung thực
 
-[← Roadmap tổng](../ROADMAP.md)
+[← Part trước](part-01.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-03.md)

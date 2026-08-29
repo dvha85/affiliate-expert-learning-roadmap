@@ -38,17 +38,26 @@ class AgenticArchitectureValidatorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             rows = []
-            for i in range(16):
+            for i in range(12):
                 mission = f"M{i:02d}"
                 level = validator.EXPECTED_LEVELS[mission]
                 if mission == "M05":
                     level = "A2"
                 version = f"v0.{i}" if i < 4 else f"v{i - 3}.0"
-                rows.append(f"| {mission} | {version} | {level} | target | theme |")
+                rows.append(f"| {mission} | {version} | P0 | target | reality | {level} |")
             write(root, "docs/BOT-EVOLUTION-ROADMAP.md", "\n".join(rows))
             problems = []
             validator.check_capability_levels(root, problems)
             self.assertTrue(any(p.code == "AI002" for p in problems))
+
+    def test_legacy_m12_m15_spine_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rows = [f"| M{i:02d} | v{i}.0 | P0 | target | reality | A0 |" for i in range(16)]
+            write(root, "docs/BOT-EVOLUTION-ROADMAP.md", "\n".join(rows))
+            problems = []
+            validator.check_capability_levels(root, problems)
+            self.assertTrue(any(p.code == "AI002" and "M00..M11" in p.message for p in problems))
 
     def test_decision_contract_missing_confidence_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -92,7 +101,7 @@ class AgenticArchitectureValidatorTests(unittest.TestCase):
             write(
                 root,
                 "docs/AI-AGENT-DECISION-ARCHITECTURE.md",
-                "AI ADVICE ≠ EXECUTION AUTHORITY\nPOLICY BEFORE CONSEQUENTIAL ACTION",
+                "DECISION ≠ EXECUTION\nAI ADVICE ≠ EXECUTION AUTHORITY\nPOLICY BEFORE CONSEQUENTIAL ACTION",
             )
             problems = []
             validator.check_untrusted_boundary(root, problems)
@@ -138,18 +147,35 @@ class AgenticArchitectureValidatorTests(unittest.TestCase):
             validator.check_provider_neutrality(root, problems)
             self.assertTrue(any(p.code == "AI009" for p in problems))
 
-    def test_multi_agent_must_remain_optional_and_m15_only(self):
+    def test_multi_agent_must_remain_optional_after_m11(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             write(
                 root,
                 "docs/AI-CAPABILITY-LEVELS.md",
-                "A4 — Optional Multi-Agent\nChỉ cân nhắc ở M15\nkhông phải dependency mặc định",
+                "A4 — Multi-Agent Optional Advanced\nChỉ cân nhắc sau M11\nkhông phải core Mission",
             )
-            write(root, "docs/BOT-EVOLUTION-ROADMAP.md", "| M14 | v9.0 | A4 optional | bad |\n")
+            write(
+                root,
+                "docs/BOT-EVOLUTION-ROADMAP.md",
+                "| M11 | v4.0 | P6 | target | reality | A4 optional |\nadvanced option sau khi M11\n",
+            )
             problems = []
             validator.check_multi_agent_boundary(root, problems)
             self.assertTrue(any(p.code == "AI010" for p in problems))
+
+    def test_decision_contract_must_separate_intent_from_execution(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(
+                root,
+                "docs/DECISION-CONTRACTS.md",
+                "DecisionPacket evidence_refs confidence uncertainty missing_evidence freshness "
+                "expires_at risk_level policy_decision ActionIntent",
+            )
+            problems = []
+            validator.check_decision_contract(root, problems)
+            self.assertTrue(any(p.code == "AI003" and "execution permission" in p.message for p in problems))
 
     def test_outcome_learning_cannot_self_modify_policy(self):
         with tempfile.TemporaryDirectory() as tmp:

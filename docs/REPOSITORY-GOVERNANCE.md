@@ -69,7 +69,7 @@ Sau khi bật protection/ruleset, cần verify lại bằng GitHub repository se
 Trước merge:
 
 - [ ] PR scope rõ ràng;
-- [ ] canonical counts/provenance không bị đổi ngoài ý muốn;
+- [ ] inventory/sequence thay đổi có chủ đích, đồng bộ với `CURRICULUM.md` và learner evidence; không bảo vệ một fixed count;
 - [ ] `Curriculum CI` hoàn thành `success`;
 - [ ] semantic Build-First guards PASS;
 - [ ] reference Go `gofmt`/`vet`/`test` PASS;

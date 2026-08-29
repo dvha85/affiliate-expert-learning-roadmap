@@ -1,8 +1,8 @@
 # Curriculum CI — Hệ thống kiểm tra curriculum
 
-Curriculum CI bảo vệ đồng thời **canonical curriculum**, provenance/freshness (nguồn gốc/độ mới), Build-First execution semantics, Agentic Decision Intelligence, learner/reference code và các invariant quan trọng.
+Curriculum CI bảo vệ [`../CURRICULUM.md`](../CURRICULUM.md), Mission-first/Real Evidence semantics, provenance/freshness, Agentic Decision Intelligence, learner/reference code và safety invariants. CI không bảo vệ một inventory legacy hoặc biến số lượng hiện tại thành mục tiêu vĩnh viễn.
 
-Tiếng Việt là ngôn ngữ chính thức của tài liệu. English term được giữ cho tên code, error code, công nghệ và thuật ngữ kỹ thuật khi cần. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md).
+Tiếng Việt là ngôn ngữ chính thức. English term được giữ cho code, error code, công nghệ và thuật ngữ kỹ thuật khi cần; xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md).
 
 ## 1. Chạy kiểm tra local
 
@@ -36,98 +36,102 @@ go test ./...
 
 Exit code `0` nghĩa là gate tương ứng PASS.
 
-## 2. Layer 1 — Canonical curriculum validator
+## 2. Layer 1 — Active curriculum validator
 
-`scripts/validate_curriculum.py` bảo vệ:
+`scripts/validate_curriculum.py` phải bảo vệ:
 
-- active canonical v2026.09 + historical v2026.08;
-- 23 Parts / 89 Chapters / 671 Lessons;
-- Go-first Part 15 direction;
-- timeline metadata;
-- Lesson ID, metadata, lifecycle và headings;
-- relative links;
-- freshness metadata contract.
+- root authority là `CURRICULUM.md`;
+- current normalized inventory khớp 7 Parts / 21 Chapters / 63 Core micro-lessons;
+- inventory được derive từ active roadmap, không hard-code làm invariant vĩnh viễn;
+- chỉ `roadmap/part-00.md` đến `part-06.md` thuộc active Core;
+- ID/Part/Chapter/lesson path unique và nhất quán;
+- lesson metadata, lifecycle, headings và relative links;
+- Mission refs nằm trong `M00–M11`;
+- freshness metadata contract;
+- Core, Advanced và Reference không bị trộn PASS semantics.
 
-## 3. Layer 2 — Curriculum integrity hardening validator
+Khi `CURRICULUM.md` được thay qua accepted ADR và roadmap đồng bộ, validator được cập nhật cùng PR. Validator không được dùng historical `sources/` để phủ quyết active structure.
 
-`scripts/validate_hardening.py` bảo vệ:
+## 3. Layer 2 — Authority và provenance hardening
 
-- external source IDs đối chiếu Affiliate + Bot source registers;
-- normalized provenance authority;
-- đúng 671 Lesson / 89 Chapter;
-- canonical Project 1–14 và vị trí Part;
-- authority-document consistency.
+`scripts/validate_hardening.py` phải bảo vệ:
 
-Khi freshness register chi tiết hóa source ID, source ID đã được Lesson tham chiếu phải được giữ compatibility/migration path; không làm provenance cũ tự nhiên mất resolve.
+- `CURRICULUM.md` tồn tại và có Mission-first, Real Evidence Ladder, Core / Advanced / Reference;
+- README, ROADMAP, BUILD-FIRST, CONTRIBUTING và active authority docs trỏ về cùng root authority;
+- external source IDs resolve trong Affiliate + Bot freshness registers;
+- active lesson/chapter IDs không trùng;
+- active docs không tuyên bố syllabus lịch sử là canonical;
+- các số liệu legacy chỉ tồn tại trong historical context rõ ràng;
+- file trong `sources/` được bỏ qua bởi active-authority guard nhưng vẫn giữ provenance.
+
+`S:` ref trong metadata cũ có thể được giữ làm lineage. Nó không trao authority cho historical syllabus và không được dùng để tạo lại lesson ngoài active roadmap.
 
 ## 4. Layer 3 — Build-First semantic validator
 
-`scripts/validate_build_first.py` bảo vệ execution architecture mà không định nghĩa lại canonical syllabus.
+`scripts/validate_build_first.py` bảo vệ execution architecture.
 
 ### BUILD001–BUILD003 — Authority, Mission identity và sequence
 
-- Build-First authority files bắt buộc tồn tại;
+- Build-First authority files bắt buộc tồn tại và link `CURRICULUM.md`;
 - Mission ID unique, filename đúng ID;
-- Bot roadmap đúng M00→M15;
-- authored Mission files là contiguous prefix từ M00.
+- active Mission spine đúng `M00→M11`;
+- authored Mission files là contiguous prefix từ M00 hoặc có explicit authoring-state rule.
 
-### BUILD004–BUILD006 — Knowledge, dependency và Bot Version
+### BUILD004–BUILD006 — Knowledge pull, dependency và Bot Version
 
-- explicit Lesson refs phải resolve trong 671 inventory;
-- Mission `ready` phải có required canonical knowledge mapping;
-- dependency phải trỏ ngược, tồn tại và không cycle;
-- Bot Version tăng đúng sequence và khớp roadmap.
+- explicit Core lesson ref phải resolve trong active 63-lesson inventory;
+- Mission `ready` chỉ pull knowledge cần cho attempt hiện tại;
+- dependency trỏ ngược, tồn tại và không cycle;
+- Bot Version tăng đúng sequence và capability/authority ceiling.
 
-### BUILD007–BUILD009 — Ready contract, learner state, Projects
+### BUILD007–BUILD010 — Ready contract và workspace
 
-- Mission `ready` có đủ required sections;
-- Mission không được auto-mark Lesson PASS;
-- `projects.contributes_to` chỉ dùng canonical Project 1–14.
-
-### BUILD010–BUILD014 — Workspace/semantics hardening
-
-- learner + reference bootstrap files tồn tại;
-- learner/reference separation + capability ceiling theo Current Mission;
-- `bot_version_from` nối đúng Mission trước;
-- Project frontmatter khớp central mapping;
+- Mission `ready` có Attempt First, Capability/Reality/Operated, failure cases, explain-back và evidence artifacts;
+- không quá ba micro-lessons liên tiếp trước khi learner quay lại build/run/observe;
+- learner/reference separation được giữ;
+- reference solution không được coi là learner evidence;
 - learner/reference Go runtime line đồng bộ.
+
+### BUILD011–BUILD014 — Real Evidence Ladder
+
+- sample/synthetic được gắn E0 và không thỏa business gate;
+- M00 có E1 public observations + human judgment trước Bot;
+- M03–M05 có manual tracked publish, analytics/outcome và reviewed improvement boundary;
+- M10/M11 chỉ tăng authority khi policy/approval/revalidation/audit/kill-switch evidence đủ.
 
 ### LANG001 — Language Policy
 
 - tiếng Việt là ngôn ngữ chính thức;
 - authority docs tham chiếu Language Policy;
-- guard không dùng tỷ lệ từ máy móc vì code/API/protocol cần giữ English chính xác.
+- không dùng tỷ lệ từ máy móc vì code/API/protocol cần giữ English chính xác.
 
 ## 5. Layer 4 — Agentic Decision Intelligence validator
 
 `scripts/validate_agentic_architecture.py` bảo vệ kiến trúc AI/Agent mà không khóa repo vào provider/model cụ thể.
 
-### AI001 — Agentic authority files
+### AI001 — Authority files
 
-Bắt buộc tồn tại các authority docs về:
+Bắt buộc có docs về:
 
 - AI/Agent architecture;
-- A0–A4 capability levels;
-- Decision contracts;
-- provider capability matrix;
-- A1 advisory patterns;
-- Decision Intelligence/confidence/freshness/model routing;
-- Tool Registry/Agent Runtime/programmatic orchestration/MCP notes;
-- Agent Evaluation/Durable HITL/Decision-Outcome Memory.
+- Decision contracts, confidence/uncertainty và freshness;
+- Tool Registry, provider boundary và Agent Runtime;
+- Agent Evaluation, durable HITL và Decision-Outcome Memory;
+- autonomy/approval, security, idempotency và kill switch.
 
 ### AI002 — Capability progression
 
-Central Bot Evolution map phải giữ:
+Active mapping phải giữ:
 
 ```text
-M00–M04 → A0
-M05–M10 → A1
-M11–M12 → A2
-M13–M14 → A3
-M15     → A4 optional
+M00–M01 → A0 deterministic
+M02–M07 → A1 grounded advisory
+M08     → A2 read-only tool agent
+M09     → A3-S shadow + durable approval
+M10–M11 → A3-G bounded governed automation
 ```
 
-AI được xuất hiện sớm nhưng không được tăng execution authority sớm.
+Deterministic baseline tiếp tục tồn tại sau khi AI xuất hiện. MCP/A2A/multi-agent là Advanced/Reference, không phải Core dependency.
 
 ### AI003 — DecisionPacket contract
 
@@ -144,39 +148,22 @@ risk level
 policy decision
 ```
 
-Confidence không phải execution permission.
+Confidence không phải execution permission; `WAIT`, `GET_MORE_DATA`, `HUMAN_REVIEW` và `ABSTAIN` là output hợp lệ.
 
-### AI004–AI005 — Tool governance
+### AI004–AI006 — Tool và model boundaries
 
-External side-effect tool phải đi qua `ActionIntent → Policy/Risk → approval khi cần`; Tool Registry phải khai báo `permission`, `risk_ceiling`, `requires_approval` và audit fields.
+- external side-effect tool đi qua `ActionIntent → Policy/Risk → approval khi cần`;
+- Tool Registry khai báo `permission`, `risk_ceiling`, `requires_approval`, validation và audit fields;
+- authority architecture giữ `MODEL OUTPUT = UNTRUSTED INPUT`, `AI ADVICE ≠ EXECUTION AUTHORITY` và `POLICY BEFORE CONSEQUENTIAL ACTION`.
 
-### AI006 — Untrusted model boundary
+### AI007–AI010 — Evaluation, freshness và provider neutrality
 
-Authority architecture phải giữ:
+- evaluation bao phủ output, grounding, trajectory/tool behavior, policy/safety, confidence calibration, latency/cost và human intervention;
+- volatile provider/MCP facts có source, URL, verified date và volatility;
+- domain core đi qua provider-neutral interface/adapter;
+- multi-agent/A2A không được biến thành prerequisite Core.
 
-```text
-MODEL OUTPUT = UNTRUSTED INPUT
-AI ADVICE ≠ EXECUTION AUTHORITY
-POLICY BEFORE CONSEQUENTIAL ACTION
-```
-
-### AI007 — Agent evaluation
-
-Evaluation standard phải bao phủ output, trajectory/tool behavior, policy/safety, confidence calibration, latency/cost và human intervention.
-
-### AI008 — Freshness cho kỹ thuật Agent biến động
-
-MCP/provider-runtime current facts phải có source, URL, verified date và volatility. Exact feature/version không trở thành permanent canonical truth.
-
-### AI009 — Provider-neutral core
-
-Domain Decision/Policy core phải đi qua `AI Provider Interface → Provider Adapter`; exact provider/model mapping thuộc config/freshness layer.
-
-### AI010 — Multi-agent boundary
-
-A4/multi-agent chỉ optional ở M15. A2A không được trở thành dependency mặc định trước khi có independent remote-agent/service use case thật.
-
-### AI011 — Outcome learning không tự sửa production
+### AI011–AI012 — Controlled outcome learning
 
 Learning loop phải là:
 
@@ -191,15 +178,24 @@ Decision
 → Deploy
 ```
 
-Agent không được tự rewrite production policy/prompt/weights từ outcome history.
+Agent không tự rewrite production policy/prompt/weights/code. Programmatic orchestration ưu tiên read-only/internal-safe tools; external actions không được free-orchestrate.
 
-### AI012 — Programmatic tool orchestration boundary
+## 6. Four Milestone Gates trong CI
 
-Bounded programmatic orchestration ưu tiên READ_ONLY/internal-safe tools. External actions như publish/spend/account-security change/destructive delete không được free-orchestrate ngoài explicit policy.
+CI kiểm cấu trúc/rule để Mission có thể thu evidence cho bốn gate:
 
-## 6. Executable Go gates
+| Gate | Mission | Structural checks |
+|---|---|---|
+| G1 — First Evidence-Backed Decision | M00 | real observation schema, human-before-Bot, decision evidence |
+| G2 — Trustworthy Intelligence | M01–M02 | immutable history, grounding, eval và fallback |
+| G3 — First Market Learning Loop | M03–M05 | manual publish, tracked outcome, missing-vs-zero, reviewed change |
+| G4 — Governed Production Loop | M06–M11 | reliability, contracts, tool permissions, approval, recovery và outcome memory |
 
-GitHub Actions chạy cho **cả reference và learner modules**:
+CI chỉ kiểm rằng contract/gate tồn tại và code behavior được test. Human/market evidence phải được review riêng.
+
+## 7. Executable Go gates
+
+GitHub Actions chạy cho cả reference và learner modules:
 
 ```text
 gofmt check
@@ -207,61 +203,57 @@ gofmt check
 → go test ./...
 ```
 
-Reference Bot chứng minh curriculum có implementation chạy/test được để đối chiếu. Learner Bot chứng minh active learner workspace không bị hỏng khi tiến hóa qua Mission.
+Reference Bot chứng minh implementation mẫu chạy/test được để đối chiếu sau attempt. Learner Bot chứng minh workspace active không hỏng khi tiến hóa qua Mission.
 
-Fast CI hiện không bắt buộc PostgreSQL service; integration infrastructure chỉ thêm khi operational value đủ lớn.
+Fast CI không bắt buộc dịch vụ production bên ngoài. Database/provider/platform integrations dùng fake/local contract tests trước; integration infrastructure chỉ thêm khi Mission cần operational evidence tương ứng.
 
-## 7. Regression / mutation tests
+## 8. Regression / mutation tests
 
-`tests/test_build_first_validator.py` tiếp tục bảo vệ Build-First semantic invariants.
+Regression tests phải cố tình phá và xác nhận validator bắt được tối thiểu:
 
-`tests/test_agentic_architecture_validator.py` cố tình phá và phải bắt được ít nhất:
+- root authority bị đổi về historical syllabus;
+- inventory/ID active không khớp `CURRICULUM.md` và roadmap;
+- Mission ngoài `M00–M11` bị đưa vào active spine;
+- sample được dùng để thỏa real-evidence gate;
+- Mission thiếu Capability PASS, Reality verified hoặc Operated;
+- AI capability được tăng quá sớm;
+- DecisionPacket thiếu evidence/confidence/uncertainty;
+- model output đi thẳng vào execution;
+- tool thiếu permission/risk/approval boundary;
+- source volatile thiếu freshness metadata;
+- missing outcome bị đổi thành zero;
+- outcome learning mất guard chống silent self-modification;
+- multi-agent bị biến thành Core dependency.
 
-- thiếu Agentic authority file;
-- sai AI level ở Mission;
-- DecisionPacket thiếu confidence/evidence field bắt buộc;
-- external tool thiếu Policy/Risk boundary;
-- tool contract thiếu risk ceiling;
-- mất `MODEL OUTPUT = UNTRUSTED INPUT`;
-- Agent Evaluation thiếu metric quan trọng;
-- volatile Agent/MCP fact thiếu freshness metadata;
-- mất provider-neutrality marker;
-- multi-agent bị đưa trước M15;
-- outcome learning mất guard chống tự sửa policy;
-- programmatic orchestration mất guard cấm free external actions.
+Scaffolder tests phải tạo lesson/Mission đúng active authority và không đọc historical inventory như nguồn scope.
 
-Các regression tests của curriculum/hardening/scaffolder trước đó tiếp tục chạy.
+## 9. GitHub Actions merge rule
 
-## 8. GitHub Actions merge rule
-
-Workflow `.github/workflows/curriculum-ci.yml` chạy với mọi Pull Request và mọi push vào `main`.
+Workflow `.github/workflows/curriculum-ci.yml` chạy với mọi Pull Request và push vào `main`:
 
 ```text
-canonical validator
-→ hardening validator
-→ Build-First semantic validator
-→ Agentic Architecture validator
+active curriculum validator
+→ authority/provenance hardening
+→ Build-First semantics
+→ Agentic Architecture
 → Python regression tests
 → reference: gofmt + vet + test
 → learner:   gofmt + vet + test
 ```
 
-**Quy tắc quy trình:** không merge khi bất kỳ gate nào fail.
+Không merge khi bất kỳ gate nào fail. Branch protection/ruleset của `main` cần require workflow này theo [`REPOSITORY-GOVERNANCE.md`](REPOSITORY-GOVERNANCE.md).
 
-Để GitHub tự cưỡng chế quy tắc này ở cấp repository, branch protection/ruleset của `main` vẫn cần cấu hình theo [`REPOSITORY-GOVERNANCE.md`](REPOSITORY-GOVERNANCE.md) / Issue #41.
+## 10. State rule — CI không phải learner PASS
 
-## 9. State rule — CI không phải learner PASS
-
-CI chỉ xác minh cấu trúc/code/invariant của repository.
+CI chỉ xác minh cấu trúc, code và invariant của repository.
 
 ```text
 CI PASS
-≠
-Mission PASS
-≠
-Lesson PASS
-≠
-Project PASS
+≠ Capability PASS
+≠ Reality verified
+≠ Operated
+≠ Mission DONE
+≠ Milestone Gate PASS
 ```
 
-Không dùng GitHub Actions run xanh để tự cập nhật learner achievement.
+Không dùng một run xanh để tự cập nhật learner achievement hoặc tuyên bố business validation. Outcome dương cũng không được dùng để bỏ qua test, provenance hay safety boundary.

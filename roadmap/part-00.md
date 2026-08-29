@@ -1,45 +1,42 @@
-# Phần 0 — ORIENTATION & AFFILIATE LAB
+# Phần 0 — FIRST EVIDENCE-BACKED DECISION
 
-- Timeline: **Standard M1 · Accelerated M1** — forecast; PASS evidence mới là gate.
-- Quy mô: **1 chương / 12 bài**.
-- Chỉ tick bài khi người học đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
-- Link lesson phản ánh **authoring availability**, không phản ánh learner PASS:
-  - `planned` scaffold: chưa link từ roadmap;
-  - `draft` / `ready`: link tới lesson file;
-  - checkbox `[x]`: chỉ dùng cho learner PASS.
+- Timeline: **Evidence-gated; recalibrate after learner pilot**.
+- **Chapters:** C0–C2
+- **Core:** 9 micro-lessons
+- **Mission:** M00
+- **Outcome:** Bot chạy được, đọc evidence thật và tạo quyết định đầu tiên có thể giải thích.
 
-## Checklist bài học
+## Attempt trước knowledge pull
 
-### Chương 0 — Khởi động chương trình
+1. M00 cycle 1: chạy starter Bot, tự sửa một behavior, làm test fail rồi khôi phục PASS.
+2. M00 cycle 2: quan sát 5 sản phẩm công khai và ghi source/time trước khi thiết kế “schema hoàn hảo”.
+3. M00 cycle 3: human rank trước, chạy naive Bot ranking sau và giữ lại bất đồng làm evidence.
 
-- [ ] **0.1** — [Affiliate Expert là gì?](../lessons/part-00/chapter-00/0.1-affiliate-expert-la-gi.md)
-- [ ] **0.2** — [Affiliate Bot Engineer là gì?](../lessons/part-00/chapter-00/0.2-affiliate-bot-engineer-la-gi.md)
-- [ ] **0.3** — Affiliate Intelligence là gì?
-- [ ] **0.4** — Affiliate Bot có thể và không thể làm gì?
-- [ ] **0.5** — Vì sao không nên bắt đầu bằng automation?
-- [ ] **0.6** — Learn → Do → Measure → Automate → Optimize
-- [ ] **0.7** — Bản đồ toàn bộ chương trình
-- [ ] **0.8** — Thiết lập Affiliate Lab
-- [ ] **0.9** — Knowledge Base
-- [ ] **0.10** — Experiment Log
-- [ ] **0.11** — Revenue Journal
-- [ ] **0.12** — Baseline Assessment
+## Core checklist
 
-> **Go-first interpretation:** 0.2 giới thiệu Bot Engineer theo mô hình `deterministic Go service → reliable automation → tool-using agent → governed autonomous system`. 0.4 tiếp tục phân biệt action tự chạy, action cần approval và action bị cấm. 0.5–0.6 giữ nguyên nguyên tắc hiểu/làm/đo trước khi automate.
+### Chương 0 — Bot đầu tiên và evidence discipline
 
-> **Authoring snapshot:** 0.1 = `ready`; 0.2 = `ready` Go-first Bot Engineer reference. Cả hai checkbox vẫn `[ ]` cho tới khi người học hoàn thành đủ 5 tiêu chí PASS. Lesson 0.3 trở đi chưa authored trừ khi có file `draft|ready` được link.
+- [ ] **0.1** — [Chạy, sửa và kiểm thử Bot đầu tiên](../lessons/part-00/chapter-00/0.1-chay-sua-va-kiem-thu-bot-dau-tien.md)
+- [ ] **0.2** — [Sample, real evidence, fact, estimate, assumption và unknown](../lessons/part-00/chapter-00/0.2-sample-real-fact-estimate-assumption-unknown.md)
+- [ ] **0.3** — [Observe failure, lưu evidence và explain-back](../lessons/part-00/chapter-00/0.3-observe-failure-evidence-explain-back.md)
 
-## Cổng thực hành
+### Chương 1 — Quan sát Affiliate thật đầu tiên
 
-- [ ] **LAB 0 — Affiliate Lab hoàn chỉnh**
-- [ ] Có artifact/evidence được lưu theo [`artifacts/README.md`](../artifacts/README.md)
-- [ ] Viết retrospective: kết quả, sai lệch, điều học được, bước tiếp theo
+- [ ] **1.1** — [Ghi 5 product observations với source và observed_at](../lessons/part-00/chapter-01/1.1-ghi-nam-product-observations.md)
+- [ ] **1.2** — [Actors, money flow, commission, validation và refund](../lessons/part-00/chapter-01/1.2-actors-money-flow-commission-refund.md)
+- [ ] **1.3** — [Provenance, freshness, missing field và giới hạn kết luận](../lessons/part-00/chapter-01/1.3-provenance-freshness-missing-limits.md)
 
-## Hoàn thành phần
+### Chương 2 — Human-vs-Bot decision đầu tiên
 
-- [ ] Tất cả bài học đã PASS
-- [ ] Project/Lab/Pass Gate (nếu có) đã hoàn tất
-- [ ] Knowledge Base đã cập nhật
-- [ ] Đã chọn bài đầu tiên của phần tiếp theo
+- [ ] **2.1** — [Human ranking trước code: reason, strongest evidence và weakest assumption](../lessons/part-00/chapter-02/2.1-human-ranking-truoc-code.md)
+- [ ] **2.2** — [Naive score, Expected Value và before/after comparison](../lessons/part-00/chapter-02/2.2-naive-score-expected-value-before-after.md)
+- [ ] **2.3** — [Explainable decision, confidence, uncertainty và abstain](../lessons/part-00/chapter-02/2.3-explainable-decision-confidence-uncertainty-abstain.md)
 
-[← Roadmap tổng](../ROADMAP.md)
+## Part PASS
+
+- [ ] M00 có Capability PASS, Reality verified cấp E1 và Operated
+- [ ] Không dùng sample record để tuyên bố market truth
+- [ ] Có ít nhất một human-vs-Bot disagreement được giải thích
+- [ ] Learner nói được điều Bot biết, không biết và chưa được phép làm
+
+[← Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-01.md)

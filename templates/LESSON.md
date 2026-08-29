@@ -1,304 +1,145 @@
 ---
 lesson_id: "X.Y"
-title: "Tên bài"
+title: "Tên micro-lesson"
 part: X
 chapter: Y
-effort: M # S | M | L
-estimated_minutes: 60
+track: core # core | advanced | reference
+mission_refs: ["MXX"]
+practice_first: true
+effort: S # S | M | L
+estimated_minutes: 30
 status: planned # planned | draft | ready
 prerequisites: []
 source_refs:
-  canonical:
-    - "S:PX/CY/LX.Y"
+  active:
+    - "CUR:PX/CY/LX.Y"
+  historical: []
   training: []
   research: []
   external: []
 last_verified: null
 ---
 
-# Bài X.Y — Tên bài
+# Bài X.Y — Tên micro-lesson
 
-> **Phần X — TÊN PHẦN**  
-> **Chương Y — Tên chương**  
-> **Effort:** M · ~60 phút  
-> **Authoring status:** `planned`
+> **Track:** `core` · **Mission:** `MXX` · **Thời lượng dự kiến:** 30 phút
+> Bài này được kéo vào sau một attempt trong Mission. Không đọc trước chỉ để “hoàn thành lý thuyết”.
 
-> `status` mô tả trạng thái biên soạn của lesson, **không phải trạng thái học tập của người học**. Một lesson `ready` vẫn chưa được coi là PASS cho tới khi người học đủ 5 tiêu chí PASS.
+## 1. Trigger — Vì sao cần bài này ngay bây giờ?
 
-> **Quy ước thuật ngữ cho learner-facing content:** ở lần xuất hiện có ý nghĩa đầu tiên, viết **English Term (Tiếng Việt)**. Giữ nguyên code/API/protocol/framework identifiers. Dùng [`docs/GLOSSARY-VI.md`](../docs/GLOSSARY-VI.md) để giữ bản dịch nhất quán.
-
-## 1. Mục tiêu bài học
-
-Sau bài này, người học phải có khả năng:
-
-1. ...
-2. ...
-3. ...
-
-Mục tiêu phải dùng động từ quan sát/đánh giá được như: giải thích, phân biệt, tính, phân tích, thiết kế, kiểm chứng, triển khai, chẩn đoán, ra quyết định.
-
-## 2. Prerequisites
-
-- Kiến thức/bài bắt buộc trước: ...
-- Execution loop đã nên mở: ...
-- Nếu không có prerequisite: ghi `Không có`.
-
-Không yêu cầu prerequisite chỉ vì lesson đứng trước trong file roadmap. Chỉ ghi dependency thực sự cần cho việc hiểu hoặc làm bài.
-
-## 3. Source refs và phạm vi nguồn
-
-### 3.1. Canonical
-
-- `S:PX/CY/LX.Y`
-
-### 3.2. Training supplement
-
-- `T:...` hoặc `Không có counterpart trực tiếp`.
-
-### 3.3. Research supplement
-
-- `R:...` hoặc `Không có supplement trực tiếp`.
-
-### 3.4. External verification
-
-- Chỉ thêm khi lesson có claim hiện hành cần kiểm chứng.
-- Với platform policy, legal, tax, privacy, pricing, attribution window, API/rule hiện hành: **bắt buộc kiểm chứng nguồn ngoài chính thức hoặc đáng tin cậy tại thời điểm authoring**.
-- Ghi ngày kiểm chứng trong `last_verified`.
-
-Tuân theo [`docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md). Không gắn `T`/`R` nếu nguồn không thật sự hỗ trợ nội dung.
-
-### 3.5. Thuật ngữ trọng tâm
-
-Nếu lesson có nhiều thuật ngữ mới, thêm bảng ngắn:
-
-| English term | Tiếng Việt |
-|---|---|
-| ... | ... |
-
-Không cần lặp toàn bộ glossary; chỉ đưa các từ người học thực sự cần cho lesson này.
-
-## 4. Concept cốt lõi
-
-Định nghĩa khái niệm bằng ngôn ngữ rõ, ngắn, đúng scope syllabus.
-
-Nên trả lời:
-
-- Nó là gì?
-- Nó giải quyết câu hỏi nào?
-- Nó nằm ở đâu trong affiliate system?
-- Nó **không** phải là gì?
-
-Khi dùng thuật ngữ chuyên ngành mới trong prose, ưu tiên:
+Mô tả output, failure, decision gap hoặc câu hỏi thực tế vừa xuất hiện trong Mission.
 
 ```text
-English Term (Tiếng Việt)
+Attempt đã làm:
+Điều vừa quan sát:
+Câu hỏi cần trả lời:
 ```
 
-Sau khi đã giải thích rõ, có thể dùng English term/abbreviation ở các đoạn sau.
+## 2. Try First — Thử trước trong 5–15 phút
 
-## 5. Giải thích sâu
+Cho một nhiệm vụ nhỏ có thể chạy, quan sát hoặc ra quyết định trước khi giải thích concept.
 
-Triển khai logic của concept.
+- Input/evidence sử dụng: ...
+- Hành động: ...
+- Output cần lưu: ...
 
-Có thể dùng:
+Không đưa sẵn lời giải hoàn chỉnh ở bước này.
 
-- mental model;
-- flow;
-- công thức;
-- bảng so sánh;
-- failure mode;
-- trade-off;
-- dữ liệu cần có;
-- decision rule.
+## 3. Observe — Ghi điều thực sự xảy ra
 
-Không tăng độ dài chỉ để lesson “trông đầy đủ”. Nội dung phải phục vụ trực tiếp mục tiêu và PASS criteria.
+Người học ghi:
 
-## 6. Ví dụ minh họa
+- expected (đã kỳ vọng gì);
+- observed (đã thấy gì);
+- khác biệt hoặc failure;
+- evidence kind: `real | test | synthetic | replay`.
 
-Tạo ít nhất một ví dụ đủ cụ thể để người học thấy concept vận hành.
+Không được trình bày sample/synthetic như bằng chứng thị trường thật.
 
-Nếu có số liệu, công thức hoặc code:
+## 4. Minimum Knowledge — Kiến thức tối thiểu
 
-- cho input;
-- chỉ rõ cách suy luận;
-- cho output;
-- giải thích vì sao output hợp lý.
+Giải thích tối đa 1–3 concept cần để xử lý đúng gap vừa thấy:
 
-## 7. Case thực tế / tình huống quyết định
+1. concept là gì;
+2. dùng để ra quyết định nào;
+3. failure mode hoặc trade-off quan trọng;
+4. điều chưa cần học ở Mission hiện tại.
 
-Đưa một case gần với affiliate thực tế.
+Với dữ kiện platform, luật, giá, API hoặc model có thể thay đổi, phải dùng nguồn hiện hành và `last_verified`.
 
-Yêu cầu người học phải:
+## 5. Apply — Áp dụng ngay vào Bot hoặc business evidence
 
-1. nhận diện vấn đề;
-2. chọn dữ liệu/metric phù hợp;
-3. phân tích;
-4. đưa ra quyết định;
-5. giải thích trade-off/risk.
-
-Nếu lesson là policy/legal/current-platform, case phải dựa trên dữ kiện đã external-verify.
-
-## 8. Misconceptions / failure modes
-
-Liệt kê các cách hiểu sai phổ biến hoặc failure mode chính.
-
-Ví dụ format:
-
-- Sai: “...”
-- Vì sao sai/chưa đủ: “...”
-- Cách nghĩ đúng hơn: “...”
-
-## 9. Exercise — artifact bắt buộc
-
-Tạo artifact tại:
+Yêu cầu người học sửa code/data/decision record đang có, rồi chạy lại trên đúng case đã quan sát.
 
 ```text
-artifacts/part-XX/<lesson-id>-<artifact-slug>.md
+Before:
+Change:
+After:
+Why the result changed:
 ```
 
-### Yêu cầu
+## 6. Test a Failure — Kiểm thử một tình huống lỗi
 
-- ...
-- ...
-- ...
+Tạo ít nhất một invalid, stale, missing, conflicting hoặc failure case phù hợp scope.
 
-### Definition of Done cho artifact
+- Bot phải làm gì?
+- Bot phải từ chối/abstain khi nào?
+- Điều gì tuyệt đối không được xảy ra?
 
-- [ ] Có output hữu hình, không chỉ ghi “đã hiểu”.
-- [ ] Có reasoning/decision/evidence cần thiết.
-- [ ] Có link ngược về lesson hoặc lesson note khi phù hợp.
+## 7. Evidence — Bằng chứng áp dụng
 
-Với lesson S, artifact có thể rất nhỏ. Với M/L, artifact phải phản ánh đúng effort thực tế.
+Lưu evidence vào artifact của Mission đang chạy, không tạo tài liệu trùng nếu cùng output đã chứng minh requirement.
 
-## 10. Quiz
+Evidence tối thiểu:
 
-**PASS quiz: ≥ 80%.**
+- attempt trước khi đọc;
+- output/failure đã quan sát;
+- thay đổi đã áp dụng;
+- before/after hoặc baseline comparison;
+- test cuối;
+- source/time/evidence kind khi dùng dữ liệu business.
 
-Tối thiểu:
+## 8. Checkpoint — Tự kiểm tra nhanh
 
-- S: 3–5 câu
-- M: 5–10 câu
-- L: 8–15 câu hoặc assessment tương đương
-
-Quiz phải kiểm tra hiểu biết/ứng dụng, không chỉ recall thuật ngữ.
-
-### Câu 1
-
-...
-
-### Câu 2
-
-...
-
-### Câu 3
-
-...
-
-## 11. Answer key / scoring rubric
-
-> **Bắt buộc.** Lesson không được chuyển sang `ready` nếu thiếu answer key hoặc scoring rubric.
+1. ...?
+2. ...?
+3. Với case ..., bạn sẽ làm gì và vì sao?
 
 <details>
-<summary><strong>Mở đáp án/rubric sau khi đã làm xong</strong></summary>
+<summary><strong>Đáp án/rubric</strong></summary>
 
-### Answer key
-
-1. ...
-2. ...
-3. ...
-
-### Scoring
-
-- Tổng điểm: ...
-- PASS: ≥ 80%
-- Với câu tự luận/case: ghi rõ tiêu chí chấm đạt/chưa đạt.
-
-Nếu người học sai, yêu cầu ghi lại **vì sao sai** hoặc misconception tương ứng.
+- Ý bắt buộc 1: ...
+- Ý bắt buộc 2: ...
+- Blocking misconception: ...
 
 </details>
 
-## 12. Explain-back
+## 9. Explain-back — Giải thích lại
 
 Không nhìn tài liệu, trả lời:
 
-> “Tại sao ...?”
+> “Vì sao thay đổi vừa làm tốt hơn baseline, bằng chứng nào hỗ trợ, và khi nào kết luận này không còn đúng?”
 
-Câu trả lời đạt phải chạm được các ý:
+Rubric:
 
-- ...
-- ...
-- ...
+- đúng concept;
+- chỉ ra quan hệ nhân quả hoặc giới hạn suy luận;
+- liên hệ trực tiếp với code/evidence;
+- nêu failure/trade-off;
+- nói được bước đo tiếp theo.
 
-Explain-back phải kiểm tra causal understanding, không chỉ định nghĩa.
+## 10. Applied / Retry — Kết quả
 
-## 13. Tiêu chí PASS bài X.Y
+Knowledge slice chỉ được coi là **applied** trong Mission khi:
 
-Chỉ tick lesson trong roadmap khi đủ **cả 5**:
+- [ ] đã TRY trước khi đọc phần giải thích;
+- [ ] đã APPLY vào Bot hoặc evidence thật;
+- [ ] happy path và failure case đều được quan sát;
+- [ ] evidence đúng loại được lưu;
+- [ ] explain-back không có blocking misconception.
 
-- [ ] **Concept:** tự giải thích concept bằng ngôn ngữ của mình.
-- [ ] **Example:** tự xử lý được example/case tương đương.
-- [ ] **Quiz:** đạt ít nhất 80%.
-- [ ] **Practice:** hoàn thành artifact bắt buộc.
-- [ ] **Explain-back:** giải thích được “tại sao”, trade-off hoặc causal logic chính.
+Thiếu bất kỳ mục nào thì ghi `RETRY`; việc đọc xong không tạo PASS.
 
-Nếu thiếu một mục:
+## 11. Next Action — Hành động tiếp theo
 
-```text
-RETRY
-```
-
-Không tick `[x]` chỉ vì đã đọc xong.
-
-## 14. Knowledge Base update
-
-Sau khi PASS, lưu tối thiểu:
-
-```text
-Concept:
-...
-
-Decision rule / formula / mental model:
-...
-
-Biggest misconception fixed:
-...
-
-Evidence:
-- artifact: ...
-- quiz: ...
-- explain-back: ...
-
-Open question:
-...
-```
-
-## 15. Tóm tắt một trang
-
-Tóm tắt lesson bằng 5–10 bullet hoặc một mental model ngắn.
-
-Mục tiêu: sau này có thể ôn lại trong 1–2 phút.
-
-## 16. Tài liệu nguồn của bài
-
-Liệt kê đúng các nguồn đã dùng:
-
-1. Canonical syllabus: ...
-2. Training supplement: ...
-3. Research supplement: ...
-4. External/current verification: ...
-5. Glossary learner-facing: [`GLOSSARY-VI.md`](../docs/GLOSSARY-VI.md)
-6. Repo standards: [`PASS-CRITERIA.md`](../docs/PASS-CRITERIA.md), [`SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md), [`EFFORT-MODEL.md`](../docs/EFFORT-MODEL.md), [`EXECUTION-MODEL.md`](../docs/EXECUTION-MODEL.md)
-
-Không liệt kê nguồn chỉ vì “có liên quan”; chỉ ghi nguồn thực sự được dùng.
-
-## 17. Next action
-
-Sau khi hoàn thành exercise + quiz + explain-back:
-
-```text
-PASS X.Y
-hoặc
-RETRY X.Y
-```
-
-Nếu PASS, chuyển sang lesson kế tiếp theo prerequisite của roadmap.
+Quay lại Mission, thực hiện checkpoint tiếp theo. Chỉ mở micro-lesson khác khi output/failure/decision mới tạo ra nhu cầu.

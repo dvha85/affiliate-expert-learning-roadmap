@@ -1,6 +1,6 @@
 # Decision Intelligence Standard — Chuẩn trí tuệ quyết định
 
-> Áp dụng trọng tâm ở M10/Project 11. Mục tiêu là hợp nhất evidence từ nhiều nguồn thành quyết định có thể kiểm tra, thay vì để một model hoặc một score đơn lẻ quyết định.
+> Áp dụng chính thức ở M07 và mở rộng qua G4. Mục tiêu là hợp nhất evidence thành quyết định kiểm tra được, không để một model hoặc score đơn lẻ làm authority.
 
 ## 1. Decision Fusion
 
@@ -62,7 +62,7 @@ Không để model tự hòa giải conflict bằng cách tạo fact mới.
 
 ## 5. DecisionPacket requirements
 
-M10+ phải dùng contract tại `DECISION-CONTRACTS.md`. Tối thiểu:
+M07+ phải dùng contract tại `DECISION-CONTRACTS.md`. Tối thiểu:
 
 - evidence refs;
 - deterministic scores/rules relevant;

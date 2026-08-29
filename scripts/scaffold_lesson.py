@@ -5,7 +5,7 @@ Key guarantees:
 - reads lesson IDs/titles from roadmap/part-XX.md;
 - uses templates/LESSON.md as the source template;
 - writes status=planned only;
-- creates canonical S:P/C/L source ref;
+- creates active CUR:P/C/L curriculum ref;
 - best-effort chapter-level T/R refs from docs/SOURCE-MAPPING.md;
 - never overwrites an existing lesson file;
 - supports lesson, chapter, and part targets;
@@ -141,9 +141,22 @@ def lesson_path(lesson: Lesson) -> Path:
     return ROOT / "lessons" / f"part-{lesson.part:02d}" / f"chapter-{lesson.chapter:02d}" / f"{lesson.lesson_id}-{slugify(lesson.title)}.md"
 
 
-def render(lesson: Lesson, hints: SourceHints, effort: str, minutes: int, prerequisites: list[str]) -> str:
+def existing_lesson_paths(lesson: Lesson) -> list[Path]:
+    """Find authored files by stable lesson ID; slugs may improve over time."""
+    directory = ROOT / "lessons" / f"part-{lesson.part:02d}" / f"chapter-{lesson.chapter:02d}"
+    return sorted(directory.glob(f"{lesson.lesson_id}-*.md")) if directory.exists() else []
+
+
+def render(
+    lesson: Lesson,
+    hints: SourceHints,
+    effort: str,
+    minutes: int,
+    prerequisites: list[str],
+    mission_refs: list[str],
+) -> str:
     text = TEMPLATE_PATH.read_text(encoding="utf-8")
-    canonical = f"S:P{lesson.part}/C{lesson.chapter}/L{lesson.lesson_id}"
+    active_ref = f"CUR:P{lesson.part}/C{lesson.chapter}/L{lesson.lesson_id}"
 
     # Replace YAML front matter wholesale to avoid fragile placeholder substitution.
     body = text.split("---", 2)[2].lstrip("\n")
@@ -153,6 +166,9 @@ def render(lesson: Lesson, hints: SourceHints, effort: str, minutes: int, prereq
         f'title: "{lesson.title.replace(chr(34), chr(39))}"',
         f"part: {lesson.part}",
         f"chapter: {lesson.chapter}",
+        "track: core",
+        "mission_refs: [" + ", ".join(f'\"{m}\"' for m in mission_refs) + "]",
+        "practice_first: true",
         f"effort: {effort}",
         f"estimated_minutes: {minutes}",
         "status: planned",
@@ -164,8 +180,9 @@ def render(lesson: Lesson, hints: SourceHints, effort: str, minutes: int, prereq
         front.append("prerequisites: []")
     front += [
         "source_refs:",
-        "  canonical:",
-        f'    - "{canonical}"',
+        "  active:",
+        f'    - "{active_ref}"',
+        "  historical: []",
         "  training:" + (yaml_list(hints.training, 4) if hints.training else " []"),
         "  research:" + (yaml_list(hints.research, 4) if hints.research else " []"),
         "  external: []",
@@ -175,12 +192,10 @@ def render(lesson: Lesson, hints: SourceHints, effort: str, minutes: int, prereq
     ]
 
     replacements = {
-        "# Bài X.Y — Tên bài": f"# Bài {lesson.lesson_id} — {lesson.title}",
-        "**Phần X — TÊN PHẦN**": f"**Phần {lesson.part} — {lesson.part_title}**",
-        "**Chương Y — Tên chương**": f"**Chương {lesson.chapter} — {lesson.chapter_title}**",
-        "**Effort:** M · ~60 phút": f"**Effort:** {effort} · ~{minutes} phút",
-        "**Authoring status:** `planned`": "**Authoring status:** `planned`",
-        "S:PX/CY/LX.Y": canonical,
+        "# Bài X.Y — Tên micro-lesson": f"# Bài {lesson.lesson_id} — {lesson.title}",
+        "**Track:** `core` · **Mission:** `MXX` · **Thời lượng dự kiến:** 30 phút":
+            f"**Track:** `core` · **Mission:** `{', '.join(mission_refs) or 'chưa map'}` · **Thời lượng dự kiến:** {minutes} phút",
+        "CUR:PX/CY/LX.Y": active_ref,
         "artifacts/part-XX/<lesson-id>-<artifact-slug>.md": f"artifacts/part-{lesson.part:02d}/{lesson.lesson_id}-<artifact-slug>.md",
         "Tiêu chí PASS bài X.Y": f"Tiêu chí PASS bài {lesson.lesson_id}",
         "PASS X.Y": f"PASS {lesson.lesson_id}",
@@ -207,16 +222,20 @@ def select_lessons(args: argparse.Namespace) -> list[Lesson]:
 def validate_selection(selected: Iterable[Lesson]) -> int:
     errors = 0
     for lesson in selected:
-        path = lesson_path(lesson)
-        if path.exists():
+        existing = existing_lesson_paths(lesson)
+        path = existing[0] if existing else lesson_path(lesson)
+        if existing:
             content = path.read_text(encoding="utf-8")
             required = [
                 f'lesson_id: "{lesson.lesson_id}"',
                 "status:",
                 "effort:",
+                "track:",
+                "mission_refs:",
+                "practice_first: true",
                 "prerequisites:",
                 "source_refs:",
-                f"S:P{lesson.part}/C{lesson.chapter}/L{lesson.lesson_id}",
+                f"CUR:P{lesson.part}/C{lesson.chapter}/L{lesson.lesson_id}",
             ]
             missing = [x for x in required if x not in content]
             if missing:
@@ -235,9 +254,10 @@ def main() -> int:
     target.add_argument("--lesson", help="Lesson ID, e.g. 0.2")
     target.add_argument("--chapter", type=int, help="Chapter number, e.g. 38")
     target.add_argument("--part", type=int, help="Part number, e.g. 12")
-    parser.add_argument("--effort", choices=["S", "M", "L"], default="M")
-    parser.add_argument("--minutes", type=int, default=60)
+    parser.add_argument("--effort", choices=["S", "M", "L"], default="S")
+    parser.add_argument("--minutes", type=int, default=30)
     parser.add_argument("--prerequisite", action="append", default=[], help="Repeatable prerequisite value")
+    parser.add_argument("--mission", action="append", default=[], help="Repeatable Mission ID, e.g. M00")
     parser.add_argument("--dry-run", action="store_true", help="Print planned/existing files, write nothing")
     parser.add_argument("--validate", action="store_true", help="Validate matching existing files, write nothing")
     args = parser.parse_args()
@@ -259,7 +279,7 @@ def main() -> int:
         return 1 if validate_selection(selected) else 0
 
     hints_map = parse_source_hints()
-    collisions = [lesson_path(x) for x in selected if lesson_path(x).exists()]
+    collisions = [path for lesson in selected for path in existing_lesson_paths(lesson)]
     if collisions and not args.dry_run:
         print("ERROR refusing to overwrite existing lesson file(s):", file=sys.stderr)
         for path in collisions:
@@ -267,8 +287,9 @@ def main() -> int:
         return 3
 
     for lesson in selected:
-        path = lesson_path(lesson)
-        if path.exists():
+        existing = existing_lesson_paths(lesson)
+        path = existing[0] if existing else lesson_path(lesson)
+        if existing:
             print(f"EXISTS {lesson.lesson_id}: {path.relative_to(ROOT)} (dry-run; would not overwrite)")
             continue
         hints = hints_map.get((lesson.part, lesson.chapter), SourceHints([], []))
@@ -277,7 +298,10 @@ def main() -> int:
         if args.dry_run:
             continue
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(render(lesson, hints, args.effort, args.minutes, args.prerequisite), encoding="utf-8")
+        path.write_text(
+            render(lesson, hints, args.effort, args.minutes, args.prerequisite, args.mission),
+            encoding="utf-8",
+        )
         print(f"CREATED {path.relative_to(ROOT)}")
 
     return 0

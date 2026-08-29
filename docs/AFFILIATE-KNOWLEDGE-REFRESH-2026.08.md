@@ -1,6 +1,6 @@
 # Affiliate Knowledge Refresh — 2026.08
 
-> Current-knowledge overlay cho curriculum. File này **không thay thế** `sources/SYLLABUS-v2026.08.md`; nó ghi các dữ kiện có tính thời điểm đã được kiểm chứng để lesson author biết điều gì phải dạy như operating truth hiện hành.
+> Current-knowledge reference cho [`CURRICULUM.md`](../CURRICULUM.md). Hai syllabus trong `sources/` chỉ là historical provenance; mapping cũ không còn quyết định Part/Chapter/Lesson hiện hành.
 
 **Verified:** 2026-08-28  
 **Scope:** Việt Nam + global affiliate/creator commerce, tracking, search, AI commerce, compliance.  
@@ -10,18 +10,18 @@
 
 | Khu vực | 2026 operating update | Curriculum mapping | Volatility |
 |---|---|---|---|
-| TikTok creator quality | PQP → **Promotion Performance Score (PPS)** từ 2026-08-27 | P5/C14; P8; P13; P22/C85 | HIGH |
-| TikTok AIGC | AIGC được phép nhưng phải trung thực, không fake product/results/story; dùng disclosure/label phù hợp | P5/C14; P9; P17/C63–66; P19/C76 | HIGH |
-| TikTok creator eligibility | Vietnam creator application currently includes ≥1,000 followers, age ≥18, compliance/identity conditions | P5/C13–14; P22/C85 | HIGH |
-| Vietnam e-commerce | Luật TMĐT 122/2025/QH15 + NĐ 248/2026/NĐ-CP hiệu lực 2026-07-01 | P4/C10; P5; P20; P22/C86 | HIGH |
-| Vietnam privacy | Luật 91/2025/QH15 + NĐ 356/2025/NĐ-CP hiệu lực 2026-01-01 | P4/C12; P12; P19; P22/C86 | HIGH |
-| Vietnam advertising | Luật 75/2025/QH15 hiệu lực 2026-01-01; NĐ 342/2025/NĐ-CP hiệu lực 2026-02-15 | P4/C10/C12; P5; P9; P22/C86 | HIGH |
-| Vietnam tax | NĐ 68/2026/NĐ-CP và NĐ 141/2026/NĐ-CP thay đổi framework thuế hộ/cá nhân kinh doanh | P4/C11; P20; P22/C86 | HIGH |
-| Attribution/privacy | Không dùng narrative đơn giản “Chrome chắc chắn bỏ third-party cookies”; browser/privacy stack vẫn thay đổi | P3/C7–9; P12; P22/C87 | MEDIUM/HIGH |
-| Generative AI Search | Google Search có AI Mode/AI Overviews, guidance riêng và generative-AI performance reporting | P10/C35; P13/C45; P22/C87 | MEDIUM |
-| YouTube commerce | YouTube Shopping Affiliate hiện liệt kê Việt Nam trong nhóm thị trường đủ điều kiện cho creator đáp ứng yêu cầu | P1/C2; P5/platform knowledge; P10/C34; P20/C80 | HIGH |
-| Agentic commerce | Google UCP/Universal Cart cho thấy shopping flow đang chuyển từ search/link → conversational/agentic discovery & checkout | P1; P11; P16–18; P21; P22/C87 | MEDIUM |
-| Disclosure/reviews | FTC guidance tiếp tục yêu cầu disclosure rõ, dễ thấy cho affiliate relationship; fake/manipulated reviews là compliance risk | P4/C12; P9; P19/C76 | MEDIUM/HIGH |
+| TikTok creator quality | PQP → **Promotion Performance Score (PPS)** từ 2026-08-27 | C1, C6–C8; platform Reference | HIGH |
+| TikTok AIGC | AIGC được phép nhưng phải trung thực, không fake product/results/story; dùng disclosure/label phù hợp | C5–C6, C8, C16; AI/compliance Reference | HIGH |
+| TikTok creator eligibility | Vietnam creator application currently includes ≥1,000 followers, age ≥18, compliance/identity conditions | C6; platform Reference | HIGH |
+| Vietnam e-commerce | Luật TMĐT 122/2025/QH15 + NĐ 248/2026/NĐ-CP hiệu lực 2026-07-01 | C6, C16, C19; legal Reference | HIGH |
+| Vietnam privacy | Luật 91/2025/QH15 + NĐ 356/2025/NĐ-CP hiệu lực 2026-01-01 | C3, C15–C16, C19; privacy Reference | HIGH |
+| Vietnam advertising | Luật 75/2025/QH15 hiệu lực 2026-01-01; NĐ 342/2025/NĐ-CP hiệu lực 2026-02-15 | C6, C16, C19; legal Reference | HIGH |
+| Vietnam tax | NĐ 68/2026/NĐ-CP và NĐ 141/2026/NĐ-CP thay đổi framework thuế hộ/cá nhân kinh doanh | outcome/revenue Reference; không phải Core gate | HIGH |
+| Attribution/privacy | Không dùng narrative đơn giản “Chrome chắc chắn bỏ third-party cookies”; browser/privacy stack vẫn thay đổi | C7–C10; Advanced A02 | MEDIUM/HIGH |
+| Generative AI Search | Google Search có AI Mode/AI Overviews, guidance riêng và generative-AI performance reporting | C6–C8; channel Reference | MEDIUM |
+| YouTube commerce | YouTube Shopping Affiliate hiện liệt kê Việt Nam trong nhóm thị trường đủ điều kiện cho creator đáp ứng yêu cầu | C6–C8; platform Reference | HIGH |
+| Agentic commerce | Google UCP/Universal Cart cho thấy shopping flow đang chuyển từ search/link → conversational/agentic discovery & checkout | C13–C17; Advanced A09 | MEDIUM |
+| Disclosure/reviews | FTC guidance tiếp tục yêu cầu disclosure rõ, dễ thấy cho affiliate relationship; fake/manipulated reviews là compliance risk | C6, C16, C19; compliance Reference | MEDIUM/HIGH |
 
 ## 2. TikTok Shop Vietnam — current-state overrides
 
@@ -31,7 +31,7 @@
 - **URL:** https://seller-vn.tiktok.com/university/essay?knowledge_id=10015258&lang=en
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** 14.2, 14.6–14.10, 23–27, 42–45, 85.x
+- **Maps to:** C1, C6–C8; platform Reference
 
 Current operating fact:
 
@@ -40,7 +40,7 @@ Current operating fact:
 - TikTok recommends aiming for **4.5+**; below **3.0** may affect content visibility.
 - The score incorporates product quality and content quality/policy compliance, so creator-quality measurement is no longer just product-selection quality.
 
-**Curriculum decision:** giữ canonical title `14.2 — Promotion Quality Points` để bảo toàn provenance, nhưng lesson 14.2 phải dạy **PPS là current operating truth**; PQP là migration/history context.
+**Curriculum decision:** không hard-code PPS thành Core title/count. Khi learner chọn TikTok cho M03–M05, dùng PPS như current operating fact có `verified_at`; PQP chỉ là migration/history context.
 
 ### EXT:TIKTOK:AIGC
 
@@ -48,7 +48,7 @@ Current operating fact:
 - **URL:** https://seller-vn.tiktok.com/university/essay?from=policy&identity=1&knowledge_id=6832782790018833&role=2
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** 14.3–14.5, 30–32, 63.5, 65.4, 66.x, 76.x
+- **Maps to:** C5–C6, C8, C16; AI/compliance Reference
 
 Current operating fact:
 
@@ -64,7 +64,7 @@ Current operating fact:
 - **URL:** https://seller-vn.tiktok.com/university/essay?knowledge_id=6837793229817601
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** 13.3–13.5, 14.1, 14.10, 85.x
+- **Maps to:** C6; platform Reference
 
 As of verification, the published Vietnam requirements include at least **1,000 followers**, age **18+**, identity/compliance conditions, and continuing account-health requirements. These are current facts, not permanent curriculum constants.
 
@@ -74,7 +74,7 @@ As of verification, the published Vietnam requirements include at least **1,000 
 - **URL:** https://seller-vn.tiktok.com/university/course?content_id=4242906912278289&lang=en&learning_id=1534569199585041
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** Ch16, Ch85; also legal/product/content lessons when impacted
+- **Maps to:** C6, C16; platform freshness Reference
 
 Use this page as one official watch source for current creator/seller policy migration. It documents the August 2026 PPS rollout and other operational changes.
 
@@ -89,7 +89,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-07-01
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** Ch10, Ch13–16, Ch78–82, Ch86
+- **Maps to:** C6, C16, C19; legal Reference
 
 ### EXT:VN:ECOM-ND248-2026
 
@@ -98,7 +98,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-07-01
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** Ch10, Ch13–16, Ch78–82, Ch86
+- **Maps to:** C6, C16, C19; legal Reference
 
 ### EXT:VN:PDPL-91-2025
 
@@ -107,7 +107,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-01-01
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** 12.7–12.10, 38–40, 75, 86
+- **Maps to:** C3, C15–C16, C19; privacy Reference
 
 ### EXT:VN:PDPL-ND356-2025
 
@@ -116,7 +116,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-01-01
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** 12.7–12.10, data governance/security, 86
+- **Maps to:** C3, C15–C16, C19; privacy Reference
 
 ### EXT:VN:AD-LAW-75-2025
 
@@ -125,7 +125,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-01-01
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** 10.8, 12.1–12.3, Ch14, Ch30–32, Ch76, Ch86
+- **Maps to:** C6, C16, C19; legal/compliance Reference
 
 ### EXT:VN:AD-ND342-2025
 
@@ -134,7 +134,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-02-15
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** P4, P5, P9, P19/C76, P22/C86
+- **Maps to:** C6, C16, C19; legal/compliance Reference
 
 ### EXT:VN:TAX-ND68-2026
 
@@ -143,7 +143,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-03-05
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** Ch11, Ch80–82, Ch86
+- **Maps to:** outcome/revenue Reference; not a Core PASS gate
 
 ### EXT:VN:TAX-ND141-2026
 
@@ -152,9 +152,9 @@ Use this page as one official watch source for current creator/seller policy mig
 - **Effective:** 2026-01-01 (the official metadata states this effective date)
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** Ch11, Ch86
+- **Maps to:** outcome/revenue Reference; not a Core PASS gate
 
-**Curriculum implication:** Chương 10–11 không được hard-code một nghĩa vụ, ngưỡng, biểu thuế hay thủ tục từ memory. Mọi numeric threshold, platform duty và thủ tục phải external-verify tại ngày authoring.
+**Curriculum implication:** C6/C16/C19 và mọi channel-specific artifact không được hard-code nghĩa vụ, ngưỡng, biểu thuế hay thủ tục từ memory. Mọi numeric threshold, platform duty và thủ tục phải external-verify tại ngày dùng.
 
 ## 4. Tracking & attribution in the privacy era
 
@@ -164,7 +164,7 @@ Use this page as one official watch source for current creator/seller policy mig
 - **URL:** https://privacysandbox.com/news/?by-type=announcements
 - **Verified:** 2026-08-28
 - **Volatility:** MEDIUM/HIGH
-- **Maps to:** Ch7–9, Ch38–40, Ch87
+- **Maps to:** C7–C10; Advanced A02
 
 The curriculum should not teach a deterministic story that Chrome has completed or will certainly complete a specific third-party-cookie phase-out schedule. The operating lesson is broader:
 
@@ -188,7 +188,7 @@ Browser/vendor decisions remain a watch item.
 - **URL:** https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
 - **Verified:** 2026-08-28
 - **Volatility:** MEDIUM
-- **Maps to:** 18.1, 19.5, 22.x, 35.1–35.6, 42–45, 87
+- **Maps to:** C6–C8; channel Reference
 
 Google’s current guidance says core SEO best practices remain relevant for AI Overviews/AI Mode; the curriculum should avoid treating “AEO/GEO” as a magical replacement for SEO. Authoring should emphasize useful original content, structured/product information, multimedia, trust and measurable search visibility.
 
@@ -198,7 +198,7 @@ Google’s current guidance says core SEO best practices remain relevant for AI 
 - **URL:** https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports
 - **Verified:** 2026-08-28
 - **Volatility:** MEDIUM
-- **Maps to:** 35.x, 42–45, 87
+- **Maps to:** C7–C8; channel analytics Reference
 
 Google announced dedicated reporting for visibility in generative-AI Search/Discover experiences for a subset of sites. This makes **AI-search visibility** a measurable channel signal rather than a purely speculative topic.
 
@@ -210,15 +210,15 @@ Google announced dedicated reporting for visibility in generative-AI Search/Disc
 - **URL:** https://support.google.com/youtube/answer/13376398?hl=vi
 - **Verified:** 2026-08-28
 - **Volatility:** HIGH
-- **Maps to:** 2.7, 2.10, 30.x, 34.3, 80.x, 85.x
+- **Maps to:** C6–C8; platform Reference
 
 YouTube currently lists **Vietnam** among markets where eligible creators can participate in YouTube Shopping Affiliate. This deserves coverage as a current platform example even though the canonical syllabus has dedicated TikTok/Shopee chapters rather than a new YouTube chapter.
 
-**Curriculum decision:** do **not** add a new chapter and change 671 count. Cover YouTube Shopping as:
+**Curriculum decision:** không thêm Core lesson chỉ vì một platform fact mới. Nếu learner chọn YouTube, dùng nó như:
 
 - a current example in social-commerce business models;
-- a distribution/monetization case in Ch34 and Ch80;
-- a platform-watch item in Ch85.
+- một distribution/monetization case trong M03–M05;
+- một platform-watch item trong Reference/M06 nếu có nguồn truy cập được phép.
 
 ## 7. Agentic commerce
 
@@ -228,7 +228,7 @@ YouTube currently lists **Vietnam** among markets where eligible creators can pa
 - **URL:** https://blog.google/products/ads-commerce/agentic-commerce-ai-tools-protocol-retailers-platforms/
 - **Verified:** 2026-08-28
 - **Volatility:** MEDIUM
-- **Maps to:** P1, P11, P16–18, P21, P22/C87
+- **Maps to:** C13–C17; Advanced A09
 
 ### EXT:GOOGLE:UCP-UPDATES-2026
 
@@ -236,7 +236,7 @@ YouTube currently lists **Vietnam** among markets where eligible creators can pa
 - **URL:** https://blog.google/products-and-platforms/products/shopping/ucp-updates/
 - **Verified:** 2026-08-28
 - **Volatility:** MEDIUM
-- **Maps to:** recommendation, product data, agentic shopping, capstone
+- **Maps to:** C13–C17; Advanced A09; production Reference
 
 Operating implication:
 
@@ -265,16 +265,16 @@ This is an emerging layer, not evidence that traditional affiliate links are obs
 - **URL:** https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking
 - **Verified:** 2026-08-28
 - **Volatility:** MEDIUM
-- **Maps to:** 10.8, 12.1–12.3, Ch30, Ch76
+- **Maps to:** C6, C16, C19; compliance Reference
 
 FTC guidance specifically treats affiliate commission relationships as material connections that should be disclosed clearly and conspicuously. For global-facing content, disclosure should be understandable to the audience, placed close to the endorsement/link, and not rely on ambiguous jargon alone.
 
-## 9. What NOT to change in the canonical roadmap
+## 9. Current facts không tự quyết định curriculum structure
 
 Research above does **not** justify:
 
-- adding/removing Parts/Chapters solely for 2026 trends;
-- renumbering lessons;
+- thêm/xóa Part/Chapter chỉ để phản ứng với một trend 2026;
+- biến từng platform update thành Core lesson bắt buộc;
 - replacing foundational tracking/economics concepts;
 - declaring SEO dead;
 - declaring affiliate links dead;
@@ -284,11 +284,11 @@ Research above does **not** justify:
 The correct operating model is:
 
 ```text
-STABLE CURRICULUM
+OUTCOME-DRIVEN CORE
 +
 FRESH CURRENT FACTS
 +
-CONTINUOUS WATCH
+LEARNER OUTCOME + CONTINUOUS WATCH
 =
 AFFILIATE INTELLIGENCE CURRICULUM
 ```
@@ -297,10 +297,9 @@ AFFILIATE INTELLIGENCE CURRICULUM
 
 When authoring future lessons, refresh priority should be:
 
-1. Part 0 — establish system thinking and freshness discipline.
-2. Part 3–5 — measurement + legal/platform current facts.
-3. Part 8–11 — product/content/search adapted to creator + AI discovery.
-4. Part 12–14 — data model must preserve source/date/attribution uncertainty.
-5. Part 15–19 — automation must include provenance, policy checks, human review and kill switch.
-6. Part 21 — capstone should treat current-fact feeds/policy watch as first-class inputs.
-7. Part 22 — formalize recurring freshness reviews.
+1. C1/C6 — evidence, claim, disclosure và platform boundary tại thời điểm dùng.
+2. C7–C10 — tracking/attribution phải giữ `zero`, `missing`, delay và uncertainty khác nhau.
+3. C3–C5 — data/AI giữ source, date, claim kind và deterministic fallback.
+4. C15–C19 — tool/action luôn có provenance, policy, human review, permission và kill switch.
+5. C20 — production review dùng current-fact feeds như input, không cho Bot tự sửa policy.
+6. Reference freshness cadence — recurring review, không tạo Core gate mới nếu chưa có learner bottleneck.

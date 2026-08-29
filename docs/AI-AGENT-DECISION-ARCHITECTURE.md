@@ -1,24 +1,24 @@
 # Kiến trúc AI/Agent Decision Intelligence
 
-> Tài liệu authority cho lớp AI/Agent của Build-First. Nó mở rộng execution layer, **không thay** canonical curriculum `v2026.09`, 23 Parts / 89 Chapters / 671 Lessons / 14 Projects hay Mission spine `M00–M15`.
+> Tài liệu authority cho lớp AI/Agent của Build-First. Nó triển khai ranh giới trong [`../CURRICULUM.md`](../CURRICULUM.md), không định nghĩa một curriculum song song. Active spine là `M00–M11`; multi-agent/MCP chỉ là Advanced hoặc implementation option khi có use case thật.
 
 ## 1. Mục tiêu
 
-Affiliate Intelligence Bot phải ra quyết định nhanh hơn nhờ kết hợp dữ liệu, logic xác định, mô hình dự báo và AI reasoning (suy luận AI), nhưng AI không được tự trở thành authority cho external execution (thực thi bên ngoài).
+Affiliate Intelligence Bot phải giúp learner ra quyết định tốt hơn bằng evidence, logic xác định và AI phù hợp. “Thông minh” được chứng minh bằng chất lượng quyết định, khả năng nói không biết và outcome trace; “tự động” là authority tăng dần qua policy, không phải quyền được trao vì model trả lời tự tin.
 
 ```text
-EVENT / DATA
-→ Freshness + Quality Gate
-→ Deterministic Analytics / Forecast / ML
-→ AI Analyst / Agent
-→ Evidence Escalation / Tool Use
-→ Decision Fusion
-→ DecisionPacket
-→ Policy + Risk
-→ RISK 0/1 auto hoặc RISK 2 Human Approval
-→ Action
+REAL EVENT / DATA
+→ Provenance + Freshness + Quality Gate
+→ Deterministic Baseline
+→ Grounded AI Analysis khi có decision value
+→ Evidence Escalation qua read-only tools khi được phép
+→ DecisionPacket hoặc ABSTAIN
+→ ActionIntent
+→ Policy + Risk + Approval/Revalidation
+→ Bounded Action
 → Outcome
-→ Evaluation + Decision/Outcome Memory
+→ Evaluation + Proposed Improvement
+→ Test / Review / Approved Release
 ↺
 ```
 
@@ -30,29 +30,34 @@ MODEL OUTPUT = UNTRUSTED INPUT
 DECISION ≠ EXECUTION
 AI ADVICE ≠ EXECUTION AUTHORITY
 POLICY BEFORE CONSEQUENTIAL ACTION
+OUTCOME LEARNING ≠ SILENT SELF-MODIFICATION
 ```
 
-- deterministic rule/formula vẫn được ưu tiên khi bài toán diễn đạt rõ bằng logic xác định;
-- AI dùng để hiểu dữ liệu phi cấu trúc, tổng hợp evidence, tạo hypothesis, điều tra và reasoning trong vùng cho phép;
-- RiskLevel và PolicyDecision không được giao cho LLM làm authority duy nhất;
-- RISK 2 luôn cần durable Human Approval và revalidation trước execute;
-- AI unavailable không được làm hỏng deterministic core nếu Mission không bắt buộc AI để đạt ship target cơ bản.
+- deterministic rule/formula là baseline khi bài toán diễn đạt rõ bằng logic xác định;
+- AI dùng để hiểu dữ liệu phi cấu trúc, tổng hợp evidence, tạo hypothesis và điều tra trong vùng cho phép;
+- RiskLevel và PolicyDecision không giao cho LLM làm authority duy nhất;
+- RISK2 luôn cần durable Human Approval và revalidation trước execute;
+- AI unavailable/invalid/unsupported phải đi vào fallback hoặc abstain, không âm thầm tạo scoring fact;
+- sample output chỉ chứng minh engineering behavior, không chứng minh market intelligence;
+- learning loop chỉ tạo proposed improvement qua test, review và version mới.
 
-## 3. AI Capability Levels — Cấp năng lực AI
+## 3. Capability progression trong M00–M11
 
-| Level | Phạm vi | Authority | Mission điển hình |
+| Level | Phạm vi | Authority | Mission |
 |---|---|---|---|
-| **A0** | Deterministic only (chỉ logic xác định) | không có AI | M00–M04 |
-| **A1** | AI advisory/read-only (AI tư vấn/chỉ đọc) | phân tích, tóm tắt, đề xuất; không external execute | M05–M10 |
-| **A2** | Tool-assisted Agent (Agent dùng tool) | gọi tool theo contract; side effect vẫn qua policy | M11–M12 |
-| **A3** | Governed Action Agent (Agent hành động có kiểm soát) | tạo ActionIntent; RISK0/1 theo policy, RISK2 approval | M13–M14 |
-| **A4** | Optional multi-agent (đa Agent tùy chọn) | chỉ khi có service/agent boundary thật | M15 |
+| **A0** | Deterministic evidence/decision core | không AI, không external Bot action | M00–M01; baseline bắt buộc cho các Mission sau |
+| **A1** | Grounded AI advisory | phân tích/đề xuất; human vẫn quyết định và tự publish | M02–M07 |
+| **A2** | Read-only evidence agent | gọi explicit read tools theo schema/permission/audit | M08 |
+| **A3-S** | Shadow action + durable approval | tạo ActionIntent và dry-run; không execute consequential action | M09 |
+| **A3-G** | Limited governed automation | RISK0/RISK1 bounded canary; RISK2 cần durable approval | M10–M11 |
 
 ```text
-AI APPEARS EARLY
+AI APPEARS AFTER A REAL-EVIDENCE BASELINE
 ≠
-AI GETS AUTHORITY EARLY
+AI GETS EXTERNAL AUTHORITY
 ```
+
+MCP, A2A và multi-agent không phải Core dependency. Chúng nằm ở Advanced A09/Reference và chỉ được đưa vào implementation khi giải quyết một bottleneck đã quan sát được mà không phá cùng security boundary.
 
 ## 4. Bốn contract xuyên suốt
 
@@ -65,7 +70,7 @@ SignalPacket
 
 ### SignalPacket
 
-Fact đã được hệ thống phát hiện, có provenance (nguồn gốc) và freshness (độ mới).
+Fact đã được hệ thống phát hiện, có provenance và freshness.
 
 ```yaml
 subject: product:P123
@@ -79,7 +84,7 @@ freshness_seconds: 30
 
 ### AnalysisPacket
 
-Kết quả phân tích, có thể chứa AI reasoning nhưng phải gắn evidence và uncertainty.
+Kết quả phân tích có thể chứa AI reasoning nhưng phải gắn evidence và uncertainty.
 
 ```yaml
 summary: commission tăng đáng kể
@@ -93,13 +98,30 @@ recommended_investigation: []
 
 ### DecisionPacket
 
-Kết quả Decision Intelligence đã hợp nhất deterministic signals + AI assessment + freshness + risk/policy context. Chi tiết bắt buộc nằm trong `docs/DECISION-CONTRACTS.md`.
+Kết quả hợp nhất deterministic signals, AI assessment, freshness và risk/policy context. Contract chi tiết nằm trong [`DECISION-CONTRACTS.md`](DECISION-CONTRACTS.md). Decision hợp lệ có thể là `WAIT`, `GET_MORE_DATA`, `HUMAN_REVIEW` hoặc `ABSTAIN`.
 
 ### ActionIntent
 
-Ý định hành động trước execution. ActionIntent chưa phải quyền thực thi và luôn đi qua Policy/Risk boundary.
+Ý định hành động trước execution. ActionIntent chưa phải permission. Nó phải giữ evidence ref, target, parameters, expiry, idempotency key, requested risk và expected outcome rồi đi qua Policy/Risk boundary.
 
-## 5. Event-driven decision — quyết định theo sự kiện
+## 5. Mission-first và practice-first
+
+Mỗi capability AI/Agent phải được học theo vòng:
+
+```text
+attempt trên evidence thật hoặc sample được gắn nhãn
+→ run baseline
+→ observe gap/failure
+→ pull tối đa ba micro-lessons
+→ add AI/tool behavior
+→ test valid + invalid + unavailable + adversarial path
+→ compare với human/baseline
+→ save technical + business evidence
+```
+
+Không bắt learner học toàn bộ LLM/agent stack trước M02. Không đưa tool agent vào trước khi learner đã thấy grounded advisory có thể sai. Không đưa automation vào trước khi có real tracked outcome và explicit action boundary.
+
+## 6. Event-driven decision
 
 Không dùng mẫu mặc định:
 
@@ -113,7 +135,7 @@ cron → hỏi LLM toàn bộ dữ liệu liên tục
 deterministic event/change
 → material change?
 → collect required evidence
-→ invoke AI/decision workflow khi đáng giá
+→ invoke AI/decision workflow khi expected decision value đủ lớn
 ```
 
 Trigger điển hình:
@@ -123,72 +145,73 @@ Trigger điển hình:
 - threshold crossed;
 - freshness expired;
 - experiment completed;
-- revenue reconciled;
+- outcome reconciled;
 - approval completed;
 - policy/platform snapshot changed.
 
-Mục tiêu là giảm latency khi thật sự có thay đổi, đồng thời giảm model cost và alert noise.
+Mục tiêu là giảm latency khi có thay đổi thật, đồng thời giảm model cost, repeated work và alert noise.
 
-## 6. Decision Fusion — hợp nhất quyết định
-
-Decision Engine có thể nhận nhiều evidence channel:
+## 7. Decision Fusion và evidence escalation
 
 ```text
-Rule Engine
-+ Scoring / Ranking
-+ Forecast / ML
-+ Anomaly signals
-+ Experiment evidence
-+ AI AnalysisPacket
-→ Decision Fusion
-→ DecisionPacket
+Rules / scoring / ranking
++ real outcome and experiment evidence
++ grounded AnalysisPacket
+→ conflict and freshness check
+→ enough evidence?
+   ├─ YES → DecisionPacket
+   └─ NO  → allowed read tools hoặc ABSTAIN
 ```
 
-AI không được âm thầm override rule/policy. Conflict giữa các nguồn phải hiện ra dưới dạng evidence, confidence, uncertainty hoặc yêu cầu lấy thêm dữ liệu.
+AI không được âm thầm override rule/policy. Conflict phải xuất hiện dưới dạng evidence, confidence, uncertainty, missing evidence hoặc request lấy thêm dữ liệu.
 
-## 7. Evidence escalation — lấy thêm bằng chứng khi thiếu
+## 8. Provider-neutral domain core
 
-```text
-Enough evidence?
-├─ YES → DecisionPacket
-└─ NO
-   → request allowed read tools/data
-   → collect more evidence
-   → reevaluate
-```
+Core Go application dùng provider-neutral interface. Không để provider SDK type lan vào Signal/Analysis/Decision/Policy/Action domain model.
 
-Các quyết định `WAIT`, `GET_MORE_DATA`, `HUMAN_REVIEW` là kết quả hợp lệ khi evidence chưa đủ.
+Provider-specific model routing, deferred tool loading, programmatic tool calling hoặc hosted workflow là implementation option thuộc config/freshness layer. Thay provider không được làm đổi business truth hay permission boundary.
 
-## 8. Tách AI provider khỏi domain core
-
-Core Go application dùng provider-neutral interface (giao diện trung lập nhà cung cấp). Không để provider SDK type lan vào domain model, DecisionPacket, Policy hoặc ActionIntent.
-
-Provider-specific capability như model routing, deferred tool loading hoặc programmatic tool calling chỉ là implementation option (lựa chọn triển khai), không phải canonical business truth.
-
-## 9. Safety progression
+## 9. Tool và safety boundary
 
 ```text
 A0/A1: no external AI authority
-A2: tool use with explicit permission + validation
-A3: governed ActionIntent + Policy/Risk + approval
-A4: multi-agent optional, same security boundaries
+A2: explicit read-only tools + schema + least privilege + audit
+A3-S: ActionIntent + policy simulation + durable approval
+A3-G: bounded executor + revalidation + idempotency + kill switch
 ```
 
-Mọi external content từ web/product/review/email/API/RAG/MCP đều là untrusted input.
+Mọi external content từ web/product/review/email/API/RAG/MCP đều là untrusted input. Tool description và tool output cũng không được coi là instruction có authority.
 
-## 10. Mapping vào Mission
+Publish, spend, account/security change, destructive delete và consequential communication không được free-orchestrate. Chúng phải có risk classification, policy decision, approval khi cần, revalidation và execution record.
 
-- M05: AI Alert Triage ở A1;
-- M06: AI Product Research ở A1;
-- M08: Revenue/Attribution Investigation ở A1;
-- M09: Experiment Copilot ở A1;
-- M10: Decision Fusion + DecisionPacket;
-- M11: AI analysis + model routing + evaluation;
-- M12: Tool-Using Agent + MCP/tool discovery;
-- M13: governed ActionIntent + durable approval;
-- M14: production evaluation/observability/security;
-- M15: full closed loop; multi-agent/A2A chỉ optional khi có nhu cầu thật.
+## 10. Mapping vào Mission và Real Evidence Ladder
 
-## 11. Quy tắc thay đổi
+| Mission | AI/Agent outcome | Evidence gate |
+|---|---|---|
+| M00 | deterministic evidence-backed decision đầu tiên | E1 public observations + human rank trước Bot |
+| M01 | trustworthy history/change baseline | ít nhất hai real snapshots, không overwrite |
+| M02 | grounded AI advisor với schema/eval/fallback | claim có evidence ref; invalid/unavailable path được test |
+| M03 | AI có thể tư vấn, learner tự duyệt và publish | E2 manual compliant tracked publication |
+| M04 | reconcile outcome và human-vs-AI comparison | E3 analytics/export thật; missing khác zero |
+| M05 | outcome tạo proposed improvement | E4 decision/action/outcome/review trace |
+| M06 | reliable automatic watcher | retry, duplicate, timeout và recovery evidence |
+| M07 | DecisionPacket + confidence/uncertainty/abstain | stale/missing/conflicting cases |
+| M08 | read-only evidence agent | explicit tool permission, trace và no side effect |
+| M09 | ActionIntent + approval + shadow execution | durable approval/rejection/revalidation records |
+| M10 | limited governed canary | E5 bounded RISK0/RISK1 + kill-switch evidence |
+| M11 | production closed loop | E6 operated trace + recovery + reviewed improvement |
 
-Nếu một AI framework, protocol hoặc provider capability thay đổi, ưu tiên cập nhật freshness layer và implementation note. Không tự đổi canonical lesson/project counts hoặc policy authority.
+## 11. Bốn Milestone Gate
+
+- **G1 — M00:** first evidence-backed decision;
+- **G2 — M01–M02:** trustworthy data và grounded advisory;
+- **G3 — M03–M05:** first tracked market loop và reviewed improvement;
+- **G4 — M06–M11:** reliable, governed production loop.
+
+Authority không được tăng chỉ vì Capability PASS. Mission phải có Reality verified, Operated và đạt gate trước đó; outcome có thể `zero`, `negative` hoặc `inconclusive` miễn measurement trung thực.
+
+## 12. Quy tắc thay đổi
+
+Nếu framework, protocol hoặc provider capability thay đổi, ưu tiên cập nhật [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md), adapter và test. Không tự đổi Core/Mission hay policy authority vì một vendor feature mới.
+
+Nếu learner pilot cho thấy một capability đến quá sớm, quá muộn hoặc không được dùng, sửa `CURRICULUM.md` qua ADR/review dựa trên evidence; không giữ số lượng chỉ để bảo toàn inventory.

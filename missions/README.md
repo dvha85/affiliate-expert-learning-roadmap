@@ -1,92 +1,63 @@
-# Hệ thống Mission
+# Mission system
 
-Mission là đơn vị **build + run + observe + improve + operate + evidence (xây + chạy + quan sát + cải tiến + vận hành + bằng chứng)** của Build-First curriculum.
+Mission là đơn vị tiến độ chính của curriculum. Một Bot duy nhất tiến hóa qua M00–M11.
 
-```text
-Mission ≠ Lesson ≠ Project ≠ Bot Version
-```
+~~~text
+Mission ≠ Lesson ≠ Milestone ≠ Bot Version
+~~~
 
-## ID
+- Lesson cung cấp knowledge slice đúng lúc.
+- Mission ship một capability/evidence step.
+- Milestone gom nhiều Mission thành demo.
+- Bot Version là trạng thái sản phẩm sau Mission.
 
-Mission dùng `M00`, `M01`, ... và filename `missions/MXX-slug.md`.
+## Spine
 
-## Hai state (trạng thái) độc lập
+| Mission | Outcome | Authoring |
+|---|---|---|
+| [M00](M00-first-evidence-backed-decision.md) | First evidence-backed decision | ready |
+| [M01](M01-trustworthy-history.md) | Trustworthy history | draft |
+| [M02](M02-grounded-ai-advisor.md) | Grounded AI advisor | draft |
+| [M03](M03-first-tracked-manual-publish.md) | First tracked manual publish | draft |
+| M04 | Real outcome analytics | planned |
+| M05 | First real improvement loop | planned |
+| M06 | Reliable automatic watcher | planned |
+| M07 | Decision, abstention và memory | planned |
+| M08 | Read-only tool agent | planned |
+| M09 | Shadow action + durable approval | planned |
+| M10 | Limited governed automation | planned |
+| M11 | Production closed loop | planned |
 
-```text
-Authoring (trạng thái nội dung): planned → draft → ready
-Learner (trạng thái người học):  ⬜ Chưa bắt đầu → 🟨 Đang làm → 🟦 Chờ review → ✅ PASS
-                                                        └────────────→ ⛔ Blocked
-```
+`planned` nghĩa là outcome/knowledge/gate đã có trong `CURRICULUM.md`, roadmap và Mission Knowledge Map, nhưng execution file chưa được author/review. Không tự nhảy tới một Mission planned rồi đoán acceptance criteria.
 
-`status: ready` chỉ nói Mission đã được author đủ để học. Nó không có nghĩa learner đã PASS.
+## Trạng thái độc lập
 
-## Metadata của Mission
+Authoring: planned → draft → ready.
 
-```yaml
-mission_id: "M00"
-title: "Khởi động Affiliate Bot"
-status: ready
-requires_missions: []
-bot_version_from: null
-bot_version_to: "v0.0"
-estimated_hours: 2
-knowledge:
-  required: []
-  on_demand: []
-  reference: []
-projects:
-  contributes_to: []
-risk_scope:
-  external_side_effects: false
-```
+Learner:
 
-## Content contract (hợp đồng nội dung)
+- Capability PASS;
+- Reality verified;
+- Operated;
+- DONE khi các chiều bắt buộc đều đạt.
 
-Mission `ready` phải có các section sau; English term được giữ để tương thích validator và luôn có nghĩa Việt trong Mission:
+Mission ready không nghĩa learner đã PASS. CI xanh cũng không tạo learner evidence.
 
-1. Ship Target — Mục tiêu bàn giao
-2. Starting Bot State — Trạng thái Bot ban đầu
-3. Build First — Xây trước
-4. Run — Chạy
-5. Observe — Quan sát
-6. Knowledge Pull — Lấy kiến thức đúng lúc
-7. Improve — Cải tiến
-8. Tests — Kiểm thử
-9. Operate — Vận hành
-10. Failure Case — Tình huống lỗi
-11. Evidence — Bằng chứng
-12. Explain-back — Giải thích lại
-13. Mission PASS — Tiêu chí PASS
-14. Bot Version Result — Kết quả phiên bản Bot
-15. Next Mission — Mission tiếp theo
+## Evidence chain
 
-Chi tiết: [`../docs/MISSION-AUTHORING-STANDARD.md`](../docs/MISSION-AUTHORING-STANDARD.md).
+~~~text
+Observation → HumanPrediction → BotDecision
+→ Action/ActionIntent → Outcome → Evaluation
+→ ChangeProposal → BotVersion
+~~~
 
-## Learner workspace và reference implementation
+Early Mission chưa có mọi record; không được dùng synthetic record để giả vờ đã có real outcome.
 
-Bootstrap M00–M03 dùng:
+## Workspace
 
-```text
-learner workspace: lab/learner/affiliate-bot/
-reference:         lab/affiliate-bot/
-```
+~~~text
+lab/learner/affiliate-bot/   # learner tự build
+lab/affiliate-bot/           # reference sau attempt
+~~~
 
-Learner phải tự phát triển capability theo Mission. Reference (bản tham chiếu) chỉ dùng để đối chiếu/gỡ blocker và không phải starting state của learner.
-
-## State separation (tách trạng thái)
-
-Mission không được chứa cơ chế tự tick Lesson PASS. Lesson PASS chỉ thay đổi khi learner đạt evidence theo `docs/PASS-CRITERIA.md`.
-
-## Knowledge rule (quy tắc kiến thức)
-
-`knowledge.required` nghĩa là learner phải hiểu **phần kiến thức cần cho Mission**, không có nghĩa phải full PASS toàn bộ Lesson trước khi code.
-
-```text
-required knowledge for Mission
-≠
-full Lesson PASS
-```
-
-## Quy chuẩn ngôn ngữ
-
-Tiếng Việt là ngôn ngữ chính thức. English term chỉ giữ khi cần đối chiếu kỹ thuật và có giải thích tiếng Việt khi quan trọng. Xem [`../docs/LANGUAGE-POLICY.md`](../docs/LANGUAGE-POLICY.md).
+Chi tiết: [Mission authoring standard](../docs/MISSION-AUTHORING-STANDARD.md) và [Mission PASS](../docs/MISSION-PASS-CRITERIA.md).

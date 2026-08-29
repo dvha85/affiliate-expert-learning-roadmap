@@ -1,106 +1,116 @@
-# Roadmap tổng — Knowledge Inventory
+# Roadmap — Outcome-Driven Core
 
-> **Vai trò từ Build-First v1:** file này là canonical normalized **knowledge inventory**, không còn là default learner execution sequence. Đường học mặc định nằm ở [`BUILD-FIRST.md`](BUILD-FIRST.md). Mission có thể pull lesson từ nhiều Part theo đúng prerequisite cần thiết.
+> **Active canonical:** [`CURRICULUM.md`](CURRICULUM.md).
+> File này là normalized index/checklist cho **7 Parts · 21 Chapters · 63 Core micro-lessons · 12 Missions · 1 evolving Bot**.
 
-> Checkbox bài học nằm trong file từng phần. Đây là nguồn trạng thái learner PASS duy nhất để tránh tick trùng.
+Hai syllabus trong `sources/` là historical research input. Chúng không còn quyết định Part, Chapter, Lesson, Project hoặc learner sequence hiện hành.
 
-Tổng cộng: **23 phần · 89 chương · 671 bài học**.
+Tổng cộng: **7 phần · 21 chương · 63 bài học**.
 
-> **Planning note:** 671 bài không có trọng lượng bằng nhau. Workload phải được lập theo [Effort Model S/M/L/XL](docs/EFFORT-MODEL.md), dựa trên **thời gian để PASS**, không dựa riêng vào số checkbox.
-
-## Timeline chính
-
-- **Standard:** [15 tháng](docs/15-MONTH-PLAN.md) ở khoảng **9 giờ/tuần** — planning envelope.
-- **Accelerated:** [12 tháng](docs/12-MONTH-PLAN.md) ở khoảng **11–12 giờ/tuần**, khuyến nghị 12 giờ/tuần.
-- Fixed core knowledge spine: **Phần 0 → 19 → 21**.
-- Phần 20 bắt đầu khi có tín hiệu doanh thu; Phần 22 là Continuous Mastery sau core.
-
-Bảng dưới là **curriculum index**. Build-First Mission system quyết định learner build gì tiếp theo; bảng này xác định knowledge nào tồn tại và trạng thái PASS của learner.
-
-| Phần | Trọng tâm | Chương | Bài | Trạng thái |
-|---|---|---:|---:|---|
-| [Phần 0](roadmap/part-00.md) | ORIENTATION & AFFILIATE LAB | 0 | 12 | ⬜ |
-| [Phần 1](roadmap/part-01.md) | AFFILIATE FUNDAMENTALS | 1–3 | 34 | ⬜ |
-| [Phần 2](roadmap/part-02.md) | AFFILIATE ECONOMICS | 4–6 | 34 | ⬜ |
-| [Phần 3](roadmap/part-03.md) | TRACKING & ATTRIBUTION | 7–9 | 33 | ⬜ |
-| [Phần 4](roadmap/part-04.md) | VIETNAM LEGAL, TAX & COMPLIANCE | 10–12 | 28 | ⬜ |
-| [Phần 5](roadmap/part-05.md) | AFFILIATE PLATFORM EXPERT | 13–16 | 50 | ⬜ |
-| [Phần 6](roadmap/part-06.md) | MARKET & NICHE INTELLIGENCE | 17–19 | 26 | ⬜ |
-| [Phần 7](roadmap/part-07.md) | CUSTOMER INTELLIGENCE | 20–22 | 21 | ⬜ |
-| [Phần 8](roadmap/part-08.md) | PRODUCT INTELLIGENCE | 23–27 | 40 | ⬜ |
-| [Phần 9](roadmap/part-09.md) | CONTENT & CONSUMER PSYCHOLOGY | 28–32 | 44 | ⬜ |
-| [Phần 10](roadmap/part-10.md) | TRAFFIC & DISTRIBUTION | 33–35 | 24 | ⬜ |
-| [Phần 11](roadmap/part-11.md) | FUNNEL & CONVERSION | 36–37 | 14 | ⬜ |
-| [Phần 12](roadmap/part-12.md) | DATA ENGINEERING FOR AFFILIATE | 38–41 | 23 | ⬜ |
-| [Phần 13](roadmap/part-13.md) | AFFILIATE ANALYTICS | 42–45 | 23 | ⬜ |
-| [Phần 14](roadmap/part-14.md) | EXPERIMENTATION & STATISTICS | 46–49 | 28 | ⬜ |
-| [Phần 15](roadmap/part-15.md) | AFFILIATE BOT ENGINEERING | 50–56 | 42 | ⬜ |
-| [Phần 16](roadmap/part-16.md) | DECISION & RECOMMENDATION ENGINE | 57–60 | 23 | ⬜ |
-| [Phần 17](roadmap/part-17.md) | AI AFFILIATE BOT | 61–66 | 36 | ⬜ |
-| [Phần 18](roadmap/part-18.md) | ADVANCED AFFILIATE INTELLIGENCE | 67–72 | 35 | ⬜ |
-| [Phần 19](roadmap/part-19.md) | PRODUCTION, SECURITY & AUTOMATION | 73–77 | 32 | ⬜ |
-| [Phần 20](roadmap/part-20.md) | AFFILIATE BUSINESS & SCALE | 78–82 | 32 | ⬜ |
-| [Phần 21](roadmap/part-21.md) | CAPSTONE | 83–84 | 17 | ⬜ |
-| [Phần 22](roadmap/part-22.md) | CONTINUOUS MASTERY | 85–88 | 20 | ⬜ |
-
-## Authoring status vs learner status
+## Learner execution
 
 ```text
-Authoring: planned → draft → ready
-Learner:   chưa PASS → PASS / RETRY
+Open current Mission
+→ attempt before reading
+→ run and observe a concrete gap
+→ pull at most three micro-lessons
+→ improve and test
+→ collect technical + business evidence
+→ explain back
+→ ship the next Bot capability
 ```
 
-- `planned` scaffold có thể tồn tại trong `lessons/` nhưng chưa được link từ part roadmap;
-- `draft` hoặc `ready` phải được link từ part roadmap;
-- link không có nghĩa learner đã PASS;
-- checkbox `[x]` chỉ dùng sau khi đủ PASS criteria.
+Roadmap không phải reading order. Learner không học hết Part trước khi build và không được dùng sample output để tuyên bố business validation.
 
-Bài 0.1 và 0.2 là authored references; learner status vẫn `[ ]` cho tới khi evidence thực tế đạt PASS.
+## Core index
 
-## Build-First execution
+| Phần | Trọng tâm | Chương | Bài | Missions | Trạng thái |
+|---|---|---:|---:|---|---|
+| [Phần 0](roadmap/part-00.md) | First Evidence-Backed Decision | 0–2 | 9 | M00 | ⬜ |
+| [Phần 1](roadmap/part-01.md) | Trustworthy Data & Grounded AI | 3–5 | 9 | M01–M02 | ⬜ |
+| [Phần 2](roadmap/part-02.md) | First Tracked Market Loop | 6–8 | 9 | M03–M04 | ⬜ |
+| [Phần 3](roadmap/part-03.md) | Outcome-Driven Improvement | 9–11 | 9 | M05 | ⬜ |
+| [Phần 4](roadmap/part-04.md) | Reliable Intelligence & Decisions | 12–14 | 9 | M06–M07 | ⬜ |
+| [Phần 5](roadmap/part-05.md) | Tool Agent & Governed Automation | 15–17 | 9 | M08–M10 | ⬜ |
+| [Phần 6](roadmap/part-06.md) | Production Closed Loop | 18–20 | 9 | M11 | ⬜ |
 
-Knowledge spine vẫn mô tả prerequisite/mastery coverage, nhưng learner execution mặc định là:
+## Mission spine
+
+| Mission | Ship target | Required evidence level |
+|---|---|---|
+| M00 | First running Bot + public evidence + human-vs-Bot decision | E1 |
+| M01 | Validated append-only history + freshness | E1 |
+| M02 | Grounded AI Product Advisor có deterministic fallback | E1 |
+| M03 | Một manual, compliant, tracked publication | E2 |
+| M04 | Real outcome import + human-vs-AI comparison | E3 |
+| M05 | Experiment + reviewed improvement hoặc documented rejection | E4 |
+| M06 | Reliable automatic watcher qua retry/dedup/recovery cases | E4 |
+| M07 | DecisionPacket + confidence/freshness/abstention + replay | E4 |
+| M08 | Read-only evidence agent có permission/audit | E4 |
+| M09 | Shadow ActionIntent + durable approval + dry-run | E4 |
+| M10 | Limited governed RISK0/RISK1 canary; RISK2 approval | E5 |
+| M11 | Production closed loop qua observation window | E6 |
+
+Chi tiết mapping Mission↔Lesson và gate nằm trong [`CURRICULUM.md`](CURRICULUM.md).
+
+## Quy tắc checkbox và PASS
+
+- `[ ]` nghĩa là learner chưa chứng minh knowledge slice trong Mission context.
+- `[x]` chỉ dùng khi có artifact/evidence và explain-back liên quan; chỉ đọc xong không đủ.
+- Lesson file `planned` không được link như active authored lesson.
+- File legacy tồn tại không tự động trở thành Core.
+- Mission theo dõi riêng **Capability PASS**, **Reality verified** và **Operated**.
+- Mission chỉ `DONE` khi cả ba chiều bắt buộc đạt.
+- `0`, `missing`, `inconclusive` và `not_yet_observable` là bốn trạng thái khác nhau.
+
+## Milestone gates
+
+| Gate | Missions | Demo outcome |
+|---|---|---|
+| G1 — First Evidence-Backed Decision | M00 | First running Bot + real observations + explainable decision |
+| G2 — Trustworthy Intelligence | M01–M02 | History/provenance + deterministic baseline + grounded AI |
+| G3 — First Market Learning Loop | M03–M05 | Tracked publication + real outcome + reviewed improvement |
+| G4 — Governed Production Loop | M06–M11 | Reliable decisions + governed tools/actions + production outcome loop |
+
+## Advanced modules — ngoài Core/PASS
+
+| ID | Module |
+|---|---|
+| A01 | Platform-specific APIs và production adapters |
+| A02 | Server-side tracking, webhook và identity resolution |
+| A03 | Data warehouse, dashboard và BI nâng cao |
+| A04 | Advanced experimentation và statistical power |
+| A05 | Time-series, anomaly detection và forecasting |
+| A06 | Machine Learning và Learning-to-Rank |
+| A07 | Explore–Exploit và Multi-Armed Bandit |
+| A08 | RAG, embeddings và vector retrieval |
+| A09 | MCP, A2A và multi-agent orchestration |
+| A10 | Distributed workflows và high-scale operations |
+| A11 | Paid traffic và multi-channel portfolio optimization |
+| A12 | SaaS productization, multi-tenancy và billing |
+
+Advanced module chỉ được mở sau khi có Core evidence và một use case/bottleneck thật. Advanced không tăng Core completion percentage và không thay Mission PASS.
+
+## Reference — không có PASS
+
+Platform/legal/tax current facts, glossary, cookbooks, schemas, provider matrix, deployment recipes, security và troubleshooting checklists là reference. Nội dung biến động phải có source và freshness metadata; không tạo thêm Core lesson chỉ để lưu current facts.
+
+## Quy ước trạng thái
+
+- ⬜ Chưa bắt đầu
+- 🟨 Đang attempt/build
+- 🟦 Capability PASS, chờ Reality/Operate hoặc review
+- ✅ Mission/Part PASS
+- ⛔ Blocked, có blocker evidence
+
+## Authority
 
 ```text
-ONE current Mission
-+
-small working Bot slice
-+
-required/on-demand Knowledge Pulls
-+
-active operating loops
-+
-ALL within weekly capacity
-+
-PASS evidence before mastery
+CURRICULUM.md
+→ ROADMAP.md + roadmap/part-00..06.md
+→ active Missions / Lessons
+→ operating standards
+→ historical/research sources
 ```
 
-Go có thể được **dùng** từ Mission đầu tiên; Part 15 vẫn là formal Bot Engineering mastery scope.
-
-Các execution loops và governed action model nằm trong [docs/EXECUTION-MODEL.md](docs/EXECUTION-MODEL.md).
-
-## Quy ước trạng thái learner
-
-- ⬜ Chưa PASS
-- 🟨 Đang học
-- 🟦 Chờ review / chưa đủ evidence
-- ✅ PASS
-- ⛔ Blocked
-
-## Quy ước effort
-
-- **S — Small:** 15–30 phút để PASS.
-- **M — Medium:** 45–75 phút để PASS.
-- **L — Large:** 1.5–3 giờ để PASS.
-- **XL — Integration Gate:** LAB/PROJECT/PASS Gate, thường nhiều giờ hoặc nhiều buổi.
-
-Xem [docs/EFFORT-MODEL.md](docs/EFFORT-MODEL.md).
-
-## Authority rule
-
-```text
-BUILD-FIRST tells learner WHAT TO BUILD NEXT.
-ROADMAP tells the system WHAT KNOWLEDGE EXISTS and WHAT HAS PASSED.
-```
-
-Build-first changes sequencing, not canonical IDs, project inventory or learner evidence history.
+Quyết định migration được ghi tại [`docs/ADR-002-OUTCOME-DRIVEN-CURRICULUM.md`](docs/ADR-002-OUTCOME-DRIVEN-CURRICULUM.md).

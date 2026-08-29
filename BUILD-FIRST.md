@@ -1,204 +1,241 @@
-# Lộ trình học Build-First
+# Lộ trình học Build-First, Reality-First
 
-> **BẮT ĐẦU TỪ ĐÂY.** Đây là đường học mặc định của curriculum v2026.09.
+> **BẮT ĐẦU TỪ ĐÂY.** Người học xây một Affiliate Bot duy nhất qua các phiên bản nhỏ. Mỗi capability phải xuất phát từ một vấn đề đã quan sát, chạy trên evidence đúng loại và được cải tiến bằng outcome thật trước khi Bot nhận thêm quyền.
 
-## Mô hình tư duy
+Nguồn cấu trúc có thẩm quyền là [`CURRICULUM.md`](CURRICULUM.md); tài liệu này triển khai execution order của canonical đó.
 
-```text
-Build (Xây)
-→ Run (Chạy)
-→ Observe (Quan sát)
-→ Pull Knowledge just-in-time (Lấy kiến thức đúng lúc)
-→ Improve (Cải tiến)
-→ Test (Kiểm thử)
-→ Operate (Vận hành)
-→ Save Evidence (Lưu bằng chứng)
-→ Ship next Bot Version (Bàn giao phiên bản Bot tiếp theo)
-```
+## Mục tiêu của chương trình
 
-Từ M00–M06, software loop chạy song song với **Manual Affiliate Loop**:
+Chương trình dành cho người mới và phải đồng thời đạt bốn mục tiêu:
+
+1. có Bot chạy được ngay từ Mission đầu;
+2. thực hành trước, chỉ pull kiến thức khi attempt làm lộ nhu cầu;
+3. dùng dữ liệu và phản hồi thị trường thật sớm;
+4. tiến tới tự động hóa thông minh nhưng có policy, approval, audit và kill switch.
 
 ```text
-Observe business manually
-→ Record evidence + provenance
-→ Make human judgment
-→ Compare with Bot
-→ Find disagreement / uncertainty
-→ Improve data or model
+SMART BOT
+= evidence-aware
++ biết phân biệt fact / estimate / assumption / unknown
++ biết confidence và uncertainty
++ biết WAIT / GET_MORE_DATA / HUMAN_REVIEW
++ nối Decision với Outcome
++ chỉ hành động trong quyền được cấp
 ```
 
-Xem [`docs/MANUAL-AFFILIATE-LOOP.md`](docs/MANUAL-AFFILIATE-LOOP.md). Lane này tạo business grounding sớm nhưng **không cấp execution authority sớm cho Bot**.
+LLM output nghe hợp lý nhưng không có evidence, evaluation hoặc safety boundary không được coi là Bot thông minh.
 
-`ROADMAP.md` và 23 file Part vẫn là **canonical knowledge inventory (kho kiến thức chuẩn hóa)** gồm 23 Parts / 89 Chapters / 671 lessons. Build-First không đổi số thứ tự, không xóa lesson và không thay learner PASS; nó chỉ thay **thứ tự thực thi việc học**.
-
-## Lộ trình tiến hóa của Bot
-
-| Mission | Bot Version (Phiên bản Bot) | Ship target (Mục tiêu bàn giao) | AI level |
-|---|---:|---|---|
-| M00 | v0.0 | Bot khởi động và có output quan sát được | A0 |
-| M01 | v0.1 | Product ingest (đọc dữ liệu sản phẩm) | A0 |
-| M02 | v0.2 | Product store + history (lưu trữ + lịch sử) | A0 |
-| M03 | v0.3 | Product ranking (xếp hạng sản phẩm) đầu tiên | A0 |
-| M04 | v0.4 | Product watcher (theo dõi thay đổi) | A0 |
-| M05 | v0.5 | Reliable alerts + AI advisory triage | A1 |
-| M06 | v1.0 | Product Intelligence + AI product research | A1 |
-| M07 | v2.0 | Content Intelligence | A1 |
-| M08 | v3.0 | Revenue & Attribution Intelligence + investigation | A1 |
-| M09 | v4.0 | Experiment Engine + AI experiment copilot | A1 |
-| M10 | v5.0 | Decision Intelligence & Policy Engine | A1 |
-| M11 | v6.0 | AI Analysis Assistant + model routing/evaluation | A2 |
-| M12 | v7.0 | Tool-Using Agent / MCP | A2 |
-| M13 | v8.0 | Governed Automation | A3 |
-| M14 | v9.0 | Production Agentic Bot | A3 |
-| M15 | v10.0 | Affiliate Intelligence Platform | A4 optional |
-
-Xem chi tiết tại [`docs/BOT-EVOLUTION-ROADMAP.md`](docs/BOT-EVOLUTION-ROADMAP.md). Bản đồ kiến thức đúng lúc nằm tại [`docs/MISSION-KNOWLEDGE-MAP.md`](docs/MISSION-KNOWLEDGE-MAP.md).
-
-## Bốn loại đơn vị
-
-- **Lesson (Bài học)** — một đơn vị kiến thức trong canonical curriculum.
-- **Mission (Nhiệm vụ thực hành)** — một đơn vị build/run/operate có mục tiêu bàn giao cụ thể.
-- **Project (Dự án)** — một trong 14 mốc tích hợp chuẩn của curriculum.
-- **Bot Version (Phiên bản Bot)** — trạng thái sản phẩm sau mỗi Mission.
+## Vòng học mặc định
 
 ```text
-Mission ≠ Lesson ≠ Project ≠ Bot Version
+REAL OBSERVATION
+→ HUMAN PREDICTION / JUDGMENT
+→ BUILD SMALLEST WORKING SLICE
+→ RUN / OBSERVE FAILURE OR GAP
+→ PULL KNOWLEDGE JUST-IN-TIME
+→ IMPROVE / TEST
+→ RUN ON THE REQUIRED EVIDENCE
+→ COMPARE HUMAN / BOT / BASELINE
+→ ACTION WITH THE ALLOWED ACTOR AND RISK BOUNDARY
+→ OUTCOME
+→ EVALUATION
+→ VERSIONED CHANGE PROPOSAL
+→ NEXT BOT VERSION
 ```
 
-## Workspace học thật và bản tham chiếu
+Không đợi học hết một Part mới thực hành. Không build hạ tầng chỉ vì “sau này có thể cần”. Không dùng sample data để thay thế âm thầm cho reality evidence.
 
-Người học làm việc tại:
+## Bảy Part thực thi
+
+Part là một capability stage (giai đoạn năng lực), không phải kho chủ đề phải học tuần tự.
+
+| Part | Mission | Câu hỏi người học phải trả lời bằng artifact |
+|---|---|---|
+| P0 — First Evidence Decision | M00 | Bot và tôi đang quyết định gì từ bằng chứng công khai thật? |
+| P1 — Trustworthy Data & Grounded AI | M01–M02 | Dữ liệu có đáng tin và AI có thực sự bám nguồn không? |
+| P2 — Publish & Measure | M03–M04 | Hành động thủ công nào đã được publish an toàn và thị trường phản hồi gì? |
+| P3 — Improve from Reality | M05 | Outcome thật đã làm thay đổi giả thuyết/phiên bản nào? |
+| P4 — Automatic Observation & Decision | M06–M07 | Bot tự quan sát gì, khi nào cảnh báo, quyết định hoặc từ chối quyết định? |
+| P5 — Governed Agent | M08–M10 | Agent được dùng tool/hành động tới đâu và control nào chứng minh điều đó? |
+| P6 — Production Closed Loop | M11 | Hệ thống có vận hành closed loop an toàn và tạo cải tiến được review không? |
+
+Chi tiết knowledge pull nằm tại [`docs/MISSION-KNOWLEDGE-MAP.md`](docs/MISSION-KNOWLEDGE-MAP.md).
+
+## Mission spine M00–M11
+
+| Mission | Ship target | Reality milestone | AI / authority |
+|---|---|---|---|
+| M00 | Evidence-backed ranking đầu tiên; human judgment trước Bot | 5 public observations có URL và thời điểm | A0 |
+| M01 | Validated append-only snapshots, history và freshness | Quan sát thật lần hai trên cùng subject | A0 |
+| M02 | Grounded AI advisor có schema, evidence, uncertainty và fallback | AI phân tích một tập evidence công khai thật | A1, không tool/write |
+| M03 | Tracked content artifact được con người review và publish | Public action đầu tiên trên kênh learner sở hữu/kiểm soát | A1 advisory; human execute |
+| M04 | Decision→Action→Outcome analytics | Analytics thật đầu tiên, kể cả kết quả bằng 0 | A1 investigation |
+| M05 | Một vòng cải tiến từ outcome thật | Closed real feedback loop đầu tiên | A1 hypothesis copilot |
+| M06 | Reliable automatic read/watch + alert | Bot tự quan sát nguồn được phép | A0 core + A1 triage |
+| M07 | DecisionPacket có confidence, freshness và abstention | Replay quyết định trên evidence/outcome đã lưu | A1 decision support |
+| M08 | Agent tự lấy missing evidence bằng read-only tools | Automatic read-only investigation | A2-RO |
+| M09 | Shadow ActionIntent + durable approval runtime | Side effect chỉ ở dry-run/sandbox/owned draft | A3-shadow |
+| M10 | Limited governed R0/R1 automation; R2 phải duyệt | Time-bounded canary có audit và kill switch | A3-limited |
+| M11 | Production closed loop từ signal tới reviewed improvement | Nhiều decision/outcome chain truy vết đầu-cuối | A3-production; multi-agent chỉ advanced optional |
+
+Xem phiên bản Bot, dependency và gate chi tiết tại [`docs/BOT-EVOLUTION-ROADMAP.md`](docs/BOT-EVOLUTION-ROADMAP.md).
+
+## Reality ladder — Thang bằng chứng thực tế
+
+Reality không phải lane tùy chọn. Đây là phần của Mission PASS theo đúng scope:
+
+```text
+M00  REAL_PUBLIC_OBSERVATION
+M01  REAL_SECOND_SNAPSHOT
+M02  GROUNDED_AI_ON_REAL_EVIDENCE
+M03  HUMAN_PUBLISHED_TRACKED_ARTIFACT
+M04  REAL_ANALYTICS_OUTCOME
+M05  REAL_DECISION_OUTCOME_IMPROVEMENT
+M06  OPERATED_AUTOMATIC_OBSERVER
+M07  REPLAYABLE_DECISION_MEMORY
+M08  AUDITED_READ_TOOL_TRAJECTORY
+M09  SHADOW_APPROVAL_TRAJECTORY
+M10  GOVERNED_CANARY_TRAJECTORY
+M11  PRODUCTION_CLOSED_LOOP
+```
+
+Mỗi evidence phải ghi rõ `real`, `test`, `synthetic` hoặc `replay`. Fixture có thể chứng minh code path, nhưng không tạo `REALITY_VERIFIED`.
+
+### Click, order và doanh thu
+
+Không yêu cầu learner phải có sale để PASS vì sale nằm ngoài quyền kiểm soát trực tiếp. Thay vào đó lưu các milestone độc lập:
+
+```text
+REAL_EXPOSURE_OBSERVED
+REAL_CLICK_OBSERVED
+REAL_ORDER_OBSERVED
+REAL_VALID_ORDER_OBSERVED
+REAL_COMMISSION_PAID
+```
+
+- test click chỉ kiểm tracking plumbing, không phải business outcome;
+- hết outcome window mà metric bằng 0 vẫn là outcome thật;
+- `missing` khác `zero`;
+- order/refund/commission path phải được test bằng fixture trước khi có order thật;
+- chỉ claim monetization đã được validate khi evidence thực tế tương ứng tồn tại.
+
+## Một artifact tích lũy, không nhiều bài tập rời
+
+Learner workspace:
 
 ```text
 lab/learner/affiliate-bot/
 ```
 
-Bản triển khai tham chiếu hiện tại nằm tại:
+Mỗi Mission bắt đầu từ commit đã PASS Mission trước. Reference implementation chỉ được mở sau attempt hoặc khi có blocker thật:
 
 ```text
-lab/affiliate-bot/
-```
-
-Quy tắc mặc định:
-
-```text
-TỰ THỬ BUILD
-→ RUN / OBSERVE
-→ PULL KNOWLEDGE
+TRY
+→ RUN
+→ OBSERVE
+→ PULL 1–3 KNOWLEDGE SLICES
 → FIX / TEST
-→ chỉ mở reference (bản tham chiếu) khi cần đối chiếu hoặc sau khi đã có attempt (lần thử)
+→ COMPARE
+→ SAVE EVIDENCE
+→ mới đối chiếu reference nếu cần
 ```
 
-Mục tiêu là tự tạo progression (tiến trình) M00 → M03, không đọc sẵn lời giải v0.3 rồi coi đó là học Build-First.
+Không copy một reference version cao rồi coi đó là learner progress.
 
-## Quy tắc học mặc định
+## Beginner-first và Go just-in-time
 
-1. Mở Mission hiện tại trong `PROGRESS.md`.
-2. Build phần nhỏ nhất chạy được trong learner workspace.
-3. Chạy và quan sát lỗi, thiếu sót hoặc assumption (giả định) bị sai.
-4. Pull đúng knowledge slice (phần kiến thức cần ngay) từ Mission/knowledge map.
-5. Áp dụng kiến thức vào Bot.
-6. Test happy path (luồng đúng) và failure case (tình huống lỗi) phù hợp scope.
-7. Chạy/operate đủ để quan sát output.
-8. Lưu evidence (bằng chứng) và explain-back (giải thích lại bằng lời của mình).
-9. Với M00–M06, thực hiện manual-business slice tương ứng và so human judgment với Bot khi Mission có decision/ranking.
-10. Chỉ PASS Mission khi ship target thực sự đạt.
-
-## Go từ ngày đầu, mastery đến sau
-
-Build-First dùng Go ngay từ M00. Điều đó **không** có nghĩa learner đã mastery (làm chủ) Part 15.
+Mỗi Mission nên chia thành checkpoint 45–90 phút. Knowledge card bắt buộc nên ngắn, gắn với một failure/gap vừa xuất hiện và tạo artifact ngay.
 
 ```text
-USE GO EARLY (dùng Go sớm)
+M00 → terminal, package/function, nullable data/evidence gate có scaffold, output test
+M01 → struct, JSON/CSV, file, timestamp, validation
+M02 → provider adapter, structured output, error/secret/cost tối thiểu
+M06 → context, scheduler, retry, deduplication, observability
+M09 → state machine, durable state, idempotency, approval
+```
+
+M01 dùng append-only file store hoặc implementation tối giản trước. PostgreSQL, repository abstraction và distributed components chỉ được pull khi scale/recovery/query requirement thật làm chúng cần thiết.
+
+```text
+USE BEFORE MASTER
 ≠
-CLAIM GO MASTERY EARLY (tuyên bố làm chủ Go sớm)
+COPY BEFORE UNDERSTAND
 ```
 
-Go concepts (khái niệm Go) được lấy đúng lúc: package/function ở M00; struct/JSON/error/validation ở M01; database/repository ở M02; context/concurrency khi làm scheduler; retry/idempotency khi làm reliability.
-
-## Viết code sớm không đồng nghĩa tự động hóa kinh doanh thật sớm
+## AI xuất hiện sớm, authority tăng chậm
 
 ```text
-BUILD CODE EARLY (viết code sớm)
-≠
-AUTOMATE REAL BUSINESS EARLY (tự động hóa hoạt động kinh doanh thật quá sớm)
+A0 — deterministic baseline                         M00–M01
+A1 — grounded advisory, không external execute      M02–M07
+A2-RO — read-only tool agent                        M08
+A3-shadow — intent + policy + durable approval      M09
+A3-limited — allowlisted R0/R1 auto; R2 approval    M10
+A3-production — governed closed loop                M11
+A4 — multi-agent optional sau core, không phải mục tiêu bắt buộc
 ```
 
-M00–M03 dùng dữ liệu mẫu/local và không có external side effect (tác động bên ngoài). Không publish nội dung, không tiêu tiền, không thay đổi tài khoản và không gọi hành động có hậu quả trên platform.
+M03 cho learner publish thủ công sau compliance/tracking gate. Đây là business action của human, không phải quyền publish của AI.
 
-Manual Affiliate Loop có thể dùng public/read-only observations để learner hiểu business signal, nhưng observation không phải permission để Bot hành động.
-
-## AI xuất hiện sớm nhưng authority tăng dần
-
-Build-First dùng AI từ M05 ở vai trò **A1 advisory/read-only (tư vấn/chỉ đọc)**, nhưng không đưa execution authority lên sớm.
+## Safety / autonomy
 
 ```text
-A0 — deterministic only
-A1 — AI advisory/read-only
-A2 — tool-assisted agent
-A3 — governed action agent
-A4 — optional multi-agent tại M15
+Decision ≠ Execution
+Model output = untrusted input
+ActionIntent ≠ permission
+
+RISK 0 → internal/read-only, có thể auto
+RISK 1 → bounded/reversible side effect + mandatory audit
+RISK 2 → consequential action + durable Human Approval
+DENY   → hành động bị cấm dù có người bấm approve
 ```
 
-```text
-AI APPEARS EARLY
-≠
-AI GETS AUTHORITY EARLY
-```
+`DENY` gồm ít nhất: fake click/order, spam, né disclosure, bypass platform policy, restricted/private scraping, credential sharing và unbounded spend.
 
-Luồng Decision Intelligence chuẩn:
+Public publish, spend, account/platform settings, xóa dữ liệu quan trọng và consequential external communication mặc định là RISK 2. Trước execution phải revalidate evidence, policy, approval expiry, target và idempotency state. Kill switch phải chặn execution độc lập với Agent.
+
+## Evidence và PASS
+
+Mỗi Mission phải lưu chain phù hợp scope:
 
 ```text
-EVENT / DATA
-→ Freshness + Quality Gate
-→ Deterministic Analytics / Forecast / ML
-→ AI Analysis
-→ Decision Fusion
-→ DecisionPacket
-→ Policy + Risk
-→ Auto hoặc Human Approval
-→ Action
+Observation
+→ HumanPrediction
+→ BotDecision
+→ Action / ActionIntent
 → Outcome
-→ Evaluation / Learn
-↺
+→ Evaluation
+→ ChangeProposal
+→ BotVersion
 ```
 
-Chi tiết:
+Trường tối thiểu khi relevant:
 
-- [`docs/AI-AGENT-DECISION-ARCHITECTURE.md`](docs/AI-AGENT-DECISION-ARCHITECTURE.md)
-- [`docs/AI-CAPABILITY-LEVELS.md`](docs/AI-CAPABILITY-LEVELS.md)
-- [`docs/DECISION-CONTRACTS.md`](docs/DECISION-CONTRACTS.md)
-- [`docs/AI-PROVIDER-CAPABILITY-MATRIX.md`](docs/AI-PROVIDER-CAPABILITY-MATRIX.md)
+- source, `observed_at`, freshness và access/permission method;
+- `evidence_kind: real | test | synthetic | replay`;
+- `fact | estimate | assumption | unknown`;
+- human prediction trước Bot output;
+- actor thực thi, risk, approval và exact side effect;
+- outcome window cùng `pending | partial | final`;
+- expected-vs-observed, limitation và next hypothesis;
+- code/workflow/model/policy version.
 
-## Safety / Autonomy (An toàn / Tự chủ)
+Trạng thái evidence được ghi riêng:
+
+- `CAPABILITY_PASS` — behavior, test và explain-back đạt;
+- `REALITY_VERIFIED` — evidence thực tế bắt buộc của Mission đạt;
+- `OPERATED` — capability đã chạy đủ window/cycle yêu cầu.
+
+Mission có reality gate không được ghi PASS đầy đủ chỉ bằng sample/replay. Kết quả âm, bằng 0 hoặc inconclusive vẫn có thể PASS nếu measurement đúng và interpretation trung thực.
+
+## Quy tắc cuối
 
 ```text
-Deterministic logic (logic xác định) trước LLM autonomy (tự chủ bằng LLM)
-Decision (quyết định) ≠ Execution (thực thi)
-Model output (đầu ra mô hình) = untrusted input (đầu vào không được tin cậy mặc định)
-RISK 0 → auto (tự chạy)
-RISK 1 → auto + audit (tự chạy + ghi vết)
-RISK 2 → Human Approval (phê duyệt của con người)
+ONE CURRENT MISSION
++ ONE CUMULATIVE BOT
++ REALITY EVIDENCE REQUIRED BY SCOPE
++ ONLY JUST-IN-TIME KNOWLEDGE
++ BASELINE BEFORE AI
++ EVIDENCE BEFORE CONFIDENCE
++ POLICY BEFORE AUTHORITY
++ OUTCOME BEFORE CLAIMED IMPROVEMENT
 ```
-
-AI analysis có thể tạo `AnalysisPacket` hoặc đề xuất `DecisionPacket`, nhưng external execution luôn phải đi qua Policy/Risk boundary.
-
-## Knowledge mastery (Làm chủ kiến thức) vẫn tồn tại
-
-Lesson PASS vẫn theo `docs/PASS-CRITERIA.md`. Mission PASS theo [`docs/MISSION-PASS-CRITERIA.md`](docs/MISSION-PASS-CRITERIA.md). Hoàn thành Mission **không được tự động tick Lesson PASS**.
-
-Một Mission chỉ yêu cầu learner hiểu **phần kiến thức đủ để giải thích implementation (cách triển khai) hiện tại**; full lesson PASS vẫn là một evidence gate (cổng bằng chứng) độc lập.
-
-## Trạng thái bootstrap hiện tại
-
-M00–M03 đã được author ở trạng thái `ready` trong `missions/`.
-
-- learner workspace bắt đầu ở M00 với capability tối thiểu;
-- reference implementation hiện tương đương v0.3 để đối chiếu;
-- M04–M15 mới là roadmap targets và chưa có file Mission `ready`.
-
-Việc thêm AI architecture hoặc Manual Affiliate Loop không auto-author M04–M15 và không thay learner progress hiện tại.
-
-## Quy chuẩn ngôn ngữ
-
-Tiếng Việt là ngôn ngữ chính thức của repository. Tiếng Anh chỉ giữ cho thuật ngữ chuyên ngành, tên công nghệ/protocol và identifier, kèm giải thích tiếng Việt khi cần. Xem [`docs/LANGUAGE-POLICY.md`](docs/LANGUAGE-POLICY.md).

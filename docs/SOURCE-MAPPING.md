@@ -1,117 +1,58 @@
-# Source-to-Roadmap Traceability Map
+# Source-to-Curriculum Traceability Map
 
-> Mục tiêu: mọi Part/Chapter/Lesson trong roadmap đều truy ngược được về nguồn, đồng thời phân biệt rõ **active canonical revision**, **historical structural baseline**, **pacing/practice**, và **research supplement**.
+> Mục tiêu: mọi active Core micro-lesson truy ngược được về curriculum outcome, Mission cần nó, historical research đã tham khảo và current external fact đã kiểm chứng — mà không biến nguồn lịch sử thành authority.
 
-## 1. Source precedence
+## 1. Authority precedence
 
-Repo dùng source model có versioning:
+Khi tài liệu mâu thuẫn, resolve theo thứ tự:
 
-1. **`S` — active canonical resolution**  
-   `sources/SYLLABUS-v2026.09.md` là active canonical manifest. Revision này kế thừa structural baseline từ `sources/SYLLABUS-v2026.08.md` và override các quyết định được ghi rõ, gồm Go-first Bot Engineering.
-2. **Historical baseline — `sources/SYLLABUS-v2026.08.md`**  
-   Giữ provenance đầy đủ của Part/Chapter/Lesson/Project/LAB/PASS Gate trước Go-first migration. Không dùng C#/.NET-first trong file này làm active implementation direction.
-3. **`T` — `sources/Noi-dung-dao-tao.txt`**  
-   Nguồn bổ sung cho lộ trình 50 tuần, cách học, practice, project evolution và pacing ban đầu.
-4. **`R` — `sources/Nghien-cuu.txt`**  
-   Nguồn bổ sung cho rationale, ví dụ Affiliate Bot, Product Intelligence, feedback loop, architecture và định hướng triển khai.
-
-Quy tắc:
+1. [`../CURRICULUM.md`](../CURRICULUM.md) — active canonical outcome, Core structure, Mission spine và PASS boundary;
+2. [`../ROADMAP.md`](../ROADMAP.md) cùng `roadmap/part-00.md` đến `part-06.md` — normalized checklist/index;
+3. active Mission và lesson files — execution detail;
+4. operating standards trong `docs/` — safety, evidence và engineering contracts;
+5. `sources/` — historical/research input, không phải active implementation authority;
+6. external primary sources — current facts, luôn đi qua [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md).
 
 ```text
-ACTIVE CANONICAL: v2026.09 explicit override > inherited v2026.08 baseline
-STRUCTURE: S > T > R
-PACING CURRENT: 15/12-month plans > T
-EXECUTION ORDER CURRENT: EXECUTION-MODEL > linear source schedule
-EXAMPLES / RATIONALE: T + R supplement S
-CURRENT FACTS: external verification + freshness policy
+ACTIVE SCOPE: CURRICULUM > ROADMAP > MISSION/LESSON
+OPERATING BOUNDARY: active docs, không được override curriculum outcome
+HISTORICAL CONTEXT: S / T / R, chỉ supplement/provenance
+CURRENT FACTS: EXT refs + verified date + volatility
 ```
 
-`S:P/C/L` là **version-neutral canonical ID**. `sources/README.md` quyết định revision nào đang active; lesson không cần đổi toàn bộ `S:` ref mỗi khi syllabus revision thay implementation direction mà không renumber IDs.
+Current Core gồm 7 Parts, 21 Chapters và 63 micro-lessons trên Mission spine `M00–M11`. Đây là inventory hiện tại, không phải số lượng phải bảo vệ trước learner evidence.
 
-Không dùng `T` hoặc `R` để tự ý đổi Lesson ID/title/scope của active syllabus.
+## 2. Source roles
 
-## 2. Conflict rules
+### Active curriculum
 
-Khi nguồn khác nhau:
+- **`CUR`** — `CURRICULUM.md`: mục tiêu và boundary có authority.
+- **`RM`** — active roadmap Part/Chapter/Lesson index.
+- **`M`** — Mission attempt, artifact, Capability PASS, Reality verified và Operated.
 
-- **Explicit v2026.09 override:** v2026.09 thắng v2026.08.
-- **v2026.09 không override:** kế thừa v2026.08 structural baseline.
-- **Part/Chapter/Lesson/Project/LAB/PASS Gate:** resolved `S` thắng `T/R`.
-- **Timeline:** dùng [15-MONTH-PLAN](15-MONTH-PLAN.md) hoặc [12-MONTH-PLAN](12-MONTH-PLAN.md); số tuần trong `T` chỉ còn là provenance/context.
-- **Tuần tự vs song song:** dùng [EXECUTION-MODEL](EXECUTION-MODEL.md).
-- **Ví dụ/practice/architecture:** có thể lấy từ `T`/`R` nếu phù hợp scope của lesson, nhưng phải giữ nhãn supplemental.
-- **Không có counterpart trực tiếp:** ghi `—`; không gán nguồn bằng suy đoán.
-- **Chỉ tương đồng một phần:** ghi `(partial)` hoặc mô tả context cụ thể.
-- **Platform/legal/tax/API/software/runtime/current-policy facts:** canonical mapping không đồng nghĩa dữ kiện còn hiện hành. Lesson author phải kiểm chứng nguồn ngoài theo [FRESHNESS-POLICY](FRESHNESS-POLICY.md).
+Active lesson identity được xác định bằng lesson ID trong active roadmap và file path tương ứng. Một historical source ref không thể tự làm một lesson trở thành Core.
 
-Go-first architecture decision được ghi tại [ADR-001-GO-FIRST-BOT-STACK](ADR-001-GO-FIRST-BOT-STACK.md).
+### Historical research
 
-## 3. Source reference IDs
+- **`S`** — `sources/SYLLABUS-v2026.08.md` và `sources/SYLLABUS-v2026.09.md`.
+- **`T`** — `sources/Noi-dung-dao-tao.txt`.
+- **`R`** — `sources/Nghien-cuu.txt`.
 
-### Syllabus
+Các nguồn này bảo toàn provenance, terminology và coverage ideas. Chúng không quyết định active count, sequence, technology stack hay PASS gate.
+
+Historical IDs vẫn dùng dạng:
 
 ```text
 S:P{part}/C{chapter}/L{lesson}
-```
-
-Ví dụ:
-
-```text
-S:P0/C0/L0.1
-S:P8/C27/L27.4
-```
-
-Ở chapter level:
-
-```text
-S:P8/C27
-```
-
-Resolution rule:
-
-```text
-S ref
-→ read active v2026.09 override if present
-→ otherwise inherit v2026.08 baseline
-```
-
-### Training source
-
-```text
 T:G{giai_doan}/W{week}
+R:{named section}
 ```
 
-Ví dụ:
+Active lesson dùng `source_refs.active` với namespace `CUR:`. Historical lineage nếu thật sự có đóng góp dùng `source_refs.historical` hoặc các nhóm `training`/`research`; không được đặt `S:` dưới nhãn canonical.
 
-```text
-T:G3/W13
-T:G7/W29
-```
+### External/current sources
 
-Các section không nằm trong week dùng tên section:
-
-```text
-T:§3 Affiliate Intelligence Platform
-T:G12 Expert Level
-```
-
-### Research source
-
-Research file lặp lại phần lớn lộ trình 50 tuần của training source. Bảng dưới **không lặp lại toàn bộ mirror mapping**; cột Research chỉ ghi các insight bổ sung đáng kể ngoài provenance từ `T`.
-
-Ví dụ:
-
-```text
-R:Product Intelligence
-R:Affiliate Bot architecture
-R:Technology stack
-R:feedback loop
-R:roadmap stages
-```
-
-### External/current refs
-
-Current facts dùng source register + ngày kiểm chứng, ví dụ:
+Current facts dùng stable `EXT:` ID và verified date, ví dụ:
 
 ```text
 EXT:TIKTOK:PPS
@@ -120,268 +61,195 @@ EXT:MCP:SDK
 EXT:TEMPORAL:GO-SDK
 ```
 
-Xem:
+Registers:
 
-- [Affiliate Knowledge Refresh 2026.08](AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
-- [Bot Engineering Refresh 2026.08](BOT-ENGINEERING-REFRESH-2026.08.md)
+- [Affiliate Knowledge Refresh](AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
+- [Bot Engineering Refresh](BOT-ENGINEERING-REFRESH-2026.08.md)
 
-## 4. Lesson-level mapping rule
+## 3. Conflict rules
 
-Tất cả **671 lesson** có mapping canonical theo chính ID trong resolved syllabus:
+- Active scope/title/sequence/PASS: `CUR` và active roadmap thắng mọi historical source.
+- Mission execution: Mission file phải tuân `CUR`; docs không được nới Reality gate hoặc authority ceiling.
+- Historical sources khác nhau: ghi rõ nguồn nào nói gì; không dùng inheritance để tạo active requirement mới.
+- Timeline/effort: dùng learner actuals và current plan; historical week/month chỉ là context.
+- Platform/legal/tax/API/runtime/provider fact: external primary source + freshness thắng historical wording.
+- Source không có counterpart: ghi `—`; không suy đoán mapping.
+- Mapping tương đồng một phần: ghi `partial` và chỉ dùng phần thực sự hỗ trợ claim.
+- Một current vendor capability không tự trở thành Core lesson.
 
-```text
-Roadmap lesson X.Y
-↔ S:P{part chứa chapter X}/C{X}/L{X.Y}
-```
+Go-first architecture rationale lịch sử được giữ tại [`ADR-001-GO-FIRST-BOT-STACK.md`](ADR-001-GO-FIRST-BOT-STACK.md). Active learning sequence và outcome-driven redesign nằm tại [`ADR-002-OUTCOME-DRIVEN-CURRICULUM.md`](ADR-002-OUTCOME-DRIVEN-CURRICULUM.md).
 
-Ví dụ:
+## 4. Traceability contract cho active lesson
 
-```text
-roadmap/part-00.md → 0.1
-↔ S:P0/C0/L0.1
+Một lesson cần resolve được bốn câu hỏi:
 
-roadmap/part-12.md → 38.4
-↔ S:P12/C38/L38.4
-```
+1. Lesson phục vụ outcome nào trong `CURRICULUM.md`?
+2. Mission nào làm lộ nhu cầu học nó?
+3. Learner áp dụng nó vào artifact/evidence nào ngay sau khi pull?
+4. Claim volatile nào cần external ref và `last_verified`?
 
-`T` và `R` không phải lúc nào cũng có mapping 1:1 tới lesson. Khi author lesson, dùng chapter mapping dưới đây làm baseline, sau đó chỉ gắn `T`/`R` nếu section thực sự hỗ trợ nội dung lesson đó.
-
-## 5. `source_refs` contract cho lesson
-
-Canonical lesson template hỗ trợ tối thiểu:
+Metadata tối thiểu:
 
 ```yaml
+lesson_id: "0.1"
+part: 0
+chapter: 0
+track: core
+mission_refs: ["M00"]
+practice_first: true
 source_refs:
-  canonical:
-    - "S:P0/C0/L0.1"
-  training:
-    - "T:G0/W0"
-  research:
-    - "R:roadmap stages"
+  active:
+    - "CUR:P0/C0/L0.1"
+  historical: [] # chỉ thêm S:/T:/R: khi nội dung thực sự được dùng
+  training: []
+  research: []
   external: []
+last_verified: null
 ```
 
-Quy tắc:
+Rules:
 
-- `canonical` bắt buộc có ít nhất một `S:` ref.
-- `training`/`research` chỉ thêm khi thực sự hỗ trợ lesson.
-- `external` dành cho tài liệu kiểm chứng mới hơn, gồm platform/legal/tax/API/runtime/SDK/protocol/software facts.
-- external refs phải đi cùng `last_verified` theo freshness contract.
-- Không dùng source ref để thay thế citation/evidence khi lesson có claim cần kiểm chứng.
+- `lesson_id`, `part`, `chapter`, `track` và `mission_refs` phải khớp active roadmap/CURRICULUM;
+- `practice_first: true` phải thể hiện bằng Try/Observe trước explanation dài;
+- historical refs chỉ thêm khi nội dung thực sự được dùng; không cần ép 1:1;
+- nếu lesson được thiết kế mới từ learner need, historical refs có thể rỗng theo migration contract tương lai;
+- external ref không rỗng thì cần `last_verified` và source-ID resolution;
+- source ref không thay citation/evidence cho claim cụ thể;
+- không quá ba Core micro-lessons liên tiếp trước khi learner quay lại Mission attempt.
 
-## 6. Chapter traceability — 23 Part / 89 Chapter
+## 5. Active Part và Mission map
 
-Track key:
+| Part | Chapters | Lessons | Mission | Capability outcome |
+|---|---:|---:|---|---|
+| P0 — First Evidence-Backed Decision | C0–C2 | 9 | M00 | running Bot + public evidence + human-vs-Bot decision |
+| P1 — Trustworthy Data & Grounded AI | C3–C5 | 9 | M01–M02 | immutable history + grounded advisory/fallback |
+| P2 — First Tracked Market Loop | C6–C8 | 9 | M03–M04 | manual tracked publish + real outcome comparison |
+| P3 — Outcome-Driven Improvement | C9–C11 | 9 | M05 | hypothesis → outcome → reviewed change |
+| P4 — Reliable Intelligence & Decisions | C12–C14 | 9 | M06–M07 | reliable watcher + traceable decision/abstention |
+| P5 — Tool Agent & Governed Automation | C15–C17 | 9 | M08–M10 | read-only agent → shadow approval → bounded canary |
+| P6 — Production Closed Loop | C18–C20 | 9 | M11 | deploy/recover/learn without silent self-modification |
 
-- **A** — Affiliate Business & Marketing
-- **B** — Data & Intelligence
-- **C** — Engineering & AI
-- **D** — Compliance & Operations
+## 6. Chapter-level historical traceability — 21 active Chapters
 
-`Standard month` theo [15-MONTH-PLAN](15-MONTH-PLAN.md). Part 20 là conditional; Part 22 là post-core continuous mastery.
+Historical refs trong bảng là research leads, không phải inherited requirements.
 
-### Part 0 — ORIENTATION & AFFILIATE LAB
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 0 — Khởi động chương trình | `S:P0/C0` | T:G0/W0 | R:Roadmap stages | M1 | A/B/C/D |
+### P0 — First Evidence-Backed Decision
 
-### Part 1 — AFFILIATE FUNDAMENTALS
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 1 — Affiliate Marketing Foundation | `S:P1/C1` | T:G1/W1 | — | M1 | A |
-| 2 — Affiliate Business Models | `S:P1/C2` | T:G1/W4 | — | M1 | A |
-| 3 — Affiliate vs các mô hình kinh doanh khác | `S:P1/C3` | T:G1/W4 (partial) | — | M1 | A |
+| Chapter | Active scope | Historical leads | Mission / evidence |
+|---|---|---|---|
+| C0 — Bot đầu tiên và evidence discipline | edit-run-test, sample-vs-real, failure/evidence/explain-back | `S:P0/C0` + `S:P15/C50-51`; `T:G0/W0` | M00 / E0→E1 |
+| C1 — Quan sát Affiliate thật đầu tiên | product observation, money flow, provenance/freshness | `S:P1/C1-3` + `S:P8/C23-24`; `T:G1/W1-2` | M00 / E1 |
+| C2 — Human-vs-Bot decision đầu tiên | human rank, EV/naive baseline, confidence/abstain | `S:P2/C4-6` + `S:P8/C27` + `S:P16/C57-60`; `R:Opportunity Score` | M00 / G1 |
 
-### Part 2 — AFFILIATE ECONOMICS
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 4 — Core Metrics | `S:P2/C4` | T:G1/W2 | — | M1–2 | A/B |
-| 5 — Affiliate Unit Economics | `S:P2/C5` | T:G1/W2 + G2/W6 + G3/W12 | R:Money model example | M1–2 | A/B |
-| 6 — Revenue Modeling | `S:P2/C6` | T:G1/W2 + G10/W46 (partial) | R:Money model + feedback loop | M1–2 | A/B |
+### P1 — Trustworthy Data & Grounded AI
 
-### Part 3 — TRACKING & ATTRIBUTION
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 7 — Affiliate Tracking | `S:P3/C7` | T:G1/W3 + G2/W7 | — | M2 | B |
-| 8 — Attribution | `S:P3/C8` | T:G1/W3 + G2/W7 | — | M2 | B |
-| 9 — Advanced Measurement Architecture | `S:P3/C9` | — (syllabus expansion) | R:Affiliate Bot architecture (measurement context) | M2 | B |
+| Chapter | Active scope | Historical leads | Mission / evidence |
+|---|---|---|---|
+| C3 — Minimal trustworthy ingest | struct/JSON, validation, adapter/provenance | `S:P12/C38-40` + `S:P15/C52`; `R:Technology stack` | M01 / real snapshot |
+| C4 — History và change observation | append-only history, delta, second observation/restart | `S:P12/C39` + `S:P15/C53-55`; `R:Product Intelligence history` | M01 / second snapshot |
+| C5 — Grounded AI advisory | deterministic-vs-AI choice, structured grounding, eval/fallback | `S:P17/C61-65`; `T:G8/W34-37` | M02 / G2 |
 
-### Part 4 — VIETNAM LEGAL, TAX & COMPLIANCE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 10 — Pháp lý Affiliate tại Việt Nam | `S:P4/C10` | — | — | M3 | D |
-| 11 — Thuế & tài chính Affiliate | `S:P4/C11` | — | — | M3 | D |
-| 12 — Content, Privacy & Intellectual Property | `S:P4/C12` | T:G2/W8 (partial) | R:anti-spam / human review | M3 | D |
+### P2 — First Tracked Market Loop
 
-### Part 5 — AFFILIATE PLATFORM EXPERT
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 13 — TikTok Shop Affiliate | `S:P5/C13` | T:G2/W5–6 | R:TikTok/Shopee ecosystem example | M3–4 | A/D |
-| 14 — TikTok Creator Quality & Risk | `S:P5/C14` | T:G2/W8 | R:anti-spam / policy risk | M3–4 | A/D |
-| 15 — Shopee Affiliate | `S:P5/C15` | T:G2/W7 | R:TikTok/Shopee ecosystem example | M3–4 | A/D |
-| 16 — Platform Change Management | `S:P5/C16` | T:G2/W8 (risk context) | R:anti-spam / policy risk | M3–4 | A/D |
+| Chapter | Active scope | Historical leads | Mission / evidence |
+|---|---|---|---|
+| C6 — Compliant micro-content | audience/claim, disclosure, human review/publish | `S:P4/C10-12` + `S:P9/C28-32`; `R:manual publish` | M03 / E2 |
+| C7 — Tracking và real outcome import | tracking link, observation window, import/reconcile | `S:P3/C7-9` + `S:P12/C41`; `T:G1/W3` | M03–M04 / E2–E3 |
+| C8 — Human-vs-AI outcome comparison | baseline, segmentation, missing-vs-zero, decision linkage | `S:P13/C42-44` + `S:P17/C65`; `R:feedback loop` | M04 / E3 |
 
-### Part 6 — MARKET & NICHE INTELLIGENCE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 17 — Niche Selection | `S:P6/C17` | T:G1/W4 Project #1 (partial) | R:first niche example | M4 | A/B |
-| 18 — Market Demand | `S:P6/C18` | T:G3/W9–10 | R:Product Intelligence | M4 | A/B |
-| 19 — Competitive Intelligence | `S:P6/C19` | T:G3/W11 | R:Product Intelligence | M4 | A/B |
+### P3 — Outcome-Driven Improvement
 
-### Part 7 — CUSTOMER INTELLIGENCE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 20 — Customer Understanding | `S:P7/C20` | T:G4/W14 | R:Content/AI audience example | M5 | A |
-| 21 — Customer Journey | `S:P7/C21` | T:G4/W14 + G5/W21 (partial) | R:feedback loop (partial) | M5 | A |
-| 22 — Purchase Intent | `S:P7/C22` | T:G4/W18 + W14 | R:commercial content examples | M5 | A |
+| Chapter | Active scope | Historical leads | Mission / evidence |
+|---|---|---|---|
+| C9 — Hypothesis từ outcome | question, metric, weakest assumption | `S:P14/C46`; `R:feedback loop` | M05 / E4 |
+| C10 — Experiment nhỏ và honest inference | variant, window, inconclusive, stopping guard | `S:P14/C47-49`; `T:G9/W39-42` | M05 / E4 |
+| C11 — Controlled improvement | Decision/Outcome memory, proposed change, test/review/rollback | `S:P16/C60` + `S:P19/C73-77`; `R:knowledge feedback` | M05 / G3 |
 
-### Part 8 — PRODUCT INTELLIGENCE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 23 — Product Research | `S:P8/C23` | T:G3/W9 | R:Product Intelligence | M5–6 | A/B |
-| 24 — Product Economics | `S:P8/C24` | T:G3/W12 + G2/W6 | R:Product Intelligence + money model | M5–6 | A/B |
-| 25 — Product Trend | `S:P8/C25` | T:G3/W10 + G10/W44 | R:Product Intelligence | M5–6 | A/B |
-| 26 — Product Competition | `S:P8/C26` | T:G3/W11 | R:Product Intelligence | M5–6 | A/B |
-| 27 — Opportunity Score | `S:P8/C27` | T:G3/W13 | R:Opportunity Score example | M5–6 | A/B |
+### P4 — Reliable Intelligence & Decisions
 
-### Part 9 — CONTENT & CONSUMER PSYCHOLOGY
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 28 — Consumer Psychology | `S:P9/C28` | T:G4/W14 | R:Content Bot context | M6–7 | A |
-| 29 — Hook Engineering | `S:P9/C29` | T:G4/W15 | R:AI content example | M6–7 | A |
-| 30 — Affiliate Content Formats | `S:P9/C30` | T:G4/W16–18 | R:AI content example | M6–7 | A |
-| 31 — Content Architecture | `S:P9/C31` | T:G4/W16–18 (partial) | R:AI content example | M6–7 | A |
-| 32 — Content System | `S:P9/C32` | T:G4/W19 | R:Content Bot / manual publish | M6–7 | A |
+| Chapter | Active scope | Historical leads | Mission / evidence |
+|---|---|---|---|
+| C12 — Reliable automatic watcher | event/change, retry/backoff, idempotency, recovery | `S:P15/C53-56`; `R:Product Intelligence alert` | M06 / operational evidence |
+| C13 — Signal-to-decision contracts | Signal/Analysis/Decision packets, fusion, expiry | `S:P16/C57-60` + `S:P17/C65`; `R:Affiliate Intelligence actions` | M07 / trace |
+| C14 — Confidence, abstention và evaluation | calibration, stale/missing/conflict, eval dataset | `S:P17/C65-66`; `T:G8/W34` | M07 / decision cases |
 
-### Part 10 — TRAFFIC & DISTRIBUTION
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 33 — Traffic Fundamentals | `S:P10/C33` | T:G5/W20 | R:feedback loop | M7 | A |
-| 34 — Social Distribution | `S:P10/C34` | T:G5/W20 (social subset) | R:multi-channel content outputs | M7 | A |
-| 35 — Search & Owned Media | `S:P10/C35` | T:G5/W20 (search/owned subset) | R:multi-channel content outputs | M7 | A |
+### P5 — Tool Agent & Governed Automation
 
-### Part 11 — FUNNEL & CONVERSION
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 36 — Affiliate Funnel | `S:P11/C36` | T:G5/W21–22 | R:money flow + feedback loop | M7–8 | A/B |
-| 37 — Conversion Optimization | `S:P11/C37` | T:G5/W22–23 | R:feedback loop | M7–8 | A/B |
+| Chapter | Active scope | Historical leads | Mission / evidence |
+|---|---|---|---|
+| C15 — Read-only evidence agent | tool schema/registry, least privilege, audit, prompt injection | `S:P17/C61,65` + `S:P19/C75-76`; `R:AI layer` | M08 / read-only trace |
+| C16 — ActionIntent, policy và durable approval | decision≠execution, risk, expiry, revalidation | `S:P17/C66` + `S:P19/C74-76`; `R:human review` | M09 / shadow record |
+| C17 — Bounded governed canary | idempotent executor, RISK0/1, RISK2 approval, kill switch | `S:P19/C73-77`; `R:automation stages` | M10 / E5 |
 
-### Part 12 — DATA ENGINEERING FOR AFFILIATE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 38 — Affiliate Data Model | `S:P12/C38` | T:G6/W24 | R:Technology stack | M8 | B/C |
-| 39 — Historical Data | `S:P12/C39` | T:G6/W25 | R:Product Intelligence history | M8 | B/C |
-| 40 — Data Quality | `S:P12/C40` | T:G11/W48 (partial) | R:Technology stack (partial) | M8 | B/C |
-| 41 — Metrics Engine | `S:P12/C41` | T:G6/W26 | R:Analytics Bot metrics | M8 | B/C |
+### P6 — Production Closed Loop
 
-### Part 13 — AFFILIATE ANALYTICS
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 42 — Descriptive Analytics | `S:P13/C42` | T:G6/W27 | R:Analytics Bot metrics | M8–9 | B |
-| 43 — Diagnostic Analytics | `S:P13/C43` | T:G5/W22 + G6/W27 | R:feedback loop | M8–9 | B |
-| 44 — Segmentation | `S:P13/C44` | T:G6/W28 | R:feedback loop | M8–9 | B |
-| 45 — Dashboard | `S:P13/C45` | T:G6/W27 | R:Analytics Bot metrics | M8–9 | B |
+| Chapter | Active scope | Historical leads | Mission / evidence |
+|---|---|---|---|
+| C18 — Deploy và observe | config/secrets, release, metrics/traces/logs, cost | `S:P19/C73,77`; `T:G11/W47-48` | M11 / production run |
+| C19 — Recover và secure | durable state, restore/replay, incident/kill-switch drill | `S:P19/C74-76`; `R:Technology stack` | M11 / recovery evidence |
+| C20 — Outcome learning loop | evaluation, proposed improvement, controlled release | `S:P13/C42-44` + `S:P14/C46-49` + `S:P21/C83-84`; `R:feedback loop` | M11 / E6 + G4 |
 
-### Part 14 — EXPERIMENTATION & STATISTICS
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 46 — Experimental Thinking | `S:P14/C46` | T:G9/W39 | R:feedback loop experimentation context | M9 | B |
-| 47 — Statistics for Affiliate | `S:P14/C47` | T:G9/W41 | — | M9 | B |
-| 48 — A/B Testing | `S:P14/C48` | T:G9/W40 | — | M9 | B |
-| 49 — Experiment System | `S:P14/C49` | T:G9/W42 | R:feedback loop | M9 | B |
+## 7. Mission và Real Evidence mapping
 
-### Part 15 — AFFILIATE BOT ENGINEERING
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 50 — Bot Architecture | `S:P15/C50` | T:G7/W29 | R:Affiliate Bot architecture + Technology stack | M9–10 | C |
-| 51 — Technology Stack | `S:P15/C51` | T:G7/W29 | R:Technology stack | M9–10 | C |
-| 52 — Product Collector | `S:P15/C52` | T:G7/W30 | R:Product Finder Bot + Technology stack | M9–10 | C |
-| 53 — Scheduler & Pipeline | `S:P15/C53` | T:G7/W31 | R:Technology stack | M9–10 | C |
-| 54 — Product Tracker | `S:P15/C54` | T:G7/W31–32 | R:Product Intelligence | M9–10 | C |
-| 55 — Change Detection | `S:P15/C55` | T:G7/W32 | R:Product Intelligence | M9–10 | C |
-| 56 — Alert Bot | `S:P15/C56` | T:G7/W32–33 | R:Product Intelligence alert example | M9–10 | C |
+| Mission | Required evidence | Milestone |
+|---|---|---|
+| M00 | E1 public observations + human rank trước Bot | G1 |
+| M01 | real snapshots/history, no overwrite | G2 |
+| M02 | grounded AI cases + deterministic fallback | G2 |
+| M03 | E2 manual compliant tracked publication | G3 |
+| M04 | E3 real analytics/export; missing khác zero | G3 |
+| M05 | E4 Decision→Action→Outcome→reviewed change | G3 |
+| M06 | retry/duplicate/recovery operating evidence | G4 |
+| M07 | stale/missing/conflicting decision cases | G4 |
+| M08 | read-only tool permission/audit trace | G4 |
+| M09 | shadow ActionIntent + durable approval/rejection | G4 |
+| M10 | E5 bounded governed canary + kill switch | G4 |
+| M11 | E6 production loop + recovery + outcome review | G4 |
 
-> Part 15 `S:` refs resolve through v2026.09 Go-first overrides. `T/R` technology-stack references are historical/supplemental and do not override the active Go implementation direction.
+Four Milestone Gates là integration checkpoints trên một evolving Bot, không phải nhiều project rời.
 
-### Part 16 — DECISION & RECOMMENDATION ENGINE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 57 — Rule Engine | `S:P16/C57` | T:G7/W33 (partial) | R:Opportunity Score V1 | M11 | B/C |
-| 58 — Scoring Engine | `S:P16/C58` | T:G3/W13 + G7/W33 | R:Opportunity Score V1 | M11 | B/C |
-| 59 — Ranking Engine | `S:P16/C59` | T:G7/W33 + G10/W43 | R:Product Finder Bot ranking | M11 | B/C |
-| 60 — Recommendation Engine | `S:P16/C60` | T:G10/W43 + G8/W38 | R:Affiliate Intelligence actions | M11 | B/C |
+## 8. Advanced và Reference mapping
 
-### Part 17 — AI AFFILIATE BOT
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 61 — LLM Foundation | `S:P17/C61` | T:G8/W34 | R:AI layer / roadmap | M11–12 | C |
-| 62 — AI Product Understanding | `S:P17/C62` | T:G8/W35 | R:AI product→content flow | M11–12 | C |
-| 63 — AI Content Engine | `S:P17/C63` | T:G8/W36 | R:AI content example | M11–12 | C |
-| 64 — Knowledge Base, RAG & State | `S:P17/C64` | T:G8/W34 + W37 | R:AI layer / knowledge feedback | M11–12 | C |
-| 65 — AI & Agent Evaluation | `S:P17/C65` | T:G8/W34 (evaluation intro) | R:human review warning | M11–12 | C |
-| 66 — Human-in-the-loop & Approval Workflow | `S:P17/C66` | T:G8/W36 | R:AI generates → human reviews | M11–12 | C |
+Advanced modules giữ breadth có giá trị từ historical inventory nhưng không trở thành Core prerequisite:
 
-### Part 18 — ADVANCED AFFILIATE INTELLIGENCE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 67 — Time-Series Analysis | `S:P18/C67` | T:G10/W44 | R:Product Intelligence history | M12–13 | B/C |
-| 68 — Anomaly Detection | `S:P18/C68` | T:G10/W45 | R:Product Intelligence alert context | M12–13 | B/C |
-| 69 — Forecasting | `S:P18/C69` | T:G10/W46 | R:money model + Affiliate Intelligence | M12–13 | B/C |
-| 70 — Machine Learning Foundation | `S:P18/C70` | T:G12 Expert Level + G10/W46 context | R:Affiliate Intelligence roadmap | M12–13 | B/C |
-| 71 — Learning to Rank | `S:P18/C71` | T:G12 Expert Level (Ranking Models) | R:Affiliate Intelligence roadmap | M12–13 | B/C |
-| 72 — Explore vs Exploit | `S:P18/C72` | T:G12 Expert Level (Multi-Armed Bandit) | R:feedback loop / intelligence | M12–13 | B/C |
+| Advanced | Historical research leads |
+|---|---|
+| A01 Platform APIs/adapters | `S:P5/C13-16`, `S:P15/C52` |
+| A02 Server-side tracking/webhook/identity | `S:P3/C7-9` |
+| A03 Warehouse/dashboard/BI | `S:P12/C38-41`, `S:P13/C42-45` |
+| A04 Advanced experimentation/statistical power | `S:P14/C46-49` |
+| A05 Time-series/anomaly/forecasting | `S:P18/C67-69` |
+| A06 ML/Learning-to-Rank | `S:P18/C70-71` |
+| A07 Explore–Exploit/Bandit | `S:P18/C72` |
+| A08 RAG/embeddings/vector retrieval | `S:P17/C64` |
+| A09 MCP/A2A/multi-agent | `S:P17/C61,66`, `S:P22/C87` |
+| A10 Distributed/high-scale workflows | `S:P19/C73-74` |
+| A11 Paid traffic/portfolio | `S:P10/C33-35`, `S:P20/C79,81` |
+| A12 SaaS/multi-tenancy/billing | `S:P20/C82` |
 
-### Part 19 — PRODUCTION, SECURITY & AUTOMATION
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 73 — Production Engineering & Observability | `S:P19/C73` | T:G11/W47–48 | R:Technology stack | M13–14 | C/D |
-| 74 — Reliability & Durable Execution | `S:P19/C74` | T:G11/W48 | R:Technology stack | M13–14 | C/D |
-| 75 — Security & Agent Tool Security | `S:P19/C75` | T:G11/W48 (partial) | R:anti-spam / platform safety context | M13–14 | C/D |
-| 76 — Automation & Agent Governance | `S:P19/C76` | T:G11/W47 | R:do not auto-publish / anti-spam | M13–14 | C/D |
-| 77 — Deployment | `S:P19/C77` | T:G11/W48 (partial) | R:Technology stack | M13–14 | C/D |
+Reference cards/cookbooks có thể dùng historical source để giải thích sâu, nhưng không có lesson checkbox và không tạo Mission gate mới.
 
-### Part 20 — AFFILIATE BUSINESS & SCALE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 78 — Affiliate Operating System | `S:P20/C78` | T:G11/W47–48 | R:feedback loop + automation stages | Conditional | A/D |
-| 79 — Portfolio Strategy | `S:P20/C79` | T:G11/W50 + G12 (partial) | R:Affiliate Intelligence roadmap | Conditional | A/D |
-| 80 — Creator Monetization | `S:P20/C80` | T:G1/W4 + G11/W50 (partial) | R:monetization framing | Conditional | A/D |
-| 81 — Scaling | `S:P20/C81` | T:G11/W47–50 | R:roadmap stages | Conditional | A/D |
-| 82 — Affiliate Bot → SaaS | `S:P20/C82` | T:G11/W50 | R:SaaS direction | Conditional | A/D |
+## 9. Audit notes
 
-### Part 21 — CAPSTONE
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 83 — Affiliate Intelligence Platform | `S:P21/C83` | T:§3 Affiliate Intelligence Platform | R:Affiliate Intelligence end-state | M14–15 | A/B/C/D |
-| 84 — Capstone Versions | `S:P21/C84` | T:§3 Versions 0–10 | R:roadmap stages | M14–15 | A/B/C/D |
+- Active coverage: 7/7 Parts, 21/21 Chapters và 63/63 Core micro-lessons trong roadmap.
+- Active Mission coverage: `M00–M11`.
+- Milestone coverage: G1–G4.
+- Historical mapping là many-to-many và có thể `partial`; không còn rule kế thừa syllabus cũ.
+- Source ID compatibility được giữ để lesson đã author không mất provenance.
+- `—` nghĩa là không có direct counterpart; đó không phải lỗi nếu active lesson được tạo từ Mission need và có evidence contract rõ.
 
-### Part 22 — CONTINUOUS MASTERY
-| Chapter | Canonical syllabus ref | Training ref | Research supplement | Standard month | Track |
-|---|---|---|---|---|---|
-| 85 — Platform Watch | `S:P22/C85` | T:G2/W8 (partial) | R:platform policy warning | Post-core | A/B/C/D |
-| 86 — Legal & Tax Watch | `S:P22/C86` | — | — | Post-core | A/B/C/D |
-| 87 — Technology Watch | `S:P22/C87` | T:G12 Expert Level (partial) | R:Technology stack + future intelligence | Post-core | A/B/C/D |
-| 88 — Research Practice | `S:P22/C88` | T:G12 Expert Level + §5 learning method | R:research-oriented roadmap / expert direction | Post-core | A/B/C/D |
+## 10. Authoring rule
 
-## 7. Audit notes
+Khi tạo hoặc rewrite lesson:
 
-- Chapter mapping count: **89/89**.
-- Part coverage: **23/23**.
-- Canonical lesson relation: deterministic for all **671** lesson IDs via `S:P/C/L`.
-- `S:` refs are version-neutral; active resolution is v2026.09 override → v2026.08 inheritance.
-- `—` means source supplement does not contain a direct counterpart; it is intentional, not missing data.
-- `(partial)` means source section supports only một phần scope của chapter.
-- Research supplements are intentionally selective because `Nghien-cuu.txt` mirrors most of the 50-week training plan before adding extra bot/product/architecture material.
+1. resolve outcome/ID/Mission từ `CURRICULUM.md` và active roadmap;
+2. bắt đầu từ Mission attempt và gap learner sẽ quan sát;
+3. đọc đúng historical lead trong bảng nếu nó thực sự hỗ trợ scope;
+4. chỉ thêm refs đã dùng, ghi `partial` khi cần;
+5. external-verify mọi current claim và thêm `last_verified`;
+6. đưa learner quay lại build/run/measure trong tối đa ba micro-lessons;
+7. yêu cầu artifact/evidence áp dụng ngay và failure path;
+8. không nâng sample thành real evidence, không hứa outcome dương;
+9. nếu learner pilot cho thấy lesson thừa/quá dài/sai thời điểm, merge/rewrite/remove thay vì giữ inventory.
 
-## 8. Authoring rule
-
-Khi tạo lesson mới:
-
-1. resolve ID/title/scope từ active `S` (v2026.09 override → v2026.08 inheritance);
-2. tra chapter row trong file này;
-3. đọc đúng `T`/`R` sections được map trước khi viết;
-4. thêm only the refs actually used vào `source_refs`;
-5. nếu cần dữ kiện hiện hành, thêm external verification + `last_verified`;
-6. nếu source conflict, áp dụng precedence ở đầu tài liệu và ghi note nếu conflict ảnh hưởng nội dung.
-
-Traceability không có nghĩa phải nhồi mọi nguồn vào mọi lesson. Mục tiêu là **biết nội dung đến từ đâu, biết revision nào đang active và biết khi nào nguồn không hỗ trợ một claim**.
+Traceability tốt trả lời được: **vì sao learner cần knowledge này lúc này, đã dùng nguồn nào, áp dụng vào quyết định nào và evidence nào cho thấy nó giúp hoặc chưa giúp**.

@@ -1,81 +1,63 @@
-# Artifact & Evidence Conventions
+# Artifact & Evidence conventions
 
-`artifacts/` lưu evidence hữu hình do người học tạo ra trong lesson, lab, project hoặc review.
+`artifacts/` lưu bằng chứng learner tạo trong Mission. Artifact phải inspect/reproduce được; “đã đọc/đã hiểu” không phải evidence.
 
-## 1. Nguyên tắc
+## Cấu trúc
 
-Artifact phải inspect được. Các trạng thái như “đã đọc”, “đã hiểu”, “đã xem video” không phải artifact.
-
-Một artifact tốt trả lời được ít nhất một câu hỏi:
-
-- Người học đã áp dụng concept như thế nào?
-- Quyết định nào đã được đưa ra và dựa trên evidence nào?
-- Code/schema/dashboard/analysis nào đã được tạo?
-- Kết quả có thể review/reproduce ở đâu?
-
-## 2. Naming
-
-Lesson artifact:
-
-```text
-artifacts/part-XX/X.Y-<artifact-slug>.<ext>
-```
-
-Ví dụ:
-
-```text
-artifacts/part-00/0.1-affiliate-expert-self-assessment.md
-artifacts/part-08/27.4-opportunity-score-analysis.md
-```
-
-Project artifact nên nằm trong:
-
-```text
-artifacts/projects/project-XX-<slug>/
-```
-
-Lab/Pass Gate:
-
-```text
-artifacts/labs/<lab-slug>/
-artifacts/pass-gates/<gate-slug>/
-```
-
-Experiment/revenue/knowledge records có thể nằm trong:
-
-```text
+~~~text
+artifacts/missions/M00/
+artifacts/missions/M01/
+...
+artifacts/milestones/G1/
 artifacts/experiments/
-artifacts/revenue/
 artifacts/knowledge/
-```
+~~~
 
-## 3. Linking
+Một artifact có thể chứng minh đồng thời micro-lesson, Mission và Milestone khi đúng requirement; link/reuse, không copy để tăng số lượng.
 
-- Lesson phải link tới artifact bắt buộc.
-- Lesson note phải link tới artifact đã hoàn thành.
-- Project README phải link tới deliverables/evidence.
-- Retrospective phải link tới project/lab/experiment được review.
-- Không copy cùng một artifact sang nhiều nơi nếu có thể link/reuse.
+## Evidence kind bắt buộc
 
-## 4. Evidence status
+- `real`: observation/action/outcome thật;
+- `test`: kiểm plumbing/failure;
+- `synthetic`: dữ liệu dựng;
+- `replay`: dữ liệu thật cũ phát lại.
 
-Artifact tồn tại **không tự động nghĩa là PASS**. PASS lesson vẫn cần đủ 5 tiêu chí:
+Mọi business record phải có source, observed_at, access method và kind. Synthetic/test/replay không được trình bày như market validation.
 
-```text
-Concept + Example + Quiz >=80% + Practice + Explain-back
-```
+## Evidence chain
 
-Project/Lab/Pass Gate chỉ hoàn thành khi đạt acceptance criteria riêng.
+Tùy Mission, lưu dần:
 
-## 5. Anti-double-counting
+~~~text
+Observation
+→ HumanPrediction
+→ BotDecision
+→ Action hoặc ActionIntent
+→ Outcome
+→ Evaluation
+→ ChangeProposal
+→ BotVersion
+~~~
 
-Nếu một lesson artifact được dùng lại trong project:
+Record chưa có phải là missing/pending/not-in-scope; không dựng record giả để “đủ chain”.
 
-- lesson tính effort để tạo artifact ban đầu;
-- project chỉ tính integration, validation, hardening, demo, retrospective tăng thêm.
+## Ba trạng thái
 
-Không nhân đôi workload chỉ vì cùng artifact xuất hiện ở nhiều milestone.
+- Capability PASS;
+- Reality verified;
+- Operated.
 
-## 6. Sensitive data
+Artifact tồn tại không tự tạo bất kỳ trạng thái nào. Review phải trỏ evidence, ghi blocking issue và PASS/RETRY/BLOCKED.
 
-Không commit secret, token, credential, API key, personal data không cần thiết hoặc raw production data nhạy cảm. Dùng sample/anonymized data hoặc external secure storage và chỉ lưu reference khi phù hợp.
+## Zero, missing và outcome
+
+- zero chỉ dùng khi source thật báo 0;
+- missing là chưa có/không đọc được;
+- pending là observation window chưa kết thúc;
+- inconclusive là đã đo nhưng evidence chưa phân biệt được giả thuyết.
+
+Order/revenue là maturity milestone, không phải điều kiện may rủi để learner PASS.
+
+## Dữ liệu nhạy cảm
+
+Không commit secret, token, credential, API key, raw personal/sensitive export. Dùng redacted sample hoặc secure external storage và chỉ lưu reference/checksum khi cần.

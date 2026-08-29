@@ -62,7 +62,7 @@ Nếu AI không tìm thấy evidence, phải trả `missing_evidence` hoặc unc
 
 ## 3. DecisionPacket
 
-Đây là contract chính của M10+.
+Đây là contract chính từ M07; M00 dùng decision record tối giản để learner gặp evidence/confidence/abstention sớm.
 
 ```yaml
 decision_id:

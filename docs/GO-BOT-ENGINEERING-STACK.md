@@ -1,6 +1,6 @@
 # Go Bot Engineering Stack — Chuẩn kỹ thuật Bot dùng Go
 
-> Active implementation standard (chuẩn triển khai hiện hành) cho Go-first curriculum từ v2026.09 trở đi.
+> Active implementation standard cho Go-first curriculum tại [`CURRICULUM.md`](../CURRICULUM.md).
 
 Tiếng Việt là ngôn ngữ chính. English terminology (thuật ngữ tiếng Anh) được giữ để đối chiếu kỹ thuật và có giải thích tiếng Việt ở lần xuất hiện quan trọng. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
@@ -199,4 +199,4 @@ USE GO EARLY (dùng Go sớm)
 CLAIM GO MASTERY EARLY (tuyên bố làm chủ Go sớm)
 ```
 
-Learner có thể dùng Go ngay M00–M03 với scope hẹp, còn formal mastery vẫn phải được chứng minh trong Part 15 và Project engineering tương ứng.
+Learner dùng Go scope hẹp từ M00; engineering mastery được chứng minh dần bằng Mission/Milestone evidence, không bằng việc hoàn thành một Part lý thuyết riêng.

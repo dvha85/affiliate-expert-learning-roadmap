@@ -15,7 +15,7 @@ artifacts/missions/MXX/
 
 Source code thật vẫn nằm trong learner bot workspace. Artifact nên reference (tham chiếu) code path và commit SHA khi hữu ích.
 
-Với bootstrap M00–M03, learner workspace mặc định là:
+Với M00–M11, learner workspace mặc định là:
 
 ```text
 lab/learner/affiliate-bot/
@@ -43,4 +43,4 @@ Không commit:
 - dữ liệu cá nhân/sensitive data;
 - nội dung không có quyền phân phối.
 
-Mission evidence có thể được reuse (tái sử dụng) cho canonical Lesson/Project khi nó thực sự chứng minh cùng requirement. Reuse không tự động đánh dấu Mission, Lesson hay Project PASS.
+Mission evidence có thể được reuse (tái sử dụng) cho micro-lesson hoặc Milestone khi nó thực sự chứng minh cùng requirement. Reuse không tự động đánh dấu Mission, lesson hay Milestone PASS.

@@ -71,4 +71,4 @@ Use MCP when interoperability/standardized discovery adds measurable value. REST
 
 ## 8. Reverification
 
-Re-verify trước khi author/ship M12 hoặc production integration, và khi Part 22 Technology Watch phát hiện spec/SDK/security migration mới.
+Re-verify trước khi author/ship M08 hoặc production integration, và theo freshness/reference review khi spec/SDK/security có migration mới.

@@ -4,15 +4,15 @@
 
 ## Vì sao cần hiệu chỉnh bằng dữ liệu
 
-Planning baseline (mốc kế hoạch) hiện tại của v2026.09 xấp xỉ:
+Planning envelope chưa được kiểm chứng của Core hiện tại:
 
 ```text
-lesson/evidence midpoint      ≈ 489h
-incremental integration       ≈ 30–31h
-total planning envelope       ≈ 520h
+focused learner time          ≈ 240–360h
+external outcome waiting      = ghi riêng
+confidence                    = thấp trước learner pilot
 ```
 
-Build-First có thể giảm double work (làm trùng) vì cùng một code có thể đồng thời là Mission evidence, Lesson practice evidence và đóng góp cho Project về sau. Nhưng Build-First cũng có thể tăng thời gian debug/vận hành thật.
+Build-First có thể giảm double work vì cùng một code/evidence phục vụ micro-lesson, Mission và milestone. Nhưng real observation, review, debug và operation cũng có thể làm calendar dài hơn.
 
 Chỉ **actual learner data (dữ liệu thời gian thực tế của người học)** mới được dùng để quyết định net effect (tác động ròng).
 
@@ -28,6 +28,9 @@ Với M00–M05, ghi:
 | `actual_operate_hours` | thời gian chạy và quan sát Bot |
 | `actual_knowledge_hours` | thời gian pull required knowledge + explain-back |
 | `actual_retry_hours` | thời gian làm lại/review sau evidence chưa đạt |
+| `waiting_for_outcome_hours` | thời gian lịch chờ outcome; ghi riêng, không cộng vào focused time |
+| `capability_result` | PASS / RETRY / BLOCKED / IN_PROGRESS |
+| `reality_result` | VERIFIED / PENDING / BLOCKED / NOT_REQUIRED |
 | `result` | PASS / RETRY / BLOCKED / IN_PROGRESS |
 
 Tổng actual time:
@@ -44,13 +47,13 @@ Sau M00–M05:
 
 1. tính median (trung vị) tỷ lệ actual/planned;
 2. xác định overrun (vượt kế hoạch) đến từ learning, engineering setup, debugging hay operation;
-3. so sánh evidence được reuse giữa Mission/Lesson/Project với phần duplicate work đã tránh được;
+3. so sánh evidence được reuse giữa Mission/Lesson/Milestone với phần duplicate work đã tránh được;
 4. chỉ re-estimate phần scope còn lại có tính chất tương tự;
 5. giữ nguyên PASS criteria và kéo dài timeline nếu evidence yêu cầu.
 
 ## Quyết định timeline
 
-Standard vẫn khoảng 9h/tuần và Accelerated vẫn khoảng 11–12h/tuần cho tới khi dữ liệu thực tế đủ để thay đổi giả định.
+Các profile 12/15 tháng chỉ là forecast. Không giữ một số giờ/tuần cố định nếu actual learner data cho thấy khác.
 
 ```text
 DATA > OPINION

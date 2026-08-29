@@ -1,0 +1,14 @@
+[
+  {
+    "observation_id": "SYN-MISSING",
+    "product_name": "Synthetic Missing Commission",
+    "source_url": "sample://m00/missing-commission",
+    "observed_at": "2026-01-01T00:00:00Z",
+    "access_method": "synthetic_fixture",
+    "evidence_kind": "synthetic",
+    "price": 20,
+    "currency": "TEST",
+    "commission_rate": null,
+    "missing_fields": ["commission_rate"]
+  }
+]

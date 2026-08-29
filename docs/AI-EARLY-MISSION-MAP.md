@@ -1,108 +1,40 @@
-# AI Early Mission Map — Bản đồ AI tư vấn từ M05 đến M10
+# AI advisory map — M02 đến M07
 
-Tài liệu này làm rõ cách A1 AI advisory xuất hiện sớm nhưng không làm thay đổi Mission spine hoặc quyền execution.
+AI xuất hiện sau human/deterministic baseline và trước tool/action authority.
 
-| Mission | AI use case | Trigger | AI output | Downstream authority |
-|---|---|---|---|---|
-| M05 | Alert Triage | material product/change alert | priority/summary/cause analysis | rule/human |
-| M06 | Product Research | product/review/seller evidence mới | structured features/risks/angles | deterministic Product Intelligence |
-| M07 | Content Intelligence support | content/performance evidence mới | content feature/quality analysis | analytics/human |
-| M08 | Revenue Investigator | anomaly/reconciliation mismatch | hypotheses/evidence/missing data | reconciliation/analytics |
-| M09 | Experiment Copilot | experiment design/result event | hypothesis/interpretation/next test | experiment/statistics policy |
-| M10 | Decision Analyst | Decision Fusion needs analysis | AnalysisPacket | Decision/Policy Engine |
+| Mission | Use case | AI output | Authority còn lại |
+|---|---|---|---|
+| M02 | Grounded product research | structured claims + evidence refs + uncertainty | deterministic score/human |
+| M03 | Content draft/critique | draft + claim/evidence map | human review và manual publish |
+| M04 | Outcome investigation | hypotheses + missing evidence | analytics/reconciliation |
+| M05 | Experiment copilot | hypothesis/interpretation/next measurement | preregistered experiment + human |
+| M06 | Alert triage | priority/summary/cause hypotheses | deterministic alert path |
+| M07 | Decision analysis | AnalysisPacket | deterministic Decision/Policy boundary |
 
-## Quy tắc chung
+~~~text
+M02–M07 = A1 advisory/read-only
+AI output = untrusted input
+Decision ≠ Execution
+~~~
 
-```text
-M05–M10 = A1
-```
+## Gate chung
 
-A1 được phép:
+- evidence có source/freshness;
+- structured output được validate;
+- unsupported claim bị reject;
+- confidence có method/reason;
+- deterministic fallback chạy khi AI unavailable;
+- latency/cost/privacy được ghi;
+- model không có tool hoặc external action authority.
 
-- READ;
-- ANALYZE;
-- EXTRACT;
-- SUMMARIZE;
-- CLASSIFY;
-- RECOMMEND;
-- ABSTAIN / REQUEST MORE EVIDENCE.
+## M02 bắt đầu bằng evaluation
 
-A1 không được:
+Trước provider call thật:
 
-- external publish;
-- spend money;
-- change account/platform settings;
-- delete important data;
-- bypass experiment budget/policy;
-- assign itself execution permission.
+1. human label một case set nhỏ;
+2. lưu deterministic baseline;
+3. định nghĩa schema/rubric;
+4. test missing/stale/conflict/prompt-injection;
+5. chỉ sau đó mới thử AI adapter.
 
-## M05 gate
-
-Core reliable alert phải hoạt động deterministic trước. AI triage là enrichment layer.
-
-PASS-level architecture khi M05 được author:
-
-```text
-change detection works
-+ retry/idempotency works
-+ alert exists without AI
-+ AI triage can enrich alert
-+ invalid/unsupported AI output is rejected
-```
-
-## M06 gate
-
-AI extracted feature chỉ trở thành scoring input khi:
-
-1. schema hợp lệ;
-2. source/evidence ref tồn tại;
-3. field semantics rõ;
-4. uncertainty được giữ nếu source mơ hồ.
-
-Không dùng raw LLM score như Product Intelligence truth.
-
-## M08 gate
-
-AI investigation phải tách:
-
-```text
-observed facts
-hypotheses
-missing evidence
-recommended checks
-```
-
-Không mutate revenue/order ledger từ hypothesis.
-
-## M09 gate
-
-Statistical result là canonical experiment evidence; AI interpretation là analysis layer.
-
-Nếu AI và statistical engine conflict, lưu conflict làm evaluation case thay vì để AI override result.
-
-## M10 gate
-
-M10 tiêu thụ `AnalysisPacket` nhưng tạo `DecisionPacket` qua Decision Fusion. AI assessment chỉ là một evidence channel.
-
-## Chiến lược cost/latency
-
-Không gọi AI theo timer khi không có material change.
-
-```text
-Signal/Event
-→ materiality gate
-→ AI advisory nếu expected information value đáng giá
-```
-
-Ghi ít nhất:
-
-- invocation reason;
-- model/provider capability class;
-- latency;
-- cost;
-- result status;
-- fallback used hay không.
-
-## Knowledge reuse
-
-Các pattern này dùng knowledge hiện có ở Parts 13/14/16/17/18. Không tạo Lesson mới trong migration Agentic Decision Intelligence v1.
+M03–M07 tái sử dụng cùng evaluation/evidence contract và thêm metric phù hợp use case. Output nghe hay không phải PASS nếu không grounded hoặc không tốt hơn baseline trên metric đã định nghĩa.

@@ -1,44 +1,38 @@
-# Bài X.Y — Tên bài
+# Micro-lesson X.Y — Applied note
 
-## Source refs
+## Mission trigger
 
-- Canonical syllabus: `S:P?/C?/L?.?`
-- Training source: `T:...` (nếu có)
-- Research source: `R:...` (nếu có)
-- External verification: (nếu lesson có claim hiện hành cần kiểm chứng)
+- Mission/checkpoint:
+- attempt đã làm trước khi đọc:
+- expected:
+- observed failure/gap:
+- evidence kind:
 
-> Tra mapping tại [`docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md). Chỉ ghi ref thực sự dùng; không gán nguồn supplement nếu không có counterpart trực tiếp.
+## Minimum knowledge bằng lời của tôi
 
-## Mục tiêu
+- concept/rule:
+- dùng cho quyết định nào:
+- limitation/failure mode:
+- điều chưa cần học:
 
-- 
+## Apply
 
-## Concept bằng ngôn ngữ của tôi
+- artifact/code/decision đã đổi:
+- before:
+- after:
+- test/failure case:
+- evidence link:
 
+## Explain-back
 
-## Ví dụ / case thực tế
+- vì sao result đổi:
+- evidence nào hỗ trợ:
+- khi nào kết luận không còn đúng:
+- bước đo tiếp theo:
 
+## Review
 
-## Exercise và artifact
-
-- Link artifact:
-
-## Quiz
-
-- Điểm: /100
-- Câu sai và lý do:
-
-## Explain-back: Tại sao?
-
-
-## Misconception đã sửa
-
-
-## Quyết định
-
-- [ ] PASS
+- [ ] APPLIED
 - [ ] RETRY
 
-## Next action
-
--
+Lesson applied không tự tạo Mission PASS hoặc Reality verified.

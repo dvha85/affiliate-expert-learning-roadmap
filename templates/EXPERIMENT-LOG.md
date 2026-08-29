@@ -3,10 +3,15 @@
 ## Metadata
 
 - Experiment ID:
-- Date range:
+- Mission / Bot version:
+- Related Decision ID / ChangeProposal ID:
+- Pre-registered at:
+- Observation window:
 - Owner:
-- Related lessons/projects:
-- Status: planned | running | completed | invalid
+- Related lessons:
+- Evidence level:
+- Safety gate / execution actor:
+- Status: planned | running | completed | invalid | inconclusive
 
 ## Observation
 
@@ -34,6 +39,8 @@
 - Minimum sample / runtime:
 - Stop conditions:
 
+> Điền hypothesis, primary metric, window và stop conditions **trước** khi variant/action bắt đầu.
+
 ## Setup
 
 - Audience/segment:
@@ -47,6 +54,10 @@
 | Metric | Baseline | Variant | Delta | Notes |
 |---|---:|---:|---:|---|
 | | | | | |
+
+- Outcome state: positive | negative | zero | inconclusive | not_yet_observable
+- Missing fields (không đổi thành 0):
+- Source/export/provenance:
 
 ## Interpretation
 
@@ -65,6 +76,11 @@
 - [ ] Iterate
 - [ ] Stop
 - [ ] Re-test
+- [ ] Reject proposed change
+
+- Reviewer:
+- Decision time:
+- Version/rollback effect:
 
 ## Next experiment
 

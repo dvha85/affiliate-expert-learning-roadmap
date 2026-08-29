@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate curriculum structure, canonical source direction, freshness contract, and Markdown links.
+"""Validate curriculum structure, active authority, freshness contract, and Markdown links.
 
 No third-party dependencies. Intended for local use and GitHub Actions.
 """
@@ -14,6 +14,17 @@ from pathlib import Path
 from urllib.parse import unquote
 
 SUMMARY_RE = re.compile(r"Tổng cộng:\s*\*\*(\d+) phần · (\d+) chương · (\d+) bài học\*\*")
+CANONICAL_SUMMARY_RE = re.compile(
+    r"(?:Tổng cộng:\s*)?\*\*(\d+)\s+(?:phần|Parts?)\s*·\s*"
+    r"(\d+)\s+(?:chương|Chapters?)\s*·\s*"
+    r"(\d+)\s+(?:bài học|Lessons?)\*\*",
+    re.IGNORECASE,
+)
+CANONICAL_COUNT_RES = {
+    "parts": re.compile(r"(?im)^\s*(?:[-*]\s*)?(?:Parts?|Phần)\s*:\s*(?:\*\*)?(\d+)(?:\*\*)?\s*$"),
+    "chapters": re.compile(r"(?im)^\s*(?:[-*]\s*)?(?:Chapters?|Chương)\s*:\s*(?:\*\*)?(\d+)(?:\*\*)?\s*$"),
+    "lessons": re.compile(r"(?im)^\s*(?:[-*]\s*)?(?:Lessons?|Bài học)\s*:\s*(?:\*\*)?(\d+)(?:\*\*)?\s*$"),
+}
 PART_LINK_RE = re.compile(r"\[Phần\s+(\d+)\]\(([^)]+)\)")
 PART_TITLE_RE = re.compile(r"^# Phần (\d+) — (.+)$")
 TIMELINE_RE = re.compile(r"^- Timeline: \*\*(.+)\*\*(?: — (.+))?\.?$")
@@ -33,17 +44,9 @@ REQUIRED_META = {
     "lesson_id", "title", "part", "chapter", "effort", "estimated_minutes",
     "status", "prerequisites", "source_refs", "last_verified",
 }
+READY_REQUIRED_META = {"track", "mission_refs", "practice_first"}
 
-ACTIVE_CANONICAL = "SYLLABUS-v2026.09.md"
-HISTORICAL_BASELINE = "SYLLABUS-v2026.08.md"
-LEGACY_PRIMARY_STACK_TOKENS = (
-    "C#/.NET",
-    "C# / .NET",
-    "ASP.NET Core",
-    "EF Core",
-    "Hangfire",
-    "Quartz",
-)
+ACTIVE_CANONICAL = Path("CURRICULUM.md")
 
 
 @dataclass(frozen=True)
@@ -265,46 +268,52 @@ def check_freshness_contract(rel: Path, meta: dict[str, str], raw_front: str, pr
             problems.append(Problem("FRESH003", str(rel), "last_verified must use YYYY-MM-DD"))
 
 
-def check_active_canonical(root: Path, problems: list[Problem]) -> None:
-    active = root / "sources" / ACTIVE_CANONICAL
-    historical = root / "sources" / HISTORICAL_BASELINE
-    index = root / "sources" / "README.md"
+def parse_canonical_counts(text: str) -> tuple[int, int, int] | None:
+    """Read declared Part/Chapter/Lesson totals without fixing their values in code."""
+    summary = CANONICAL_SUMMARY_RE.search(text)
+    if summary:
+        return tuple(map(int, summary.groups()))
 
+    values: dict[str, int] = {}
+    for key, pattern in CANONICAL_COUNT_RES.items():
+        match = pattern.search(text)
+        if match:
+            values[key] = int(match.group(1))
+    if set(values) == set(CANONICAL_COUNT_RES):
+        return values["parts"], values["chapters"], values["lessons"]
+    return None
+
+
+def check_active_canonical(
+    root: Path,
+    roadmap_summary: tuple[int, int, int] | None,
+    problems: list[Problem],
+) -> None:
+    active = root / ACTIVE_CANONICAL
     if not active.exists():
-        problems.append(Problem("CANON001", f"sources/{ACTIVE_CANONICAL}", "active canonical manifest is missing"))
+        problems.append(Problem("CANON001", str(ACTIVE_CANONICAL), "root active canonical is missing"))
         return
-    if not historical.exists():
-        problems.append(Problem("CANON002", f"sources/{HISTORICAL_BASELINE}", "historical structural baseline is missing"))
-    if not index.exists():
-        problems.append(Problem("CANON003", "sources/README.md", "source index is missing"))
-    else:
-        text = index.read_text(encoding="utf-8")
-        if ACTIVE_CANONICAL not in text or "active canonical" not in text.lower():
-            problems.append(Problem("CANON004", "sources/README.md", f"source index must declare {ACTIVE_CANONICAL} as active canonical"))
 
     active_text = active.read_text(encoding="utf-8")
-    required_markers = (
-        "PRIMARY IMPLEMENTATION LANGUAGE = Go",
-        "Parts: 23",
-        "Chapters: 89",
-        "Lessons: 671",
-        "Main projects: 14",
-    )
-    for marker in required_markers:
-        if marker not in active_text:
-            problems.append(Problem("CANON005", f"sources/{ACTIVE_CANONICAL}", f"missing canonical invariant/decision marker: {marker}"))
-
-
-def check_primary_technology_direction(root: Path, problems: list[Problem]) -> None:
-    part15 = root / "roadmap" / "part-15.md"
-    if not part15.exists():
+    canonical_counts = parse_canonical_counts(active_text)
+    if canonical_counts is None:
+        problems.append(
+            Problem(
+                "CANON005",
+                str(ACTIVE_CANONICAL),
+                "active canonical must declare dynamic Part/Chapter/Lesson totals",
+            )
+        )
         return
-    text = part15.read_text(encoding="utf-8")
-    if "51.1** — Go runtime" not in text:
-        problems.append(Problem("TECH001", "roadmap/part-15.md", "active Ch51 must begin with the Go-first primary stack"))
-    for token in LEGACY_PRIMARY_STACK_TOKENS:
-        if token in text:
-            problems.append(Problem("TECH002", "roadmap/part-15.md", f"legacy primary-stack token reintroduced in active Part 15: {token}"))
+
+    if roadmap_summary is not None and canonical_counts != roadmap_summary:
+        problems.append(
+            Problem(
+                "CANON006",
+                str(ACTIVE_CANONICAL),
+                f"canonical totals {canonical_counts} do not match ROADMAP totals {roadmap_summary}",
+            )
+        )
 
 
 def headings_without_code(text: str) -> list[int]:
@@ -377,10 +386,8 @@ def validate(root: Path) -> list[Problem]:
     root = root.resolve()
     problems: list[Problem] = []
 
-    check_active_canonical(root, problems)
-    check_primary_technology_direction(root, problems)
-
     summary, expectations = parse_roadmap(root, problems)
+    check_active_canonical(root, summary, problems)
 
     all_roadmap_lessons: list[RoadmapLesson] = []
     all_chapters: set[int] = set()
@@ -481,9 +488,9 @@ def validate(root: Path) -> list[Problem]:
                     raise ValueError
             except ValueError:
                 problems.append(Problem("META011", str(rel), "estimated_minutes must be a positive integer"))
-        canonical = f"S:P{part_dir}/C{chapter_dir}/L{file_id}"
-        if "source_refs:" in raw_front and canonical not in raw_front:
-            problems.append(Problem("META012", str(rel), f"canonical source ref missing: {canonical}"))
+        active_ref = f"CUR:P{part_dir}/C{chapter_dir}/L{file_id}"
+        if "source_refs:" in raw_front and active_ref not in raw_front:
+            problems.append(Problem("META012", str(rel), f"active curriculum ref missing: {active_ref}"))
 
         check_freshness_contract(rel, meta, raw_front, problems)
 
@@ -492,6 +499,18 @@ def validate(root: Path) -> list[Problem]:
         if status in {"draft", "ready"} and file_id not in linked_ids:
             problems.append(Problem("STATE002", str(rel), f"status={status} lesson must be linked from roadmap"))
         if status == "ready":
+            ready_missing = sorted(READY_REQUIRED_META - set(meta))
+            if ready_missing:
+                problems.append(
+                    Problem(
+                        "META013",
+                        str(rel),
+                        f"ready lesson missing required metadata: {', '.join(ready_missing)}",
+                    )
+                )
+            if meta.get("practice_first", "").lower() != "true":
+                problems.append(Problem("META014", str(rel), "ready lesson must set practice_first: true"))
+
             m = FRONT_RE.match(text)
             body = text[m.end():] if m else text
             authored_body = strip_fenced_code(body)

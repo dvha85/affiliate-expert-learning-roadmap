@@ -1,11 +1,14 @@
-# Project N — Project Name
+# Milestone Demo / Optional Advanced Project
+
+> Core dùng **một Bot xuyên suốt**, không tạo nhiều project rời. Chỉ dùng template này cho G1–G4 demo hoặc một Advanced project được mở bởi bottleneck thật.
 
 ## Purpose
 
 - Business/learning problem:
-- Related Part(s)/Chapter(s):
+- Related Mission(s)/Gate/Part:
 - Related lessons:
-- Curriculum revision:
+- Bot version from/to:
+- Required Reality level:
 
 ## Scope
 
@@ -27,7 +30,9 @@
 ## Deliverables
 
 - [ ] Core artifact
-- [ ] Evidence/demo
+- [ ] Capability evidence/demo
+- [ ] Reality evidence
+- [ ] Operated/failure evidence
 - [ ] Acceptance validation
 - [ ] Retrospective
 

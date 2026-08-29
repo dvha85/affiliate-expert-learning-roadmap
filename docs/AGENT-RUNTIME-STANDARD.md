@@ -43,7 +43,7 @@ Không mặc định gọi mọi tool “để chắc”. Tool call phải có r
 
 ## 5. Read vs write
 
-M12 ưu tiên READ_ONLY evidence collection. INTERNAL_WRITE chỉ khi workflow contract yêu cầu. EXTERNAL_SIDE_EFFECT luôn qua ActionIntent + Policy/Risk và approval khi cần.
+M08 ưu tiên READ_ONLY evidence collection. INTERNAL_WRITE chỉ khi workflow contract yêu cầu. EXTERNAL_SIDE_EFFECT chỉ xuất hiện ở Mission sau và luôn qua ActionIntent + Policy/Risk cùng approval khi cần.
 
 ## 6. Provider capability adapter
 

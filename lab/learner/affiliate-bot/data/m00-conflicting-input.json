@@ -1,0 +1,24 @@
+[
+  {
+    "observation_id": "SYN-DUPLICATE",
+    "product_name": "Synthetic Product — version one",
+    "source_url": "sample://m00/duplicate-one",
+    "observed_at": "2026-01-01T00:00:00Z",
+    "access_method": "synthetic_fixture",
+    "evidence_kind": "synthetic",
+    "price": 20,
+    "currency": "TEST",
+    "commission_rate": 0.1
+  },
+  {
+    "observation_id": "SYN-DUPLICATE",
+    "product_name": "Synthetic Product — conflicting version",
+    "source_url": "sample://m00/duplicate-two",
+    "observed_at": "2026-01-01T00:05:00Z",
+    "access_method": "synthetic_fixture",
+    "evidence_kind": "synthetic",
+    "price": 30,
+    "currency": "TEST",
+    "commission_rate": 0.2
+  }
+]

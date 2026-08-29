@@ -15,9 +15,9 @@ Scaffolder:
 - đọc lesson ID/title/chapter từ `roadmap/part-XX.md`;
 - dùng `templates/LESSON.md` làm source template;
 - luôn tạo `status: planned`;
-- tự sinh canonical source ref `S:P{part}/C{chapter}/L{lesson}`;
+- tự sinh active curriculum ref `CUR:P{part}/C{chapter}/L{lesson}`;
 - lấy T/R supplement ở mức chapter từ `docs/SOURCE-MAPPING.md` khi parse được;
-- thêm `effort`, `estimated_minutes`, `prerequisites`;
+- thêm `track`, `mission_refs`, `practice_first`, `effort`, `estimated_minutes`, `prerequisites`;
 - không overwrite file lesson đã tồn tại;
 - không tick roadmap;
 - không đổi learner PASS state;
@@ -30,7 +30,7 @@ Scaffolder:
 ### Dry-run
 
 ```bash
-python scripts/scaffold_lesson.py --lesson 0.2 --effort M --minutes 75 --prerequisite 0.1 --dry-run
+python scripts/scaffold_lesson.py --lesson 0.2 --mission M00 --effort S --minutes 30 --prerequisite 0.1 --dry-run
 ```
 
 Bài 0.2 hiện đã được author thành lesson `ready`, nên dry-run vẫn phải **không fail** và báo:
@@ -46,7 +46,7 @@ EXISTS 0.2: ... (dry-run; would not overwrite)
 Với một target chưa có file:
 
 ```bash
-python scripts/scaffold_lesson.py --lesson <lesson-id> --effort M --minutes 60
+python scripts/scaffold_lesson.py --lesson <lesson-id> --mission M01 --effort S --minutes 30
 ```
 
 Output path tự sinh:
@@ -60,7 +60,7 @@ Nếu target đã tồn tại, actual write vẫn bị từ chối để bảo v
 ## Dùng cho một chapter
 
 ```bash
-python scripts/scaffold_lesson.py --chapter 38 --effort M --minutes 60 --dry-run
+python scripts/scaffold_lesson.py --chapter 3 --mission M01 --effort S --minutes 30 --dry-run
 ```
 
 Khi tạo theo chapter/part, effort/minutes truyền vào là **provisional planning value**. Author phải review từng lesson trước khi đổi sang `draft` hoặc `ready`.
@@ -70,10 +70,10 @@ Trong dry-run, các target đã tồn tại được báo `EXISTS`; target chưa
 ## Dùng cho một Part
 
 ```bash
-python scripts/scaffold_lesson.py --part 12 --effort M --minutes 60 --dry-run
+python scripts/scaffold_lesson.py --part 1 --mission M01 --effort S --minutes 30 --dry-run
 ```
 
-Không dùng lệnh này để tạo toàn bộ 671 files chỉ để “lấp chỗ trống”. Scaffold theo nhu cầu authoring thực tế.
+Không scaffold toàn bộ inventory chỉ để “lấp chỗ trống”. Chỉ author micro-lesson khi Mission gần nhất thật sự cần knowledge slice đó.
 
 ## Validate
 
@@ -86,9 +86,12 @@ Validator của scaffolder kiểm tra tối thiểu:
 - lesson ID;
 - `status`;
 - `effort`;
+- `track`;
+- `mission_refs`;
+- `practice_first: true`;
 - `prerequisites`;
 - `source_refs`;
-- canonical `S:P/C/L` ref.
+- active `CUR:P/C/L` ref.
 
 Repo-wide consistency được bảo vệ bởi [`CURRICULUM-CI.md`](CURRICULUM-CI.md).
 
@@ -131,11 +134,11 @@ scaffold
 → status: draft
 → đạt Lesson Authoring DoD
 → status: ready
-→ learner học + làm evidence
-→ PASS / RETRY
+→ learner TRY + APPLY trong Mission
+→ APPLIED / RETRY
 ```
 
-Scaffolder chỉ thực hiện bước đầu tiên. Bài 0.2 là ví dụ cho một scaffold đã đi hết lifecycle authoring tới `ready`; nó vẫn chưa được coi là learner PASS cho tới khi có đủ evidence.
+Scaffolder chỉ thực hiện bước đầu tiên. Bài 0.2 là ví dụ cho lesson `ready`; nó vẫn chưa được coi là applied cho tới khi learner dùng nó trong M00 và lưu evidence.
 
 ## Effort
 
@@ -150,7 +153,7 @@ Không dùng `XL` cho lesson scaffold; XL chủ yếu là LAB/PROJECT/PASS Gate.
 Canonical ref được tạo deterministic từ roadmap:
 
 ```text
-S:P{part}/C{chapter}/L{lesson-id}
+CUR:P{part}/C{chapter}/L{lesson-id}
 ```
 
 Training/research supplement chỉ là chapter-level hint lấy từ `SOURCE-MAPPING.md`. Author lesson phải đọc nguồn thật và xóa/refine ref không sử dụng trước khi `ready`.
