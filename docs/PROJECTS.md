@@ -16,7 +16,7 @@
 | 10 | Product Tracker Bot | 15 | Go collector/workflow, history/provenance, reliable alerts + optional A1 triage |
 | 11 | Opportunity Engine | 16 | Rule/score/rank/recommendation + evidence/confidence/uncertainty/freshness/risk/policy |
 | 12 | AI Content Assistant | 17 | Grounded tool workflow, evaluation, prompt-injection controls, human approval |
-| 13 | Production Affiliate Bot | 19 | Durable recovery, observability, security, RISK 0/1/2, kill switch, deployment |
+| 13 | Production Affiliate Bot | 19 | Durable HITL/recovery, observability/evaluation, security, RISK 0/1/2, outcome learning, kill switch, deployment |
 | 14 | Affiliate Intelligence Platform | 21 | End-to-end governed action + audit/evaluation/feedback loop |
 
 Số lượng main project vẫn là **14**. Labs và Pass Gates không phải Project #15+.
@@ -120,15 +120,27 @@ PASS evidence phải có:
 PASS evidence phải chứng minh:
 
 - process restart/recovery strategy;
-- durable state cho long wait/approval khi workflow có nhu cầu;
+- durable state cho long wait/approval;
+- **durable HITL**: pause → persist → approve/reject → reload → revalidate → resume/terminate;
+- approval expiry và changed-context revalidation;
+- duplicate approval/execution không tạo side effect trùng;
 - retry/backoff/timeout/idempotency;
 - secrets/least privilege/tool permissions;
-- service/workflow/tool/action tracing hoặc correlation;
+- service/workflow/**decision/tool/action** tracing hoặc correlation;
+- Agent evaluation có ít nhất task success, tool behavior, unsupported claim/policy case, decision latency/cost và confidence/freshness case phù hợp scope;
+- Decision↔Action↔Outcome↔Evaluation linkage khi action có measurable outcome;
 - RISK 0/1/2 policy behavior;
 - approval queue cho RISK 2;
-- kill switch/containment;
+- kill switch/containment kể cả khi approval đã tồn tại;
 - backup/restore hoặc recovery verification;
-- cost/operational monitoring.
+- cost/operational monitoring;
+- evidence rằng outcome learning chỉ tạo **proposed change** và không tự rewrite production policy/prompt/weights.
+
+Tài liệu:
+
+- [`AGENT-HITL-RUNTIME.md`](AGENT-HITL-RUNTIME.md)
+- [`AGENT-EVALUATION-STANDARD.md`](AGENT-EVALUATION-STANDARD.md)
+- [`DECISION-OUTCOME-MEMORY.md`](DECISION-OUTCOME-MEMORY.md)
 
 ### Project 14 — Affiliate Intelligence Platform
 
