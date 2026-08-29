@@ -20,6 +20,30 @@ Confidence: thấp cho tới khi có learner pilot M00–M05
 
 Dùng 240–360 giờ làm planning envelope để có khoảng review/integration tối thiểu. Đây là forecast, không phải promise.
 
+## Draft Mission nominal estimates
+
+Mission files đang author/draft có nominal estimate hẹp hơn Gate envelope và hữu ích để lập kế hoạch gần hạn:
+
+| Mission | Nominal focused effort | Ghi chú |
+|---|---:|---|
+| M00 | ~10h | ready/pilot target |
+| M01 | ~12h | draft |
+| M02 | ~12h | draft |
+| M03 | ~14h | draft |
+| **M00→M03** | **~48h** | first tracked human market action nếu không có external blocker |
+
+Các nominal estimate này **không override Gate envelope** và chưa đủ evidence để coi là duration chuẩn. Chúng chỉ ngăn calendar profile vô tình kéo bốn Mission đầu dài hơn nhiều so với chính Mission design.
+
+Planning implication:
+
+```text
+focused hours decide near-term pace
+external waiting decides calendar delay
+calendar month does not decide PASS
+```
+
+Sau pilot, actuals thắng nominal estimate.
+
 ## Micro-lesson
 
 - S: 20–30 phút knowledge pull + apply nhỏ;
@@ -37,9 +61,23 @@ Ghi riêng:
 - operate;
 - knowledge pull;
 - review/retry;
+- business observation/action;
 - waiting for external outcome.
 
 Không double-count. Waiting time có thể kéo calendar nhưng không được biến thành “giờ học”.
+
+## First reality-feedback target
+
+M03 là first tracked human market action. Curriculum nên đưa learner tới đó ngay khi M00–M02 prerequisites/evidence đủ; không trì hoãn chỉ để khớp 12/15-month calendar.
+
+Ở nominal ~48 focused hours:
+
+- 4 h/tuần → khoảng 12 tuần focused work;
+- 5 h/tuần → khoảng 10 tuần;
+- 6 h/tuần → khoảng 8 tuần;
+- 8 h/tuần → khoảng 6 tuần.
+
+Đây là arithmetic planning aid, không phải promise. External blockers/outcome waiting được cộng vào calendar riêng.
 
 ## Quy tắc reforecast
 
@@ -50,5 +88,7 @@ Sau M00–M05:
 3. xác định blocker ngoài tầm kiểm soát;
 4. chỉ áp hệ số cho Mission tương tự;
 5. giữ nguyên evidence/safety gate và kéo dài timeline nếu cần.
+
+Nên reforecast sớm sau M00 và M03 để phát hiện absolute-beginner overhead và real-market friction trước khi dự báo phần còn lại.
 
 Không dùng một learner để tuyên bố duration phổ quát. Dữ liệu một người chỉ là preliminary calibration.
