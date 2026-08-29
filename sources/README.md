@@ -1,85 +1,85 @@
 # Tài liệu nguồn
 
-Thư mục `sources/` là **historical/research archive**, không phải active curriculum authority.
+Thư mục `sources/` là **kho lưu lịch sử/nghiên cứu (`historical/research archive`)**, không phải nguồn chuẩn đang vận hành của chương trình.
 
-## Active authority hiện tại
+## Nguồn chuẩn đang áp dụng
 
-Nguồn chuẩn đang vận hành của chương trình là:
+Thứ tự tài liệu đang vận hành:
 
-1. [`../CURRICULUM.md`](../CURRICULUM.md) — active canonical curriculum;
-2. [`../ROADMAP.md`](../ROADMAP.md) và các file `../roadmap/part-*.md` — execution inventory của active curriculum;
-3. [`../docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md) — traceability từ active curriculum về historical/training/research sources.
+1. [`../CURRICULUM.md`](../CURRICULUM.md) — chương trình chuẩn đang áp dụng (`active canonical curriculum`);
+2. [`../ROADMAP.md`](../ROADMAP.md) và các file `../roadmap/part-*.md` — danh mục thực thi (`execution inventory`) của chương trình hiện tại;
+3. [`../docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md) — bản đồ truy nguồn (`traceability`) từ chương trình hiện tại về tài liệu lịch sử/đào tạo/nghiên cứu.
 
-Nếu nội dung trong `sources/` mâu thuẫn với active authority ở trên, **active authority thắng**. Không sửa historical file để làm nó trông giống trạng thái hiện tại.
+Nếu nội dung trong `sources/` mâu thuẫn với các nguồn chuẩn ở trên, **nguồn chuẩn hiện tại được ưu tiên**. Không sửa file lịch sử chỉ để làm nó trông giống trạng thái hiện tại.
 
-## Historical syllabus
+## Giáo trình lịch sử
 
-- `SYLLABUS-v2026.08.md` — historical baseline ban đầu.
-- `SYLLABUS-v2026.09.md` — historical revision trước outcome-driven redesign.
-- `CURRICULUM-INDEX-v2026.09.md` — historical normalized index của revision v2026.09.
+- `SYLLABUS-v2026.08.md` — đường cơ sở lịch sử ban đầu (`historical baseline`).
+- `SYLLABUS-v2026.09.md` — revision lịch sử trước đợt thiết kế lại theo outcome.
+- `CURRICULUM-INDEX-v2026.09.md` — chỉ mục chuẩn hóa lịch sử của revision v2026.09.
 
-Các file này vẫn quan trọng để truy provenance, rationale và các ý tưởng domain đã sinh ra curriculum hiện tại, nhưng chúng **không còn là manifest active**.
+Các file này vẫn quan trọng để truy `provenance` (nguồn gốc), rationale (lý do thiết kế) và các ý tưởng domain đã sinh ra curriculum hiện tại, nhưng **không còn là manifest đang hoạt động**.
 
-Các count như **23 Part / 89 Chapter / 671 lesson / 14 main projects** thuộc revision lịch sử và không được dùng để mô tả curriculum đang vận hành.
+Các con số **23 Part / 89 Chapter / 671 lesson / 14 main projects** thuộc revision lịch sử và không được dùng để mô tả chương trình hiện tại.
 
-## Supplementary source material
+## Nguồn bổ sung
 
-- `Noi-dung-dao-tao.txt` — nguồn đào tạo về nhịp học, project evolution và thực hành.
-- `Nghien-cuu.txt` — nguồn nghiên cứu về Affiliate Bot, Product Intelligence, feedback loop, architecture và triển khai.
+- `Noi-dung-dao-tao.txt` — nguồn đào tạo về nhịp học, tiến hóa project và thực hành.
+- `Nghien-cuu.txt` — nguồn nghiên cứu về Affiliate Bot, Product Intelligence, feedback loop (vòng phản hồi), kiến trúc và triển khai.
 
-Các supplement cung cấp evidence/rationale cho thiết kế bài học. Chúng không tự động override active curriculum.
+Các nguồn bổ sung cung cấp evidence/rationale cho thiết kế bài học; chúng không tự động ghi đè chương trình chuẩn.
 
-## Source precedence
+## Thứ tự ưu tiên nguồn
 
 ```text
-ACTIVE CANONICAL CURRICULUM:
+CHƯƠNG TRÌNH CHUẨN ĐANG ÁP DỤNG:
 CURRICULUM.md
 
-ACTIVE EXECUTION INVENTORY:
+DANH MỤC THỰC THI:
 ROADMAP.md + roadmap/part-*.md
 
-TRACEABILITY / CONFLICT RESOLUTION:
+TRUY NGUỒN / GIẢI QUYẾT XUNG ĐỘT:
 docs/SOURCE-MAPPING.md
 
-HISTORICAL SYLLABUS / INDEX:
+GIÁO TRÌNH / CHỈ MỤC LỊCH SỬ:
 sources/SYLLABUS-v2026.08.md
 sources/SYLLABUS-v2026.09.md
 sources/CURRICULUM-INDEX-v2026.09.md
 
-SUPPLEMENTARY TRAINING / RESEARCH:
+NGUỒN ĐÀO TẠO / NGHIÊN CỨU BỔ SUNG:
 sources/Noi-dung-dao-tao.txt
 sources/Nghien-cuu.txt
 
-CURRENT-FACT OVERLAYS:
+LỚP DỮ KIỆN HIỆN HÀNH:
 docs/FRESHNESS-POLICY.md
 và các knowledge refresh docs
 ```
 
-Quy tắc resolution:
+Quy tắc tra cứu:
 
 ```text
-active lesson / mission question
+câu hỏi về lesson / mission hiện tại
 → CURRICULUM.md
 → ROADMAP + active part/mission docs
 → docs/SOURCE-MAPPING.md để truy provenance
-→ historical/training/research source khi cần rationale
-→ external verification cho current facts
+→ nguồn lịch sử/đào tạo/nghiên cứu khi cần rationale
+→ xác minh bên ngoài cho dữ kiện hiện hành
 ```
 
-Một historical identifier như `S:P/C/L` là provenance locator, **không phải active lesson ID mặc định**.
+Một định danh lịch sử như `S:P/C/L` là vị trí truy provenance, **không mặc định là active lesson ID**.
 
-## Go-first engineering decision
+## Quyết định kỹ thuật Go-first
 
-Go vẫn là primary implementation language của active Bot track. Xem:
+Go vẫn là ngôn ngữ triển khai chính (`primary implementation language`) của Bot track hiện tại. Xem:
 
 - [`../docs/ADR-001-GO-FIRST-BOT-STACK.md`](../docs/ADR-001-GO-FIRST-BOT-STACK.md)
 - [`../CURRICULUM.md`](../CURRICULUM.md)
 
-Các quyết định C#/.NET-first trong historical syllabus được giữ để truy lịch sử thiết kế, không phải current implementation instruction.
+Các quyết định C#/.NET-first trong giáo trình lịch sử được giữ để truy lịch sử thiết kế, không phải chỉ dẫn triển khai hiện tại.
 
-## Current knowledge overlay
+## Lớp kiến thức hiện hành
 
-Historical source không bị âm thầm sửa bằng web research. Các dữ kiện có thể thay đổi theo platform, luật, privacy, API, search, Go runtime hoặc AI/agent protocols được quản lý ở lớp current-state riêng.
+Nguồn lịch sử không bị âm thầm sửa bằng nghiên cứu web mới. Các dữ kiện có thể thay đổi theo platform, luật, privacy (quyền riêng tư), API, search, Go runtime hoặc AI/agent protocol được quản lý ở lớp current-state riêng.
 
 Xem:
 
@@ -90,4 +90,4 @@ Xem:
 
 Nguyên tắc cuối cùng:
 
-> **History stays history. Active authority stays singular. Current facts stay verifiable.**
+> **Lịch sử giữ nguyên là lịch sử. Nguồn chuẩn hiện tại phải duy nhất. Dữ kiện hiện hành phải kiểm chứng được.**
