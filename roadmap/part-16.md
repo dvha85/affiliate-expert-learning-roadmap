@@ -4,6 +4,8 @@
 - Quy mô: **4 chương / 23 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
+> Part 16 là deterministic Decision/Policy core. Từ Agentic Decision Intelligence v1, AI có thể cung cấp `AnalysisPacket`, nhưng Decision Engine phải hợp nhất evidence theo contract tại [`DECISION-CONTRACTS.md`](../docs/DECISION-CONTRACTS.md); LLM không được là authority duy nhất cho policy hoặc consequential execution.
+
 ## Checklist bài học
 
 ### Chương 57 — Rule Engine
@@ -43,9 +45,11 @@
 - [ ] **60.6** — Thời điểm nào?
 - [ ] **60.7** — Khi nào nên dừng, execute hay yêu cầu approval?
 
-> **Decision ≠ Execution.** Recommendation output phải có reason/evidence/confidence/risk. Action execution là boundary riêng và phải tuân theo policy + RISK 0/1/2.
+> **Decision ≠ Execution.** Recommendation/DecisionPacket phải có reason/evidence/confidence/risk. Từ M10, cần thêm uncertainty, freshness/expiry và missing evidence khi relevant. Action execution là boundary riêng và phải tuân theo policy + RISK 0/1/2.
 
-> **2026 freshness note:** recommendation quality increasingly depends on machine-readable product truth, current availability/price, policy eligibility and multi-surface discovery. The engine should return provenance/confidence and explain which facts are current vs inferred; emerging agentic-commerce protocols are inputs to watch, not a reason to remove human approval.
+> **Decision Fusion pattern:** `Rules + Scores + Ranking + Forecast/ML + Experiment evidence + AI AnalysisPacket → DecisionPacket`. AI không được âm thầm override policy/rule; conflict phải hiện ra dưới dạng evidence, uncertainty hoặc yêu cầu lấy thêm dữ liệu.
+
+> **2026 freshness note:** recommendation quality ngày càng phụ thuộc product truth, availability/price, policy eligibility và multi-surface discovery hiện hành. Emerging agentic-commerce protocol là input cần theo dõi, không phải lý do bỏ Human Approval.
 
 ## Cổng thực hành
 
