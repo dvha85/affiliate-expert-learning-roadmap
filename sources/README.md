@@ -1,140 +1,93 @@
 # Tài liệu nguồn
 
-Roadmap được xây từ các tài liệu do chủ repo cung cấp và các revision canonical có versioning rõ ràng.
+Thư mục `sources/` là **historical/research archive**, không phải active curriculum authority.
 
-## Active canonical source
+## Active authority hiện tại
 
-**`SYLLABUS-v2026.09.md`** là active canonical manifest hiện tại.
+Nguồn chuẩn đang vận hành của chương trình là:
 
-Revision v2026.09 dùng mô hình:
+1. [`../CURRICULUM.md`](../CURRICULUM.md) — active canonical curriculum;
+2. [`../ROADMAP.md`](../ROADMAP.md) và các file `../roadmap/part-*.md` — execution inventory của active curriculum;
+3. [`../docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md) — traceability từ active curriculum về historical/training/research sources.
 
-```text
-v2026.09 active canonical
-=
-v2026.08 historical source baseline
-+
-explicit v2026.09 overrides
-+
-validated normalized roadmap inventory
-```
+Nếu nội dung trong `sources/` mâu thuẫn với active authority ở trên, **active authority thắng**. Không sửa historical file để làm nó trông giống trạng thái hiện tại.
 
-Active curriculum vẫn giữ **23 Part / 89 Chapter / 671 lesson / 14 main projects**, nhưng không giả định rằng mọi lesson ID/title trong normalized roadmap đã xuất hiện verbatim trong historical source.
+## Historical syllabus
 
-Đọc [`CURRICULUM-INDEX-v2026.09.md`](CURRICULUM-INDEX-v2026.09.md) để hiểu provenance classes và cách resolve đủ 671 active lesson IDs.
+- `SYLLABUS-v2026.08.md` — historical baseline ban đầu.
+- `SYLLABUS-v2026.09.md` — historical revision trước outcome-driven redesign.
+- `CURRICULUM-INDEX-v2026.09.md` — historical normalized index của revision v2026.09.
 
-## Historical source baseline
+Các file này vẫn quan trọng để truy provenance, rationale và các ý tưởng domain đã sinh ra curriculum hiện tại, nhưng chúng **không còn là manifest active**.
 
-`SYLLABUS-v2026.08.md` được giữ nguyên làm historical provenance/base source.
+Các count như **23 Part / 89 Chapter / 671 lesson / 14 main projects** thuộc revision lịch sử và không được dùng để mô tả curriculum đang vận hành.
 
-Nó chứa:
+## Supplementary source material
 
-- Part và Chapter structure;
-- nhiều lesson ID/title được ghi explicit;
-- một số chapter/design block được roadmap sau đó normalize thành lesson-sized units;
-- Project, LAB, PASS Gate và mục tiêu chương trình ban đầu.
+- `Noi-dung-dao-tao.txt` — nguồn đào tạo về nhịp học, project evolution và thực hành.
+- `Nghien-cuu.txt` — nguồn nghiên cứu về Affiliate Bot, Product Intelligence, feedback loop, architecture và triển khai.
 
-Vì vậy **không được tuyên bố rằng mọi normalized lesson ID hiện tại đều đã tồn tại verbatim trong v2026.08**.
-
-Provenance của active lesson được phân loại:
-
-```text
-source_explicit
-normalized_from_chapter
-normalized_then_overridden
-```
-
-C#/.NET-first trong v2026.08 là quyết định lịch sử và **không còn là active primary implementation path**.
-
-## Normalized active lesson inventory
-
-Inventory lesson đang vận hành nằm ở:
-
-```text
-ROADMAP.md
-+
-roadmap/part-00.md ... roadmap/part-22.md
-```
-
-Curriculum CI bảo vệ count, chapter placement, lesson IDs và lifecycle. `CURRICULUM-INDEX-v2026.09.md` định nghĩa cách inventory này truy ngược về historical source + active override mà không tạo thêm một bản copy 671-row dễ drift.
-
-## Các nguồn supplement
-
-- `Noi-dung-dao-tao.txt` — lộ trình 50 tuần, nhịp học, project evolution và phương pháp thực hành.
-- `Nghien-cuu.txt` — nghiên cứu, ví dụ Affiliate Bot, Product Intelligence, feedback loop, architecture và định hướng triển khai.
+Các supplement cung cấp evidence/rationale cho thiết kế bài học. Chúng không tự động override active curriculum.
 
 ## Source precedence
 
 ```text
-ACTIVE NORMATIVE OVERRIDES:
-SYLLABUS-v2026.09
+ACTIVE CANONICAL CURRICULUM:
+CURRICULUM.md
 
-HISTORICAL SOURCE EVIDENCE:
-SYLLABUS-v2026.08
+ACTIVE EXECUTION INVENTORY:
+ROADMAP.md + roadmap/part-*.md
 
-NORMALIZED ACTIVE LESSON INVENTORY:
-ROADMAP.md + roadmap/part-00..22.md
+TRACEABILITY / CONFLICT RESOLUTION:
+docs/SOURCE-MAPPING.md
 
-PACING CURRENT:
-docs/15-MONTH-PLAN.md hoặc docs/12-MONTH-PLAN.md
+HISTORICAL SYLLABUS / INDEX:
+sources/SYLLABUS-v2026.08.md
+sources/SYLLABUS-v2026.09.md
+sources/CURRICULUM-INDEX-v2026.09.md
 
-EXECUTION ORDER:
-docs/EXECUTION-MODEL.md
+SUPPLEMENTARY TRAINING / RESEARCH:
+sources/Noi-dung-dao-tao.txt
+sources/Nghien-cuu.txt
 
-SUPPLEMENTS:
-Noi-dung-dao-tao.txt + Nghien-cuu.txt
+CURRENT-FACT OVERLAYS:
+docs/FRESHNESS-POLICY.md
+và các knowledge refresh docs
 ```
 
 Quy tắc resolution:
 
 ```text
-roadmap lesson ID/title
-→ v2026.09 explicit override nếu có
-→ v2026.08 lesson-level evidence nếu source-explicit
-→ nếu không explicit, dùng chapter/block-level provenance
+active lesson / mission question
+→ CURRICULUM.md
+→ ROADMAP + active part/mission docs
+→ docs/SOURCE-MAPPING.md để truy provenance
+→ historical/training/research source khi cần rationale
 → external verification cho current facts
 ```
 
-`S:P/C/L` là normalized canonical identifier, **không phải lời khẳng định rằng exact lesson token luôn tồn tại trong historical file**.
+Một historical identifier như `S:P/C/L` là provenance locator, **không phải active lesson ID mặc định**.
 
 ## Go-first engineering decision
 
-Xem:
+Go vẫn là primary implementation language của active Bot track. Xem:
 
-- [`docs/ADR-001-GO-FIRST-BOT-STACK.md`](../docs/ADR-001-GO-FIRST-BOT-STACK.md)
-- [`SYLLABUS-v2026.09.md`](SYLLABUS-v2026.09.md)
+- [`../docs/ADR-001-GO-FIRST-BOT-STACK.md`](../docs/ADR-001-GO-FIRST-BOT-STACK.md)
+- [`../CURRICULUM.md`](../CURRICULUM.md)
 
-Active Track C:
-
-```text
-Go
-→ Services / Workers
-→ Collector
-→ Database
-→ Queue / Durable Workflow
-→ Bot
-→ Tool Engineering / MCP
-→ AI Agent
-→ Human Approval / Governance
-→ Production
-```
-
-C#/.NET vẫn được phép làm comparison/reference stack nhưng không còn là primary implementation language của curriculum.
+Các quyết định C#/.NET-first trong historical syllabus được giữ để truy lịch sử thiết kế, không phải current implementation instruction.
 
 ## Current knowledge overlay
 
-Canonical source không bị âm thầm sửa bằng web research. Các dữ kiện hiện hành có thể thay đổi theo platform, luật, thuế, privacy, API, search, Go runtime hoặc AI/agent protocols được quản lý ở lớp riêng:
+Historical source không bị âm thầm sửa bằng web research. Các dữ kiện có thể thay đổi theo platform, luật, privacy, API, search, Go runtime hoặc AI/agent protocols được quản lý ở lớp current-state riêng.
+
+Xem:
 
 - [Freshness Policy](../docs/FRESHNESS-POLICY.md)
 - [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
 - [Bot Engineering Refresh 2026.08](../docs/BOT-ENGINEERING-REFRESH-2026.08.md)
+- [Source-to-Roadmap Traceability Map](../docs/SOURCE-MAPPING.md)
 
-Quy tắc:
+Nguyên tắc cuối cùng:
 
-```text
-canonical concepts/structure = normalized inventory + active overrides + historical provenance
-current operating facts = external source register + verified date
-```
-
-Nếu current fact làm một thuật ngữ canonical trở nên cũ, dùng current-state override trong lesson/roadmap thay vì âm thầm sửa history.
-
-Xem [Source-to-Roadmap Traceability Map](../docs/SOURCE-MAPPING.md) để tra source ref convention và conflict rules.
+> **History stays history. Active authority stays singular. Current facts stay verifiable.**
