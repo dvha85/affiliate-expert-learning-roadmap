@@ -1,6 +1,6 @@
 # Curriculum CI — Hệ thống kiểm tra curriculum
 
-Curriculum CI bảo vệ đồng thời **canonical curriculum (curriculum chuẩn)**, provenance/freshness (nguồn gốc/độ mới), Build-First execution semantics (ngữ nghĩa thực thi), learner/reference code và các invariant (bất biến) quan trọng.
+Curriculum CI bảo vệ đồng thời **canonical curriculum**, provenance/freshness (nguồn gốc/độ mới), Build-First execution semantics, Agentic Decision Intelligence, learner/reference code và các invariant quan trọng.
 
 Tiếng Việt là ngôn ngữ chính thức của tài liệu. English term được giữ cho tên code, error code, công nghệ và thuật ngữ kỹ thuật khi cần. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md).
 
@@ -12,6 +12,7 @@ Từ root repository:
 python scripts/validate_curriculum.py
 python scripts/validate_hardening.py
 python scripts/validate_build_first.py
+python scripts/validate_agentic_architecture.py
 python -m unittest discover -s tests -v
 ```
 
@@ -40,14 +41,12 @@ Exit code `0` nghĩa là gate tương ứng PASS.
 `scripts/validate_curriculum.py` bảo vệ:
 
 - active canonical v2026.09 + historical v2026.08;
-- 23 Parts / 89 Chapters / 671 lessons;
+- 23 Parts / 89 Chapters / 671 Lessons;
 - Go-first Part 15 direction;
 - timeline metadata;
 - Lesson ID, metadata, lifecycle và headings;
 - relative links;
 - freshness metadata contract.
-
-Các nhóm lỗi tiêu biểu: `CANON*`, `TECH*`, `ROADMAP*`, `COUNT*`, `TIME*`, `ID*`, `LINK*`, `META*`, `FRESH*`, `STATE*`, `HEAD*`.
 
 ## 3. Layer 2 — Curriculum integrity hardening validator
 
@@ -59,147 +58,146 @@ Các nhóm lỗi tiêu biểu: `CANON*`, `TECH*`, `ROADMAP*`, `COUNT*`, `TIME*`,
 - canonical Project 1–14 và vị trí Part;
 - authority-document consistency.
 
-Layer này ngăn Build-First làm yếu source/provenance rules đã được harden trước migration.
+Khi freshness register chi tiết hóa source ID, source ID đã được Lesson tham chiếu phải được giữ compatibility/migration path; không làm provenance cũ tự nhiên mất resolve.
 
 ## 4. Layer 3 — Build-First semantic validator
 
 `scripts/validate_build_first.py` bảo vệ execution architecture mà không định nghĩa lại canonical syllabus.
 
-### BUILD001 — Authority files
+### BUILD001–BUILD003 — Authority, Mission identity và sequence
 
-Bắt buộc có:
+- Build-First authority files bắt buộc tồn tại;
+- Mission ID unique, filename đúng ID;
+- Bot roadmap đúng M00→M15;
+- authored Mission files là contiguous prefix từ M00.
 
-- `BUILD-FIRST.md`;
-- `docs/BUILD-FIRST-LEARNING-MODEL.md`;
-- `docs/MISSION-AUTHORING-STANDARD.md`;
-- `docs/MISSION-PASS-CRITERIA.md`;
-- `docs/BOT-EVOLUTION-ROADMAP.md`;
-- `docs/MISSION-KNOWLEDGE-MAP.md`;
-- `docs/LANGUAGE-POLICY.md`.
+### BUILD004–BUILD006 — Knowledge, dependency và Bot Version
 
-### BUILD002 — Mission identity
+- explicit Lesson refs phải resolve trong 671 inventory;
+- Mission `ready` phải có required canonical knowledge mapping;
+- dependency phải trỏ ngược, tồn tại và không cycle;
+- Bot Version tăng đúng sequence và khớp roadmap.
 
-Mission ID phải hợp lệ/unique và filename đã author phải bắt đầu bằng chính `MXX-` của nó.
+### BUILD007–BUILD009 — Ready contract, learner state, Projects
 
-### BUILD003 — Mission sequence
+- Mission `ready` có đủ required sections;
+- Mission không được auto-mark Lesson PASS;
+- `projects.contributes_to` chỉ dùng canonical Project 1–14.
 
-Product roadmap phải có đúng `M00` → `M15` theo thứ tự.
+### BUILD010–BUILD014 — Workspace/semantics hardening
 
-Authored Mission files chỉ được tạo thành một **contiguous prefix (prefix liên tục)** bắt đầu từ `M00`. Hiện M00–M03 đã `ready`; M04–M15 vẫn là roadmap target cho tới khi author thật.
+- learner + reference bootstrap files tồn tại;
+- learner/reference separation + capability ceiling theo Current Mission;
+- `bot_version_from` nối đúng Mission trước;
+- Project frontmatter khớp central mapping;
+- learner/reference Go runtime line đồng bộ.
 
-### BUILD004 — Knowledge mapping
+### LANG001 — Language Policy
 
-- explicit Lesson ID trong Mission knowledge metadata phải resolve trong canonical 671 inventory;
-- Mission `ready` phải có ít nhất một canonical Lesson ID trong `knowledge.required`;
-- `required knowledge for Mission ≠ full Lesson PASS` vẫn được giữ: CI chỉ yêu cầu mapping rõ, không tự đánh dấu Lesson PASS.
+- tiếng Việt là ngôn ngữ chính thức;
+- authority docs tham chiếu Language Policy;
+- guard không dùng tỷ lệ từ máy móc vì code/API/protocol cần giữ English chính xác.
 
-### BUILD005 — Dependency graph
+## 5. Layer 4 — Agentic Decision Intelligence validator
 
-Mission dependency phải:
+`scripts/validate_agentic_architecture.py` bảo vệ kiến trúc AI/Agent mà không khóa repo vào provider/model cụ thể.
 
-- trỏ về Mission trước;
-- tồn tại trong authored prefix;
-- không tạo cycle (chu trình vòng).
+### AI001 — Agentic authority files
 
-### BUILD006 — Bot Version progression
+Bắt buộc tồn tại các authority docs về:
 
-Bot Version trong M00–M15 roadmap phải tăng nghiêm ngặt. `bot_version_to` của authored Mission phải khớp roadmap target.
+- AI/Agent architecture;
+- A0–A4 capability levels;
+- Decision contracts;
+- provider capability matrix;
+- A1 advisory patterns;
+- Decision Intelligence/confidence/freshness/model routing;
+- Tool Registry/Agent Runtime/programmatic orchestration/MCP notes;
+- Agent Evaluation/Durable HITL/Decision-Outcome Memory.
 
-### BUILD007 — Ready Mission contract
+### AI002 — Capability progression
 
-Mọi Mission `status: ready` phải chứa các section:
-
-```text
-Ship Target — Mục tiêu bàn giao
-Starting Bot State — Trạng thái Bot ban đầu
-Build First — Xây trước
-Run — Chạy
-Observe — Quan sát
-Knowledge Pull — Lấy kiến thức đúng lúc
-Improve — Cải tiến
-Tests — Kiểm thử
-Operate — Vận hành
-Failure Case — Tình huống lỗi
-Evidence — Bằng chứng
-Explain-back — Giải thích lại
-Mission PASS — Tiêu chí PASS
-Bot Version Result — Kết quả phiên bản Bot
-Next Mission — Mission tiếp theo
-```
-
-English heading prefix được giữ để validator/code contract ổn định; nội dung giải thích vẫn dùng tiếng Việt.
-
-### BUILD008 — Learner-state separation
-
-Mission không được chứa cơ chế tự tuyên bố canonical Lesson PASS.
+Central Bot Evolution map phải giữ:
 
 ```text
-Mission PASS ≠ Lesson PASS
+M00–M04 → A0
+M05–M10 → A1
+M11–M12 → A2
+M13–M14 → A3
+M15     → A4 optional
 ```
 
-### BUILD009 — Canonical Projects only
+AI được xuất hiện sớm nhưng không được tăng execution authority sớm.
 
-`projects.contributes_to` chỉ được tham chiếu Project 1–14. Mission ID không tạo Project 15+.
+### AI003 — DecisionPacket contract
 
-### BUILD010 — Learner + reference bootstrap files
-
-CI yêu cầu cả hai workspace tối thiểu tồn tại:
+Decision contract phải giữ ít nhất:
 
 ```text
-lab/affiliate-bot/                 reference implementation
-lab/learner/affiliate-bot/         learner workspace
+evidence
+confidence
+uncertainty
+missing evidence
+freshness
+expiry
+risk level
+policy decision
 ```
 
-Điều này ngăn tài liệu tuyên bố Build-First runnable trong khi một trong hai code path bị mất.
+Confidence không phải execution permission.
 
-### BUILD011 — Learner/reference separation + capability ceiling
+### AI004–AI005 — Tool governance
 
-Bootstrap Mission M00–M03 phải chỉ rõ learner workspace và không được dùng `cd lab/affiliate-bot` làm Run/Build path.
+External side-effect tool phải đi qua `ActionIntent → Policy/Risk → approval khi cần`; Tool Registry phải khai báo `permission`, `risk_ceiling`, `requires_approval` và audit fields.
 
-Validator còn đọc **Current Mission** từ `PROGRESS.md` để áp capability ceiling (trần năng lực) cho learner workspace:
+### AI006 — Untrusted model boundary
+
+Authority architecture phải giữ:
 
 ```text
-Current M00 → chưa được có Product ingest / store / ranking
-Current M01 → được có Product ingest; chưa được có store / ranking
-Current M02 → được có ingest + store; chưa được có ranking
-Current M03 → được có ranking
+MODEL OUTPUT = UNTRUSTED INPUT
+AI ADVICE ≠ EXECUTION AUTHORITY
+POLICY BEFORE CONSEQUENTIAL ACTION
 ```
 
-Nhờ đó starter không leak lời giải của Mission sau, nhưng learner workspace vẫn được phép tiến hóa khi `PROGRESS.md` chuyển Mission.
+### AI007 — Agent evaluation
 
-### BUILD012 — Bot Version continuity
+Evaluation standard phải bao phủ output, trajectory/tool behavior, policy/safety, confidence calibration, latency/cost và human intervention.
 
-- M00 phải có `bot_version_from: null`;
-- Mission sau phải có `bot_version_from` đúng bằng `bot_version_to` của Mission ngay trước.
+### AI008 — Freshness cho kỹ thuật Agent biến động
 
-Ví dụ:
+MCP/provider-runtime current facts phải có source, URL, verified date và volatility. Exact feature/version không trở thành permanent canonical truth.
+
+### AI009 — Provider-neutral core
+
+Domain Decision/Policy core phải đi qua `AI Provider Interface → Provider Adapter`; exact provider/model mapping thuộc config/freshness layer.
+
+### AI010 — Multi-agent boundary
+
+A4/multi-agent chỉ optional ở M15. A2A không được trở thành dependency mặc định trước khi có independent remote-agent/service use case thật.
+
+### AI011 — Outcome learning không tự sửa production
+
+Learning loop phải là:
 
 ```text
-M00 to v0.0
-M01 from v0.0 → to v0.1
-M02 from v0.1 → to v0.2
+Decision
+→ Action
+→ Outcome
+→ Evaluation
+→ Proposed Improvement
+→ Offline Test / Experiment
+→ Review
+→ Deploy
 ```
 
-### BUILD013 — Project map consistency
+Agent không được tự rewrite production policy/prompt/weights từ outcome history.
 
-`projects.contributes_to` trong Mission frontmatter phải khớp central mapping tại `docs/BOT-EVOLUTION-ROADMAP.md`.
+### AI012 — Programmatic tool orchestration boundary
 
-Guard này ngăn drift kiểu Mission nói đóng góp Project 4 nhưng central roadmap quên ghi.
+Bounded programmatic orchestration ưu tiên READ_ONLY/internal-safe tools. External actions như publish/spend/account-security change/destructive delete không được free-orchestrate ngoài explicit policy.
 
-### BUILD014 — Go runtime consistency
-
-Go directive của learner và reference module phải cùng một line.
-
-CI không hard-code vĩnh viễn `1.27`; current Go version vẫn thuộc freshness process. Guard chỉ ngăn learner/reference vô tình chạy hai runtime line khác nhau.
-
-### LANG001 — Language Policy authority
-
-- `docs/LANGUAGE-POLICY.md` phải tuyên bố tiếng Việt là ngôn ngữ chính thức;
-- các authority docs cốt lõi phải tham chiếu Language Policy.
-
-Guard này **không** dùng tỷ lệ từ tiếng Việt/tiếng Anh máy móc, vì code block, API name và technical term cần được giữ tiếng Anh chính xác.
-
-## 5. Executable Go gates
+## 6. Executable Go gates
 
 GitHub Actions chạy cho **cả reference và learner modules**:
 
@@ -209,37 +207,32 @@ gofmt check
 → go test ./...
 ```
 
-Reference Bot chứng minh curriculum có một implementation chạy/test được để đối chiếu.
+Reference Bot chứng minh curriculum có implementation chạy/test được để đối chiếu. Learner Bot chứng minh active learner workspace không bị hỏng khi tiến hóa qua Mission.
 
-Learner Bot chứng minh active learner workspace không bị hỏng khi người học tiến hóa qua Mission.
+Fast CI hiện không bắt buộc PostgreSQL service; integration infrastructure chỉ thêm khi operational value đủ lớn.
 
-Fast CI hiện **không** bắt buộc PostgreSQL service. M02 dạy persistence boundary + migration contract, còn fast tests dùng in-memory Repository. Integration infrastructure chỉ thêm khi operational value đủ lớn.
+## 7. Regression / mutation tests
 
-## 6. Regression / mutation tests
+`tests/test_build_first_validator.py` tiếp tục bảo vệ Build-First semantic invariants.
 
-`tests/test_build_first_validator.py` bảo vệ ít nhất:
+`tests/test_agentic_architecture_validator.py` cố tình phá và phải bắt được ít nhất:
 
-- current repo sạch;
-- authority file bị thiếu;
-- M00–M15 sequence bị hỏng;
-- Bot Version đi lùi;
-- unknown Lesson ref;
-- forward dependency;
-- dependency trỏ tới authored Mission không tồn tại;
-- ready Mission thiếu section;
-- ready Mission thiếu required canonical knowledge;
-- lesson-PASS mutation mechanism;
-- Project 15 reference;
-- `bot_version_from` không nối tiếp version trước;
-- central Project map lệch Mission frontmatter;
-- bootstrap Mission không dùng learner workspace;
-- learner/reference Go directive lệch nhau;
-- current learner workspace vượt capability ceiling;
-- Language Policy marker/reference bị mất.
+- thiếu Agentic authority file;
+- sai AI level ở Mission;
+- DecisionPacket thiếu confidence/evidence field bắt buộc;
+- external tool thiếu Policy/Risk boundary;
+- tool contract thiếu risk ceiling;
+- mất `MODEL OUTPUT = UNTRUSTED INPUT`;
+- Agent Evaluation thiếu metric quan trọng;
+- volatile Agent/MCP fact thiếu freshness metadata;
+- mất provider-neutrality marker;
+- multi-agent bị đưa trước M15;
+- outcome learning mất guard chống tự sửa policy;
+- programmatic orchestration mất guard cấm free external actions.
 
 Các regression tests của curriculum/hardening/scaffolder trước đó tiếp tục chạy.
 
-## 7. GitHub Actions merge rule
+## 8. GitHub Actions merge rule
 
 Workflow `.github/workflows/curriculum-ci.yml` chạy với mọi Pull Request và mọi push vào `main`.
 
@@ -247,6 +240,7 @@ Workflow `.github/workflows/curriculum-ci.yml` chạy với mọi Pull Request v
 canonical validator
 → hardening validator
 → Build-First semantic validator
+→ Agentic Architecture validator
 → Python regression tests
 → reference: gofmt + vet + test
 → learner:   gofmt + vet + test
@@ -254,9 +248,9 @@ canonical validator
 
 **Quy tắc quy trình:** không merge khi bất kỳ gate nào fail.
 
-Để GitHub tự cưỡng chế quy tắc này ở cấp repository, branch protection/ruleset của `main` cần require Pull Request và required status check tương ứng. Xem [`REPOSITORY-GOVERNANCE.md`](REPOSITORY-GOVERNANCE.md).
+Để GitHub tự cưỡng chế quy tắc này ở cấp repository, branch protection/ruleset của `main` vẫn cần cấu hình theo [`REPOSITORY-GOVERNANCE.md`](REPOSITORY-GOVERNANCE.md) / Issue #41.
 
-## 8. State rule — CI không phải learner PASS
+## 9. State rule — CI không phải learner PASS
 
 CI chỉ xác minh cấu trúc/code/invariant của repository.
 
@@ -270,4 +264,4 @@ Lesson PASS
 Project PASS
 ```
 
-Không được dùng một GitHub Actions run xanh để tự cập nhật learner achievement.
+Không dùng GitHub Actions run xanh để tự cập nhật learner achievement.
