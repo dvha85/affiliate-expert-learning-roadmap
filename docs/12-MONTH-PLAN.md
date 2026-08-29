@@ -1,66 +1,66 @@
-# Profile 12 tháng — focused-hours forecast
+# Hồ sơ 12 tháng — dự báo theo giờ tập trung
 
-> Evidence là gate; calendar không phải PASS criterion. Profile này chỉ là planning envelope và phải được reforecast từ learner actuals.
+> Evidence (bằng chứng) là gate; calendar (lịch) không phải tiêu chí PASS. Hồ sơ này chỉ là **khung lập kế hoạch (`planning envelope`)** và phải được dự báo lại từ số liệu thực tế của người học.
 
-## Nguyên tắc planning
+## Nguyên tắc lập kế hoạch
 
-Không khóa Mission vào một tháng cố định. Dùng **focused-hour envelope + external waiting tách riêng**:
+Không khóa Mission vào một tháng cố định. Dùng **khung giờ tập trung + thời gian chờ bên ngoài tách riêng**:
 
-- khoảng 5–8 focused hours/tuần;
-- waiting for account/platform/outcome được ghi riêng, không tính như giờ học;
+- khoảng 5–8 giờ tập trung/tuần;
+- thời gian chờ account/platform/outcome được ghi riêng, không tính như giờ học;
 - safety/evidence gate không bị nén để giữ lịch;
-- learner có thể tiếp tục phần engineering được Mission cho phép trong lúc Reality gate đang chờ;
-- sau M00–M05 phải reforecast từ actual build/debug/business/review time.
+- người học có thể tiếp tục phần kỹ thuật được Mission cho phép trong lúc Reality gate đang chờ;
+- sau M00–M05 phải dự báo lại từ thời gian build/debug/business/review thực tế.
 
-## Early-loop target
+## Mục tiêu vòng lặp thực tế sớm
 
-Mục tiêu pedagogical là đưa learner tới **first tracked human market action (M03)** đủ sớm để curriculum nhận reality feedback, thay vì để nhiều tháng trôi qua chỉ với infrastructure.
+Mục tiêu sư phạm là đưa người học tới **hành động thị trường thật có tracking đầu tiên do người thực hiện (M03)** đủ sớm để curriculum nhận reality feedback (phản hồi từ thực tế), thay vì để nhiều tháng trôi qua chỉ với hạ tầng.
 
-Nominal drafted Mission effort hiện tại:
+Ước lượng Mission hiện tại:
 
-| Mission | Nominal focused effort | Outcome |
+| Mission | Giờ tập trung danh nghĩa | Kết quả |
 |---|---:|---|
-| M00 | ~10h | first evidence-backed decision |
-| M01 | ~12h | trustworthy history |
-| M02 | ~12h | grounded AI advisor |
-| M03 | ~14h | first tracked human publish |
-| **M00→M03** | **~48h** | first real tracked market action |
+| M00 | ~10h | quyết định đầu tiên dựa trên evidence |
+| M01 | ~12h | history đáng tin cậy |
+| M02 | ~12h | AI advisor có grounding |
+| M03 | ~14h | lần publish có tracking đầu tiên do người thực hiện |
+| **M00→M03** | **~48h** | hành động thị trường thật có tracking đầu tiên |
 
-Với 5–8 focused hours/tuần, ~48h tương đương khoảng **6–10 tuần focused work**, chưa tính external blockers/waiting. Vì vậy “M03 vào tháng 5” không còn là default target.
+Với 5–8 giờ tập trung/tuần, ~48h tương đương khoảng **6–10 tuần làm việc tập trung**, chưa tính blocker/thời gian chờ bên ngoài. Vì vậy “M03 vào tháng 5” không còn là mục tiêu mặc định.
 
-Nếu learner bị block bởi account/platform/reality access, ghi `BLOCKED_EXTERNAL` và reforecast; không dùng sample thay cho E2.
+Nếu người học bị chặn bởi account/platform/quyền truy cập thực tế, ghi `BLOCKED_EXTERNAL` và dự báo lại; không dùng sample thay cho E2.
 
-## Planning bands
+## Các dải lập kế hoạch
 
-| Band | Missions | Planning intent |
+| Dải | Mission | Mục đích |
 |---|---|---|
-| B1 | M00 | boot + real public evidence + first decision |
-| B2 | M01–M02 | trustworthy data + grounded AI, giữ deterministic fallback |
-| B3 | M03 | first human tracked publish càng sớm càng hợp lý sau prerequisites |
-| B4 | M04–M05 | real outcome analytics + first reviewed improvement |
-| B5 | M06–M07 | reliable watcher + DecisionPacket/memory |
-| B6 | M08 | read-only evidence agent |
-| B7 | M09–M10 | shadow approval → bounded governed automation |
-| B8 | M11 | production closed loop + recovery drill |
+| B1 | M00 | khởi động + evidence công khai thật + quyết định đầu tiên |
+| B2 | M01–M02 | dữ liệu đáng tin + AI có grounding, giữ fallback tất định |
+| B3 | M03 | publish có tracking do người thực hiện càng sớm càng hợp lý sau khi đủ điều kiện |
+| B4 | M04–M05 | analytics outcome thật + cải tiến đầu tiên đã review |
+| B5 | M06–M07 | watcher đáng tin cậy + `DecisionPacket`/memory |
+| B6 | M08 | agent thu evidence chỉ-đọc |
+| B7 | M09–M10 | shadow approval → tự động hóa giới hạn có quản trị |
+| B8 | M11 | vòng production khép kín + diễn tập recovery |
 
-Calendar 12 tháng là **upper planning container**, không phải lý do kéo dài một Mission đã PASS hoặc trì hoãn reality action khi prerequisites đã đủ.
+Lịch 12 tháng là **khung trên để lập kế hoạch**, không phải lý do kéo dài một Mission đã PASS hoặc trì hoãn hành động thực tế khi các điều kiện tiên quyết đã đủ.
 
-## Suggested reforecast checkpoints
+## Các điểm dự báo lại
 
-Reforecast sau:
+Dự báo lại sau:
 
-1. M00 — vì đây là first absolute-beginner setup/build/evidence actual;
-2. M03 — vì learner đã có first public tracked action;
-3. M05 — vì đã có first closed market learning loop;
-4. M07 — vì reliability/decision workload đã quan sát;
-5. M10 — trước production closed loop.
+1. M00 — vì đây là số liệu setup/build/evidence đầu tiên của người mới hoàn toàn;
+2. M03 — vì người học đã có hành động công khai có tracking đầu tiên;
+3. M05 — vì đã có vòng học từ thị trường khép kín đầu tiên;
+4. M07 — vì workload reliability/decision đã quan sát được;
+5. M10 — trước vòng production khép kín.
 
-Mỗi reforecast phải tách:
+Mỗi lần dự báo lại phải tách:
 
 ```text
-focused build/debug/business/review hours
+giờ tập trung cho build/debug/business/review
 +
-external waiting/blocker days
+ngày chờ/blocker bên ngoài
 ```
 
 Không cộng hai loại trên thành một con số “giờ học”.

@@ -1,85 +1,85 @@
-# Effort model — Outcome-Driven Core
+# Mô hình khối lượng học — Core hướng outcome
 
-Lesson count không phải workload model. Core hiện có 63 micro-lesson nhưng phần lớn thời gian phải nằm ở build, debug, business observation, outcome window, review và retry.
+Số lượng lesson không phải mô hình workload (khối lượng công việc). Core hiện có 63 micro-lesson nhưng phần lớn thời gian phải nằm ở build, debug, quan sát kinh doanh, cửa sổ outcome, review và retry.
 
-## Planning envelope ban đầu
+## Khung lập kế hoạch ban đầu
 
 ~~~text
-Focused learner time: khoảng 240–360 giờ
-Outcome waiting time: ghi riêng, không tính như focused work
-Confidence: thấp cho tới khi có learner pilot M00–M05
+Thời gian tập trung của người học: khoảng 240–360 giờ
+Thời gian chờ outcome: ghi riêng, không tính như giờ làm tập trung
+Độ tin cậy của forecast: thấp cho tới khi có pilot M00–M05
 ~~~
 
-| Gate | Missions | Forecast focused hours |
+| Gate | Mission | Dự báo giờ tập trung |
 |---|---|---:|
-| G1 — First Evidence-Backed Decision | M00 | 12–24 |
-| G2 — Trustworthy Data & Grounded AI | M01–M02 | 35–60 |
-| G3 — First Market Learning Loop | M03–M05 | 55–90 |
-| G4 — Governed Production Loop | M06–M11 | 120–186 |
+| G1 — Quyết định đầu tiên dựa trên evidence | M00 | 12–24 |
+| G2 — Dữ liệu đáng tin + AI có grounding | M01–M02 | 35–60 |
+| G3 — Vòng học thị trường đầu tiên | M03–M05 | 55–90 |
+| G4 — Vòng production có quản trị | M06–M11 | 120–186 |
 | **Tổng** | | **222–360** |
 
-Dùng 240–360 giờ làm planning envelope để có khoảng review/integration tối thiểu. Đây là forecast, không phải promise.
+Dùng 240–360 giờ làm planning envelope (khung lập kế hoạch) để có khoảng review/integration tối thiểu. Đây là forecast (dự báo), không phải lời hứa.
 
-## Draft Mission nominal estimates
+## Ước lượng danh nghĩa của các Mission đã draft
 
-Mission files đang author/draft có nominal estimate hẹp hơn Gate envelope và hữu ích để lập kế hoạch gần hạn:
+Các Mission đang author/draft có ước lượng hẹp hơn Gate envelope và hữu ích cho kế hoạch gần hạn:
 
-| Mission | Nominal focused effort | Ghi chú |
+| Mission | Giờ tập trung danh nghĩa | Ghi chú |
 |---|---:|---|
-| M00 | ~10h | ready/pilot target |
+| M00 | ~10h | ready / mục tiêu pilot |
 | M01 | ~12h | draft |
 | M02 | ~12h | draft |
 | M03 | ~14h | draft |
-| **M00→M03** | **~48h** | first tracked human market action nếu không có external blocker |
+| **M00→M03** | **~48h** | hành động thị trường có tracking đầu tiên do người thực hiện nếu không có blocker bên ngoài |
 
-Các nominal estimate này **không override Gate envelope** và chưa đủ evidence để coi là duration chuẩn. Chúng chỉ ngăn calendar profile vô tình kéo bốn Mission đầu dài hơn nhiều so với chính Mission design.
+Các ước lượng này **không ghi đè Gate envelope** và chưa đủ evidence để coi là thời lượng chuẩn. Chúng chỉ ngăn calendar profile vô tình kéo bốn Mission đầu dài hơn nhiều so với chính thiết kế Mission.
 
-Planning implication:
+Hàm ý lập kế hoạch:
 
 ```text
-focused hours decide near-term pace
-external waiting decides calendar delay
-calendar month does not decide PASS
+giờ tập trung quyết định nhịp gần hạn
+thời gian chờ bên ngoài quyết định độ trễ lịch
+tháng trên lịch không quyết định PASS
 ```
 
-Sau pilot, actuals thắng nominal estimate.
+Sau pilot, actuals (số liệu thực tế) được ưu tiên hơn nominal estimate.
 
 ## Micro-lesson
 
-- S: 20–30 phút knowledge pull + apply nhỏ;
+- S: 20–30 phút kéo kiến thức + áp dụng nhỏ;
 - M: 30–45 phút;
-- L: 45–75 phút, chỉ khi không thể chia mà vẫn giữ decision context.
+- L: 45–75 phút, chỉ khi không thể chia mà vẫn giữ được decision context.
 
 Thời gian lesson phải gồm TRY/OBSERVE/APPLY/TEST, không chỉ thời gian đọc.
 
-## Mission actuals
+## Số liệu thực tế theo Mission
 
 Ghi riêng:
 
 - build;
 - debug;
-- operate;
-- knowledge pull;
+- operate (vận hành);
+- knowledge pull (kéo kiến thức);
 - review/retry;
-- business observation/action;
-- waiting for external outcome.
+- quan sát/hành động kinh doanh;
+- chờ outcome bên ngoài.
 
-Không double-count. Waiting time có thể kéo calendar nhưng không được biến thành “giờ học”.
+Không đếm hai lần (`double-count`). Waiting time có thể kéo dài calendar nhưng không được biến thành “giờ học”.
 
-## First reality-feedback target
+## Mục tiêu phản hồi thực tế đầu tiên
 
-M03 là first tracked human market action. Curriculum nên đưa learner tới đó ngay khi M00–M02 prerequisites/evidence đủ; không trì hoãn chỉ để khớp 12/15-month calendar.
+M03 là hành động thị trường thật có tracking đầu tiên do người thực hiện. Curriculum nên đưa learner tới đó ngay khi prerequisite/evidence của M00–M02 đủ; không trì hoãn chỉ để khớp lịch 12/15 tháng.
 
-Ở nominal ~48 focused hours:
+Ở mức danh nghĩa ~48 giờ tập trung:
 
-- 4 h/tuần → khoảng 12 tuần focused work;
+- 4 h/tuần → khoảng 12 tuần;
 - 5 h/tuần → khoảng 10 tuần;
 - 6 h/tuần → khoảng 8 tuần;
 - 8 h/tuần → khoảng 6 tuần.
 
-Đây là arithmetic planning aid, không phải promise. External blockers/outcome waiting được cộng vào calendar riêng.
+Đây chỉ là phép tính hỗ trợ lập kế hoạch, không phải lời hứa. Blocker và outcome waiting được cộng vào calendar riêng.
 
-## Quy tắc reforecast
+## Quy tắc dự báo lại
 
 Sau M00–M05:
 
@@ -89,6 +89,6 @@ Sau M00–M05:
 4. chỉ áp hệ số cho Mission tương tự;
 5. giữ nguyên evidence/safety gate và kéo dài timeline nếu cần.
 
-Nên reforecast sớm sau M00 và M03 để phát hiện absolute-beginner overhead và real-market friction trước khi dự báo phần còn lại.
+Nên dự báo lại sớm sau M00 và M03 để phát hiện overhead của người mới hoàn toàn và friction (ma sát) thị trường thật trước khi dự báo phần còn lại.
 
-Không dùng một learner để tuyên bố duration phổ quát. Dữ liệu một người chỉ là preliminary calibration.
+Không dùng dữ liệu một learner để tuyên bố duration phổ quát. Dữ liệu một người chỉ là calibration (hiệu chỉnh) sơ bộ.
