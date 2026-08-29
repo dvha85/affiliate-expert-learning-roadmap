@@ -12,14 +12,14 @@ Tài liệu này định nghĩa **trục sản phẩm, thực tế và quyền h
 | M03 | v0.4 | P2 | Artifact nội dung có tracking do người publish | Hành động công khai đầu tiên của người | A1 tư vấn; người thực thi |
 | M04 | v0.5 | P2 | Phân tích Decision→Action→Outcome | Cửa sổ analytics thật đầu tiên | A1 điều tra |
 | M05 | v0.6 | P3 | Cải tiến có version từ bottleneck đã đo | Vòng phản hồi thật khép kín đầu tiên | A1 copilot |
-| M06 | v1.0 | P4 | Tự động đọc/theo dõi đáng tin cậy + cảnh báo tất định | Bộ quan sát tự động đã vận hành | A0 lõi + A1 phân loại |
+| M06 | v1.0 | P4 | Tự động đọc/theo dõi đáng tin cậy + cảnh báo tất định | Bộ quan sát tự động đã vận hành | A0 core + A1 triage (lõi + phân loại) |
 | M07 | v1.1 | P4 | `DecisionPacket`, confidence, freshness, risk và abstention | Bộ nhớ quyết định có thể phát lại | A1 hỗ trợ quyết định |
 | M08 | v2.0 | P5 | Agent dùng công cụ chỉ-đọc để lấy evidence còn thiếu | Quỹ đạo gọi tool có audit | A2-RO |
 | M09 | v2.1 | P5 | `ActionIntent` chạy bóng + policy + approval bền vững | Quỹ đạo dry-run/sandbox/owned-draft | A3-shadow |
 | M10 | v3.0 | P5 | Tự động hóa R0/R1 giới hạn có quản trị; R2 cần approval | Canary trong phạm vi giới hạn | A3-limited |
 | M11 | v4.0 | P6 | Vòng production khép kín + triển khai cải tiến đã review | Chu kỳ decision/outcome đầu-cuối | A3-production |
 
-Các mức năng lực AI được định nghĩa tại [`AI-CAPABILITY-LEVELS.md`](AI-CAPABILITY-LEVELS.md). Multi-agent/A2A không phải Mission cốt lõi; chỉ là lựa chọn nâng cao khi M11 đã chứng minh một Agent/workflow đơn giản hơn không đủ.
+Các mức năng lực AI được định nghĩa tại [`AI-CAPABILITY-LEVELS.md`](AI-CAPABILITY-LEVELS.md). Multi-agent/A2A không phải Mission cốt lõi; chỉ là **advanced option sau khi M11 (lựa chọn nâng cao sau M11)** khi đã chứng minh một Agent/workflow đơn giản hơn không đủ.
 
 ## Trục Affiliate Intelligence
 
