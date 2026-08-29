@@ -18,21 +18,23 @@
 > Target capstone architecture:
 >
 > ```text
-> Data Sources / Events
+> SENSE / Data Sources / Events
 > → Collection / Provenance / Freshness
-> → Historical Data
-> → Deterministic Analytics / Forecast / ML
-> → AI Analysis / Evidence Escalation
-> → Decision Fusion
-> → DecisionPacket
+> → SignalPacket
+> → UNDERSTAND / Deterministic Analytics + AnalysisPacket
+> → PREDICT / Forecast-ML evidence khi relevant
+> → REASON / AI Analysis + Evidence Escalation
+> → DECIDE / Decision Fusion → DecisionPacket
 > → Tool Registry / Action Boundary
 > → Policy & Risk Engine
+> → ActionIntent
 > → RISK 0/1: controlled auto action
-> → RISK 2: Approval Queue → Human approve/reject
-> → Action Executor
+> → RISK 2: durable Approval Queue → Human approve/reject
+> → ACT / Action Executor
 > → Audit / Trace Store
-> → Result / Revenue / Outcome
-> → Evaluation / Decision-Outcome Learning
+> → MEASURE / Result / Revenue / Outcome
+> → EVALUATE / Decision-Outcome Memory
+> → LEARN / Proposed Improvement → Test/Review → Deploy
 > ↺
 > ```
 >
@@ -41,10 +43,22 @@
 Decision flow phải giữ state separation:
 
 ```text
-SignalPacket → AnalysisPacket → DecisionPacket → ActionIntent → ExecutionRecord → Outcome
+SignalPacket
+≠
+AnalysisPacket
+≠
+DecisionPacket
+≠
+ActionIntent
+≠
+ExecutionRecord
+≠
+Outcome
 ```
 
-A4 multi-agent chỉ optional ở M15. Nếu các capability vẫn nằm trong một modular Go application, interface/workflow nội bộ được ưu tiên hơn việc thêm protocol Agent-to-Agent không cần thiết.
+Capstone phải chứng minh ít nhất một path thiếu/stale/conflicting evidence dẫn tới `WAIT`, `GET_MORE_DATA` hoặc `HUMAN_REVIEW`, thay vì ép Agent luôn đưa action.
+
+A4 multi-agent chỉ optional ở M15. Nếu các capability vẫn nằm trong modular Go application, interface/workflow nội bộ được ưu tiên hơn protocol Agent-to-Agent không cần thiết.
 
 ### Chương 84 — Capstone Versions
 
@@ -62,13 +76,16 @@ A4 multi-agent chỉ optional ở M15. Nếu các capability vẫn nằm trong m
 
 > **Go-first implementation note:** capstone bắt đầu như modular Go application; chỉ tách service khi có operational reason rõ như independent scaling, security boundary hoặc failure isolation.
 
-> **Decision Intelligence note:** target không chỉ là `collect → rank → publish`; target là `sense → understand → predict → reason → decide → policy → act → measure → learn`, với provenance/freshness/compliance gates xuyên suốt.
+> **Decision Intelligence note:** target không chỉ là `collect → rank → publish`; target là `sense → understand → predict → reason → decide → policy → act → measure → evaluate → learn`, với provenance/freshness/compliance gates xuyên suốt.
 
-> **2026 freshness note:** policy/platform/legal/search/AI-provider updates là first-class data inputs có provenance/effective dates. Agentic capability không loại bỏ accountability hoặc Human Approval.
+> **Agentic CI note:** architecture boundaries được bảo vệ bởi `scripts/validate_agentic_architecture.py`; CI PASS chỉ chứng minh repo invariants, không tự đánh dấu Project 14 hoặc Lesson PASS.
+
+> **2026 freshness note:** policy/platform/legal/search/AI-provider/tool-runtime updates là first-class data inputs có provenance/effective dates. Agentic capability không loại bỏ accountability hoặc Human Approval.
 
 ## Cổng thực hành
 
 - [ ] **PROJECT 14 — Affiliate Intelligence Platform**
+- [ ] Demo full closed loop theo acceptance trong [`docs/PROJECTS.md`](../docs/PROJECTS.md)
 - [ ] Có artifact/evidence được lưu trong repo hoặc liên kết từ Issue
 - [ ] Viết retrospective: kết quả, sai lệch, điều học được, bước tiếp theo
 
