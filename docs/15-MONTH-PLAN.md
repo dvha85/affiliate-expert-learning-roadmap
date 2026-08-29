@@ -1,49 +1,49 @@
-# Profile 15 tháng — gentle-pace focused-hours forecast
+# Hồ sơ 15 tháng — dự báo nhịp nhẹ theo giờ tập trung
 
-Profile này dành cho người mới hoàn toàn hoặc chỉ có khoảng 4–6 focused hours/tuần. Đây là **calendar envelope**, không phải content authority hay minimum duration.
+Hồ sơ này dành cho người mới hoàn toàn hoặc chỉ có khoảng 4–6 giờ tập trung/tuần. Đây là **khung lịch (`calendar envelope`)**, không phải nguồn nội dung chuẩn hay thời lượng tối thiểu bắt buộc.
 
 ## Nguyên tắc
 
-- Mission progression dựa trên focused hours và evidence, không dựa trên “đã sang tháng mới”.
-- External waiting/account eligibility/platform review ghi riêng.
+- Tiến triển Mission dựa trên giờ tập trung và evidence (bằng chứng), không dựa trên việc “đã sang tháng mới”.
+- Thời gian chờ bên ngoài như account eligibility, platform review và outcome window được ghi riêng.
 - Safety/evidence gate giữ nguyên dù calendar kéo dài.
-- Nếu learner hoàn thành một Mission sớm, chuyển tiếp khi prerequisites/evidence cho phép; không chờ hết tháng.
+- Nếu người học hoàn thành Mission sớm, chuyển tiếp khi prerequisite/evidence cho phép; không chờ hết tháng.
 - Sample không được dùng để giả vờ Reality gate đã đạt.
 
-## Early-loop target
+## Mục tiêu vòng lặp thực tế sớm
 
-Drafted effort M00→M03 hiện khoảng 48 focused hours. Ở nhịp 4–6 giờ/tuần, đó là khoảng **8–12 tuần focused work**, chưa tính external blockers/waiting.
+Ước lượng M00→M03 hiện khoảng 48 giờ tập trung. Ở nhịp 4–6 giờ/tuần, đó là khoảng **8–12 tuần làm việc tập trung**, chưa tính blocker/thời gian chờ bên ngoài.
 
-Vì vậy gentle pace vẫn nên hướng tới first tracked human market action trong khoảng **2–3 tháng focused progression** khi prerequisites đủ, thay vì mặc định trì hoãn M03 tới tháng 7.
+Vì vậy nhịp nhẹ vẫn nên hướng tới **hành động thị trường thật có tracking đầu tiên do người thực hiện** trong khoảng **2–3 tháng tiến triển tập trung** khi prerequisite đủ, thay vì mặc định trì hoãn M03 tới tháng 7.
 
-Nếu không thể publish vì blocker ngoài curriculum, ghi `BLOCKED_EXTERNAL`, tiếp tục phần engineering được phép và reforecast.
+Nếu không thể publish vì blocker ngoài curriculum, ghi `BLOCKED_EXTERNAL`, tiếp tục phần kỹ thuật được phép và dự báo lại.
 
-## Mission bands
+## Các dải Mission
 
-| Band | Missions | Outcome |
+| Dải | Mission | Kết quả |
 |---|---|---|
-| G1 | M00 | Bot + public evidence + first decision |
-| G2 | M01–M02 | history + grounded AI |
-| G3 | M03 | first tracked human publish |
-| G4 | M04–M05 | analytics + first reviewed improvement |
-| G5 | M06–M07 | reliable watcher + decision memory |
-| G6 | M08 | read-only agent |
-| G7 | M09–M10 | shadow approval + limited automation |
-| G8 | M11 | production closed loop |
+| G1 | M00 | Bot + evidence công khai + quyết định đầu tiên |
+| G2 | M01–M02 | history + AI có grounding |
+| G3 | M03 | lần publish có tracking đầu tiên do người thực hiện |
+| G4 | M04–M05 | analytics + cải tiến đầu tiên đã review |
+| G5 | M06–M07 | watcher đáng tin cậy + decision memory |
+| G6 | M08 | agent chỉ-đọc |
+| G7 | M09–M10 | shadow approval + tự động hóa giới hạn |
+| G8 | M11 | vòng production khép kín |
 
-## Calendar use
+## Cách dùng lịch 15 tháng
 
-15 tháng là buffer cho:
+15 tháng là khoảng đệm (`buffer`) cho:
 
-- absolute-beginner setup/debug overhead;
-- repeated practice/recovery;
-- platform/account dependencies;
-- outcome windows;
-- life interruptions;
-- slower production hardening.
+- chi phí thời gian setup/debug của người mới hoàn toàn;
+- luyện tập lặp lại và recovery;
+- phụ thuộc platform/account;
+- outcome window;
+- gián đoạn cuộc sống;
+- production hardening chậm hơn.
 
-Nó **không** phải mục tiêu kéo dài M00–M03 khi learner đã đủ evidence.
+Nó **không** phải mục tiêu kéo dài M00–M03 khi người học đã đủ evidence.
 
-Suggested checkpoints: reforecast sau M00, M03, M05, M07 và M10 bằng actual focused hours + external waiting riêng.
+Các điểm nên dự báo lại: sau M00, M03, M05, M07 và M10 bằng **giờ tập trung thực tế + thời gian chờ bên ngoài ghi riêng**.
 
 Xem [`EFFORT-MODEL.md`](EFFORT-MODEL.md) và [`AFFILIATE-METRIC-REVENUE-SPINE.md`](AFFILIATE-METRIC-REVENUE-SPINE.md).
