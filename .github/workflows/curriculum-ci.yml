@@ -27,6 +27,9 @@ jobs:
       - name: Run authority drift validator
         run: python scripts/validate_authority.py
 
+      - name: Run Vietnamese language policy validator
+        run: python scripts/validate_language_policy.py
+
       - name: Run hardening validator
         run: python scripts/validate_hardening.py
 
