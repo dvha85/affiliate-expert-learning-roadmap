@@ -4,15 +4,29 @@ Chương trình dành cho người mới xây **một Affiliate Intelligence Bot
 
 ## Bắt đầu trong 5 phút
 
-Chưa cần đọc hết curriculum. Chạy starter trước:
+Chưa cần đọc hết curriculum. Trước khi chạy starter, kiểm tra workstation và chắc chắn terminal đang đứng trong đúng repo:
+
+~~~bash
+git --version
+go version
+git rev-parse --show-toplevel
+test -f lab/learner/affiliate-bot/go.mod
+~~~
+
+Nếu `go version` báo `command not found`, hoặc `git rev-parse` / `test -f` fail, **chưa chạy lệnh Bot tiếp**. Sửa environment/repo path trước; đây là preflight, không phải lesson hay PASS gate.
+
+Khi bốn lệnh trên đều ổn:
 
 ~~~bash
 cd lab/learner/affiliate-bot
+go env GOMOD
 go run ./cmd/bot
 go test ./...
 ~~~
 
 Bạn phải thấy `Bot version: pre-v0.1` và `Decision state: RANK_SCENARIO`. Sau đó mở [Mission M00](missions/M00-first-evidence-backed-decision.md), thực hiện Checkpoint 1 và chỉ kéo micro-lesson khi đã thấy một gap/failure cụ thể. Nếu bị chặn, dùng [Hint ladder M00](lab/learner/affiliate-bot/HINTS-M00.md) từng mức.
+
+Nếu bạn chưa truy cập được public product evidence thật, ghi blocker là `BLOCKED_EXTERNAL`/pending và tiếp tục phần engineering có thể làm bằng sample. **Không đổi sample thành “real” chỉ để vượt gate.**
 
 Sau lần chạy đầu, dùng [canonical curriculum](CURRICULUM.md) để hiểu outcome/ranh giới, [Build-First](BUILD-FIRST.md) để hiểu execution model và [Progress](PROGRESS.md) để lưu tiến độ.
 
@@ -95,6 +109,7 @@ Việc author dần là có chủ đích: pilot M00 trước, dùng actual block
 
 ~~~bash
 python scripts/validate_curriculum.py
+python scripts/validate_authority.py
 python scripts/validate_hardening.py
 python scripts/validate_build_first.py
 python scripts/validate_agentic_architecture.py
