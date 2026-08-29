@@ -256,6 +256,19 @@ Pre-register một change chính, primary metric, expected direction, outcome wi
 
 ## 5. Click/order/revenue maturity
 
+Canonical metric math và event semantics nằm tại [`AFFILIATE-METRIC-REVENUE-SPINE.md`](AFFILIATE-METRIC-REVENUE-SPINE.md).
+
+Minimum model:
+
+```text
+Clicks = Exposure × CTR
+Orders = Clicks × CVR
+Valid Orders = Orders × Valid Order Rate
+Expected Affiliate Revenue = Valid Orders × Commission per Valid Order
+```
+
+Mỗi factor phải giữ state riêng `observed | estimated | assumed | unknown`; không được trình bày một assumption chain như measured revenue.
+
 Các milestone này được ghi riêng, không biến may mắn kinh doanh thành điểm học:
 
 ```text
@@ -272,7 +285,8 @@ Quy tắc:
 - không có traffic sau window là distribution outcome, không phải lý do thay bằng sample;
 - real order được nhập ngay khi xuất hiện nhưng không bắt buộc để M04/M05 PASS;
 - pending, invalid, refunded và paid order không được gộp;
-- chỉ claim monetization validated ở milestone mà evidence hỗ trợ.
+- chỉ claim monetization validated ở milestone mà evidence hỗ trợ;
+- `missing ≠ zero`; `order ≠ valid order ≠ final/paid commission`.
 
 ## 6. Safety boundary
 
