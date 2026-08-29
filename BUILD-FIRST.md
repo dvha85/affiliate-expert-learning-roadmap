@@ -16,6 +16,19 @@ Build (Xây)
 → Ship next Bot Version (Bàn giao phiên bản Bot tiếp theo)
 ```
 
+Từ M00–M06, software loop chạy song song với **Manual Affiliate Loop**:
+
+```text
+Observe business manually
+→ Record evidence + provenance
+→ Make human judgment
+→ Compare with Bot
+→ Find disagreement / uncertainty
+→ Improve data or model
+```
+
+Xem [`docs/MANUAL-AFFILIATE-LOOP.md`](docs/MANUAL-AFFILIATE-LOOP.md). Lane này tạo business grounding sớm nhưng **không cấp execution authority sớm cho Bot**.
+
 `ROADMAP.md` và 23 file Part vẫn là **canonical knowledge inventory (kho kiến thức chuẩn hóa)** gồm 23 Parts / 89 Chapters / 671 lessons. Build-First không đổi số thứ tự, không xóa lesson và không thay learner PASS; nó chỉ thay **thứ tự thực thi việc học**.
 
 ## Lộ trình tiến hóa của Bot
@@ -88,7 +101,8 @@ Mục tiêu là tự tạo progression (tiến trình) M00 → M03, không đọ
 6. Test happy path (luồng đúng) và failure case (tình huống lỗi) phù hợp scope.
 7. Chạy/operate đủ để quan sát output.
 8. Lưu evidence (bằng chứng) và explain-back (giải thích lại bằng lời của mình).
-9. Chỉ PASS Mission khi ship target thực sự đạt.
+9. Với M00–M06, thực hiện manual-business slice tương ứng và so human judgment với Bot khi Mission có decision/ranking.
+10. Chỉ PASS Mission khi ship target thực sự đạt.
 
 ## Go từ ngày đầu, mastery đến sau
 
@@ -111,6 +125,8 @@ AUTOMATE REAL BUSINESS EARLY (tự động hóa hoạt động kinh doanh thật
 ```
 
 M00–M03 dùng dữ liệu mẫu/local và không có external side effect (tác động bên ngoài). Không publish nội dung, không tiêu tiền, không thay đổi tài khoản và không gọi hành động có hậu quả trên platform.
+
+Manual Affiliate Loop có thể dùng public/read-only observations để learner hiểu business signal, nhưng observation không phải permission để Bot hành động.
 
 ## AI xuất hiện sớm nhưng authority tăng dần
 
@@ -181,7 +197,7 @@ M00–M03 đã được author ở trạng thái `ready` trong `missions/`.
 - reference implementation hiện tương đương v0.3 để đối chiếu;
 - M04–M15 mới là roadmap targets và chưa có file Mission `ready`.
 
-Việc thêm AI architecture không auto-author M04–M15 và không thay learner progress hiện tại.
+Việc thêm AI architecture hoặc Manual Affiliate Loop không auto-author M04–M15 và không thay learner progress hiện tại.
 
 ## Quy chuẩn ngôn ngữ
 
