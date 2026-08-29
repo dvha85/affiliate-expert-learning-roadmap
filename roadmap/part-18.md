@@ -4,6 +4,8 @@
 - Quy mô: **6 chương / 35 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
+> Part 18 tạo predictive/ML evidence cho Decision Intelligence; model output không trực tiếp trở thành execution authority. Các estimate phải mang evaluation, data window, uncertainty/freshness và đi vào Decision Fusion của Part 16.
+
 ## Checklist bài học
 
 ### Chương 67 — Time-Series Analysis
@@ -15,6 +17,8 @@
 - [ ] **67.5** — Sales Velocity
 - [ ] **67.6** — Acceleration
 
+> Time-series signal dùng trong DecisionPacket phải ghi data window và regime/effective-date context khi platform metric đổi nghĩa.
+
 ### Chương 68 — Anomaly Detection
 
 - [ ] **68.1** — Price anomaly
@@ -22,6 +26,8 @@
 - [ ] **68.3** — Commission anomaly
 - [ ] **68.4** — Conversion anomaly
 - [ ] **68.5** — Traffic anomaly và anomaly validation
+
+> Anomaly là trigger để điều tra, không tự động là cause. M08 AI Investigator có thể tạo hypotheses nhưng observed fact và hypothesis phải tách.
 
 ### Chương 69 — Forecasting
 
@@ -31,6 +37,8 @@
 - [ ] **69.4** — Orders
 - [ ] **69.5** — Commission
 - [ ] **69.6** — Revenue
+
+> Forecast dùng cho quyết định cần prediction horizon, data freshness, error/evaluation và uncertainty. Forecast hết horizon/đổi regime phải được re-evaluate trước action.
 
 ### Chương 70 — Machine Learning Foundation
 
@@ -51,6 +59,8 @@
 - [ ] **71.4** — TOP-K opportunity evaluation
 - [ ] **71.5** — Explainability, retraining và drift
 
+> Ranking model output là một evidence channel. Opportunity Engine vẫn phải tạo DecisionPacket có reason/evidence/confidence/uncertainty/freshness và policy context.
+
 ### Chương 72 — Explore vs Exploit
 
 - [ ] **72.1** — Exploration
@@ -59,9 +69,17 @@
 - [ ] **72.4** — Thompson Sampling — concept
 - [ ] **72.5** — Adaptive Experimentation
 
-> **2026 freshness note:** concept/model drift now includes platform-policy, creator-score and AI-discovery changes. Forecast/ranking evaluation should annotate regime changes and avoid treating renamed/redefined platform metrics as a continuous unchanged feature series.
+> **Decision Intelligence rule:** `Rules + Scores + Ranking + Forecast/ML + Experiment Evidence + AI Analysis → Decision Fusion → DecisionPacket`. Confidence không phải execution permission; RISK2 vẫn cần approval bất kể model confidence cao.
 
-> **Adaptive-automation safety boundary:** explore/exploit models may recommend an action or bounded allocation, but do not bypass Part 16/19 policy controls. Before a model-driven side effect, define action space, budget/risk ceiling, stop condition, freshness/revalidation rule and approval requirement. Preferred flow: `model recommendation → Policy/Risk → auto or approval → execution → outcome/evaluation`, not `bandit/model → privileged action`.
+> **2026 freshness note:** concept/model drift bao gồm platform-policy, creator-score và AI-discovery changes. Forecast/ranking evaluation phải annotate regime changes và tránh coi metric đã rename/redefine là continuous unchanged series.
+
+> **Adaptive-automation safety boundary:** explore/exploit model có thể recommend action/bounded allocation nhưng không bypass Part 16/19 controls. Trước model-driven side effect phải có action space, budget/risk ceiling, stop condition, freshness/revalidation rule và approval requirement. Preferred flow: `model recommendation → DecisionPacket → Policy/Risk → auto or approval → execution → outcome/evaluation`.
+
+Tài liệu liên quan:
+
+- [`DECISION-INTELLIGENCE-STANDARD.md`](../docs/DECISION-INTELLIGENCE-STANDARD.md)
+- [`CONFIDENCE-AND-UNCERTAINTY.md`](../docs/CONFIDENCE-AND-UNCERTAINTY.md)
+- [`DATA-FRESHNESS-FOR-DECISIONS.md`](../docs/DATA-FRESHNESS-FOR-DECISIONS.md)
 
 ## Hoàn thành phần
 
