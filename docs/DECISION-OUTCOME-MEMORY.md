@@ -112,7 +112,7 @@ Outcome
 → Agent silently rewrites production policy/prompt/weights
 ```
 
-Mọi thay đổi production phải qua versioned change + test/evaluation/review phù hợp.
+Agent/learning loop **không tự rewrite production policy/prompt/weights**. Mọi thay đổi production phải qua versioned change + test/evaluation/review phù hợp.
 
 ## 7. Những gì có thể học từ memory
 

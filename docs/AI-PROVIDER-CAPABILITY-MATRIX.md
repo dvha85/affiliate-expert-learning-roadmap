@@ -48,6 +48,8 @@ high-value ambiguous recommendation
 
 PolicyDecision và RiskLevel authority không được route sang LLM như một black-box policy replacement.
 
+**Exact provider/model mapping nằm config/freshness layer**, không nằm trong domain Decision/Policy contract.
+
 ## 4. Fallback
 
 Mission A1 phải định nghĩa deterministic fallback hoặc degraded mode phù hợp.
