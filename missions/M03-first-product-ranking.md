@@ -92,6 +92,32 @@ Expected-Value top: B
 
 Nếu ranking không đổi trên data bạn đang dùng, tạo một dataset nhỏ khác đủ để bộc lộ khác biệt và giải thích vì sao.
 
+### Uncertainty note — Không biến input mẫu thành business fact
+
+Ở M03, `conversion_potential` **không mặc định là CVR đã đo được**. Với sample/synthetic dataset, nó là một estimate/assumption phục vụ bài học Expected Value.
+
+Mỗi giá trị `conversion_potential` dùng trong evidence phải đi kèm tối thiểu:
+
+```text
+value: <number>
+source: <sample | synthetic | observed | measured | other>
+fact_or_assumption: <fact | estimate | assumption | unknown>
+confidence: <low | medium | high>
+reason: <ai/điều gì tạo ra hoặc hỗ trợ giá trị này>
+```
+
+Ví dụ hợp lệ cho dữ liệu học:
+
+```text
+conversion_potential: 0.03
+source: synthetic
+fact_or_assumption: assumption
+confidence: low
+reason: chosen only to demonstrate ranking behavior; not measured CVR
+```
+
+Không được viết “CVR = 3%” như một fact nếu chưa có measured evidence phù hợp.
+
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
 ### Required — Bắt buộc cho Mission
@@ -132,6 +158,8 @@ simple Expected-Value score
 
 Đây **không** phải production Opportunity Score. Nó cố ý đơn giản để tạo context cho Economics/Product Intelligence về sau.
 
+Quan trọng: formula deterministic không làm input trở nên “đúng”. Nếu `conversion_potential` là assumption confidence thấp thì output score cũng phải được diễn giải như một **scenario/teaching estimate**, không phải ground truth.
+
 Thêm deterministic tie-break, ví dụ Product ID khi hai score bằng nhau.
 
 ## Tests — Kiểm thử
@@ -144,6 +172,8 @@ Tests phải chứng minh:
 - invalid Product không tạo NaN/undefined behavior;
 - storage/ingest của M01–M02 vẫn không bị regression (hỏng lại).
 
+Test deterministic behavior **không phải** test rằng assumption business là chính xác.
+
 ## Operate — Vận hành
 
 Chạy sample dataset và xem hai ranking cạnh nhau. Lưu before/after output.
@@ -154,11 +184,15 @@ Chạy sample dataset và xem hai ranking cạnh nhau. Lưu before/after output.
 EXPECTED VALUE > COMMISSION RATE
 ```
 
-thành behavior của Bot mà bạn trực tiếp quan sát được.
+thành behavior của Bot mà bạn trực tiếp quan sát được — đồng thời giữ rõ ranh giới giữa **model behavior** và **business truth**.
+
+Nếu đã làm Manual Affiliate Loop, so ranking của Bot với human judgment và ghi disagreement/uncertainty thay vì ép hai bên phải giống nhau.
 
 ## Failure Case — Tình huống lỗi
 
 Thử Product có invalid conversion potential hoặc malformed data. Validation layer phải chặn dữ liệu trước ranking; ranking không được âm thầm tạo NaN/undefined result.
+
+Thử thêm một case có `conversion_potential` hợp lệ về kiểu/range nhưng provenance không đủ. Giá trị này có thể chạy trong sample exercise nếu được đánh dấu assumption, nhưng không được trình bày như measured business fact.
 
 ## Evidence — Bằng chứng
 
@@ -169,15 +203,21 @@ Lưu:
 - test cho ranking đảo thứ tự;
 - deterministic tie-break test;
 - learner commit;
-- một đoạn giải thích tại sao thứ tự thay đổi.
+- một đoạn giải thích tại sao thứ tự thay đổi;
+- provenance/source của `conversion_potential`;
+- nhãn `fact/estimate/assumption/unknown`;
+- confidence + reason;
+- một câu nêu rõ output là teaching/scenario estimate nếu input chính là synthetic assumption.
 
 ## Explain-back — Giải thích lại
 
 1. Vì sao Commission Rate không phải Expected Value?
 2. Price và Conversion Potential làm thay đổi expected outcome như thế nào?
-3. Vì sao ranking function phải deterministic ở giai đoạn này?
-4. Những biến nào còn thiếu trước khi score đủ dùng cho real recommendation (khuyến nghị thật)?
-5. Vì sao M03 vẫn chưa được phép tự execute một business action bên ngoài?
+3. `conversion_potential` trong dataset của bạn đến từ đâu, là fact hay assumption, confidence bao nhiêu và vì sao?
+4. Vì sao deterministic formula không làm một assumption trở thành truth?
+5. Vì sao ranking function phải deterministic ở giai đoạn này?
+6. Những biến/evidence nào còn thiếu trước khi score đủ dùng cho real recommendation (khuyến nghị thật)?
+7. Vì sao M03 vẫn chưa được phép tự execute một business action bên ngoài?
 
 ## Mission PASS — Tiêu chí PASS
 
@@ -188,6 +228,9 @@ Lưu:
 - [ ] tests PASS
 - [ ] same input tạo deterministic output
 - [ ] có ít nhất một before/after ordering difference được giải thích
+- [ ] `conversion_potential` có source/provenance
+- [ ] `conversion_potential` được phân loại fact/estimate/assumption/unknown
+- [ ] có confidence + reason và không trình bày synthetic assumption như measured CVR
 - [ ] failure case đã được thử
 - [ ] hiểu knowledge slices 5.11 và 27.3 đủ cho implementation
 - [ ] explain-back đạt
