@@ -45,6 +45,77 @@ Repo cung cấp scaffold (khung tối giản) có thể compile/run để bạn 
 
 Reference implementation (bản triển khai tham chiếu) nằm ở `lab/affiliate-bot/` và **không phải starting state** của M00.
 
+## Environment Preflight — Kiểm tra môi trường trước khi build
+
+M00 dùng Go ngay từ vòng học đầu tiên, vì vậy **không giả định máy đã có sẵn toolchain**. Trước khi `cd` vào learner workspace hoặc chạy Bot, hãy kiểm tra môi trường từ terminal hiện tại:
+
+```bash
+pwd
+git --version
+go version
+```
+
+Sau đó xác nhận bạn đang có repository và learner workspace đúng:
+
+```bash
+# chạy từ repo root sau khi đã clone/mở đúng repository
+pwd
+test -f go.mod || true
+test -d lab/learner/affiliate-bot
+ls lab/learner/affiliate-bot
+```
+
+> Repo root không bắt buộc phải có `go.mod`; learner Go module nằm trong `lab/learner/affiliate-bot/`. Mục tiêu của preflight là **xác nhận vị trí**, không đoán path trên máy người học.
+
+Tiếp tục kiểm tra module thật:
+
+```bash
+cd lab/learner/affiliate-bot
+pwd
+test -f go.mod
+go env GOMOD
+go test ./...
+```
+
+### Nếu `git` không tồn tại
+
+Dừng M00 tại đây và cài/enable Git bằng cách phù hợp với hệ điều hành. Không tiếp tục bằng cách copy source rời rạc vì learner evidence cần gắn với repository/commit.
+
+### Nếu `go: command not found`
+
+Dừng trước bước Build First và cài **Go stable release** từ nguồn chính thức phù hợp với hệ điều hành/kiến trúc máy. Sau khi cài, mở terminal mới nếu cần rồi xác nhận lại:
+
+```bash
+go version
+go env GOMOD
+```
+
+Không hard-code một Go patch version vào Mission vì runtime version là current fact và được quản lý bởi freshness layer của curriculum.
+
+### Nếu `cd lab/learner/affiliate-bot` thất bại
+
+Không tạo ngẫu nhiên directory mới. Quay lại xác định repo root:
+
+```bash
+pwd
+git rev-parse --show-toplevel
+```
+
+Sau đó `cd` tới path repo root mà Git trả về và kiểm tra lại `lab/learner/affiliate-bot/`.
+
+### Preflight readiness
+
+Chỉ chuyển sang Build First khi:
+
+- `git --version` chạy được;
+- `go version` chạy được;
+- `git rev-parse --show-toplevel` xác định được repository;
+- `lab/learner/affiliate-bot/go.mod` tồn tại;
+- `go env GOMOD` trỏ tới learner module;
+- baseline `go test ./...` chạy được hoặc ít nhất trả một failure thuộc code/test của repo mà bạn có thể quan sát, không phải lỗi thiếu tool/path.
+
+Preflight là **readiness gate của execution**, không phải một Lesson/Mission mới và không tự tạo learner PASS.
+
 ## Build First — Xây trước
 
 1. Mở `lab/learner/affiliate-bot/cmd/bot/main.go`.
@@ -55,6 +126,8 @@ Reference implementation (bản triển khai tham chiếu) nằm ở `lab/affili
 Không mở reference v0.3 trước khi đã có attempt (lần thử) trừ khi có blocker thật.
 
 ## Run — Chạy
+
+Từ repo root:
 
 ```bash
 cd lab/learner/affiliate-bot
@@ -157,6 +230,7 @@ Failure exercise này giúp bạn chứng minh test thật sự phát hiện sai
 
 Lưu dưới `artifacts/missions/M00/` hoặc link tương đương:
 
+- preflight output đủ để chứng minh Git/Go/repo/module đã sẵn sàng;
 - command đã chạy;
 - output trước/sau thay đổi;
 - test PASS cuối cùng;
@@ -171,9 +245,11 @@ Lưu dưới `artifacts/missions/M00/` hoặc link tương đương:
 3. Vì sao M00 chưa cần AI/Agent?
 4. `USE GO EARLY` khác `CLAIM GO MASTERY EARLY` như thế nào?
 5. Vì sao `BUILD CODE EARLY ≠ AUTOMATE REAL BUSINESS EARLY`?
+6. Vì sao phải phân biệt lỗi môi trường/toolchain với lỗi code/test của Bot?
 
 ## Mission PASS — Tiêu chí PASS
 
+- [ ] Environment Preflight xác nhận Git/Go/repo/module đủ để thực thi M00
 - [ ] learner Bot chạy được
 - [ ] bạn đã tự sửa ít nhất một behavior nhỏ
 - [ ] tests PASS sau thay đổi
