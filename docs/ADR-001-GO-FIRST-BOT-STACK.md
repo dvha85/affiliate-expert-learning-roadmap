@@ -1,10 +1,12 @@
 # ADR-001 — Quyết định Go-first cho Bot Engineering Stack
 
-- **Status (Trạng thái):** Accepted (Đã chấp nhận)
+- **Status (Trạng thái):** Accepted for Go-first stack; curriculum-structure clauses superseded by ADR-002
 - **Decision date (Ngày quyết định):** 2026-08-28
 - **Applies from (Áp dụng từ):** curriculum revision v2026.09
 - **Supersedes (Thay thế):** hướng C#/.NET-first trong `sources/SYLLABUS-v2026.08.md`
 - **Does not erase (Không xóa):** v2026.08 vẫn là historical provenance (nguồn gốc lịch sử)
+
+> [`ADR-002`](ADR-002-OUTCOME-DRIVEN-CURRICULUM.md) thay thế toàn bộ invariant 23/89/671/14 và mission/lesson sequence cũ. ADR này hiện chỉ còn authority cho quyết định **Go-first nhưng tool/provider-neutral**, không còn authority cho curriculum count.
 
 > ADR = **Architecture Decision Record (Bản ghi quyết định kiến trúc)**. Tiếng Việt là ngôn ngữ chính; English terminology và tên công nghệ được giữ khi cần đối chiếu kỹ thuật. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
@@ -264,9 +266,9 @@ Migration Go-first đã được thực hiện theo các stage:
 
 Phần này là migration history, không phải danh sách việc “sẽ làm” trong tương lai.
 
-## 10. Invariants (Bất biến phải giữ)
+## 10. Historical structural invariant — superseded
 
-Migration phải bảo toàn:
+Revision v2026.09 từng yêu cầu bảo toàn:
 
 ```text
 23 Parts
@@ -275,4 +277,4 @@ Migration phải bảo toàn:
 14 main Projects
 ```
 
-Technology decision có thể thay implementation guidance, example và selected lesson title, nhưng không được âm thầm thay curriculum structural counts.
+Constraint này đã bị ADR-002 thay thế. Inventory active được phép giảm/gộp/thay đổi theo learner evidence; xem `CURRICULUM.md`.

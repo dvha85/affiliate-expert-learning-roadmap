@@ -1,119 +1,201 @@
-# Lộ trình tiến hóa Bot — M00 đến M15
+# Lộ trình tiến hóa Bot — M00 đến M11
 
-Tài liệu này định nghĩa **product/evidence spine (xương sống sản phẩm/bằng chứng)** của Build-First Learning Architecture v1. Nó không thay thế canonical knowledge inventory 23/89/671 hay 14 main Projects.
+Tài liệu này định nghĩa **product, reality và authority spine** của chương trình Build-First. Learner phát triển một Affiliate Bot duy nhất; mỗi phiên bản phải thêm capability quan sát được, evidence đúng loại và safety gate tương ứng.
 
-| Mission | Bot Version | AI level | Ship target (Mục tiêu bàn giao) | Knowledge theme chính |
-|---|---:|---|---|---|
-| M00 | v0.0 | A0 | Bot khởi động và tạo output quan sát được | định hướng Affiliate/Bot, Go tối thiểu |
-| M01 | v0.1 | A0 | Product ingest + validation | product cơ bản, struct, JSON, error |
-| M02 | v0.2 | A0 | Product persistence + snapshots/history | data model, SQL, repository, history |
-| M03 | v0.3 | A0 | Product ranking đầu tiên + before/after scoring | economics, Expected Value, Product Intelligence |
-| M04 | v0.4 | A0 | Product watcher phát hiện thay đổi | scheduler, context, delta, concurrency |
-| M05 | v0.5 | A1 | Reliable alerts + advisory triage | rule, timeout, retry, idempotency, alert triage |
-| M06 | v1.0 | A1 | Product Intelligence + AI research | market, customer, product, economics, risk |
-| M07 | v2.0 | A1 | Content Intelligence | content, CTR/CVR, psychology, funnel signals |
-| M08 | v3.0 | A1 | Revenue & Attribution Intelligence + investigation | tracking, order, validation, commission, reconciliation |
-| M09 | v4.0 | A1 | Experiment Engine + AI copilot | hypothesis, statistics, experiment logging |
-| M10 | v5.0 | A1 | Decision Intelligence & Policy Engine | score/rank/recommendation, confidence, freshness, RiskLevel, PolicyDecision |
-| M11 | v6.0 | A2 | AI Analysis Assistant | grounded LLM, model routing, evaluation, state separation |
-| M12 | v7.0 | A2 | Tool-Using Agent | tool registry, MCP khi hữu ích, validation/permission |
-| M13 | v8.0 | A3 | Governed Automation | ActionIntent, RISK 0/1/2, Human Approval, audit |
-| M14 | v9.0 | A3 | Production Agentic Bot | recovery, observability, evaluation, security, kill switch, cost |
-| M15 | v10.0 | A4 optional | Affiliate Intelligence Platform | governed closed-loop intelligence; multi-agent chỉ khi cần thật |
+## Mission spine
 
-AI levels được định nghĩa tại [`AI-CAPABILITY-LEVELS.md`](AI-CAPABILITY-LEVELS.md).
+| Mission | Bot version | Part | Ship target | Reality milestone | AI / authority |
+|---|---:|---:|---|---|---|
+| M00 | v0.1 | P0 | First evidence-backed ranking + human-vs-bot comparison | 5 public observations thật | A0 |
+| M01 | v0.2 | P1 | Validation, append-only snapshots, history, freshness | Second real snapshot | A0 |
+| M02 | v0.3 | P1 | Grounded AI advisor + schema/eval/fallback | AI on real public evidence | A1, no tool/write |
+| M03 | v0.4 | P2 | Tracked content artifact do human publish | First public human action | A1 advisory; human execute |
+| M04 | v0.5 | P2 | Decision→Action→Outcome analytics | First real analytics window | A1 investigation |
+| M05 | v0.6 | P3 | Versioned improvement from a measured bottleneck | First closed real feedback loop | A1 copilot |
+| M06 | v1.0 | P4 | Reliable automatic read/watch + deterministic alert | Operated automatic observer | A0 core + A1 triage |
+| M07 | v1.1 | P4 | DecisionPacket, confidence, freshness, risk và abstention | Replayable decision memory | A1 decision support |
+| M08 | v2.0 | P5 | Read-only tool Agent lấy missing evidence | Audited read-tool trajectory | A2-RO |
+| M09 | v2.1 | P5 | Shadow ActionIntent + policy + durable approval | Dry-run/sandbox/owned-draft trajectory | A3-shadow |
+| M10 | v3.0 | P5 | Limited governed R0/R1 automation; R2 approval | Bounded canary operation | A3-limited |
+| M11 | v4.0 | P6 | Production closed loop + reviewed improvement deployment | End-to-end decision/outcome cycles | A3-production |
 
-## Quan hệ phụ thuộc giữa Mission
+AI capability levels được định nghĩa tại [`AI-CAPABILITY-LEVELS.md`](AI-CAPABILITY-LEVELS.md). Multi-agent/A2A không phải core Mission; chỉ là advanced option sau khi M11 đã chứng minh một Agent/workflow đơn giản hơn không đủ.
+
+## Dependency
 
 ```text
-M00 → M01 → M02 → M03 → M04 → M05 → M06 → M07 → M08
-    → M09 → M10 → M11 → M12 → M13 → M14 → M15
+M00 → M01 → M02 → M03 → M04 → M05
+  → M06 → M07 → M08 → M09 → M10 → M11
 ```
 
-Chuỗi chính cố ý giữ đơn giản cho một learner. Side Mission tùy chọn không được làm thay M00–M15 main spine.
+Mission sau không thay thế operating loop của Mission trước. Ví dụ M08 có Agent không được bỏ deterministic baseline, source provenance hoặc outcome measurement đã tạo ở M00–M07.
 
-## Mẫu sư phạm Build-First
+## Vì sao thứ tự này hợp lý
 
-M03 vẫn là mẫu tham chiếu:
+### 1. Reality trước hạ tầng lớn
 
 ```text
-Build naive ranking
-→ quan sát commission-rate-only ranking còn yếu
-→ pull economics/product knowledge đúng lúc
-→ cải tiến công thức
-→ so sánh before/after
-→ giải thích vì sao ranking thay đổi
+M00 public evidence + first decision
+→ M01 data quality/history vì learner đã thấy dữ liệu đổi và thiếu
 ```
 
-M05+ mở thêm pattern:
+M01 dùng persistence tối giản đủ để giữ snapshots. Database, repository abstraction hoặc distributed components chỉ được thêm khi query/recovery/scale requirement thật xuất hiện.
+
+### 2. AI sớm nhưng không có quyền sớm
 
 ```text
-deterministic signal
-→ AI advisory analysis khi có giá trị
-→ evidence/confidence/uncertainty
-→ deterministic Decision/Policy boundary
+M02 deterministic/human baseline
+→ grounded AI analysis
+→ schema + evidence + uncertainty
+→ evaluation + fallback
 ```
 
-Điểm quan trọng: learner workspace không được chứa sẵn lời giải Mission sau. Reference implementation có thể tồn tại riêng để đối chiếu nhưng không phải learner starting state.
+AI xuất hiện trước khi learner phải xây nhiều infrastructure, nhưng chỉ được phân tích evidence learner đã hiểu. M02 không cấp tool hoặc external execution.
 
-## Decision Intelligence progression
+### 3. Hành động thật bằng tay trước tự động hóa
 
 ```text
-M04  detect change
-M05  prioritize/triage signals
-M06  enrich Product Intelligence
-M08  investigate revenue/attribution anomalies
-M09  interpret experiments
-M10  fuse evidence into DecisionPacket
-M11  improve AI reasoning/routing/evaluation
-M12  collect missing evidence through tools
-M13  create governed ActionIntent
-M14  operate safely/reliably in production
-M15  close the outcome-learning loop
+M03 Decision record + compliance/tracking gate
+→ human publishes exact artifact
+→ M04 measures outcome
+→ M05 improves one version from observed bottleneck
 ```
 
-Bốn logical contract xuyên suốt:
+Learner phải trực tiếp hiểu public action, tracking và consequence trước khi Bot tự tạo ActionIntent ở M09.
+
+### 4. Chỉ tự động hóa signal đã hiểu
 
 ```text
-SignalPacket → AnalysisPacket → DecisionPacket → ActionIntent
+M05 measured signal value
+→ M06 reliable automatic observation
+→ M07 decision + abstention
 ```
 
-Xem [`DECISION-CONTRACTS.md`](DECISION-CONTRACTS.md).
+Watcher không được tự động hóa noise chưa được xác định. Decision Engine phải biết `WAIT`, `GET_MORE_DATA` và `HUMAN_REVIEW`, không chỉ trả một recommendation cho mọi input.
 
-## Đóng góp vào canonical Project
-
-Mission evidence có thể đóng góp vào canonical Project mà không tạo Project ID mới:
-
-- M02 + M08 → Project 7 — Affiliate Data Warehouse
-- M03 + M06 → Project 4 — Product Intelligence
-- M04 + M05 → Project 10 — Product Tracker Bot
-- M07 → Project 5 — Real Content Portfolio
-- M09 → Project 9 — Experiment System
-- M10 → Project 11 — Opportunity Engine
-- M11 + M12 → Project 12 — AI Content Assistant
-- M14 → Project 13 — Production Affiliate Bot
-- M15 → Project 14 — Affiliate Intelligence Platform
-
-Mission contribution không tự động nghĩa Project PASS.
-
-## Tiến trình an toàn
+### 5. Read tools trước write authority
 
 ```text
-M00–M04: A0 deterministic
-M05–M10: A1 AI advisory/read-only; không external AI authority
-M11–M12: A2 AI/tool capability có validation/permission
-M13–M14: A3 governed external action model
-M15: A4 optional multi-agent, vẫn giữ cùng policy/risk boundary
+M08 A2 read-only evidence collection
+→ M09 A3 shadow intent/approval
+→ M10 bounded R0/R1 auto action
+→ M11 production closed loop
+```
+
+Mỗi bước tăng authority chỉ xảy ra sau khi bước trước có evaluation, failure evidence và operational control.
+
+## Reality ladder
+
+| Gate | Bằng chứng bắt buộc | Không được dùng thay thế |
+|---|---|---|
+| M00 | URL/public source + observed time + human judgment | sample-only ranking |
+| M01 | ít nhất hai observations khác thời điểm trên cùng subject | overwrite current row rồi gọi là history |
+| M02 | AI claims truy được về evidence; known-label eval | demo text nghe hợp lý |
+| M03 | tracked public artifact do human publish + policy/disclosure evidence | local draft |
+| M04 | analytics snapshot sau outcome window | hard-coded metrics |
+| M05 | decision/action/outcome/evaluation chain thật | đổi công thức chỉ để output đẹp hơn |
+| M06 | scheduled cycles + retry/dedup/alert evidence | gọi function một lần |
+| M07 | stale/missing/conflict replay dẫn tới state đúng | confidence không có method/reason |
+| M08 | tool-call trace với permission/timeout/injection cases | Agent answer không có trajectory |
+| M09 | durable approval, restart, expiry, revalidation, idempotency | chat “OK” làm approval record duy nhất |
+| M10 | canary log trong scope/time/budget cap | dry-run đơn lẻ |
+| M11 | trigger→decision→action→outcome→reviewed change trace | self-reported end-to-end demo |
+
+Evidence phải có `real | test | synthetic | replay`. Fixture chứng minh behavior nhưng không tự tạo `REALITY_VERIFIED`.
+
+## Decision và outcome progression
+
+```text
+M00  Observation + HumanPrediction + baseline BotDecision
+M01  provenance + freshness + history
+M02  AnalysisPacket-like grounded AI output
+M03  Decision record + human Action record
+M04  Outcome record + window/status
+M05  Evaluation + ChangeProposal
+M06  SignalPacket + reliable alert
+M07  DecisionPacket + abstention + RiskLevel/PolicyDecision
+M08  evidence escalation qua read tools
+M09  ActionIntent + ApprovalRequest + shadow ExecutionRecord
+M10  governed ExecutionRecord thật trong bounded policy
+M11  Decision/Outcome Memory + reviewed deployment loop
+```
+
+Logical contracts vẫn tách biệt:
+
+```text
+Fact / Signal
+≠ Analysis
+≠ Decision
+≠ ActionIntent
+≠ ExecutionRecord
+≠ Outcome
+```
+
+Xem [`DECISION-CONTRACTS.md`](DECISION-CONTRACTS.md) và [`DECISION-OUTCOME-MEMORY.md`](DECISION-OUTCOME-MEMORY.md).
+
+## Outcome không phải điểm may mắn
+
+Mission PASS đánh giá measurement và reasoning nằm trong quyền learner kiểm soát; không đánh giá bằng việc may mắn có sale.
+
+- test click xác nhận tracking, không phải real market response;
+- zero impressions/clicks sau window là outcome thật và có thể dẫn tới distribution experiment;
+- `missing` không được chuyển thành `0`;
+- order/refund/valid/paid path được test bằng fixture từ M04;
+- real order/commission được ghi ngay khi xuất hiện nhưng không phải gate bắt buộc;
+- chỉ claim monetization validated khi có evidence thật tương ứng.
+
+## Safety progression
+
+```text
+M00–M01  public/manual read, deterministic compute
+M02–M07  A1 advisory; no AI external execution
+M03      human-only public publish after compliance/tracking gate
+M06      automatic read/watch only on allowed source/access method
+M08      read-only allowlisted tools
+M09      all side effects shadow/draft + durable approval machinery
+M10      allowlisted bounded R0/R1 auto; R2 durable approval
+M11      same policy boundary in production + recovery/monitoring
 ```
 
 ```text
-BUILD CODE EARLY
-≠
-AUTOMATE REAL BUSINESS EARLY
-
-AI APPEARS EARLY
-≠
-AI GETS AUTHORITY EARLY
+RISK 0 → internal/read-only auto
+RISK 1 → bounded/reversible + mandatory audit
+RISK 2 → durable Human Approval + revalidation
+DENY   → prohibited regardless of approval
 ```
 
-Không đưa consequential auto-execution lên Mission đầu chỉ để Bot trông nâng cao hơn.
+Public publish, spend, account/platform setting, consequential communication và destructive action mặc định là RISK 2. Fake engagement, disclosure evasion, policy bypass, restricted scraping, credential sharing và unbounded spend là `DENY`.
+
+## Upgrade gates
+
+Không tăng AI/authority level chỉ vì framework mới có sẵn. Mission chỉ nâng level khi có:
+
+1. business signal/value đã quan sát;
+2. deterministic hoặc human baseline;
+3. failure modes và evaluation cases;
+4. evidence/freshness contract;
+5. permission/risk boundary;
+6. fallback, audit và acceptable cost;
+7. PASS/REALITY/OPERATED evidence của Mission trước.
+
+## Final closed loop
+
+```text
+SENSE / COLLECT
+→ SignalPacket
+→ deterministic analytics
+→ grounded AnalysisPacket khi có giá trị
+→ DecisionPacket hoặc ABSTAIN
+→ Policy + Risk
+→ ActionIntent
+→ auto trong R0/R1 bounds hoặc durable approval cho R2
+→ ExecutionRecord
+→ Outcome
+→ Evaluation
+→ ChangeProposal
+→ offline test/eval
+→ human-reviewed versioned deploy
+↺
+```
+
+Bot không được âm thầm rewrite production prompt, scoring weights, workflow hoặc policy từ một outcome mới.

@@ -30,10 +30,14 @@ chapter: 0
 effort: M
 estimated_minutes: 60
 status: {status}
+track: core
+mission_refs: ["M00"]
+practice_first: true
 prerequisites: []
 source_refs:
-  canonical:
-    - "S:P0/C0/L{lesson_id}"
+  active:
+    - "CUR:P0/C0/L{lesson_id}"
+  historical: []
   training: []
   research: []
   external: []
@@ -67,20 +71,17 @@ Tổng cộng: **1 phần · 1 chương · 2 bài học**.
 ''')
         self.write("lessons/part-00/chapter-00/0.1-ready-lesson.md", self.lesson("0.1", "ready", "Ready lesson"))
         self.write("lessons/part-00/chapter-00/0.2-planned-lesson.md", self.lesson("0.2", "planned", "Planned lesson"))
-        self.write("sources/README.md", '''# Sources
+        self.write("CURRICULUM.md", '''# Active curriculum
 
-`SYLLABUS-v2026.09.md` is the active canonical manifest.
+Mission-first
+Real Evidence Ladder
+Core / Advanced / Reference
+
+Parts: 1
+Chapters: 1
+Lessons: 2
 ''')
-        self.write("sources/SYLLABUS-v2026.08.md", "# Historical baseline\n")
-        self.write("sources/SYLLABUS-v2026.09.md", '''# Active canonical
-
-PRIMARY IMPLEMENTATION LANGUAGE = Go
-
-Parts: 23
-Chapters: 89
-Lessons: 671
-Main projects: 14
-''')
+        self.write("sources/README.md", "# Historical sources\n")
 
     def codes(self) -> set[str]:
         return {p.code for p in validate(self.root)}
@@ -115,6 +116,14 @@ Main projects: 14
         self.write("lessons/part-00/chapter-00/0.2-planned-lesson.md", content)
         self.assertIn("META002", self.codes())
 
+    def test_historical_syllabus_ref_cannot_pose_as_active_ref(self) -> None:
+        content = self.lesson("0.1", "ready", "Ready lesson").replace(
+            '  active:\n    - "CUR:P0/C0/L0.1"',
+            '  canonical:\n    - "S:P0/C0/L0.1"',
+        )
+        self.write("lessons/part-00/chapter-00/0.1-ready-lesson.md", content)
+        self.assertIn("META012", self.codes())
+
     def test_missing_normalized_timeline_fails(self) -> None:
         part = (self.root / "roadmap/part-00.md").read_text(encoding="utf-8").replace(
             "- Timeline: **Standard M1 · Accelerated M1** — forecast; PASS evidence mới là gate.\n\n", ""
@@ -146,29 +155,29 @@ Main projects: 14
         self.assertIn("FRESH003", self.codes())
 
     def test_active_canonical_manifest_is_required(self) -> None:
-        (self.root / "sources/SYLLABUS-v2026.09.md").unlink()
+        (self.root / "CURRICULUM.md").unlink()
         self.assertIn("CANON001", self.codes())
 
-    def test_source_index_must_declare_active_canonical(self) -> None:
-        self.write("sources/README.md", "# Sources\n\nHistorical only.\n")
-        self.assertIn("CANON004", self.codes())
-
-    def test_active_canonical_requires_go_decision_marker(self) -> None:
-        text = (self.root / "sources/SYLLABUS-v2026.09.md").read_text(encoding="utf-8").replace(
-            "PRIMARY IMPLEMENTATION LANGUAGE = Go\n", ""
-        )
-        self.write("sources/SYLLABUS-v2026.09.md", text)
+    def test_active_canonical_requires_dynamic_totals(self) -> None:
+        self.write("CURRICULUM.md", "# Active curriculum\n\nMission-first\n")
         self.assertIn("CANON005", self.codes())
 
-    def test_legacy_primary_stack_is_rejected_in_active_part15(self) -> None:
-        self.write("roadmap/part-15.md", '''# Phần 15 — TEST
+    def test_canonical_and_roadmap_totals_must_match(self) -> None:
+        text = (self.root / "CURRICULUM.md").read_text(encoding="utf-8").replace("Lessons: 2", "Lessons: 3")
+        self.write("CURRICULUM.md", text)
+        self.assertIn("CANON006", self.codes())
 
-### Chương 51 — Technology Stack
-- [ ] **51.1** — Go runtime, modules và project structure
+    def test_ready_lesson_requires_mission_first_metadata(self) -> None:
+        content = self.lesson("0.1", "ready", "Ready lesson").replace(
+            'track: core\nmission_refs: ["M00"]\npractice_first: true\n', ""
+        )
+        self.write("lessons/part-00/chapter-00/0.1-ready-lesson.md", content)
+        self.assertIn("META013", self.codes())
 
-ASP.NET Core
-''')
-        self.assertIn("TECH002", self.codes())
+    def test_ready_lesson_must_be_practice_first(self) -> None:
+        content = self.lesson("0.1", "ready", "Ready lesson").replace("practice_first: true", "practice_first: false")
+        self.write("lessons/part-00/chapter-00/0.1-ready-lesson.md", content)
+        self.assertIn("META014", self.codes())
 
 
 if __name__ == "__main__":

@@ -1,241 +1,322 @@
 # Bản đồ Mission ↔ Knowledge
 
-Đây là lớp mapping (ánh xạ) just-in-time tập trung. Tài liệu cố ý tránh bulk-edit front matter của 671 Lesson.
+Tài liệu này ánh xạ knowledge pull nhỏ nhất cho spine M00–M11. Mission quyết định learner cần build và chứng minh gì; knowledge chỉ được pull khi attempt, evidence hoặc failure làm lộ nhu cầu.
 
-## Ý nghĩa ba mức kiến thức
+## Ba mức kiến thức
 
-- **REQUIRED (Bắt buộc cho Mission)** — phải hiểu đủ để Mission PASS.
-- **ON-DEMAND (Lấy khi phát sinh nhu cầu)** — pull khi implementation/business context làm lộ nhu cầu cụ thể.
-- **REFERENCE (Tham khảo)** — hữu ích để đào sâu nhưng không phải Mission PASS gate.
-
-Các Lesson ID explicit phải resolve trong canonical inventory 671 bài. Khi Mission đã `ready`, ưu tiên **Lesson ID cụ thể + knowledge slice** thay vì theme mơ hồ.
+- **REQUIRED** — knowledge slice phải hiểu và áp dụng để Mission PASS.
+- **ON-DEMAND** — chỉ pull khi implementation hoặc reality context làm xuất hiện nhu cầu.
+- **REFERENCE** — tài liệu đào sâu, không phải PASS gate.
 
 ```text
-REQUIRED FOR MISSION
-≠
-FULL LESSON PASS
+TRY / OBSERVE FIRST
+→ PULL THE SMALLEST USEFUL SLICE
+→ APPLY IMMEDIATELY
+→ EXPLAIN THROUGH THE ARTIFACT
 ```
 
-## AI capability mapping
+`REQUIRED FOR MISSION` không có nghĩa phải học hết một Part hoặc full-pass mọi reference lesson trước khi build.
+
+## Part execution map
+
+| Part | Mission | Knowledge outcome |
+|---|---|---|
+| P0 — First Evidence Decision | M00 | business boundary, evidence literacy, first deterministic decision |
+| P1 — Trustworthy Data & Grounded AI | M01–M02 | trustworthy history, grounded AI analysis và evaluation |
+| P2 — Publish & Measure | M03–M04 | safe human publish, tracking, attribution và outcome semantics |
+| P3 — Improve from Reality | M05 | experiment discipline và versioned improvement |
+| P4 — Automatic Observation & Decision | M06–M07 | reliability, signals, decision/abstention và policy |
+| P5 — Governed Agent | M08–M10 | read tools, security, approval và bounded automation |
+| P6 — Production Closed Loop | M11 | production operation, outcome learning và reviewed deployment |
+
+## AI/authority map
 
 ```text
-M00–M04 → A0 deterministic
-M05–M10 → A1 AI advisory/read-only
-M11–M12 → A2 tool-assisted Agent
-M13–M14 → A3 governed action Agent
-M15     → A4 optional multi-agent
+M00–M01 → A0 deterministic
+M02–M07 → A1 grounded advisory/read-only
+M08     → A2 read-only tool Agent
+M09     → A3-shadow
+M10     → A3-limited
+M11     → A3-production
+post-core → A4 multi-agent optional, không bắt buộc
 ```
 
 AI level mô tả quyền kỹ thuật của Bot, không phải learner PASS.
 
-## M00 — Khởi động Affiliate Bot
+## M00 — Real public evidence + first human-vs-bot decision
 
 **REQUIRED**
 
-- `0.1` — Affiliate Expert là gì?
-  - slice: affiliate là business system, vai trò Affiliate Expert, hiểu trước khi automate thật.
-- `0.2` — Affiliate Bot Engineer là gì?
-  - slice: Bot Engineer biến business logic thành hệ thống; deterministic trước AI; Decision ≠ Execution.
+- affiliate money/value flow ở mức đủ biết Bot đang hỗ trợ quyết định nào;
+- ethical/compliance boundary tối thiểu: public observation không tạo permission để hành động;
+- evidence record: source, `observed_at`, value, freshness và access method;
+- phân biệt `fact`, `estimate`, `assumption`, `unknown`;
+- human judgment/prediction phải được ghi trước Bot output;
+- deterministic baseline ranking và explainable reason;
+- Go tối thiểu: terminal, `package`, `func`, data collection nhỏ, edit/run/test và đọc một test failure.
 
 **ON-DEMAND**
 
-- Go tối thiểu để đọc `package main`, `func`, slice và test learner workspace.
+- Expected Value slice khi learner thấy commission-rate-only ranking yếu;
+- JSON/CSV syntax chỉ khi learner chọn format đó cho observations.
 
 **REFERENCE**
 
-- Part 15 formal Bot Engineering mastery để sau.
+- advanced opportunity scoring, statistics và production architecture.
 
-## M01 — Product Ingest
-
-**REQUIRED**
-
-- `38.1` — Core marketplace entities.
-  - slice: Product identity và field cốt lõi.
-- `51.1` — Go runtime, modules và project structure.
-  - slice: struct/type/package đủ để tạo Product model.
-- `52.3` — File Import.
-  - slice: local file làm data source đầu tiên.
-- `52.7` — Validation.
-  - slice: syntax validation khác business validation.
-
-**ON-DEMAND**
-
-- Platform-specific fields chỉ khi có adapter thật;
-- error wrapping/JSON details khi lỗi thực tế yêu cầu.
-
-## M02 — Product Store & History
+## M01 — Trustworthy history
 
 **REQUIRED**
 
-- `38.2` — ProductSnapshot và dữ liệu lịch sử.
-- `39.1` — Snapshot.
-- `51.3` — PostgreSQL, Redis và data access.
-  - slice: repository boundary, migration/schema, persistence contract; chưa cần Redis.
+- Product/subject identity khác observation snapshot;
+- syntax validation khác business/data-quality validation;
+- timestamp, provenance, freshness và schema drift;
+- append-only history; `missing` khác unchanged/zero;
+- change/delta semantics cơ bản;
+- Go struct, JSON/CSV/file I/O, error và time ở mức đủ cho implementation.
 
 **ON-DEMAND**
 
-- PostgreSQL driver/integration wiring khi thực sự bật local DB;
-- data lineage/provenance sâu hơn khi có nguồn ngoài.
-
-## M03 — Product Ranking đầu tiên
-
-**REQUIRED**
-
-- `5.11` — Expected Value.
-- `27.3` — Ranking.
-
-**ON-DEMAND**
-
-- Demand, Product–Audience Fit, price, CVR, valid-order/refund risk, seller/product quality khi tiến tới M06.
+- SQLite/PostgreSQL khi file store không còn đáp ứng query/recovery thật;
+- Repository abstraction khi có từ hai storage implementation hoặc test boundary thật;
+- indexing/transaction khi workload làm lộ nhu cầu.
+- scheduler, context timeout, retry và deduplication được giữ cho M06, khi watcher thật sự xuất hiện.
 
 **REFERENCE**
 
-- advanced statistical ranking và AI scoring để sau.
+- warehouse, streaming và distributed storage.
 
-## M04 — Product Watcher
+## M02 — Grounded AI advisor
 
-**AI level:** A0.
+**REQUIRED**
 
-**REQUIRED themes**
-
-- snapshot/delta semantics;
-- scheduler;
-- context/cancellation.
-
-**ON-DEMAND**
-
-- bounded concurrency khi collection tuần tự thành bottleneck thật.
-
-## M05 — Reliable Alerts + AI Alert Triage
-
-**AI level:** A1 — advisory/read-only.
-
-**REQUIRED themes**
-
-- rule/threshold;
-- timeout;
-- retry/backoff;
-- idempotency/deduplication;
-- structured alert evidence;
-- AI summary/classification/urgency chỉ như advisory layer;
-- deterministic fallback khi AI unavailable.
+- LLM output là untrusted analysis, không phải fact hoặc permission;
+- human/deterministic baseline trước khi thêm AI;
+- grounded extraction: claim phải có source/evidence span hoặc bị đánh dấu unsupported;
+- structured output và validation;
+- confidence không phải xác suất chân lý; uncertainty, missing evidence và abstention;
+- small known-label eval set, unsupported-claim case và prompt-injection case;
+- provider-neutral adapter, secret handling, latency/cost budget và deterministic fallback.
 
 **ON-DEMAND**
 
-- `61.5` Structured Output và `65.x` evaluation khi author M05 cần AI output schema/eval cụ thể.
+- model routing khi một model không đạt cost/quality requirement;
+- retrieval khi evidence set vượt context thực tế;
+- caching khi repeated calls tạo cost/latency thật.
 
-## M06 — Product Intelligence + AI Product Research
+**REFERENCE**
 
-**AI level:** A1.
+- fine-tuning, advanced RAG và multi-model orchestration.
 
-**REQUIRED themes**
+## M03 — Human tracked publish
 
-- Parts 2, 6, 7, 8: economics + market + customer + product intelligence;
-- AI extraction từ unstructured product/review/seller evidence thành structured features;
-- source grounding, product fidelity, confidence/uncertainty.
+**REQUIRED**
 
-**Rule:** AI có thể extract/explain; deterministic engine vẫn chịu trách nhiệm score/rank baseline.
+- product–audience problem/hypothesis đủ để chọn một content angle;
+- claim/evidence boundary và prohibited claims;
+- disclosure, platform policy và source freshness trước publish;
+- content brief, CTA và tracking link;
+- exact-artifact human review;
+- Decision record: hypothesis, evidence, expected outcome, confidence, uncertainty và outcome window;
+- AI-generated suggestion phải được grounded/reviewed; human là actor publish.
 
-## M07 — Content Intelligence
+**ON-DEMAND**
 
-**AI level:** A1.
+- channel-specific format/creative pattern khi learner đã chọn channel;
+- accessibility, SEO hoặc video production chỉ theo artifact thật;
+- account/API integration chưa cần ở Mission này.
 
-**REQUIRED themes**
+**REFERENCE**
 
-- Parts 9–11: content/psychology + traffic context + funnel/conversion;
-- content signal extraction/analysis phải giữ provenance và policy state.
+- paid distribution, automatic publishing và content-at-scale.
 
-## M08 — Revenue & Attribution Intelligence + Investigator
+## M04 — Real outcome analytics
 
-**AI level:** A1.
+**REQUIRED**
 
-**REQUIRED themes**
+- funnel event chain: exposure/impression → click → order → valid/final/paid commission khi nguồn hỗ trợ;
+- tracking identifiers và Decision→Action→Outcome linkage;
+- test event khác real event;
+- `missing` khác `zero`; outcome `pending`, `partial`, `final`;
+- attribution window, late event và refund semantics;
+- CTR/CVR/commission calculation ở mức đủ dùng;
+- preserve raw/source snapshot; AI hypothesis không được overwrite transaction truth.
 
-- Parts 2, 3, 11–13: economics, tracking/attribution, funnel, data, analytics;
-- anomaly investigation: hypotheses + evidence + missing evidence + confidence;
-- AI không sửa transaction/reconciliation truth.
+**ON-DEMAND**
 
-## M09 — Experiment Engine + AI Copilot
+- reconciliation khi hai nguồn thật xung đột;
+- privacy/consent requirements theo tracking channel cụ thể;
+- advanced multi-touch attribution khi single-touch thật sự không đủ.
 
-**AI level:** A1.
+**REFERENCE**
 
-**REQUIRED themes**
+- causal attribution, media mix và enterprise analytics.
 
-- Part 14 experimentation/statistics;
-- AI được generate hypothesis/interpret/propose next experiment;
-- statistical engine vẫn tính result và uncertainty chính thức;
-- Part 18 adaptive experimentation khi learner tiến tới bandit/ML scope.
+## M05 — First real improvement
 
-## M10 — Decision Intelligence & Policy Engine
+**REQUIRED**
 
-**AI level:** A1.
+- bottleneck diagnosis từ outcome thật: distribution, click, conversion, validation hoặc measurement;
+- hypothesis và expected direction trước change;
+- baseline/variant, một thay đổi chính, primary metric, window và stop rule;
+- negative/zero/inconclusive là kết quả hợp lệ;
+- before/after không tự chứng minh causality;
+- AI chỉ đề xuất/giải thích; deterministic/statistical layer giữ measured result;
+- Evaluation→ChangeProposal→offline test→review→versioned deploy.
 
-**REQUIRED themes**
+**ON-DEMAND**
 
-- Parts 8, 13, 15, 16 và relevant Part 18 signals;
-- Rule/Score/Rank/Forecast/Experiment evidence + AI AnalysisPacket → Decision Fusion;
-- `DecisionPacket` phải có evidence/confidence/uncertainty/freshness/expiry;
-- Decision ≠ Execution;
-- RiskLevel + PolicyDecision vẫn là deterministic/governed authority.
+- randomization/significance khi traffic và design đủ điều kiện;
+- sequential testing khi repeated peeking trở thành vấn đề;
+- segmentation khi aggregate outcome che giấu pattern thật.
 
-## M11 — AI Analysis Assistant
+**REFERENCE**
 
-**AI level:** A2.
+- bandit, adaptive experimentation và automated optimization.
 
-**REQUIRED themes**
+## M06 — Reliable automatic read/watch
 
-- Part 17: grounding, structured output, LLM workflow, evaluation, state separation;
-- model routing theo task/value/risk;
-- provider-neutral AI interface;
-- analysis trajectory và cost/latency evaluation.
+**REQUIRED**
 
-## M12 — Tool-Using Agent
+- source access/permission matrix: manual, export, official API hoặc explicitly allowed public source;
+- scheduler, context/cancellation và bounded work;
+- snapshot/delta/materiality;
+- timeout, retry/backoff, idempotency/deduplication;
+- freshness, out-of-order và replay handling;
+- deterministic alert path, logging/metrics và recovery basics;
+- A1 triage chỉ enrich; AI unavailable không được làm mất alert canonical.
 
-**AI level:** A2.
+**ON-DEMAND**
 
-**REQUIRED themes**
+- concurrency khi sequential collection là bottleneck đo được;
+- queue/outbox khi delivery reliability thật yêu cầu;
+- durable database khi restart/recovery không thể đáp ứng bằng store hiện tại.
 
-- explicit tool contract;
-- tool registry/discovery;
-- validation + permissions + risk ceiling;
-- MCP khi hữu ích;
-- bounded orchestration để lấy missing evidence;
-- external side-effect tool không được bypass Policy/Risk.
+**REFERENCE**
 
-## M13 — Governed Automation
+- high-scale event streaming và distributed scheduler.
 
-**AI level:** A3.
+## M07 — Decision + abstention
 
-**REQUIRED themes**
+**REQUIRED**
 
-- ActionIntent;
-- RISK 0/1/2;
-- durable Human Approval;
-- expiry/revalidation;
-- audit/idempotency.
+- state separation: Signal ≠ Analysis ≠ Decision ≠ Execution;
+- evidence fusion từ rule/metric/AI nhưng deterministic policy giữ authority;
+- `DecisionPacket`: evidence, confidence method/reason, uncertainty, missing evidence, freshness, expiry;
+- `WAIT`, `GET_MORE_DATA`, `HUMAN_REVIEW` là decision hợp lệ;
+- RiskLevel và PolicyDecision;
+- replay trên stale/missing/conflicting evidence;
+- Decision/Outcome Memory ở mức đủ truy lại prediction và outcome.
 
-## M14 — Production Agentic Bot
+**ON-DEMAND**
 
-**AI level:** A3.
+- calibration metric khi có đủ historical cases;
+- forecast/ML khi deterministic rule không đáp ứng utility đã đo;
+- feature weighting khi evidence thật cho thấy nhu cầu.
 
-**REQUIRED themes**
+**REFERENCE**
 
-- Part 19: recovery, observability, security, least privilege, kill switch, cost;
-- agent/tool/decision tracing;
-- trajectory evaluation;
-- decision latency/cost/failure metrics.
+- advanced probabilistic decision theory và online learning.
 
-## M15 — Affiliate Intelligence Platform
+## M08 — Read-only tool Agent
 
-**AI level:** A4 optional.
+**REQUIRED**
 
-**REQUIRED themes**
+- evidence escalation: chỉ gọi tool khi missing evidence có giá trị;
+- explicit Tool Registry: purpose, schema, read/write, permission, risk ceiling, timeout, retry và audit;
+- M08 chỉ expose read-only tools;
+- least privilege, scoped credential và secret redaction;
+- prompt injection boundary: retrieved content không phải instruction/authorization;
+- validate arguments/results; allowlist target/source;
+- max calls, latency/cost budget và cancellation;
+- trajectory eval: tool selection, arguments, unnecessary calls, denial/timeout recovery và evidence coverage.
 
-- Part 21 capstone integration;
-- Signal → Analysis → Decision → Action → Outcome → Evaluation closed loop;
-- Decision/Outcome memory;
-- multi-agent/A2A chỉ khi có independent remote-agent boundary thật.
+**ON-DEMAND**
 
-## Quy tắc refine
+- MCP khi một integration cụ thể tạo interoperability value;
+- parallel tool calls khi dependency và budget cho phép;
+- retrieval/index khi direct read tools không đủ.
 
-Khi Mission được author `ready`, thay theme-level pulls bằng **tập Lesson ID nhỏ nhất thực sự cần cho Mission PASS**, kèm knowledge slice cụ thể. Không thêm hàng trăm mapping dự đoán trước khi có Mission thực tế.
+**REFERENCE**
+
+- write tools, arbitrary code execution và multi-agent delegation.
+
+## M09 — Shadow action + durable approval
+
+**REQUIRED**
+
+- `ActionIntent` không phải execution permission;
+- deterministic policy; RISK 0/1/2 và `DENY`;
+- durable `ApprovalRequest`/decision state;
+- approve/reject/expire/cancel;
+- revalidation ngay trước execute;
+- idempotency key và duplicate callback handling;
+- restart/resume, audit và independent kill switch;
+- shadow/dry-run/sandbox/owned-draft executor; không public auto-publish.
+
+**ON-DEMAND**
+
+- notification channel khi durable approval core đã chạy;
+- compensation khi selected sandbox/draft action có reversible side effect;
+- workflow engine khi hand-written state machine không còn đủ.
+
+**REFERENCE**
+
+- broad external write permissions và automatic RISK 2 execution.
+
+## M10 — Limited governed automation
+
+**REQUIRED**
+
+- allowlisted action type/target; default deny;
+- bounded R0/R1 policy: scope, time, rate, resource và cost cap;
+- RISK 1 mandatory audit; RISK 2 durable approval;
+- canary/shadow comparison, rollback/compensation và containment;
+- observability: decision/action trace, duplicate prevention, policy blocks, intervention, latency/cost;
+- pause/global/action/tool kill switch;
+- operator runbook và evidence rằng Bot không vượt authority.
+
+**ON-DEMAND**
+
+- external draft integration khi learner có owned sandbox và scoped credential;
+- deployment scheduler/platform khi canary cần chạy bền;
+- SLO refinement từ actual pilot data.
+
+**REFERENCE**
+
+- autonomous public publish/spend/account changes; các action này vẫn RISK 2.
+
+## M11 — Production closed loop
+
+**REQUIRED**
+
+- end-to-end trigger→signal→analysis→decision/abstain→policy→intent→execution→outcome trace;
+- process restart/recovery, durable state, backup/restore verification;
+- security, least privilege, data retention/privacy và incident containment;
+- offline + online evaluation: quality, trajectory, safety, latency/cost và outcome;
+- provider-neutral core/adapters và deterministic fallback;
+- Decision/Outcome Memory;
+- outcome chỉ tạo `ChangeProposal`; production prompt/weight/workflow/policy đổi qua test, review và versioned deploy;
+- production runbook, monitoring và rollback.
+
+**ON-DEMAND**
+
+- multi-agent/A2A chỉ khi có independent service/ownership/deployment boundary và measured value;
+- advanced ML/routing khi eval chứng minh baseline chưa đủ;
+- scale architecture theo measured load.
+
+**REFERENCE**
+
+- unconstrained autonomy và silent self-modification: không thuộc chương trình.
+
+## Quy tắc refine khi author lesson
+
+Mỗi Mission chỉ nên có 3–6 required knowledge cards, ưu tiên 10–25 phút/card. Một card bắt buộc phải:
+
+1. xuất hiện sau attempt/gap tương ứng;
+2. chỉ dạy phần cần cho current artifact;
+3. có example gắn với Affiliate Bot hiện tại;
+4. tạo test/evidence/explain-back ngay;
+5. không cung cấp nguyên lời giải Mission.
+
+Khi lesson IDs mới được chốt, map từng theme ở trên vào **tập ID nhỏ nhất**. Không phục hồi một inventory lớn chỉ để tạo cảm giác đầy đủ.

@@ -1,196 +1,105 @@
-# Hướng dẫn đóng góp vào Affiliate Expert Learning Roadmap
+# Đóng góp vào Affiliate Intelligence Bot Curriculum
 
-Repo được phát triển như một curriculum có kiểm soát. Thay đổi cấu trúc hoặc execution model (mô hình thực thi) ưu tiên **issue-first (mở Issue trước)**.
+Repo được phát triển như một curriculum có kiểm soát nhưng **không bảo vệ số lượng Part/Lesson vì chính con số**. Thay đổi execution spine, authority, safety gate hoặc learner outcome cần issue/ADR trước.
 
-## 1. Các lớp authority (nguồn có thẩm quyền)
+## Authority
 
-```text
-ACTIVE CANONICAL (BẢN CHUẨN HIỆN HÀNH)
-= sources/SYLLABUS-v2026.09.md
+~~~text
+ACTIVE CANONICAL
+= CURRICULUM.md
 
-HISTORICAL BASELINE (MỐC LỊCH SỬ)
-= sources/SYLLABUS-v2026.08.md
+ACTIVE KNOWLEDGE INVENTORY
+= ROADMAP.md + roadmap/part-00..06.md
 
-KNOWLEDGE INVENTORY (KHO KIẾN THỨC)
-= ROADMAP.md + roadmap/part-00..22.md
+DEFAULT EXECUTION
+= BUILD-FIRST.md + missions/
 
-DEFAULT LEARNER EXECUTION (ĐƯỜNG HỌC MẶC ĐỊNH)
-= BUILD-FIRST.md + Mission system
-
-CURRENT FACTS (DỮ KIỆN HIỆN HÀNH)
+CURRENT FACTS
 = freshness policy + external source registers
-```
 
-Build-First thay execution order (thứ tự thực thi), **không** tự đổi Part/Chapter/Lesson IDs, 14 main Projects, provenance (nguồn gốc) hoặc learner PASS history.
+HISTORICAL INPUT
+= sources/ + superseded revision documents
+~~~
 
-## 2. Quy tắc Build-First
+Historical material có thể cung cấp provenance nhưng không tự thêm lesson vào Core.
 
-Đọc:
+## Nguyên tắc thiết kế
 
-- [`BUILD-FIRST.md`](BUILD-FIRST.md)
-- [`docs/BUILD-FIRST-LEARNING-MODEL.md`](docs/BUILD-FIRST-LEARNING-MODEL.md)
-- [`docs/EXECUTION-MODEL.md`](docs/EXECUTION-MODEL.md)
-- [`docs/LANGUAGE-POLICY.md`](docs/LANGUAGE-POLICY.md)
+1. Mission-first: learner TRY trước khi đọc concept.
+2. Real evidence sớm: public observation ở M00, manual publish ở M03.
+3. Một Bot xuyên suốt; không tạo project rời nếu cùng capability có thể tích hợp.
+4. Deterministic/human baseline trước AI.
+5. Evaluation trước authority.
+6. Decision khác execution.
+7. Bot có thể đề xuất cải tiến nhưng không tự sửa production behavior.
+8. Core chỉ chứa knowledge cần cho Mission gần nhất; Advanced/Reference không phải PASS gate.
 
-Quy tắc nền:
+## Lesson
 
-```text
-Mission ≠ Lesson ≠ Project ≠ Bot Version
-```
+Dùng [lesson template](templates/LESSON.md) và [authoring standard](docs/LESSON-AUTHORING-STANDARD.md).
 
-- Mission có thể pull kiến thức từ nhiều Part.
-- Dùng Go sớm không đồng nghĩa đã mastery Part 15.
-- Mission không được tự đánh dấu Lesson PASS.
-- `required knowledge for Mission ≠ full Lesson PASS`.
-- Không bulk-edit 671 Lesson chỉ để thêm Mission mapping; dùng central Mission ↔ Knowledge map.
-- Reuse cùng implementation evidence cho Lesson/Mission/Project khi thật sự là cùng requirement; không double-count.
+Lesson ready phải:
 
-## 3. Learner workspace và reference implementation
+- có mission_refs và practice_first: true;
+- bắt đầu bằng Trigger/Try First, không bắt đầu bằng lecture;
+- giới hạn 1–3 concept;
+- áp dụng ngay vào code/data/decision;
+- có failure case, evidence và explain-back rubric;
+- không dùng synthetic evidence thay Reality gate.
 
-Bootstrap hiện tại:
+## Mission
 
-```text
-learner workspace: lab/learner/affiliate-bot/
-reference v0.3:    lab/affiliate-bot/
-```
+Mission là đơn vị progress:
 
-Reference không phải learner starting state. Không copy reference rồi coi là Mission PASS.
+~~~text
+TRY → RUN → OBSERVE → PULL → IMPROVE → TEST
+→ REALITY CHECK → EVIDENCE → SHIP
+~~~
 
-`PROGRESS.md` xác định Current Mission. Semantic CI dùng Current Mission để đặt capability ceiling (trần năng lực) cho learner workspace, tránh leak lời giải Mission sau nhưng vẫn cho workspace tiến hóa đúng M00 → M03.
+Mission ready không được trỏ tới Core lesson chưa được author đủ để learner dùng. Mỗi Mission phải phân biệt:
 
-## 4. Hướng Go-first
+- Capability PASS;
+- Reality verified;
+- Operated.
 
-Primary implementation language (ngôn ngữ triển khai chính) là **Go**.
+Order/revenue không phải PASS gate. Measurement integrity, safety và evidence đúng loại mới là gate.
 
-Nguyên tắc engineering:
+## Safety
 
-```text
-modular monolith first (khối đơn thể mô-đun trước)
-+ deterministic logic before LLM (logic xác định trước LLM)
-+ explicit tool boundary (ranh giới tool rõ ràng)
-+ durable state when needed (state bền vững khi cần)
-+ least privilege (quyền tối thiểu)
-+ RISK 0/1/2 governance
-+ Human Approval cho consequential action
-+ audit/tracing/kill switch
-```
+- M00–M02 không có external execution authority.
+- M03 public action do learner review và tự thực hiện.
+- M06 automatic collection chỉ dùng nguồn được phép.
+- M08 agent chỉ có read-only tools.
+- M09 dùng shadow/draft và durable approval.
+- M10 chỉ auto action RISK0/RISK1 được allowlist/cap; RISK2 vẫn approval.
+- Fake engagement/order, spam, policy bypass, credential sharing và unbounded spend là prohibited, không thể được “human approve” để hợp thức hóa.
 
-Tài liệu:
+## Learner và reference workspace
 
-- [`docs/ADR-001-GO-FIRST-BOT-STACK.md`](docs/ADR-001-GO-FIRST-BOT-STACK.md)
-- [`docs/GO-BOT-ENGINEERING-STACK.md`](docs/GO-BOT-ENGINEERING-STACK.md)
-- [`docs/AUTONOMY-AND-APPROVAL-MODEL.md`](docs/AUTONOMY-AND-APPROVAL-MODEL.md)
-- [`docs/AGENT-SECURITY-AND-TOOL-GOVERNANCE.md`](docs/AGENT-SECURITY-AND-TOOL-GOVERNANCE.md)
+~~~text
+learner:   lab/learner/affiliate-bot/
+reference: lab/affiliate-bot/
+~~~
 
-Current runtime/library facts phải theo freshness layer. Không hard-code một version hiện hành thành permanent curriculum truth.
+Reference chỉ mở sau attempt hoặc để review; copy reference không tạo PASS.
 
-## 5. Lesson authoring (soạn bài)
+## Trước Pull Request
 
-Dùng:
-
-- [`templates/LESSON.md`](templates/LESSON.md)
-- [`docs/LESSON-AUTHORING-STANDARD.md`](docs/LESSON-AUTHORING-STANDARD.md)
-- [`docs/PASS-CRITERIA.md`](docs/PASS-CRITERIA.md)
-
-Hai state độc lập:
-
-```text
-Authoring: planned → draft → ready
-Learner:   chưa PASS → PASS / RETRY
-```
-
-`ready` không bao giờ có nghĩa learner PASS.
-
-## 6. Dữ kiện hiện hành
-
-Platform/legal/API/software facts có thể thay đổi phải dùng external verification và `last_verified` theo [`docs/FRESHNESS-POLICY.md`](docs/FRESHNESS-POLICY.md).
-
-Không biến current runtime/library/platform value thành canonical truth vĩnh viễn.
-
-## 7. An toàn evidence
-
-Không commit:
-
-- API key/token/password;
-- personal/sensitive raw export;
-- credential;
-- secret;
-- nội dung không có quyền phân phối.
-
-Artifact tồn tại không tự động nghĩa PASS.
-
-## 8. Quy chuẩn ngôn ngữ
-
-**Tiếng Việt là ngôn ngữ chính thức của repository.**
-
-English term được giữ khi cần độ chính xác kỹ thuật hoặc đối chiếu nguồn ngoài; ở lần xuất hiện quan trọng nên có giải thích tiếng Việt. Không chuyển file Markdown learner-facing hoặc maintainer-facing thành English-only nếu không có lý do kỹ thuật.
-
-Xem [`docs/LANGUAGE-POLICY.md`](docs/LANGUAGE-POLICY.md).
-
-## 9. Kiểm tra trước Pull Request / Merge
-
-Từ root repository:
-
-```bash
+~~~bash
 python scripts/validate_curriculum.py
 python scripts/validate_hardening.py
 python scripts/validate_build_first.py
+python scripts/validate_agentic_architecture.py
 python -m unittest discover -s tests -v
-```
+~~~
 
-Reference Bot:
+Chạy gofmt, go vet và go test cho cả learner/reference workspace. Không merge khi gate fail; không dùng CI xanh để tự cập nhật learner progress.
 
-```bash
-cd lab/affiliate-bot
-test -z "$(gofmt -l .)"
-go vet ./...
-go test ./...
-```
+## Không commit
 
-Learner Bot:
+- API key, token, password;
+- raw personal/sensitive export;
+- evidence giả hoặc synthetic nhưng ghi là real;
+- current platform/legal fact không có nguồn/ngày xác minh.
 
-```bash
-cd lab/learner/affiliate-bot
-test -z "$(gofmt -l .)"
-go vet ./...
-go test ./...
-```
-
-Chi tiết error codes và semantic guards: [`docs/CURRICULUM-CI.md`](docs/CURRICULUM-CI.md).
-
-Checklist:
-
-- [ ] active canonical vẫn là v2026.09;
-- [ ] historical v2026.08 được giữ nguyên;
-- [ ] 23 Parts / 89 Chapters / 671 lessons / 14 Projects không đổi trừ khi có canonical revision riêng được phê duyệt;
-- [ ] Go-first vẫn là primary direction;
-- [ ] relative links hoạt động;
-- [ ] freshness metadata hợp lệ;
-- [ ] không thay learner checkbox chỉ vì content/code tồn tại;
-- [ ] không làm mờ Mission/Lesson/Project/Bot Version semantics;
-- [ ] `bot_version_from` nối đúng version của Mission trước;
-- [ ] Mission dependency thực sự tồn tại;
-- [ ] Mission `ready` có explicit canonical required knowledge;
-- [ ] Mission Project mapping khớp central Bot Evolution map;
-- [ ] learner workspace không vượt capability ceiling của Current Mission;
-- [ ] learner/reference Go line đồng bộ;
-- [ ] consequential side effects vẫn giữ policy/risk/approval boundary;
-- [ ] code/evidence không chứa secret;
-- [ ] Markdown tuân thủ Language Policy.
-
-## 10. Repository governance (quản trị repo)
-
-Không merge PR khi `Curriculum CI` fail.
-
-`main` nên được GitHub branch protection/ruleset cưỡng chế:
-
-- require Pull Request;
-- require `Curriculum CI / validate-curriculum` hoặc status check tương ứng;
-- block force push;
-- block deletion.
-
-Xem [`docs/REPOSITORY-GOVERNANCE.md`](docs/REPOSITORY-GOVERNANCE.md).
-
-## 11. Licensing (giấy phép)
-
-Repository là public nhưng hiện chưa publish open-source license cho curriculum/content. Xem [`docs/LICENSING.md`](docs/LICENSING.md).
+Tiếng Việt là ngôn ngữ chính; thuật ngữ English được giữ khi cần độ chính xác và giải thích ở lần xuất hiện quan trọng.

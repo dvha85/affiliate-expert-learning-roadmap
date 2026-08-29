@@ -1,57 +1,41 @@
-# Phần 6 — MARKET & NICHE INTELLIGENCE
+# Phần 6 — PRODUCTION CLOSED LOOP
 
-- Timeline: **Standard M4 · Accelerated M3** — forecast; PASS evidence mới là gate.
-- Quy mô: **3 chương / 26 bài**
-- Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
+- Timeline: **Evidence-gated; includes a production observation window**.
+- **Chapters:** C18–C20
+- **Core:** 9 micro-lessons
+- **Mission:** M11
+- **Outcome:** Bot chạy qua một observation window thật, có recovery/security controls và tạo reviewed improvement từ outcome.
 
-## Checklist bài học
+## Attempt trước knowledge pull
 
-### Chương 17 — Niche Selection
+Deploy capability nhỏ nhất an toàn, chạy qua declared observation window, chủ động tạo một failure/restart case và thực hiện kill-switch drill. Không đợi “production hoàn hảo” mới quan sát operational evidence.
 
-- [ ] **17.1** — Niche là gì?
-- [ ] **17.2** — Broad vs Narrow Niche
-- [ ] **17.3** — Evergreen
-- [ ] **17.4** — Seasonal
-- [ ] **17.5** — Trend-driven
-- [ ] **17.6** — High-ticket
-- [ ] **17.7** — Low-ticket
-- [ ] **17.8** — Repeat Purchase
-- [ ] **17.9** — Product Diversity
-- [ ] **17.10** — Content Potential
+## Core checklist
 
-### Chương 18 — Market Demand
+### Chương 18 — Deploy và operate
 
-- [ ] **18.1** — Search Demand
-- [ ] **18.2** — Social Demand
-- [ ] **18.3** — Marketplace Demand
-- [ ] **18.4** — Sales Demand
-- [ ] **18.5** — Demand Trend
-- [ ] **18.6** — Demand Stability
-- [ ] **18.7** — Market Growth
-- [ ] **18.8** — Seasonality
+- [ ] **18.1** — Configuration, packaging, migration và environment boundary
+- [ ] **18.2** — Health check, structured logs, metrics và operational alerts
+- [ ] **18.3** — Backup/restore, recovery verification, cost và SLO
 
-### Chương 19 — Competitive Intelligence
+### Chương 19 — Security và incident containment
 
-- [ ] **19.1** — Competitor
-- [ ] **19.2** — Creator Competition
-- [ ] **19.3** — Product Competition
-- [ ] **19.4** — Content Competition
-- [ ] **19.5** — Search Competition
-- [ ] **19.6** — Saturation
-- [ ] **19.7** — Market Gap
-- [ ] **19.8** — Competitive Moat
+- [ ] **19.1** — Secrets, authentication, authorization và data boundary
+- [ ] **19.2** — Prompt injection/tool misuse test và least-privilege containment
+- [ ] **19.3** — Incident drill, kill switch, replay và recovery evidence
 
-## Cổng thực hành
+### Chương 20 — Closed-loop learning
 
-- [ ] **PROJECT 3 — Niche Intelligence**
-- [ ] Có artifact/evidence được lưu trong repo hoặc liên kết từ Issue
-- [ ] Viết retrospective: kết quả, sai lệch, điều học được, bước tiếp theo
+- [ ] **20.1** — Weekly business/decision review từ real outcomes
+- [ ] **20.2** — Calibration, drift và reviewed proposed improvement
+- [ ] **20.3** — End-to-end trace, capstone demo, retrospective và next cycle
 
-## Hoàn thành phần
+## Part PASS
 
-- [ ] Tất cả bài học đã PASS
-- [ ] Project/Lab/Pass Gate (nếu có) đã hoàn tất
-- [ ] Knowledge Base đã cập nhật
-- [ ] Đã chọn bài đầu tiên của phần tiếp theo
+- [ ] M11 có Capability PASS, Reality verified cấp E6 và Operated
+- [ ] Bot chạy qua declared observation window với operational evidence
+- [ ] Recovery và kill-switch drill có artifact
+- [ ] Trace nối được trigger → evidence → decision → action → outcome → evaluation
+- [ ] Outcome learning tạo proposed change qua test/review, không tự sửa production behavior
 
-[← Roadmap tổng](../ROADMAP.md)
+[← Part trước](part-05.md) · [Roadmap tổng](../ROADMAP.md)

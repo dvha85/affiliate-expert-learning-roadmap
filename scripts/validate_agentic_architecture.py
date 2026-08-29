@@ -11,10 +11,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-AI_LEVEL_ROW_RE = re.compile(
-    r"^\|\s*(M\d{2})\s*\|\s*v\d+\.\d+\s*\|\s*(A[0-4](?:\s+optional)?)\s*\|",
-    re.MULTILINE,
-)
+MISSION_ROW_RE = re.compile(r"^\|\s*(M\d{2})\s*\|(.+)$", re.MULTILINE)
 
 REQUIRED_AUTHORITY_FILES = (
     Path("docs/AI-AGENT-DECISION-ARCHITECTURE.md"),
@@ -37,13 +34,18 @@ REQUIRED_AUTHORITY_FILES = (
 )
 
 EXPECTED_LEVELS = {
-    **{f"M{i:02d}": "A0" for i in range(0, 5)},
-    **{f"M{i:02d}": "A1" for i in range(5, 11)},
-    "M11": "A2",
-    "M12": "A2",
-    "M13": "A3",
-    "M14": "A3",
-    "M15": "A4 optional",
+    "M00": "A0",
+    "M01": "A0",
+    "M02": "A1",
+    "M03": "A1",
+    "M04": "A1",
+    "M05": "A1",
+    "M06": "A0 core + A1 triage",
+    "M07": "A1",
+    "M08": "A2-RO",
+    "M09": "A3-shadow",
+    "M10": "A3-limited",
+    "M11": "A3-production",
 }
 
 
@@ -86,26 +88,59 @@ def check_authority(root: Path, problems: list[Problem]) -> None:
             problems.append(Problem("AI001", str(rel), "required Agentic Decision Intelligence authority file is missing"))
 
 
+def capability_rows(text: str) -> dict[str, str]:
+    """Read the last cell of each Mission row in the evolution table.
+
+    The table gained Part/reality columns in the outcome-driven curriculum, so
+    the AI column must not be located by a fixed numeric index.
+    """
+    rows: dict[str, str] = {}
+    for match in MISSION_ROW_RE.finditer(text):
+        mission = match.group(1)
+        cells = [cell.strip() for cell in match.group(2).split("|")]
+        if cells and cells[-1] == "":
+            cells.pop()
+        # Only the product-spine table has Bot version as its first remaining
+        # cell. Later reality/safety tables may legitimately reuse Mission IDs.
+        if cells and re.fullmatch(r"v\d+\.\d+", cells[0]):
+            rows[mission] = cells[-1]
+    return rows
+
+
+def level_matches(mission: str, value: str) -> bool:
+    expected = EXPECTED_LEVELS[mission]
+    normalized = re.sub(r"\s+", " ", value.strip())
+    if mission == "M06":
+        return bool(re.match(r"^A0\s+core\s*\+\s*A1\s+triage(?:\b|$)", normalized, re.IGNORECASE))
+    if expected in {"A0", "A1"}:
+        # Descriptors such as "A1 advisory; human execute" are informative and
+        # allowed, but another capability token later in the cell is not.
+        return bool(re.match(rf"^{re.escape(expected)}(?:\b|$)", normalized)) and not re.search(
+            rf"\bA(?!{expected[1]}\b)[0-4](?:-[A-Za-z]+)?\b", normalized
+        )
+    return bool(re.match(rf"^{re.escape(expected)}(?:\b|$)", normalized, re.IGNORECASE))
+
+
 def check_capability_levels(root: Path, problems: list[Problem]) -> None:
     rel = Path("docs/BOT-EVOLUTION-ROADMAP.md")
     text = read(root, rel)
-    rows = dict(AI_LEVEL_ROW_RE.findall(text))
+    rows = capability_rows(text)
     if set(rows) != set(EXPECTED_LEVELS):
         problems.append(
             Problem(
                 "AI002",
                 str(rel),
-                f"AI level table must cover exactly M00..M15; found {sorted(rows)}",
+                f"AI level table must cover exactly M00..M11; found {sorted(rows)}",
             )
         )
         return
     for mission, expected in EXPECTED_LEVELS.items():
-        if rows.get(mission) != expected:
+        if not level_matches(mission, rows[mission]):
             problems.append(
                 Problem(
                     "AI002",
                     str(rel),
-                    f"{mission} AI level must be {expected}; found {rows.get(mission)}",
+                    f"{mission} AI level must be {expected}; found {rows[mission]}",
                 )
             )
 
@@ -125,6 +160,8 @@ def check_decision_contract(root: Path, problems: list[Problem]) -> None:
             "expires_at",
             "risk_level",
             "policy_decision",
+            "ActionIntent **không** đồng nghĩa execution permission",
+            "Execution Record",
         ),
         problems,
     )
@@ -165,6 +202,7 @@ def check_untrusted_boundary(root: Path, problems: list[Problem]) -> None:
         "AI006",
         (
             "MODEL OUTPUT = UNTRUSTED INPUT",
+            "DECISION ≠ EXECUTION",
             "AI ADVICE ≠ EXECUTION AUTHORITY",
             "POLICY BEFORE CONSEQUENTIAL ACTION",
         ),
@@ -246,16 +284,21 @@ def check_multi_agent_boundary(root: Path, problems: list[Problem]) -> None:
         Path("docs/AI-CAPABILITY-LEVELS.md"),
         "AI010",
         (
-            "A4 — Optional Multi-Agent",
-            "Chỉ cân nhắc ở M15",
-            "không phải dependency mặc định",
+            "A4 — Multi-Agent Optional Advanced",
+            "sau M11",
+            "không phải core Mission",
         ),
         problems,
     )
-    # The exact M00-M15 mapping is independently protected by AI002.
-    evolution = read(root, Path("docs/BOT-EVOLUTION-ROADMAP.md"))
-    if "| M15 | v10.0 | A4 optional |" not in evolution:
-        problems.append(Problem("AI010", "docs/BOT-EVOLUTION-ROADMAP.md", "A4 multi-agent must remain optional and M15-only"))
+    # The exact M00-M11 mapping is independently protected by AI002. A4 must
+    # not be assigned to any Core row; it is only an optional post-M11 module.
+    evolution_rel = Path("docs/BOT-EVOLUTION-ROADMAP.md")
+    evolution = read(root, evolution_rel)
+    rows = capability_rows(evolution)
+    if any(re.search(r"\bA4\b", level) for level in rows.values()):
+        problems.append(Problem("AI010", str(evolution_rel), "A4 must not be assigned to a Core Mission"))
+    if "advanced option sau khi M11" not in evolution:
+        problems.append(Problem("AI010", str(evolution_rel), "A4/multi-agent must remain optional advanced work after M11"))
 
 
 def check_outcome_learning(root: Path, problems: list[Problem]) -> None:
@@ -314,7 +357,7 @@ def main() -> int:
             print(problem)
         print(f"Agentic architecture validation failed with {len(problems)} problem(s).")
         return 1
-    print("Agentic architecture validation passed: AI levels, decision/tool/HITL/evaluation boundaries are consistent.")
+    print("Agentic architecture validation passed: M00-M11 AI levels and decision/tool/HITL/evaluation boundaries are consistent.")
     return 0
 
 

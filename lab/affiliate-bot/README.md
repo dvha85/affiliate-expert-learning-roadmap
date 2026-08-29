@@ -1,6 +1,6 @@
-# Affiliate Bot — reference implementation v0.3
+# Affiliate Bot — legacy engineering reference snapshot v0.3
 
-Đây là **reference implementation (bản triển khai tham chiếu)** cho bootstrap Missions M00–M03.
+> Snapshot này được viết cho mission sequence cũ. Nó **không** phải lời giải M00–M03 hiện hành: M02 hiện là Grounded AI Advisor và M03 là Human Tracked Publish. Dùng code ở đây để đối chiếu từng pattern ingest/history/ranking sau attempt, không dùng version/mapping cũ làm learner progress.
 
 Đây **không phải learner workspace**.
 
@@ -50,7 +50,7 @@ go run ./cmd/bot path/to/products.json
 go test ./...
 ```
 
-## Scope (phạm vi) hiện tại của reference v0.3
+## Scope kỹ thuật của snapshot v0.3
 
 - validated JSON product ingest (đọc và kiểm tra Product JSON);
 - Product domain validation (kiểm tra dữ liệu nghiệp vụ Product);
@@ -63,9 +63,9 @@ go test ./...
 
 Không có external API, credential, AI, publishing hoặc money-moving side effect (tác động di chuyển tiền) trong bootstrap reference.
 
-## Vì sao fast CI chưa bắt buộc PostgreSQL
+## Persistence pattern trong snapshot
 
-M02 dạy persistence boundary (ranh giới lưu trữ) và có PostgreSQL migration contract (hợp đồng schema), trong khi unit test dùng in-memory Repository để feedback nhanh.
+Snapshot có PostgreSQL migration contract (hợp đồng schema), trong khi unit test dùng in-memory Repository để feedback nhanh. Trong curriculum hiện hành, M01 bắt đầu bằng append-only file history; SQL/Repository chỉ pull on-demand khi requirement thật cần.
 
 PostgreSQL driver/integration environment được thêm khi operational value (giá trị vận hành) đủ lớn; không để M00/M01 hoặc PR tài liệu phải phụ thuộc database service chỉ để chạy CI nhanh.
 
@@ -78,7 +78,7 @@ commission-only top: A
 Expected-Value top: B
 ```
 
-Reference này thể hiện pattern (mẫu học) của M03:
+Reference này thể hiện một ranking pattern có thể đối chiếu trong M00 hoặc khi đánh giá baseline sau này:
 
 ```text
 Build naive ranking

@@ -1,6 +1,6 @@
 # Build-First Execution Model — Mô hình thực thi Build-First
 
-> Curriculum v2026.09 dùng **Mission-first execution (thực thi theo Mission) + just-in-time knowledge pulls (lấy kiến thức đúng lúc) + persistent operating loops (các vòng vận hành được duy trì)**.
+> [`CURRICULUM.md`](../CURRICULUM.md) dùng **Mission-first execution (thực thi theo Mission) + real evidence + just-in-time knowledge pulls + persistent operating loops**.
 
 ## 1. Mental Model — Mô hình tư duy
 
@@ -20,13 +20,14 @@ Knowledge   Knowledge Knowledge
         (Phiên bản Bot tiến hóa)
 ```
 
-`ROADMAP.md` vẫn là canonical knowledge inventory (kho kiến thức chuẩn). Mission system quyết định learner build gì tiếp theo; knowledge dependencies quyết định learner phải hiểu **knowledge slice (phần kiến thức cần thiết)** nào để Mission PASS.
+`CURRICULUM.md` quyết định outcome/spine/PASS boundary; `ROADMAP.md` là normalized Core index. Mission system quyết định learner làm gì tiếp theo.
 
 ## 2. Build-First Loop — Vòng học Build-First
 
 ```text
-Ship Target (Mục tiêu bàn giao)
-→ Build smallest working slice (Xây phần nhỏ nhất chạy được)
+Real observation + Human judgment
+→ Ship Target
+→ Build smallest working slice
 → Run (Chạy)
 → Observe failure/gap (Quan sát lỗi/thiếu sót)
 → Pull required knowledge (Lấy kiến thức cần ngay)
@@ -39,7 +40,7 @@ Ship Target (Mục tiêu bàn giao)
 → Next Bot Version (Phiên bản Bot tiếp theo)
 ```
 
-Learner không chờ tới Part 15 mới chạm Go. Mission đầu dùng Go scope hẹp; Part 15 vẫn là formal Bot Engineering mastery (phạm vi làm chủ Bot Engineering chính thức).
+Learner dùng Go scope hẹp ngay M00. Knowledge sâu chỉ được kéo khi failure/bottleneck thật làm nó cần thiết.
 
 ## 3. Knowledge Dependency Semantics — Ý nghĩa quan hệ kiến thức
 
@@ -51,11 +52,10 @@ Mission knowledge có ba mức:
 
 ```text
 REQUIRED FOR MISSION
-≠
-FULL LESSON PASS
+= applied knowledge slice after an attempt
 ```
 
-Mission completion không bao giờ tự đánh dấu Lesson PASS.
+Việc đọc lesson không tạo Mission PASS. Lesson chỉ được đánh dấu applied khi đã thay đổi code/evidence/decision trong Mission.
 
 ## 4. Operating Loops Remain Cumulative — Các vòng vận hành được tích lũy
 
@@ -75,7 +75,7 @@ Build-First thay **thời điểm capability được đưa vào**, không xóa 
 
 ## 5. Decision Intelligence Loop — Vòng trí tuệ quyết định
 
-Từ M05, AI có thể xuất hiện ở vai trò advisory/read-only nhưng authority tăng dần theo `docs/AI-CAPABILITY-LEVELS.md`.
+Từ M02, AI có thể xuất hiện ở vai trò grounded advisory/read-only; authority tăng dần theo [`AI-CAPABILITY-LEVELS.md`](AI-CAPABILITY-LEVELS.md).
 
 ```text
 Event / Data
@@ -135,11 +135,13 @@ Mục tiêu là phản ứng nhanh hơn khi có thay đổi thật, đồng th�
 ## 7. AI Capability Progression — Tiến trình quyền AI
 
 ```text
-A0 — deterministic only              M00–M04
-A1 — AI advisory/read-only           M05–M10
-A2 — tool-assisted Agent             M11–M12
-A3 — governed action Agent           M13–M14
-A4 — optional multi-agent            M15
+A0 — deterministic baseline          M00–M01
+A1 — grounded advisory/read-only      M02–M07
+A2-RO — read-only tool Agent          M08
+A3-shadow — governed dry-run          M09
+A3-limited — bounded R0/R1 auto       M10
+A3-production — governed closed loop  M11
+A4 — multi-agent                      Advanced only
 ```
 
 ```text
@@ -185,14 +187,10 @@ Enough evidence?
 ## 10. Go-First Progression — Tiến trình Go-first
 
 ```text
-Early Missions (Mission đầu)
-→ dùng Go tối thiểu để ship
-
-Later Missions (Mission sau)
-→ database / concurrency / reliability / workflow
-
-Part 15+ mastery
-→ engineering evidence rộng hơn + Project integration
+M00 → function/data/test đủ sửa starter baseline
+M01 → struct/file/time/validation/history
+M06 → context/scheduler/retry/deduplication
+M09 → state machine/durable state/idempotency/approval
 ```
 
 Đây là chủ ý **USE BEFORE MASTER (dùng trước, làm chủ sau)**, không phải mastery-by-copying (làm chủ bằng cách copy lời giải).
@@ -213,14 +211,15 @@ Provider capability được đánh giá theo `docs/AI-PROVIDER-CAPABILITY-MATRI
 
 ## 12. Capacity — Quỹ thời gian
 
-- Standard: khoảng 9h/tuần.
-- Accelerated: khoảng 11–12h/tuần.
+- Profile 12 tháng: khoảng 5–8 focused hours/tuần.
+- Profile 15 tháng: khoảng 4–6 focused hours/tuần.
+- Cả hai là forecast cho tới khi có actual M00–M05.
 
 Heuristic (gợi ý) trong Build-First:
 
 ```text
-50–70% build / run / debug / operate
-20–30% required knowledge pull
+70–85% build / run / measure / operate
+10–20% required knowledge pull
 10–20% evidence / review
 ```
 
@@ -241,7 +240,7 @@ Runnable Go Bot
 → Affiliate Intelligence Platform
 ```
 
-Project artifact nên tiến hóa và reuse, không rebuild toàn bộ từ đầu ở mỗi Project.
+Một Bot artifact tiến hóa và reuse qua bốn Milestone; không rebuild nhiều project độc lập.
 
 ## 14. Final Operating Rule — Quy tắc vận hành cuối cùng
 
@@ -267,4 +266,4 @@ BUILD CODE EARLY
 AUTOMATE REAL BUSINESS EARLY
 ```
 
-Mission đầu dùng sample/local data và side effect thấp để learner học bằng thực hành mà không vượt quá mức hiểu biết hoặc policy boundary.
+M00 dùng public/manual read + local compute; M03 mới có public action do human review/thực hiện. Bot chỉ nhận external authority sau các policy/evaluation gate tương ứng.

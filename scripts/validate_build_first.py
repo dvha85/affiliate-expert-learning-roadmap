@@ -3,10 +3,11 @@
 
 Validator chỉ dùng standard library. Nó bổ sung các semantic guard cho Mission,
 learner workspace và reference implementation mà không thay authority của
-canonical Lesson/Project.
+CURRICULUM/ROADMAP.
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -19,14 +20,35 @@ VERSION_FROM_RE = re.compile(r'^bot_version_from:\s*(null|"v\d+\.\d+")\s*$', re.
 VERSION_TO_RE = re.compile(r'^bot_version_to:\s*"(v\d+\.\d+)"\s*$', re.MULTILINE)
 REQUIRED_RE = re.compile(r'^\s*required:\s*\[(.*?)\]\s*$', re.MULTILINE)
 LESSON_ID_RE = re.compile(r'"(\d+\.\d+)"')
-PROJECTS_RE = re.compile(r'^\s*contributes_to:\s*\[(.*?)\]\s*$', re.MULTILINE)
 ROADMAP_MISSION_RE = re.compile(r'^\|\s*(M\d{2})\s*\|\s*(v\d+\.\d+)\s*\|', re.MULTILINE)
-PROJECT_MAP_RE = re.compile(r'^-\s+((?:M\d{2})(?:\s+\+\s+M\d{2})*)\s+→\s+Project\s+(\d+)\b', re.MULTILINE)
 CANON_LESSON_RE = re.compile(r'^- \[[ xX]\] \*\*(\d+\.\d+)\*\* — ', re.MULTILINE)
+CANON_LESSON_LINK_RE = re.compile(
+    r'^- \[[ xX]\] \*\*(\d+\.\d+)\*\* — \[[^]]+\]\(([^)]+)\)',
+    re.MULTILINE,
+)
+CHAPTER_RE = re.compile(r'^### Chương\s+(\d+)\s+—', re.MULTILINE)
+DECLARED_COUNTS_RE = re.compile(
+    r'(?:Tổng cộng:\s*)?\*\*(\d+)\s+(?:phần|Parts?)\s*·\s*'
+    r'(\d+)\s+(?:chương|Chapters?)\s*·\s*'
+    r'(\d+)\s+(?:bài học|Lessons?|micro-lessons?)\*\*',
+    re.IGNORECASE,
+)
+TABLE_MISSION_RE = re.compile(r'^\|\s*(M\d{2})(?:\s+—[^|]*)?\s*\|', re.MULTILINE)
+ROADMAP_EVIDENCE_RE = re.compile(r'^\|\s*(M\d{2})\s*\|[^\n|]*\|\s*(E[0-6])\s*\|', re.MULTILINE)
+MINIMUM_LEVEL_RE = re.compile(r'^\s{2}minimum_level:\s*"(E[0-6])"\s*$', re.MULTILINE)
+REALITY_REQUIRED_RE = re.compile(r'^\s{2}reality_required:\s*(true|false)\s*$', re.MULTILINE)
+SAFETY_GATE_RE = re.compile(r'^safety_gate:\s*"(S[0-6])"\s*$', re.MULTILINE)
+LESSON_FRONT_ID_RE = re.compile(r'^lesson_id:\s*"(\d+\.\d+)"\s*$', re.MULTILINE)
+LESSON_STATUS_RE = re.compile(r'^status:\s*(planned|draft|ready)\s*$', re.MULTILINE)
 GO_DIRECTIVE_RE = re.compile(r'^go\s+(\d+\.\d+)\s*$', re.MULTILINE)
-CURRENT_MISSION_RE = re.compile(r'\|\s*Current Mission[^|]*\|\s*\*\*(M\d{2})\b', re.MULTILINE)
+CURRENT_MISSION_RES = (
+    re.compile(r'\|\s*Current Mission[^|]*\|\s*\*\*(M\d{2})\b', re.MULTILINE),
+    re.compile(r'^Current Mission:\s*(M\d{2})\s*$', re.MULTILINE),
+)
 
 AUTHORITY_FILES = (
+    Path("CURRICULUM.md"),
+    Path("ROADMAP.md"),
     Path("BUILD-FIRST.md"),
     Path("docs/BUILD-FIRST-LEARNING-MODEL.md"),
     Path("docs/MISSION-AUTHORING-STANDARD.md"),
@@ -37,24 +59,22 @@ AUTHORITY_FILES = (
 )
 
 LANGUAGE_AUTHORITY_DOCS = (
-    Path("README.md"),
-    Path("BUILD-FIRST.md"),
-    Path("CONTRIBUTING.md"),
-    Path("docs/MISSION-AUTHORING-STANDARD.md"),
     Path("docs/CURRICULUM-CI.md"),
 )
 
 READY_HEADINGS = (
     "## Ship Target",
     "## Starting Bot State",
-    "## Build First",
+    "## Try First",
     "## Run",
     "## Observe",
     "## Knowledge Pull",
     "## Improve",
     "## Tests",
+    "## Reality Check",
     "## Operate",
     "## Failure Case",
+    "## Safety Gate",
     "## Evidence",
     "## Explain-back",
     "## Mission PASS",
@@ -63,6 +83,7 @@ READY_HEADINGS = (
 )
 
 REFERENCE_BOOTSTRAP_FILES = (
+    Path("lab/affiliate-bot/README.md"),
     Path("lab/affiliate-bot/go.mod"),
     Path("lab/affiliate-bot/cmd/bot/main.go"),
     Path("lab/affiliate-bot/data/sample-products.json"),
@@ -72,37 +93,41 @@ LEARNER_BOOTSTRAP_FILES = (
     Path("lab/learner/affiliate-bot/go.mod"),
     Path("lab/learner/affiliate-bot/README.md"),
     Path("lab/learner/affiliate-bot/cmd/bot/main.go"),
-    Path("lab/learner/affiliate-bot/data/sample-products.json"),
+    Path("lab/learner/affiliate-bot/cmd/bot/main_test.go"),
+    Path("lab/learner/affiliate-bot/internal/observation/observation.go"),
+    Path("lab/learner/affiliate-bot/internal/decision/ranking.go"),
+    Path("lab/learner/affiliate-bot/data/m00-missing-input.json"),
+    Path("lab/learner/affiliate-bot/data/m00-conflicting-input.json"),
+    Path("lab/learner/affiliate-bot/HINTS-M00.md"),
 )
 
-# Capability ceiling (trần năng lực) theo Mission đang học.
-# Guard này chỉ bảo vệ M00-M03 đã author; khi PROGRESS tiến lên, capability tương ứng
-# được phép xuất hiện trong learner workspace.
+# Capability ceiling (trần năng lực) theo Mission đang học. M00 nay hợp lệ với
+# JSON/Observation/ranking; guard chỉ chặn AI/tool/action authority xuất hiện sớm.
 FORBIDDEN_BY_CURRENT_MISSION = {
     "M00": (
-        "encoding/json",
-        "internal/product",
-        "internal/ingest",
-        "internal/store",
-        "internal/ranking",
-        "Loaded products:",
-        "Stored snapshots:",
-        "Commission-only ranking:",
-        "Expected-value ranking:",
+        "internal/ai",
+        "internal/agent",
+        "ActionIntent",
+        "ApprovalRequest",
+        "ExecutionRecord",
     ),
     "M01": (
-        "internal/store",
-        "internal/ranking",
-        "Stored snapshots:",
-        "Commission-only ranking:",
-        "Expected-value ranking:",
+        "internal/ai",
+        "internal/agent",
+        "ActionIntent",
+        "ApprovalRequest",
+        "ExecutionRecord",
     ),
     "M02": (
-        "internal/ranking",
-        "Commission-only ranking:",
-        "Expected-value ranking:",
+        "internal/agent",
+        "ActionIntent",
+        "ApprovalRequest",
+        "ExecutionRecord",
     ),
-    "M03": (),
+    **{
+        f"M{i:02d}": ("internal/agent", "ActionIntent", "ApprovalRequest", "ExecutionRecord")
+        for i in range(3, 8)
+    },
 }
 
 
@@ -123,10 +148,124 @@ def canonical_lesson_ids(root: Path) -> set[str]:
     return ids
 
 
+def declared_counts(path: Path) -> tuple[int, int, int] | None:
+    if not path.exists():
+        return None
+    match = DECLARED_COUNTS_RE.search(path.read_text(encoding="utf-8"))
+    return tuple(map(int, match.groups())) if match else None
+
+
+def check_dynamic_inventory_authority(root: Path, problems: list[Problem]) -> None:
+    """Protect agreement, not a frozen inventory size.
+
+    CURRICULUM/ROADMAP currently declare 7/21/63, but an intentional future
+    redesign may change those numbers without requiring validator code edits.
+    """
+    curriculum_rel = Path("CURRICULUM.md")
+    roadmap_rel = Path("ROADMAP.md")
+    curriculum_counts = declared_counts(root / curriculum_rel)
+    roadmap_counts = declared_counts(root / roadmap_rel)
+    if curriculum_counts is None:
+        problems.append(Problem("BUILD015", str(curriculum_rel), "không đọc được tổng Part/Chapter/Lesson động"))
+    if roadmap_counts is None:
+        problems.append(Problem("BUILD015", str(roadmap_rel), "không đọc được tổng Part/Chapter/Lesson động"))
+    if curriculum_counts is None or roadmap_counts is None:
+        return
+    if curriculum_counts != roadmap_counts:
+        problems.append(
+            Problem(
+                "BUILD015",
+                str(roadmap_rel),
+                f"tổng inventory lệch CURRICULUM: curriculum={curriculum_counts}, roadmap={roadmap_counts}",
+            )
+        )
+
+    part_files = sorted((root / "roadmap").glob("part-*.md"))
+    chapters: list[str] = []
+    lessons: list[str] = []
+    for path in part_files:
+        text = path.read_text(encoding="utf-8")
+        chapters.extend(CHAPTER_RE.findall(text))
+        lessons.extend(CANON_LESSON_RE.findall(text))
+    actual = len(part_files), len(chapters), len(lessons)
+    if actual != curriculum_counts:
+        problems.append(
+            Problem(
+                "BUILD015",
+                "roadmap/",
+                f"inventory thực tế {actual} không khớp authority {curriculum_counts}",
+            )
+        )
+
+
+def roadmap_lesson_links(root: Path) -> dict[str, Path]:
+    links: dict[str, Path] = {}
+    for roadmap_path in sorted((root / "roadmap").glob("part-*.md")):
+        text = roadmap_path.read_text(encoding="utf-8")
+        for lesson_id, raw_target in CANON_LESSON_LINK_RE.findall(text):
+            target = (roadmap_path.parent / raw_target).resolve()
+            links[lesson_id] = target
+    return links
+
+
+def ready_lesson_problem(root: Path, lesson_id: str, links: dict[str, Path]) -> str | None:
+    path = links.get(lesson_id)
+    if path is None:
+        return f"required Lesson {lesson_id} phải có link active trong ROADMAP"
+    try:
+        path.relative_to(root.resolve())
+    except ValueError:
+        return f"required Lesson {lesson_id} link ra ngoài repository"
+    if not path.is_file():
+        return f"required Lesson {lesson_id} link tới file không tồn tại"
+    text = path.read_text(encoding="utf-8")
+    front_end = text.find("---", 3)
+    front = text[: front_end + 3] if text.startswith("---") and front_end != -1 else ""
+    id_match = LESSON_FRONT_ID_RE.search(front)
+    status_match = LESSON_STATUS_RE.search(front)
+    if not id_match or id_match.group(1) != lesson_id:
+        return f"required Lesson {lesson_id} không khớp lesson_id trong file linked"
+    if not status_match or status_match.group(1) != "ready":
+        status = status_match.group(1) if status_match else "missing"
+        return f"required Lesson {lesson_id} phải status=ready; hiện là {status}"
+    return None
+
+
+def indented_block(front: str, key: str) -> str:
+    match = re.search(rf"(?ms)^{re.escape(key)}:\s*\n((?:^[ \t]+.*(?:\n|$))*)", front)
+    return match.group(1) if match else ""
+
+
+def roadmap_evidence_levels(root: Path) -> dict[str, str]:
+    path = root / "ROADMAP.md"
+    if not path.exists():
+        return {}
+    return dict(ROADMAP_EVIDENCE_RE.findall(path.read_text(encoding="utf-8")))
+
+
 def check_authority(root: Path, problems: list[Problem]) -> None:
     for rel in AUTHORITY_FILES:
-        if not (root / rel).exists():
+        path = root / rel
+        if not path.exists():
             problems.append(Problem("BUILD001", str(rel), "thiếu file authority bắt buộc của Build-First"))
+            continue
+        text = path.read_text(encoding="utf-8")
+        if re.search(r"Technical PASS|Evidence PASS", text, re.IGNORECASE):
+            problems.append(
+                Problem(
+                    "BUILD018",
+                    str(rel),
+                    "active authority phải dùng Capability PASS / Reality verified / Operated, không dùng PASS vocabulary cũ",
+                )
+            )
+
+    progress = root / "PROGRESS.md"
+    if progress.exists():
+        text = progress.read_text(encoding="utf-8")
+        if not re.search(r"\|\s*E5\s*\|[^\n]*(?:governed canary|bounded governed canary)", text, re.IGNORECASE):
+            problems.append(Problem("BUILD018", "PROGRESS.md", "E5 phải là bounded governed canary, đồng bộ CURRICULUM"))
+        if "Learner Bot: pre-v0.1 scaffold" not in text:
+            problems.append(Problem("BUILD018", "PROGRESS.md", "starting Bot version phải là pre-v0.1 scaffold"))
 
 
 def check_language_policy(root: Path, problems: list[Problem]) -> None:
@@ -148,10 +287,6 @@ def parse_list_ids(raw: str, prefix: str) -> list[str]:
     return re.findall(rf'"({prefix}\d{{2}})"', raw)
 
 
-def parse_project_ids(raw: str) -> set[int]:
-    return {int(value) for value in re.findall(r"\d+", raw)}
-
-
 def parse_version_from(raw: str) -> str | None:
     if raw == "null":
         return None
@@ -168,30 +303,26 @@ def check_roadmap_spine(root: Path, problems: list[Problem]) -> dict[str, str]:
     if not path.exists():
         return {}
     rows = ROADMAP_MISSION_RE.findall(path.read_text(encoding="utf-8"))
-    expected = [f"M{i:02d}" for i in range(16)]
+    expected = [f"M{i:02d}" for i in range(12)]
     ids = [mission for mission, _ in rows]
     if len(ids) != len(set(ids)):
         problems.append(Problem("BUILD002", str(path.relative_to(root)), "Mission ID bị trùng trong Bot Evolution Roadmap"))
     if ids != expected:
-        problems.append(Problem("BUILD003", str(path.relative_to(root)), f"Mission spine phải đúng M00..M15 theo thứ tự; hiện có {ids}"))
+        problems.append(Problem("BUILD003", str(path.relative_to(root)), f"Mission spine phải đúng M00..M11 theo thứ tự; hiện có {ids}"))
+
+    # Root authority and normalized ROADMAP must expose the same Mission spine.
+    for rel in (Path("CURRICULUM.md"), Path("ROADMAP.md")):
+        authority = root / rel
+        if not authority.exists():
+            continue
+        authority_ids = TABLE_MISSION_RE.findall(authority.read_text(encoding="utf-8"))
+        if authority_ids != expected:
+            problems.append(Problem("BUILD003", str(rel), f"Mission table phải đúng M00..M11 theo thứ tự; hiện có {authority_ids}"))
     versions = [version for _, version in rows]
     for prev, current in zip(versions, versions[1:]):
         if version_tuple(current) <= version_tuple(prev):
             problems.append(Problem("BUILD006", str(path.relative_to(root)), f"Bot Version phải tăng; gặp {prev} rồi {current}"))
     return dict(rows)
-
-
-def central_project_map(root: Path) -> dict[str, set[int]]:
-    path = root / "docs/BOT-EVOLUTION-ROADMAP.md"
-    mapping: dict[str, set[int]] = {}
-    if not path.exists():
-        return mapping
-    text = path.read_text(encoding="utf-8")
-    for missions_raw, project_raw in PROJECT_MAP_RE.findall(text):
-        project_id = int(project_raw)
-        for mission_id in re.findall(r"M\d{2}", missions_raw):
-            mapping.setdefault(mission_id, set()).add(project_id)
-    return mapping
 
 
 def mission_files(root: Path) -> list[Path]:
@@ -201,6 +332,73 @@ def mission_files(root: Path) -> list[Path]:
     return sorted(p for p in directory.glob("M*.md") if p.name != "README.md")
 
 
+def require_semantic(
+    text: str,
+    patterns: tuple[str, ...],
+    rel: str,
+    message: str,
+    problems: list[Problem],
+) -> None:
+    if not all(re.search(pattern, text, re.IGNORECASE | re.DOTALL) for pattern in patterns):
+        problems.append(Problem("BUILD017", rel, message))
+
+
+def check_mission_semantics(
+    mission_id: str,
+    text: str,
+    front: str,
+    rel: str,
+    problems: list[Problem],
+) -> None:
+    """Guard the reality-first sequence at its first irreversible milestones."""
+    if mission_id == "M00":
+        require_semantic(
+            text,
+            (r"public\s+(?:product\s+)?observations?|E1\s+public", r"human\s+(?:rank|ranking|judgment|prediction).{0,80}(?:trước|before)"),
+            rel,
+            "M00 phải dùng public/E1 evidence và lưu human judgment trước Bot output",
+            problems,
+        )
+        require_semantic(
+            text,
+            (r"sample|synthetic", r"(?:không|not).{0,100}(?:Reality|reality|market truth|evidence_kind:\s*real)"),
+            rel,
+            "M00 phải nói rõ sample/synthetic không thỏa reality evidence",
+            problems,
+        )
+
+    if mission_id == "M03":
+        actor = re.search(r'^\s{2}execution_actor:\s*"([^"]+)"\s*$', front, re.MULTILINE)
+        side_effect = re.search(r'^\s{2}external_side_effects:\s*(true|false)\s*$', front, re.MULTILINE)
+        if not actor or actor.group(1) != "human_only" or not side_effect or side_effect.group(1) != "true":
+            problems.append(Problem("BUILD017", rel, "M03 phải khai báo external side effect do human_only thực hiện"))
+        require_semantic(
+            text,
+            (r"(?:manual publish|tự tay publish|human\s+(?:manual\s+)?publish)", r"Bot(?:/AI)?[^\n]{0,120}(?:không có|no)[^\n]{0,80}(?:publish|external execution)"),
+            rel,
+            "M03 phải có human manual publish và cấm Bot/AI publish",
+            problems,
+        )
+
+    if mission_id == "M04":
+        require_semantic(
+            text,
+            (r"(?:real|thật)[^\n]{0,80}(?:analytics|export)|(?:analytics|export)[^\n]{0,80}(?:real|thật)", r"missing", r"zero|\b0\b"),
+            rel,
+            "M04 phải dùng analytics/export thật và giữ missing khác observed zero",
+            problems,
+        )
+
+    if mission_id == "M05":
+        require_semantic(
+            text,
+            (r"(?:improvement|cải tiến|ChangeProposal)", r"(?:Outcome|outcome).{0,160}(?:Evaluation|evaluation)|(?:Evaluation|evaluation).{0,160}(?:Outcome|outcome)", r"(?:review|rollback|version)"),
+            rel,
+            "M05 phải tạo improvement từ Outcome→Evaluation và đi qua review/version/rollback",
+            problems,
+        )
+
+
 def check_missions(root: Path, canonical_ids: set[str], spine: dict[str, str], problems: list[Problem]) -> None:
     files = mission_files(root)
     seen: dict[str, Path] = {}
@@ -208,8 +406,8 @@ def check_missions(root: Path, canonical_ids: set[str], spine: dict[str, str], p
     dependency_map: dict[str, list[str]] = {}
     version_from_map: dict[str, str | None] = {}
     version_to_map: dict[str, str] = {}
-    mission_projects: dict[str, set[int]] = {}
-    project_map = central_project_map(root)
+    lesson_links = roadmap_lesson_links(root)
+    expected_evidence = roadmap_evidence_levels(root)
 
     for path in files:
         rel = str(path.relative_to(root))
@@ -253,29 +451,47 @@ def check_missions(root: Path, canonical_ids: set[str], spine: dict[str, str], p
         else:
             problems.append(Problem("BUILD006", rel, "thiếu bot_version_to hợp lệ"))
 
-        # Chỉ đọc lesson refs trong knowledge metadata để Project/prose không bị hiểu nhầm là Lesson ID.
+        # Chỉ đọc Lesson refs trong knowledge metadata để prose không bị hiểu nhầm là Lesson ID.
         front_end = text.find("---", 3)
         front = text[: front_end + 3] if front_end != -1 else text
-        knowledge_start = front.find("knowledge:")
-        projects_start = front.find("projects:")
-        knowledge_block = front[knowledge_start:projects_start] if knowledge_start != -1 and projects_start != -1 else ""
+        knowledge_block = indented_block(front, "knowledge")
         knowledge_ids = LESSON_ID_RE.findall(knowledge_block)
         for lesson_id in knowledge_ids:
             if lesson_id not in canonical_ids:
                 problems.append(Problem("BUILD004", rel, f"knowledge Lesson ID không resolve trong canonical inventory: {lesson_id}"))
 
+        required_ids: list[str] = []
         if status == "ready":
             required_match = REQUIRED_RE.search(knowledge_block)
             required_ids = LESSON_ID_RE.findall(required_match.group(1)) if required_match else []
             if not required_ids:
                 problems.append(Problem("BUILD004", rel, "Mission ready phải có ít nhất một canonical Lesson ID trong knowledge.required"))
+            for lesson_id in required_ids:
+                lesson_problem = ready_lesson_problem(root, lesson_id, lesson_links)
+                if lesson_problem:
+                    problems.append(Problem("BUILD016", rel, lesson_problem))
 
-        project_match = PROJECTS_RE.search(text)
-        projects = parse_project_ids(project_match.group(1)) if project_match else set()
-        mission_projects[mission_id] = projects
-        for project_id in projects:
-            if not 1 <= project_id <= 14:
-                problems.append(Problem("BUILD009", rel, f"Mission chỉ được tham chiếu canonical Projects 1–14; gặp {project_id}"))
+        minimum_match = MINIMUM_LEVEL_RE.search(front)
+        reality_match = REALITY_REQUIRED_RE.search(front)
+        safety_match = SAFETY_GATE_RE.search(front)
+        if not minimum_match:
+            problems.append(Problem("BUILD016", rel, "thiếu evidence.minimum_level hợp lệ E0–E6"))
+        elif mission_id in expected_evidence and minimum_match.group(1) != expected_evidence[mission_id]:
+            problems.append(
+                Problem(
+                    "BUILD016",
+                    rel,
+                    f"evidence.minimum_level phải là {expected_evidence[mission_id]} theo ROADMAP; hiện là {minimum_match.group(1)}",
+                )
+            )
+        if not reality_match:
+            problems.append(Problem("BUILD016", rel, "thiếu evidence.reality_required boolean"))
+        elif mission_id in expected_evidence and reality_match.group(1) != "true":
+            problems.append(Problem("BUILD016", rel, "Mission có E-level trong ROADMAP phải đặt reality_required: true"))
+        if not safety_match:
+            problems.append(Problem("BUILD016", rel, "thiếu safety_gate hợp lệ S0–S6"))
+
+        check_mission_semantics(mission_id, text, front, rel, problems)
 
         lowered = text.lower()
         if "lesson_pass:" in lowered or "auto-pass lesson" in lowered or "auto pass lesson" in lowered:
@@ -315,14 +531,6 @@ def check_missions(root: Path, canonical_ids: set[str], spine: dict[str, str], p
         if expected_from is not None and version_from_map.get(mission_id) != expected_from:
             problems.append(Problem("BUILD012", rel, f"bot_version_from phải bằng {previous}.bot_version_to ({expected_from})"))
 
-    # Mission frontmatter và central Bot Evolution Project map phải cùng một nguồn sự thật.
-    for mission_id in authored_sorted:
-        expected_projects = project_map.get(mission_id, set())
-        actual_projects = mission_projects.get(mission_id, set())
-        if expected_projects != actual_projects:
-            rel = str(seen[mission_id].relative_to(root))
-            problems.append(Problem("BUILD013", rel, f"Project contribution lệch central map: frontmatter={sorted(actual_projects)} central={sorted(expected_projects)}"))
-
     # Generic cycle detection, dù forward refs đã bị chặn độc lập.
     visiting: set[str] = set()
     visited: set[str] = set()
@@ -357,8 +565,12 @@ def current_mission(root: Path) -> str | None:
     path = root / "PROGRESS.md"
     if not path.exists():
         return None
-    match = CURRENT_MISSION_RE.search(path.read_text(encoding="utf-8"))
-    return match.group(1) if match else None
+    text = path.read_text(encoding="utf-8")
+    for pattern in CURRENT_MISSION_RES:
+        match = pattern.search(text)
+        if match:
+            return match.group(1)
+    return None
 
 
 def learner_go_text(root: Path) -> str:
@@ -379,6 +591,55 @@ def check_bootstrap(root: Path, problems: list[Problem]) -> None:
         if not (root / rel).exists():
             problems.append(Problem("BUILD010", str(rel), "thiếu file learner bootstrap bắt buộc"))
 
+    reference_readme = root / "lab/affiliate-bot/README.md"
+    if reference_readme.exists():
+        text = reference_readme.read_text(encoding="utf-8")
+        required = ("legacy engineering reference", "M02 hiện là Grounded AI Advisor", "M03 là Human Tracked Publish")
+        if not all(marker in text for marker in required):
+            problems.append(Problem("BUILD020", str(reference_readme.relative_to(root)), "reference snapshot phải cảnh báo mapping mission cũ và nêu M02/M03 hiện hành"))
+    learner_data = root / "lab/learner/affiliate-bot/data"
+    if not learner_data.exists() or not any(learner_data.glob("*.json")):
+        problems.append(Problem("BUILD010", str(learner_data.relative_to(root)), "learner bootstrap phải có ít nhất một JSON fixture được gắn nhãn rõ"))
+
+    observation_path = root / "lab/learner/affiliate-bot/internal/observation/observation.go"
+    if observation_path.exists():
+        text = observation_path.read_text(encoding="utf-8")
+        required_patterns = (
+            r"Price\s+\*float64",
+            r"CommissionRate\s+\*float64",
+            r"Currency\s+string",
+            r'AccessPublicManual\s*=\s*"public_manual"',
+            r"DecisionIssues\(\)",
+        )
+        if not all(re.search(pattern, text) for pattern in required_patterns):
+            problems.append(Problem("BUILD019", str(observation_path.relative_to(root)), "M00 scaffold phải giữ nullable price/commission và minimal public-evidence gate"))
+
+    decision_path = root / "lab/learner/affiliate-bot/internal/decision/ranking.go"
+    if decision_path.exists():
+        text = decision_path.read_text(encoding="utf-8")
+        for state in ("RANK_SCENARIO", "RECOMMEND", "GET_MORE_DATA", "HUMAN_REVIEW"):
+            if state not in text:
+                problems.append(Problem("BUILD019", str(decision_path.relative_to(root)), f"M00 scaffold thiếu decision state {state}"))
+
+    main_path = root / "lab/learner/affiliate-bot/cmd/bot/main.go"
+    test_path = root / "lab/learner/affiliate-bot/cmd/bot/main_test.go"
+    if main_path.exists() and "io.Writer" not in main_path.read_text(encoding="utf-8"):
+        problems.append(Problem("BUILD019", str(main_path.relative_to(root)), "M00 output phải injectable để beginner test behavior không cần tự refactor"))
+    if test_path.exists() and "TestRunShowsSafeStarterState" not in test_path.read_text(encoding="utf-8"):
+        problems.append(Problem("BUILD019", str(test_path.relative_to(root)), "M00 phải có output-test skeleton cho beginner"))
+
+    for name in ("m00-missing-input.json", "m00-conflicting-input.json"):
+        path = learner_data / name
+        if not path.exists():
+            continue
+        try:
+            records = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            problems.append(Problem("BUILD019", str(path.relative_to(root)), "M00 failure fixture phải là JSON hợp lệ"))
+            continue
+        if any(record.get("evidence_kind") == "real" for record in records if isinstance(record, dict)):
+            problems.append(Problem("BUILD019", str(path.relative_to(root)), "provided failure fixture không được giả nhãn real evidence"))
+
     reference_go = go_directive(root / "lab/affiliate-bot/go.mod")
     learner_go = go_directive(root / "lab/learner/affiliate-bot/go.mod")
     if reference_go and learner_go and reference_go != learner_go:
@@ -395,6 +656,7 @@ def check_bootstrap(root: Path, problems: list[Problem]) -> None:
 def validate(root: Path) -> list[Problem]:
     problems: list[Problem] = []
     check_authority(root, problems)
+    check_dynamic_inventory_authority(root, problems)
     check_language_policy(root, problems)
     canonical_ids = canonical_lesson_ids(root)
     spine = check_roadmap_spine(root, problems)
@@ -411,7 +673,7 @@ def main() -> int:
             print(problem)
         print(f"Build-First validation failed with {len(problems)} problem(s).")
         return 1
-    print("Build-First validation passed: Mission spine, semantic continuity, learner/reference boundaries and language authority are consistent.")
+    print("Build-First validation passed: dynamic inventory, M00-M11 spine, reality gates and learner/reference boundaries are consistent.")
     return 0
 
 

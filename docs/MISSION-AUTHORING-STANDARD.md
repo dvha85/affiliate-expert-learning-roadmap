@@ -1,151 +1,101 @@
-# Tiêu chuẩn author Mission
+# Tiêu chuẩn biên soạn Mission
 
-## 1. Mục đích
+Mission là đơn vị **try + build + run + observe + pull + improve + operate + evidence** và là progress gate chính.
 
-Mission là đơn vị **build + run + observe + improve + operate + evidence (xây + chạy + quan sát + cải tiến + vận hành + bằng chứng)**. Mission không thay thế canonical Lesson (Bài học chuẩn) hoặc canonical Project (Dự án chuẩn).
+## Metadata
 
-## 2. Đặt tên
-
-```text
-missions/M00-bot-boots.md
-missions/M01-product-ingest.md
-```
-
-Mission ID dùng thứ tự `M00`, `M01`, ... và độc lập với Lesson ID.
-
-## 3. Metadata bắt buộc
-
-```yaml
+~~~yaml
 mission_id: "M00"
 title: "..."
-status: planned|draft|ready
+status: planned
 requires_missions: []
 bot_version_from: null
 bot_version_to: "v0.0"
-estimated_hours: 2
+estimated_hours: 6
 knowledge:
   required: []
   on_demand: []
   reference: []
-projects:
-  contributes_to: []
+milestones:
+  contributes_to: ["G1"]
+evidence:
+  minimum_level: "E1"
+  reality_required: true
+safety_gate: "S0"
 risk_scope:
   external_side_effects: false
-```
+~~~
 
-## 4. Semantics (ý nghĩa) của knowledge mapping
+Core Mission ready phải trỏ tới micro-lesson đã authored ready. Lesson chỉ cung cấp knowledge slice; Mission không tự đánh dấu lesson applied.
 
-- `required`: Lesson ID mà learner phải hiểu **đủ phần liên quan** trước Mission PASS.
-- `on_demand`: Lesson/concept chỉ pull khi implementation hoặc business context làm lộ nhu cầu.
-- `reference`: kiến thức đào sâu, không phải Mission PASS gate.
+## Section bắt buộc
 
-Quy tắc:
+1. Ship Target;
+2. Starting Bot State;
+3. Try First;
+4. Run;
+5. Observe;
+6. Knowledge Pull;
+7. Improve;
+8. Tests;
+9. Reality Check;
+10. Operate;
+11. Failure Case;
+12. Safety Gate;
+13. Evidence;
+14. Explain-back;
+15. Mission PASS;
+16. Bot Version Result;
+17. Next Mission.
 
-```text
-required knowledge for Mission
-≠
-full Lesson PASS
-```
+## Thiết kế checkpoint
 
-Mission `ready` phải chỉ rõ Lesson ID và knowledge slice (phần kiến thức cần ngay) trong nội dung Mission hoặc central map. Không được dùng `required: []` trong khi body lại nói có kiến thức bắt buộc mà không có canonical mapping.
+Mission cho absolute beginner phải chia thành checkpoint khoảng 45–90 phút:
 
-Mission ↔ Knowledge mapping được quản lý tập trung; không bulk-edit 671 Lesson chỉ để thêm Mission metadata.
+~~~text
+TRY
+→ observable output/gap
+→ pull 1–3 micro-lessons
+→ improve/test
+→ run on required evidence
+→ compare
+→ save
+~~~
 
-## 5. Các section bắt buộc khi `ready`
+Không đưa PostgreSQL, interface architecture, concurrency hoặc agent runtime vào trước khi failure/bottleneck thật tạo ra nhu cầu.
 
-Để giữ compatibility (tương thích) với validator hiện tại, heading giữ English term và có nghĩa Việt đi kèm:
+## Real evidence
 
-1. `## Ship Target — Mục tiêu bàn giao`
-2. `## Starting Bot State — Trạng thái Bot ban đầu`
-3. `## Build First — Xây trước`
-4. `## Run — Chạy`
-5. `## Observe — Quan sát`
-6. `## Knowledge Pull — Lấy kiến thức đúng lúc`
-7. `## Improve — Cải tiến`
-8. `## Tests — Kiểm thử`
-9. `## Operate — Vận hành`
-10. `## Failure Case — Tình huống lỗi`
-11. `## Evidence — Bằng chứng`
-12. `## Explain-back — Giải thích lại`
-13. `## Mission PASS — Tiêu chí PASS`
-14. `## Bot Version Result — Kết quả phiên bản Bot`
-15. `## Next Mission — Mission tiếp theo`
+Mission phải nói rõ:
 
-## 6. Quy tắc Build-First
+- evidence kind tối thiểu;
+- source/access method/observed_at;
+- sample fallback có thể giúp phần nào;
+- phần nào vẫn Evidence Pending;
+- outcome window và pending/partial/final nếu có.
 
-Mission phải đưa learner tới **smallest runnable implementation (phần triển khai nhỏ nhất chạy được)** trước khi có block theory dài. Knowledge được đưa vào vì learner vừa gặp một decision, failure, measurement hoặc design gap cụ thể.
+Không yêu cầu outcome nằm ngoài kiểm soát như sale để PASS.
 
-## 7. Learner workspace và reference implementation
+## AI và authority
 
-Learner build trên workspace riêng. Reference implementation (bản triển khai tham chiếu) không được coi là Starting Bot State của learner.
+- human/deterministic baseline trước AI;
+- evaluation trước authority;
+- model output là untrusted input;
+- Decision khác Execution;
+- external authority chỉ tăng sau policy/risk/approval gate;
+- Bot không tự sửa prompt/policy/weights trong production.
 
-Với bootstrap hiện tại:
+## Definition of Done
 
-```text
-learner workspace:   lab/learner/affiliate-bot/
-reference v0.3:      lab/affiliate-bot/
-```
+Mission ready phải có:
 
-Mission phải hướng learner tự thêm capability theo sequence. Reference chỉ dùng để:
-
-- đối chiếu sau một attempt;
-- unblock (gỡ kẹt) khi learner đã thử và có evidence về blocker;
-- review implementation sau khi feature đã chạy.
-
-Không dùng reference để copy lời giải rồi đánh dấu PASS.
-
-## 8. Tests (kiểm thử) và operation (vận hành)
-
-Độ sâu testing tăng theo scope Mission. Mission đầu có thể chỉ cần unit/behavior test. Mission sau thêm integration, restart/recovery, idempotency, security, policy và approval test khi thực sự cần.
-
-Mọi Mission phải có ít nhất một Failure Case cụ thể.
-
-## 9. Evidence (bằng chứng)
-
-Evidence phải inspectable (có thể kiểm tra), có thể gồm:
-
-- code path + commit SHA;
-- test output;
-- sample data/output;
-- kết quả before/after;
-- logs/metrics;
-- decision note (ghi chú quyết định);
-- screenshot/link khi cần.
-
-Không copy lại cả codebase vào artifact chỉ để tạo thêm evidence.
-
-## 10. Đóng góp vào Project
-
-`projects.contributes_to` chỉ được tham chiếu canonical Projects 1–14. Contribution (đóng góp) không tự động đánh dấu Project PASS.
-
-Central Bot Evolution map và Mission frontmatter phải thống nhất về Project contribution.
-
-## 11. Safety (an toàn)
-
-Mission phải nêu rõ có external side effect (tác động bên ngoài) hay không.
-
-```text
-BUILD CODE EARLY (viết code sớm)
-≠
-AUTOMATE REAL BUSINESS EARLY (tự động hóa kinh doanh thật sớm)
-```
-
-Consequential side effect (tác động có hậu quả đáng kể) phải có deterministic policy/risk/approval control phù hợp ở stage được đưa vào.
-
-## 12. Authoring Definition of Done (định nghĩa hoàn tất authoring)
-
-Một Mission chỉ được `ready` khi:
-
-- metadata hợp lệ;
-- ship target có thể quan sát;
-- starting state có thể tái lập từ learner path/previous learner Mission;
-- commands/steps có thể chạy hoặc design-only có lý do rõ;
-- required knowledge mapping explicit bằng canonical Lesson ID;
-- knowledge slice đủ cụ thể để learner không phải học cả chương không cần thiết;
-- tests + failure case tồn tại;
-- evidence path được định nghĩa;
-- PASS criteria đo được;
-- Project contribution đồng bộ với central map;
-- Mission không tự thay Lesson PASS;
-- committed material không cần secret/credential;
-- nội dung tuân thủ [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md).
+- starting state tái lập được;
+- attempt trước knowledge;
+- checkpoint vừa sức người mới;
+- required lesson ready và link được;
+- real-evidence contract rõ;
+- happy/failure test;
+- safety gate cụ thể;
+- measurable Capability/Reality/Operated criteria;
+- evidence/review path;
+- không cần secret hoặc paid service để hoàn thành Core.

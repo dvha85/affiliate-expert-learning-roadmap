@@ -1,31 +1,32 @@
 # Freshness Policy
 
-> Mục tiêu: giữ curriculum ổn định về cấu trúc nhưng không để các dữ kiện platform, legal, tax, privacy, API, pricing, Go/runtime và AI/agent behavior trở nên lỗi thời.
+> Mục tiêu: giữ outcome và safety boundary của chương trình ổn định, đồng thời không để dữ kiện platform, pháp lý, thuế, privacy, API, pricing, Go/runtime và AI/agent trở nên lỗi thời.
 
-**Policy version:** 2026-08-28  
-**Applies to:** lesson authoring, source mapping, policy/legal/tax watch, platform docs, API/tool behavior, Go/runtime/SDK/protocol facts và current-market examples.
+**Policy version:** 2026-08-29
+**Applies to:** `CURRICULUM.md`, roadmap, Mission, lesson, source mapping, policy/legal/tax watch, platform docs, API/tool behavior, Go/runtime/SDK/protocol facts và current-market examples.
 
-## 1. Tách canonical knowledge và current facts
-
-Repo có hai lớp tri thức độc lập:
+## 1. Authority và current facts là hai lớp khác nhau
 
 ```text
-CANONICAL CURRICULUM
-= validated normalized roadmap inventory
-+ active SYLLABUS-v2026.09 explicit overrides
-+ inherited/historical evidence from SYLLABUS-v2026.08
+ACTIVE CURRICULUM AUTHORITY
+= CURRICULUM.md
++ ROADMAP.md và roadmap/part-00.md ... part-06.md làm normalized index
++ Mission/lesson files làm execution detail
 
 CURRENT KNOWLEDGE OVERLAY
 = platform policy / law / tax / privacy / API / software / AI / search / creator-commerce facts được external-verify
+
+HISTORICAL INPUT
+= sources/ và các revision cũ, chỉ dùng cho provenance/research
 ```
 
-Đọc [`../sources/CURRICULUM-INDEX-v2026.09.md`](../sources/CURRICULUM-INDEX-v2026.09.md) để hiểu provenance `source_explicit / normalized_from_chapter / normalized_then_overridden`.
+[`../CURRICULUM.md`](../CURRICULUM.md) quyết định mục tiêu, cấu trúc Core hiện tại, Mission spine `M00–M11`, Real Evidence Ladder và PASS boundary. File trong `sources/`, kể cả `SYLLABUS-v2026.09.md`, không còn là active authority và không được dùng để khôi phục cấu trúc legacy.
 
-Web research không tự động sửa canonical curriculum. Nếu current fact đổi nhưng không cần thay lesson structure, cập nhật current-state override/source register thay vì âm thầm rewrite historical source.
+Web research không tự động sửa curriculum. Khi current fact đổi mà outcome/learning sequence vẫn đúng, cập nhật source register, reference card hoặc implementation note. Chỉ thay Core/Mission khi learner evidence hoặc operating risk cho thấy curriculum-level decision cần đổi.
 
 ## 2. Volatility classes
 
-### HIGH — review trước khi author và tối đa mỗi 30 ngày
+### HIGH — kiểm tra trước khi dùng và tối đa mỗi 30 ngày
 
 - platform policy, eligibility, commission, attribution window;
 - seller/creator program terms;
@@ -35,7 +36,7 @@ Web research không tự động sửa canonical curriculum. Nếu current fact 
 - payment/settlement/current fee behavior;
 - security-sensitive agent/tool protocol changes khi ảnh hưởng control boundary.
 
-### MEDIUM — review tối đa mỗi 90 ngày
+### MEDIUM — kiểm tra tối đa mỗi 90 ngày
 
 - search/discovery behavior;
 - creator-commerce measurement conventions;
@@ -43,15 +44,17 @@ Web research không tự động sửa canonical curriculum. Nếu current fact 
 - Go/runtime/SDK/library status;
 - LLM/agent/tooling capabilities;
 - MCP/A2A/workflow/observability capabilities;
-- vendor product behavior ảnh hưởng exercise.
+- vendor behavior ảnh hưởng exercise.
 
-### LOW — review tối đa mỗi 12 tháng hoặc khi có evidence thay đổi
+### LOW — kiểm tra tối đa mỗi 12 tháng hoặc khi có evidence thay đổi
 
 - business fundamentals;
 - unit economics formulas;
 - statistical concepts;
 - software architecture principles;
 - generic experimentation/reliability/security concepts.
+
+Thời hạn là thời điểm phải re-check, không phải cam kết nguồn vẫn đúng tới ngày đó. Trước consequential action luôn revalidate dữ kiện HIGH liên quan.
 
 ## 3. External source priority
 
@@ -66,28 +69,31 @@ Web research không tự động sửa canonical curriculum. Nếu current fact 
 
 Không dùng blog SEO/affiliate aggregator làm nguồn duy nhất cho current policy/legal claim.
 
-## 4. Lesson metadata contract
+## 4. Lesson và Mission metadata contract
 
-Khi lesson có current facts:
+Khi artifact dạy hoặc dùng current fact:
 
 ```yaml
 source_refs:
   external:
     - "EXT:TIKTOK:PPS"
-    - "EXT:MCP:SDK"
-last_verified: "2026-08-28"
+last_verified: "2026-08-29"
 ```
 
 Quy tắc:
 
-- `external` không rỗng → `last_verified` phải là `YYYY-MM-DD`;
-- `last_verified` có ngày → phải có ít nhất một external ref;
-- external ref phải resolve được trong current external-source register hoặc được ghi rõ URL/nguồn trong lesson;
-- current claim phải phân biệt với author inference/example.
+- `external` không rỗng thì `last_verified` phải là `YYYY-MM-DD`;
+- có `last_verified` thì phải có ít nhất một external ref;
+- external ref phải resolve trong current source register hoặc có URL/nguồn rõ tại chỗ;
+- current claim phải tách khỏi author inference, estimate và example;
+- evidence learner thu được cần `source_url`/source ref, `observed_at`, access method, claim kind, confidence/limitation khi relevant;
+- sample/synthetic data phải mang nhãn E0 và không được thỏa Reality verified yêu cầu E1+.
+
+Active lesson dùng `source_refs.active: ["CUR:..."]`. `S:`/`T:`/`R:` chỉ được đặt trong historical/training/research lineage khi thực sự dùng; chúng không bao giờ thay active identity từ `CURRICULUM.md` và roadmap.
 
 ## 5. Source registers
 
-Current external sources hiện được quản lý tối thiểu tại:
+Current external sources được quản lý tối thiểu tại:
 
 - [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
 - [`BOT-ENGINEERING-REFRESH-2026.08.md`](BOT-ENGINEERING-REFRESH-2026.08.md)
@@ -96,69 +102,83 @@ Mỗi source entry nên có:
 
 - stable ID;
 - source owner;
-- title/topic;
-- URL;
+- title/topic và URL;
 - verified date;
 - volatility class;
-- curriculum mapping;
-- factual implication.
+- Core/Mission/Advanced/Reference mapping hiện hành;
+- factual implication và giới hạn áp dụng.
 
-Future source registers có thể được thêm theo domain, nhưng stable external IDs không được reuse cho nguồn khác nghĩa.
+Stable external ID không được reuse cho nguồn khác nghĩa. Khi thay nguồn, giữ compatibility alias hoặc migration note rõ.
 
-## 6. Staleness rule khi author lesson
+## 6. Freshness gate trước khi author hoặc operate
 
-Trước khi chuyển lesson sang `ready`:
+Trước khi chuyển lesson/Mission sang `ready`, hoặc trước khi dùng current fact trong một run thật:
 
-1. resolve canonical lesson/provenance;
-2. xác định lesson có current claims không;
-3. nếu có, kiểm tra external source có còn hoạt động và nội dung còn áp dụng;
-4. HIGH >30 ngày → re-check;
-5. MEDIUM >90 ngày → re-check;
-6. cập nhật ref/date;
-7. không copy current policy/version/threshold sang lesson khác mà không mang theo provenance.
+1. resolve scope từ [`../CURRICULUM.md`](../CURRICULUM.md) và Mission hiện tại;
+2. xác định claim nào volatile và claim nào là learner observation;
+3. kiểm tra nguồn còn hoạt động và còn áp dụng cho đúng quốc gia/account/context;
+4. HIGH quá 30 ngày hoặc MEDIUM quá 90 ngày thì re-check;
+5. cập nhật ref/date và lưu changed meaning nếu có;
+6. test happy path lẫn stale/missing/conflicting path;
+7. không copy policy/version/threshold sang nơi khác mà bỏ provenance;
+8. trước publish, spend, account change hoặc external execution, revalidate policy và evidence liên quan.
 
-CI kiểm metadata contract và source-ID resolution, nhưng không thể tự xác minh nội dung pháp lý/platform còn đúng. Human research vẫn bắt buộc.
+CI kiểm contract, link và source-ID resolution. CI không thể xác nhận một quy định pháp lý hay platform rule vẫn đúng; human research vẫn bắt buộc.
 
 ## 7. Current-state override pattern
 
-Khi canonical terminology cũ nhưng operating truth thay đổi:
+Khi historical terminology khác operating truth:
 
 ```markdown
-> **Current-state override — verified YYYY-MM-DD**
-> Historical/canonical context dùng X.
-> Current operating truth là Y.
-> Lesson dạy Y để vận hành và X để hiểu migration/provenance.
+> **Current-state note — verified YYYY-MM-DD**
+> Historical source dùng X để giải thích provenance.
+> Operating truth hiện tại là Y trong context Z.
+> Mission áp dụng Y; nếu context khác phải re-check.
 ```
 
-Không đổi lesson ID chỉ vì platform rename nếu scope curriculum vẫn giữ nguyên.
+Không đổi lesson ID chỉ vì platform rename nếu learning outcome vẫn giữ nguyên. Ngược lại, không giữ một lesson chỉ để bảo toàn ID khi learner evidence cho thấy lesson thừa hoặc đặt sai thời điểm.
 
 ## 8. Engineering freshness pattern
 
-Không hard-code version hiện hành vào lesson title nếu concept bền hơn version.
-
-Ví dụ:
+Không hard-code current version vào Core lesson title nếu concept bền hơn version.
 
 ```text
-canonical lesson:
-Go runtime, modules và project structure
+Core micro-lesson:
+runtime, cancellation, schema validation hoặc tool permission cần để ship Mission
 
-freshness layer:
-current supported Go release / current MCP SDK / current workflow reference
+Reference/freshness layer:
+current supported Go release, provider SDK, MCP spec hoặc workflow product
 ```
 
-Framework/protocol update thường sửa examples + source register trước; chỉ đổi canonical structure khi có curriculum-level decision rõ ràng.
+Framework/protocol update thường sửa example, adapter và source register. Nó chỉ làm đổi Core khi behavior/risk thực sự thay learning outcome hoặc PASS gate.
 
-## 9. Legal/tax disclaimer
+## 9. Real Evidence Ladder và freshness
 
-Phần legal/tax/privacy trong repo là educational research, không phải tư vấn pháp lý/kế toán/thuế cho tình huống cá nhân cụ thể. Khi quyết định thực tế có rủi ro đáng kể, phải kiểm tra văn bản hiện hành và/hoặc chuyên gia phù hợp.
+Freshness là một phần của Reality verified:
 
-## 10. Continuous watch loops
+- E1 public observation phải có URL/source và `observed_at`;
+- E2 manual publish phải lưu disclosure/policy check tại thời điểm publish;
+- E3 analytics/export phải giữ observation window và phân biệt missing với zero;
+- E4+ phải nối Decision → Action → Outcome bằng evidence chưa hết hạn cho quyết định đó;
+- E5/E6 phải revalidate policy, approval và action target ngay trước execute.
 
-Part 22 formalizes maintenance:
+Kết quả `zero`, `negative` hoặc `inconclusive` vẫn hợp lệ. Dữ liệu stale hoặc không rõ nguồn không được nâng thành business truth bằng model confidence.
 
-- Chương 85 — Platform Watch: HIGH;
-- Chương 86 — Legal & Tax Watch: HIGH;
-- Chương 87 — Technology Watch: MEDIUM/HIGH tùy topic;
-- Chương 88 — Research Practice: hypothesis → evidence → system update.
+## 10. Legal/tax disclaimer
 
-Freshness không phải một lần update; nó là operating loop của Affiliate Intelligence System.
+Phần legal/tax/privacy trong repo là educational research, không phải tư vấn pháp lý, kế toán hay thuế cho tình huống cá nhân. Trước quyết định có rủi ro đáng kể, phải kiểm tra văn bản hiện hành và/hoặc chuyên gia phù hợp.
+
+## 11. Continuous watch loop
+
+Freshness là operating loop xuyên suốt bốn Milestone Gate, không phải một Part học một lần:
+
+```text
+Observe source or policy change
+→ record provenance and verified_at
+→ assess affected Mission/decision/action
+→ update reference/adapter/test
+→ run regression and safety checks
+→ review before release
+```
+
+M11 phải chứng minh production observation, recovery và outcome review. Platform/legal/technology watch tiếp tục sau Core như Reference operating practice; chúng không tạo thêm checkbox chỉ để tăng inventory.

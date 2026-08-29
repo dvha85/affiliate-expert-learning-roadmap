@@ -1,66 +1,41 @@
-# Phần 3 — TRACKING & ATTRIBUTION
+# Phần 3 — OUTCOME-DRIVEN IMPROVEMENT
 
-- Timeline: **Standard M2 · Accelerated M2** — forecast; PASS evidence mới là gate.
-- Quy mô: **3 chương / 33 bài**
-- Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
+- Timeline: **Evidence-gated; experiment duration follows the declared observation window**.
+- **Chapters:** C9–C11
+- **Core:** 9 micro-lessons
+- **Mission:** M05
+- **Outcome:** Một thay đổi được đi từ observation đến hypothesis, outcome, reviewed decision và version/rollback rõ ràng.
 
-## Checklist bài học
+## Attempt trước knowledge pull
 
-### Chương 7 — Affiliate Tracking
+Chọn một bất đồng hoặc weak assumption từ M00–M04. Viết proposed change trước, không sửa formula/prompt chỉ để khớp intuition hoặc làm số đẹp hơn.
 
-- [ ] **7.1** — Tracking là gì?
-- [ ] **7.2** — Affiliate ID
-- [ ] **7.3** — Tracking ID
-- [ ] **7.4** — SubID
-- [ ] **7.5** — Click ID
-- [ ] **7.6** — UTM
-- [ ] **7.7** — Cookie
-- [ ] **7.8** — Session
-- [ ] **7.9** — Deep Link
-- [ ] **7.10** — Redirect
-- [ ] **7.11** — Tracking URL
+## Core checklist
 
-### Chương 8 — Attribution
+### Chương 9 — Outcome truth và attribution limits
 
-- [ ] **8.1** — Attribution là gì?
-- [ ] **8.2** — Attribution Window
-- [ ] **8.3** — First Click
-- [ ] **8.4** — Last Click
-- [ ] **8.5** — Direct Attribution
-- [ ] **8.6** — Indirect Attribution
-- [ ] **8.7** — Multi-touch
-- [ ] **8.8** — Cross-device
-- [ ] **8.9** — Cross-channel
-- [ ] **8.10** — Order Validation
-- [ ] **8.11** — Attribution Conflict
-- [ ] **8.12** — Attribution Loss
+- [ ] **9.1** — Event identity và nối Decision → Action → Outcome
+- [ ] **9.2** — Pending, valid, final, refunded commission và reconciliation state
+- [ ] **9.3** — Delayed outcome, attribution uncertainty và data-quality boundary
 
-### Chương 9 — Advanced Measurement Architecture
+### Chương 10 — Experiment nhỏ nhưng trung thực
 
-- [ ] **9.1** — Client-side Tracking
-- [ ] **9.2** — First-party Tracking
-- [ ] **9.3** — Server-side Tracking
-- [ ] **9.4** — Event Tracking
-- [ ] **9.5** — Conversion Event
-- [ ] **9.6** — Webhook
-- [ ] **9.7** — Conversion API
-- [ ] **9.8** — Identity Resolution
-- [ ] **9.9** — Reconciliation
-- [ ] **9.10** — Data Ownership
+- [ ] **10.1** — Observation, question, hypothesis và falsifiable expectation
+- [ ] **10.2** — Baseline, primary metric, noise, sample nhỏ và stop rule
+- [ ] **10.3** — Result, inconclusive, decision và next evidence
 
-> **2026 freshness note:** khi author Chương 7–9, không mặc định “third-party cookie deprecation” theo narrative cũ. Phải kiểm chứng browser/platform state hiện hành và ưu tiên first-party identifiers, server-side events, reconciliation, consent và modeled/aggregate measurement khi phù hợp. Xem [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md).
+### Chương 11 — Controlled improvement
 
-## Cổng thực hành
+- [ ] **11.1** — Decision–Outcome Memory và calibration note
+- [ ] **11.2** — Proposed change, offline test và versioned evaluation
+- [ ] **11.3** — Human review, release/reject, rollback và retrospective
 
-- [ ] **PROJECT 2 — Tracking & Attribution Architecture**
-- [ ] Có artifact/evidence được lưu trong repo hoặc liên kết từ Issue
-- [ ] Viết retrospective: kết quả, sai lệch, điều học được, bước tiếp theo
+## Part PASS
 
-## Hoàn thành phần
+- [ ] M05 có Capability PASS, Reality verified cấp E4 và Operated
+- [ ] Experiment có hypothesis và declared metric trước outcome review
+- [ ] Decision liên kết được với action/outcome hoặc ghi rõ vì sao chưa thể
+- [ ] Kết quả inconclusive không bị ép thành success/failure
+- [ ] Improvement qua test/review; không có silent self-modification
 
-- [ ] Tất cả bài học đã PASS
-- [ ] Project/Lab/Pass Gate (nếu có) đã hoàn tất
-- [ ] Knowledge Base đã cập nhật
-- [ ] Đã chọn bài đầu tiên của phần tiếp theo
-
-[← Roadmap tổng](../ROADMAP.md)
+[← Part trước](part-02.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-04.md)

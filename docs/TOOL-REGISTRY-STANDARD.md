@@ -1,6 +1,6 @@
 # Tool Registry Standard — Chuẩn đăng ký công cụ
 
-> Áp dụng từ A2/M12. Tool tồn tại không đồng nghĩa Agent được quyền dùng trong mọi workflow.
+> Áp dụng từ A2-RO/M08. Tool tồn tại không đồng nghĩa Agent được quyền dùng trong mọi workflow.
 
 ## 1. Namespace
 

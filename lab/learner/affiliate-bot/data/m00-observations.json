@@ -1,0 +1,35 @@
+[
+  {
+    "observation_id": "SYN-A",
+    "product_name": "Synthetic Product A",
+    "source_url": "sample://m00/product-a",
+    "observed_at": "2026-01-01T00:00:00Z",
+    "access_method": "synthetic_fixture",
+    "evidence_kind": "synthetic",
+    "price": 20,
+    "currency": "TEST",
+    "commission_rate": 0.30
+  },
+  {
+    "observation_id": "SYN-B",
+    "product_name": "Synthetic Product B",
+    "source_url": "sample://m00/product-b",
+    "observed_at": "2026-01-01T00:00:00Z",
+    "access_method": "synthetic_fixture",
+    "evidence_kind": "synthetic",
+    "price": 80,
+    "currency": "TEST",
+    "commission_rate": 0.12
+  },
+  {
+    "observation_id": "SYN-C",
+    "product_name": "Synthetic Product C",
+    "source_url": "sample://m00/product-c",
+    "observed_at": "2026-01-01T00:00:00Z",
+    "access_method": "synthetic_fixture",
+    "evidence_kind": "synthetic",
+    "price": 45,
+    "currency": "TEST",
+    "commission_rate": 0.18
+  }
+]

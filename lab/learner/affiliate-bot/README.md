@@ -1,67 +1,66 @@
-# Affiliate Bot — workspace của người học
+# Affiliate Bot — learner workspace
 
-Đây là workspace (không gian làm việc) mà người học trực tiếp sửa trong chuỗi Mission M00 → M03 và các Mission tiếp theo.
+Đây là Bot người học tự phát triển qua M00–M11. Reference ở `lab/affiliate-bot/` chỉ dùng sau attempt hoặc khi review.
 
-## Trạng thái khởi đầu
+## Starting state của M00
 
-Workspace trong repository chỉ chứa năng lực tối thiểu của M00:
+Scaffold đã chạy được để người mới không phải viết parser/ranking/evidence gate từ trang trắng:
 
-```text
-khởi động chương trình
-→ in Bot version
-→ in Bot status
-→ exit cleanly
-```
-
-Nó **không có sẵn**:
-
-- Product model;
-- JSON ingest (đọc dữ liệu JSON);
-- validation (kiểm tra dữ liệu);
-- storage/history (lưu trữ/lịch sử);
-- ranking (xếp hạng);
-- Expected Value (Giá trị kỳ vọng).
-
-Những capability (năng lực) đó phải được người học tự thêm qua M01 → M03.
-
-## Chạy M00
-
-```bash
+~~~bash
 cd lab/learner/affiliate-bot
 go run ./cmd/bot
 go test ./...
-```
+~~~
 
-## Dữ liệu mẫu
+Nó đọc ba observations **synthetic** từ `data/m00-observations.json`, giữ `null` khác `0`, không trộn currency, chạy baseline `price × commission_rate` và trả `RANK_SCENARIO`.
 
-`data/sample-products.json` được đặt sẵn để M01 có input (đầu vào) ổn định. M00 không sử dụng file này.
+Scaffold cố ý chưa đủ:
 
-## Reference implementation (bản triển khai tham chiếu)
+- chưa có public market evidence;
+- mới có evidence eligibility guard tối thiểu, chưa có ingest validation/history đầy đủ;
+- chưa lưu human ranking;
+- chưa có history, AI hoặc external authority.
 
-Bản tham chiếu hiện nằm ở:
+Đây là gap để M00 thực hành:
 
-```text
-lab/affiliate-bot/
-```
+~~~text
+RUN SYNTHETIC BASELINE
+→ observe what it cannot claim
+→ record 5 public observations
+→ freeze human ranking
+→ add one tested explanation/output improvement
+→ test missing/conflicting input
+→ save human-vs-Bot comparison
+~~~
 
-Quy tắc học:
+Không đổi `evidence_kind` thành `real` nếu record vẫn là sample. Tạo/copy input mới từ observation công khai và lưu `source_url` + `observed_at` + `access_method: public_manual`.
 
-```text
-TỰ THỬ BUILD
-→ RUN / OBSERVE
-→ PULL KNOWLEDGE
-→ FIX / TEST
-→ chỉ mở reference khi cần đối chiếu hoặc sau khi đã có một attempt (lần thử)
-```
+Bạn có thể chạy một file khác:
 
-Không copy toàn bộ reference vào learner workspace rồi coi đó là Mission PASS. PASS phải dựa trên code/evidence mà người học thực sự hiểu và giải thích được.
+~~~bash
+go run ./cmd/bot path/to/your-observations.json
+~~~
 
-## Nguyên tắc an toàn
+Ba input có sẵn để quan sát state trước khi sửa code:
 
-```text
-BUILD CODE EARLY (viết code sớm)
-≠
-AUTOMATE REAL BUSINESS EARLY (tự động hóa hoạt động kinh doanh thật quá sớm)
-```
+~~~bash
+go run ./cmd/bot
+go run ./cmd/bot data/m00-missing-input.json
+go run ./cmd/bot data/m00-conflicting-input.json
+~~~
 
-M00–M03 chỉ dùng dữ liệu mẫu/local và không có external side effect (tác động bên ngoài), không publish, không tiêu tiền và không thay đổi tài khoản nền tảng.
+Nếu bị chặn, mở từng mức trong [Hint ladder M00](HINTS-M00.md). Không cần tự biết refactor output hay nullable JSON trước khi bắt đầu.
+
+## Ranh giới
+
+M00 chỉ dùng public/manual read và local compute. Không login scraping, publish, message, spend, order hoặc thay đổi tài khoản.
+
+## Reference
+
+Không copy reference rồi coi là PASS. Learner evidence phải chứng minh bạn đã:
+
+1. tự attempt;
+2. quan sát gap/failure;
+3. kéo knowledge đúng lúc;
+4. tự thay đổi/test;
+5. giải thích được giới hạn.
