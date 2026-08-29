@@ -31,6 +31,37 @@ Người hoàn thành Core phải chứng minh bằng artifact và evidence rằ
 9. tự động hóa hành động rủi ro thấp và bắt buộc approval cho hành động có hậu quả;
 10. deploy, monitor, recover, dùng kill switch và tạo proposed improvement từ outcome mà không để Bot tự sửa production policy, prompt hoặc weights.
 
+### Affiliate Intelligence answer contract
+
+Để curriculum không trôi thành generic agent/automation course, một Bot trưởng thành phải hỗ trợ decision có bằng chứng cho các câu hỏi domain sau:
+
+```text
+Product/Offer nào?
+Tại sao?
+Audience/Problem nào?
+Content angle nào?
+Hook / CTA nào?
+Channel nào?
+Timing / observation window nào?
+Expected Value / expected affiliate revenue bao nhiêu?
+Evidence refs nào hỗ trợ?
+Confidence theo method/reason nào?
+Uncertainty / missing evidence là gì?
+Compliance / business risk là gì?
+Recommended state: ACT / WAIT / GET_MORE_DATA / HUMAN_REVIEW / DENY?
+Next measurement / experiment là gì?
+```
+
+Đây là **cumulative contract**. Mission sớm chỉ điền field đã có evidence; field chưa đủ phải giữ `unknown`, `not_yet_observable` hoặc abstain. Không được bịa audience, CVR, expected revenue, risk hoặc recommendation để làm output trông đầy đủ.
+
+Canonical field semantics, product-opportunity signals và maturity map M00→M11 nằm tại [`docs/AFFILIATE-INTELLIGENCE-DECISION-CONTRACT.md`](docs/AFFILIATE-INTELLIGENCE-DECISION-CONTRACT.md).
+
+Nguyên tắc xuyên suốt:
+
+> **DATA > OPINION**
+>
+> **EXPECTED VALUE > COMMISSION RATE**
+
 ## 2. Mission-first — Mô hình học bắt buộc
 
 Mỗi Mission đi theo cùng một vòng lặp:
@@ -110,7 +141,7 @@ Quy tắc:
 | M10 — Limited Governed Automation | Chạy bounded RISK0/RISK1 canary; RISK2 vẫn cần durable approval | 17.2–17.3, reuse C16 |
 | M11 — Production Closed Loop | Deploy, chạy qua observation window, recovery drill và outcome review | 18.1–20.3 |
 
-Mission file phải đưa learner tới attempt trước khi trỏ tới giải thích dài. Reference implementation chỉ được mở sau attempt hoặc khi learner chủ động dùng hint ladder.
+Mỗi Mission phải làm trưởng thành thêm một phần của Affiliate Intelligence Decision Contract; automation capability không được thay thế domain reasoning. Mission file phải đưa learner tới attempt trước khi trỏ tới giải thích dài. Reference implementation chỉ được mở sau attempt hoặc khi learner chủ động dùng hint ladder.
 
 ## 6. Milestone gates
 
@@ -194,6 +225,7 @@ Core chỉ hoàn tất khi:
 - M00–M11 đều có Capability PASS, Reality verified và Operated theo contract của Mission;
 - bốn Milestone Gate có artifact/demo và retrospective;
 - learner có ít nhất một real tracked market loop, kể cả outcome bằng `0` hoặc `inconclusive`;
+- Affiliate Intelligence Decision Contract được điền bằng evidence hoặc explicit abstention, không bằng fabricated completeness;
 - AI capability có deterministic baseline, eval cases và fallback;
 - agent không bypass tool permission, policy, approval hoặc kill switch;
 - một trace nối được trigger → evidence → decision → action → outcome → evaluation;
