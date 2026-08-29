@@ -1,28 +1,28 @@
-# Affiliate Metric & Revenue Spine
+# Trục chỉ số và doanh thu Affiliate
 
-Tài liệu này định nghĩa metric/revenue chain dùng xuyên M00–M11. Mục tiêu là giữ Affiliate Intelligence gắn với **measured business reality**, không tối ưu một proxy rời rạc như commission rate.
+Tài liệu này định nghĩa chuỗi chỉ số/doanh thu (`metric/revenue chain`) dùng xuyên M00–M11. Mục tiêu là giữ Affiliate Intelligence gắn với **thực tế kinh doanh đã đo được (`measured business reality`)**, không tối ưu một chỉ số thay thế (`proxy`) rời rạc như commission rate.
 
-## 1. Canonical funnel
+## 1. Phễu chuẩn (`canonical funnel`)
 
-Dùng event nào source thực sự cung cấp; không bịa event bị thiếu.
+Chỉ dùng event mà nguồn thực sự cung cấp; không bịa event bị thiếu.
 
 ```text
-Impression / Exposure
-→ View
-→ Engagement
-→ Click
-→ Product View
-→ Add to Cart
-→ Checkout
-→ Order
-→ Valid Order
-→ Final Commission
-→ Payment (nếu observable)
+Impression / Exposure (lượt hiển thị)
+→ View (xem)
+→ Engagement (tương tác)
+→ Click (nhấp)
+→ Product View (xem sản phẩm)
+→ Add to Cart (thêm giỏ)
+→ Checkout (thanh toán)
+→ Order (đơn hàng)
+→ Valid Order (đơn hợp lệ)
+→ Final Commission (hoa hồng cuối cùng)
+→ Payment (tiền được thanh toán, nếu quan sát được)
 ```
 
-Một platform có thể chỉ cung cấp subset của chain. Event không observable phải là `unknown`/`not_available`, không đổi thành `0`.
+Một platform có thể chỉ cung cấp một phần của chuỗi. Event không quan sát được phải là `unknown`/`not_available`, không đổi thành `0`.
 
-## 2. Minimum revenue model
+## 2. Mô hình doanh thu tối thiểu
 
 Ở mức tối thiểu:
 
@@ -33,54 +33,54 @@ Valid Orders = Orders × Valid Order Rate
 Expected Affiliate Revenue = Valid Orders × Commission per Valid Order
 ```
 
-Gộp lại:
+Tức là:
 
 ```text
-Expected Affiliate Revenue
-= Exposure
+Doanh thu Affiliate kỳ vọng
+= Lượt hiển thị
 × CTR
 × CVR
-× Valid Order Rate
-× Commission per Valid Order
+× Tỷ lệ đơn hợp lệ
+× Hoa hồng trên mỗi đơn hợp lệ
 ```
 
 Nếu chưa có exposure và chỉ đang ra quyết định trên một click/opportunity:
 
 ```text
-Expected Value per Click
+Expected Value per Click (giá trị kỳ vọng trên mỗi click)
 = P(Order | Click)
 × P(Valid | Order)
 × Commission per Valid Order
 ```
 
-Commission rate chỉ là một input upstream của `Commission per Valid Order`; nó không đủ để quyết định product opportunity.
+Commission rate chỉ là một input ở thượng nguồn của `Commission per Valid Order`; nó không đủ để quyết định cơ hội sản phẩm.
 
-## 3. Evidence state cho từng factor
+## 3. Trạng thái bằng chứng cho từng yếu tố
 
-Mỗi factor phải có state độc lập:
+Mỗi factor (yếu tố) phải có trạng thái độc lập:
 
 ```text
-observed
-estimated
-assumed
-unknown
+observed   # đã quan sát
+estimated  # đã ước lượng
+assumed    # đang giả định
+unknown    # chưa biết
 ```
 
 Ví dụ:
 
-| Factor | Value | State | Evidence |
+| Yếu tố | Giá trị | Trạng thái | Bằng chứng |
 |---|---:|---|---|
 | Exposure | 1,200 | observed | platform export, observed_at |
 | CTR | 2.5% | observed | 30 clicks / 1,200 exposure |
-| CVR | 4% | estimated | small historical sample |
+| CVR | 4% | estimated | mẫu lịch sử nhỏ |
 | Valid Order Rate | unknown | unknown | chưa có source |
-| Commission/Valid | 80,000 VND | observed | affiliate program terms/export |
+| Commission/Valid | 80,000 VND | observed | điều khoản/export chương trình Affiliate |
 
-Không nhân một chain rồi gọi kết quả là “data-driven” nếu phần lớn factor là assumption mà không ghi rõ.
+Không nhân một chuỗi rồi gọi kết quả là “data-driven” nếu phần lớn factor là assumption mà không ghi rõ.
 
-## 4. Derived metrics
+## 4. Chỉ số suy ra (`derived metrics`)
 
-Chỉ tính khi denominator observable và có cùng scope/window:
+Chỉ tính khi mẫu số quan sát được và có cùng phạm vi/cửa sổ:
 
 ```text
 CTR = Click / Exposure
@@ -91,63 +91,63 @@ EPC = Final Commission / Click
 Revenue per Exposure = Final Commission / Exposure
 ```
 
-Nếu denominator bằng `0`, metric ratio phải theo explicit undefined policy; không tự suy thành `0%` nếu semantics không cho phép.
+Nếu mẫu số bằng `0`, tỷ lệ phải tuân theo policy xử lý undefined đã định; không tự suy thành `0%` nếu semantics không cho phép.
 
-## 5. Mission progression
+## 5. Mức trưởng thành theo Mission
 
-| Mission | Metric maturity |
+| Mission | Mức trưởng thành của metric |
 |---|---|
-| M00 | commission/price chỉ là baseline scenario; conversion probability vẫn unknown nếu chưa đo |
+| M00 | commission/price chỉ là baseline scenario; xác suất conversion vẫn unknown nếu chưa đo |
 | M01 | cùng metric có provenance, timestamp, history và freshness |
-| M02 | AI có thể giải thích/hypothesize nhưng không overwrite metric truth |
-| M03 | pre-register target metric, expected direction và outcome window trước publish |
-| M04 | import real exposure/click/order/valid/final commission khi source hỗ trợ; tách test events |
-| M05 | chọn bottleneck theo funnel và experiment một thay đổi chính |
+| M02 | AI có thể giải thích/đặt giả thuyết nhưng không ghi đè metric truth |
+| M03 | đăng ký trước (`pre-register`) target metric, expected direction và outcome window trước publish |
+| M04 | import exposure/click/order/valid/final commission thật khi source hỗ trợ; tách test event |
+| M05 | chọn bottleneck theo funnel và thử nghiệm một thay đổi chính |
 | M06 | watcher tự động thu signal đã hiểu với retry/dedup/freshness |
-| M07 | DecisionPacket tham chiếu metric window/confidence/missing evidence |
-| M08 | read-only tools chỉ lấy missing factor có decision value |
-| M09 | ActionIntent giữ expected outcome/cost/risk nhưng chưa có permission |
-| M10 | canary đo outcome, intervention, cost và policy block trong bounds |
-| M11 | decision → action → outcome → revenue/evaluation trace end-to-end |
+| M07 | `DecisionPacket` tham chiếu metric window/confidence/missing evidence |
+| M08 | read-only tool chỉ lấy missing factor có giá trị cho quyết định |
+| M09 | `ActionIntent` giữ expected outcome/cost/risk nhưng chưa có permission |
+| M10 | canary đo outcome, intervention, cost và policy block trong giới hạn |
+| M11 | trace decision → action → outcome → revenue/evaluation đầu-cuối |
 
-## 6. Bottleneck diagnosis
+## 6. Chẩn đoán nút thắt (`bottleneck diagnosis`)
 
 ```text
-No exposure
-→ distribution/channel hypothesis
+Không có exposure
+→ giả thuyết distribution/channel
 
-Exposure but no click
-→ audience/angle/hook/CTA hypothesis
+Có exposure nhưng không click
+→ giả thuyết audience/angle/hook/CTA
 
-Click but no order
-→ product–audience fit / landing / offer hypothesis
+Có click nhưng không order
+→ giả thuyết product–audience fit / landing / offer
 
-Order but invalid/refunded
-→ product quality / seller quality / expectation / compliance hypothesis
+Có order nhưng invalid/refunded
+→ giả thuyết product quality / seller quality / expectation / compliance
 
-Metrics missing or conflicting
-→ measurement/instrumentation hypothesis
+Metric thiếu hoặc xung đột
+→ giả thuyết measurement/instrumentation
 ```
 
-Không được nhảy tới automation/AI optimization khi measurement layer chưa phân biệt được các bottleneck trên.
+Không được nhảy tới automation/AI optimization khi lớp đo lường chưa phân biệt được các bottleneck trên.
 
-## 7. Window and cohort integrity
+## 7. Tính toàn vẹn của cửa sổ và cohort
 
 Mọi comparison phải ghi:
 
-- time window;
-- channel/scope;
+- time window (cửa sổ thời gian);
+- channel/scope (kênh/phạm vi);
 - product/offer version;
 - content/action version;
-- test vs real event;
-- pending/partial/final status;
-- known attribution limits.
+- test event khác real event;
+- trạng thái pending/partial/final;
+- giới hạn attribution đã biết.
 
 Không so hai rate từ scope/window khác nhau mà không ghi limitation.
 
-## 8. Revenue truth states
+## 8. Trạng thái sự thật của doanh thu
 
-Order lifecycle phải tách khi source hỗ trợ:
+Vòng đời đơn hàng phải tách khi nguồn hỗ trợ:
 
 ```text
 ORDER_PENDING
@@ -159,28 +159,28 @@ COMMISSION_FINAL
 COMMISSION_PAID
 ```
 
-`Order` không đồng nghĩa `revenue`. `Commission pending` không đồng nghĩa `paid`.
+`Order` không đồng nghĩa với `revenue`. `Commission pending` không đồng nghĩa với `paid`.
 
-## 9. Decision rule
+## 9. Quy tắc ra quyết định
 
 Metric spine phục vụ decision, không thay decision contract.
 
 ```text
 Evidence + Funnel Metrics + Opportunity Signals
-→ Expected Value / bottleneck assessment
+→ Expected Value / đánh giá bottleneck
 → Affiliate Intelligence Decision
 → Risk / Policy
-→ Action or Abstention
+→ Action hoặc Abstention
 → Outcome
 → Evaluation
 ```
 
 Nguyên tắc:
 
-> **DATA > OPINION**
+> **DATA > OPINION — Dữ liệu quan trọng hơn ý kiến.**
 >
-> **EXPECTED VALUE > COMMISSION RATE**
+> **EXPECTED VALUE > COMMISSION RATE — Giá trị kỳ vọng quan trọng hơn tỷ lệ hoa hồng đơn lẻ.**
 >
-> **MISSING ≠ ZERO**
+> **MISSING ≠ ZERO — Thiếu dữ liệu không phải số 0.**
 >
-> **ORDER ≠ VALID ORDER ≠ FINAL/PAID COMMISSION**
+> **ORDER ≠ VALID ORDER ≠ FINAL/PAID COMMISSION — Đơn hàng không đồng nghĩa đơn hợp lệ hay hoa hồng cuối/đã trả.**
