@@ -1,41 +1,41 @@
-# Manual Affiliate Loop — Reality Feedback bắt buộc
+# Vòng Affiliate thủ công — phản hồi thực tế bắt buộc
 
-> Manual Affiliate Loop không còn là lane tùy chọn chạy bên cạnh software curriculum. Nó là nguồn reality evidence bắt buộc trong Mission PASS, đồng thời là cách learner hiểu một action trước khi trao action đó cho Bot.
+> Manual Affiliate Loop (vòng Affiliate thủ công) không còn là lane tùy chọn chạy bên cạnh curriculum phần mềm. Nó là nguồn **reality evidence (bằng chứng thực tế)** bắt buộc trong Mission PASS, đồng thời là cách người học hiểu một hành động trước khi trao hành động đó cho Bot.
 
 ## 1. Vòng lặp chuẩn
 
 ```text
-REAL OBSERVATION
-→ RECORD EVIDENCE + PROVENANCE
-→ HUMAN PREDICTION / JUDGMENT
-→ BOT BASELINE / ANALYSIS / DECISION
-→ COMPARE HUMAN / BOT / BASELINE
-→ HUMAN ACTION OR GOVERNED ACTIONINTENT
-→ OUTCOME WINDOW
-→ EVALUATION
-→ VERSIONED CHANGE PROPOSAL
+QUAN SÁT THẬT
+→ GHI BẰNG CHỨNG + PROVENANCE
+→ PHÁN ĐOÁN / DỰ ĐOÁN CỦA NGƯỜI
+→ BASELINE / PHÂN TÍCH / QUYẾT ĐỊNH CỦA BOT
+→ SO SÁNH NGƯỜI / BOT / BASELINE
+→ HÀNH ĐỘNG CỦA NGƯỜI HOẶC ACTIONINTENT CÓ QUẢN TRỊ
+→ CỬA SỔ OUTCOME
+→ ĐÁNH GIÁ
+→ CHANGE PROPOSAL CÓ PHIÊN BẢN
 ```
 
-Business và software không phải hai lane độc lập. Chúng gặp nhau ở mọi Mission qua cùng evidence chain.
+Business (kinh doanh) và software (phần mềm) không phải hai lane độc lập. Chúng gặp nhau ở mọi Mission qua cùng chuỗi evidence.
 
 ## 2. Ba nguyên tắc
 
-### Reality before claimed intelligence
+### Thực tế trước tuyên bố “thông minh” (`Reality before claimed intelligence`)
 
-Bot không thông minh hơn chỉ vì có nhiều code hoặc một câu trả lời AI đẹp. Learner phải chỉ ra:
+Bot không thông minh hơn chỉ vì có nhiều code hoặc một câu trả lời AI đẹp. Người học phải chỉ ra:
 
 - Bot đã thấy evidence nào;
-- điều gì là fact/estimate/assumption/unknown;
+- điều gì là `fact` (sự thật), `estimate` (ước lượng), `assumption` (giả định), `unknown` (chưa biết);
 - Bot dự đoán/quyết định gì;
 - action nào thực sự xảy ra;
 - outcome nào được đo;
 - thay đổi tiếp theo dựa trên outcome nào.
 
-### Human does first consequential action
+### Người thực hiện hành động có hậu quả đầu tiên
 
-Learner quan sát, phán đoán và thực hiện public publish đầu tiên. Bot chỉ được tăng authority sau khi learner hiểu exact side effect, tracking, failure mode và policy boundary.
+Người học quan sát, phán đoán và tự thực hiện public publish đầu tiên. Bot chỉ được tăng authority (quyền hành động) sau khi người học hiểu side effect (tác động), tracking, failure mode và policy boundary.
 
-### Outcome proposes change; it does not silently rewrite production
+### Outcome chỉ đề xuất thay đổi, không âm thầm viết lại production
 
 ```text
 Outcome
@@ -53,9 +53,9 @@ Outcome
 → Agent tự sửa prompt / weights / workflow / policy production
 ```
 
-## 3. Evidence contract
+## 3. Hợp đồng bằng chứng (`evidence contract`)
 
-### Observation
+### Observation — quan sát
 
 | Field | Ý nghĩa |
 |---|---|
@@ -63,15 +63,15 @@ Outcome
 | `subject` | product/content/channel/metric đang quan sát |
 | `observed_at` | thời điểm quan sát |
 | `source` | URL/export/API/public page/manual note |
-| `access_method` | manual/public/export/API và permission khi relevant |
+| `access_method` | cách truy cập và permission khi liên quan |
 | `evidence_kind` | `real`, `test`, `synthetic` hoặc `replay` |
 | `fact_or_assumption` | `fact`, `estimate`, `assumption`, `unknown` |
 | `value` | giá trị hoặc safe reference tới snapshot |
-| `freshness` | current/stale/unknown hoặc policy tương đương |
-| `confidence` | mức tin vào assessment, không phải xác suất truth |
+| `freshness` | độ mới: current/stale/unknown hoặc policy tương đương |
+| `confidence` | mức tin vào assessment, không mặc định là xác suất truth |
 | `reason` | vì sao tin/không tin và evidence còn thiếu |
 
-### HumanPrediction
+### HumanPrediction — dự đoán của người
 
 Ghi trước khi xem Bot output:
 
@@ -84,7 +84,7 @@ expected metric or direction
 confidence + uncertainty
 ```
 
-### Action
+### Action — hành động
 
 ```text
 action_id
@@ -94,12 +94,12 @@ action_type
 target
 exact artifact/version
 risk_level
-approval reference khi relevant
+approval reference khi liên quan
 executed_at
-idempotency key khi Bot execute
+idempotency key khi Bot thực thi
 ```
 
-### Outcome
+### Outcome — kết quả quan sát được
 
 ```text
 outcome_id
@@ -113,7 +113,7 @@ status: pending | partial | final | unknown
 limitations
 ```
 
-### Evaluation
+### Evaluation — đánh giá
 
 ```text
 expected vs observed
@@ -125,140 +125,140 @@ proposed change
 required offline test/review
 ```
 
-## 4. Reality progression M00–M11
+## 4. Tiến triển thực tế M00–M11
 
-### M00 — Public evidence + first decision
+### M00 — Evidence công khai + quyết định đầu tiên
 
-- chọn 5 sản phẩm/subjects từ public source thật;
-- ghi source, observed time, fact/assumption và missing fields;
-- human rank trước;
-- chạy deterministic Bot ranking;
+- chọn 5 sản phẩm/subject từ nguồn công khai thật;
+- ghi source, observed time, fact/assumption và field còn thiếu;
+- người xếp hạng trước;
+- chạy Bot ranking tất định;
 - ghi agreement, disagreement và “chưa đủ dữ liệu để kết luận gì”.
 
 **PASS reality:** không dùng sample-only evidence để thay cho public observations.
 
-### M01 — Second snapshot + trustworthy history
+### M01 — Snapshot lần hai + history đáng tin
 
 - quan sát lại cùng subject ở thời điểm khác;
 - lưu snapshot mới, không overwrite snapshot cũ;
 - phân biệt unchanged, missing, zero, stale và unknown;
-- giải thích change nào có business meaning và change nào chỉ là noise/hypothesis.
+- giải thích change nào có ý nghĩa kinh doanh và change nào mới chỉ là noise/hypothesis.
 
-**PASS reality:** ít nhất hai timestamps thực trên cùng subject hoặc trạng thái `BLOCKED_EXTERNAL`; fixture chỉ tạo capability evidence.
+**PASS reality:** ít nhất hai timestamp thực trên cùng subject hoặc trạng thái `BLOCKED_EXTERNAL`; fixture chỉ tạo capability evidence.
 
-### M02 — Grounded AI advisor
+### M02 — AI advisor có grounding
 
-- learner gắn label thủ công cho một tập evidence nhỏ;
+- người học gắn label thủ công cho một tập evidence nhỏ;
 - AI extract/summarize/hypothesize trên cùng evidence;
-- claim phải dẫn về source/span hoặc bị unsupported;
+- claim phải dẫn về source/span hoặc bị đánh dấu unsupported;
 - so với human/deterministic baseline;
 - lưu invalid output, unsupported claim, abstention và fallback case.
 
-**PASS reality:** AI thực sự được đánh giá trên evidence thật; output đẹp không đủ.
+**PASS reality:** AI phải được đánh giá trên evidence thật; output đẹp không đủ.
 
-### M03 — Human tracked publish
+### M03 — Người publish nội dung có tracking
 
 Trước publish:
 
-1. learner chọn product–audience/content hypothesis;
+1. chọn giả thuyết product–audience/content;
 2. ghi Decision record và outcome window;
-3. kiểm official platform policy/disclosure áp dụng;
+3. kiểm policy/disclosure chính thức đang áp dụng;
 4. kiểm claim/evidence;
 5. tạo tracking link và phân biệt test event;
 6. review exact artifact;
-7. human tự publish trên account/channel mình sở hữu hoặc kiểm soát.
+7. người tự publish trên account/channel mình sở hữu hoặc kiểm soát.
 
-Không yêu cầu paid ads. Nếu learner chưa có affiliate link, có thể dùng owned public content với tracked non-commercial CTA; phải ghi rõ đây chưa phải monetization evidence.
+Không yêu cầu paid ads. Nếu chưa có affiliate link, có thể dùng owned public content với tracked non-commercial CTA; phải ghi rõ đây chưa phải monetization evidence.
 
 **PASS reality:** public URL/artifact + policy/disclosure/tracking evidence. Local draft không đủ.
 
-### M04 — Real outcome analytics
+### M04 — Phân tích outcome thật
 
 - chờ outcome window đã định trước;
-- import real impressions/exposures/clicks và order/commission nếu có;
-- giữ test events tách khỏi market events;
+- import impression/exposure/click thật và order/commission nếu có;
+- giữ test event tách khỏi market event;
 - nối Decision→Action→Outcome;
 - không đổi missing thành zero;
 - test order/valid/refund/paid path bằng fixture dù chưa có order thật.
 
-**PASS reality:** analytics snapshot thật sau window. Metric bằng 0 vẫn hợp lệ nếu measurement đúng.
+**PASS reality:** analytics snapshot thật sau window. Metric bằng `0` vẫn hợp lệ nếu measurement đúng.
 
-### M05 — First real improvement
+### M05 — Cải tiến thật đầu tiên
 
 Chọn bottleneck từ M04:
 
 ```text
-no exposure      → distribution hypothesis
-exposure/no click → hook/angle/CTA hypothesis
-click/no order    → product–audience/landing hypothesis
-order invalid/refund → quality/compliance hypothesis
-missing data      → measurement hypothesis
+không exposure         → giả thuyết distribution
+có exposure/no click   → giả thuyết hook/angle/CTA
+có click/no order      → giả thuyết product–audience/landing
+order invalid/refund   → giả thuyết quality/compliance
+missing data           → giả thuyết measurement
 ```
 
-Pre-register một change chính, primary metric, expected direction, outcome window và stop rule. Human publish/execute variant trong cùng safety boundary M03. Sau window, lưu evaluation và một versioned ChangeProposal.
+Pre-register (đăng ký trước) một thay đổi chính, primary metric, expected direction, outcome window và stop rule. Người publish/execute variant trong cùng safety boundary M03. Sau window, lưu evaluation và một `ChangeProposal` có version.
 
-**PASS reality:** một closed decision/action/outcome/evaluation loop. Negative, zero hoặc inconclusive vẫn PASS; fabricated certainty thì không.
+**PASS reality:** một vòng decision/action/outcome/evaluation khép kín. Negative, zero hoặc inconclusive vẫn PASS; fabricated certainty thì không.
 
-### M06 — Automatic observer
+### M06 — Bộ quan sát tự động
 
-- learner xác nhận access method/source được phép;
+- xác nhận access method/source được phép;
 - Bot tự chạy scheduled read/watch;
-- lưu snapshots/deltas, retry/dedup và alert;
+- lưu snapshot/delta, retry/dedup và alert;
 - AI triage chỉ enrich deterministic alert;
-- operate đủ cycle để thấy no-change, material-change và failure/recovery.
+- vận hành đủ cycle để thấy no-change, material-change và failure/recovery.
 
-**PASS reality:** scheduled operating evidence, không chỉ unit test hoặc manual function call.
+**PASS reality:** có bằng chứng vận hành theo lịch, không chỉ unit test hoặc manual function call.
 
 ### M07 — Decision + abstention
 
 - replay real observations/outcomes từ M00–M06;
 - stale, missing hoặc conflict phải dẫn tới state phù hợp;
-- compare human vs Bot DecisionPacket;
+- so sánh người với `DecisionPacket` của Bot;
 - lưu confidence method/reason, missing evidence, expiry và risk.
 
-**PASS reality:** decision memory truy được về evidence/outcome; Bot biết không quyết định.
+**PASS reality:** decision memory truy được về evidence/outcome; Bot biết khi nào không quyết định.
 
-### M08 — Read-only tool Agent
+### M08 — Agent dùng tool chỉ-đọc
 
 - Agent chỉ dùng allowlisted read tools để lấy missing evidence;
 - lưu tool selection, arguments, permission, result, cost/latency và evidence refs;
 - thử permission denial, timeout, malicious retrieved content và unnecessary call.
 
-**PASS reality:** audited trajectory; final answer không có trace/evidence thì không đủ.
+**PASS reality:** có audited trajectory (quỹ đạo thao tác được kiểm toán); final answer không có trace/evidence thì không đủ.
 
-### M09 — Shadow approval
+### M09 — Approval chạy bóng (`shadow approval`)
 
-- Agent tạo ActionIntent nhưng executor chạy dry-run/sandbox/owned draft;
+- Agent tạo `ActionIntent` nhưng executor chỉ chạy dry-run/sandbox/owned draft;
 - durable approval hỗ trợ approve/reject/expire/cancel;
 - thử restart, changed context, duplicate callback, revalidation và kill switch.
 
 **PASS reality:** complete approval trajectory; chat confirmation đơn lẻ không đủ.
 
-### M10 — Limited governed automation
+### M10 — Tự động hóa giới hạn có quản trị
 
 - chỉ allowlist bounded R0/R1 action;
 - RISK 1 có audit; RISK 2 tiếp tục durable approval;
-- chạy time-bounded canary với rate/resource/cost cap;
-- theo dõi policy blocks, duplicate prevention, intervention, rollback và outcome.
+- chạy canary giới hạn thời gian với rate/resource/cost cap;
+- theo dõi policy block, duplicate prevention, intervention, rollback và outcome.
 
-**PASS reality:** operated canary không vượt scope; dry-run đơn lẻ không đủ.
+**PASS reality:** canary đã vận hành không vượt scope; dry-run đơn lẻ không đủ.
 
-### M11 — Production closed loop
+### M11 — Vòng production khép kín
 
-- chứng minh trigger→decision→action→outcome trace đầu-cuối;
+- chứng minh trace trigger→decision→action→outcome đầu-cuối;
 - có real public evidence, tracked content và real analytics trong history;
 - có A2 read-tool path, R0/R1 governed auto path và R2 approval path;
-- outcome tạo ChangeProposal;
+- outcome tạo `ChangeProposal`;
 - change được offline test/evaluate/review trước deploy;
 - recovery, monitoring, cost và kill switch hoạt động.
 
-**PASS reality:** nhiều chain replay/audit được; Bot không tự khai “đã học” nếu production version chưa qua review.
+**PASS reality:** nhiều chain có thể replay/audit; Bot không tự khai “đã học” nếu production version chưa qua review.
 
-## 5. Click/order/revenue maturity
+## 5. Mức trưởng thành click/order/revenue
 
-Canonical metric math và event semantics nằm tại [`AFFILIATE-METRIC-REVENUE-SPINE.md`](AFFILIATE-METRIC-REVENUE-SPINE.md).
+Phép tính metric chuẩn và semantics của event nằm tại [`AFFILIATE-METRIC-REVENUE-SPINE.md`](AFFILIATE-METRIC-REVENUE-SPINE.md).
 
-Minimum model:
+Mô hình tối thiểu:
 
 ```text
 Clicks = Exposure × CTR
@@ -288,18 +288,18 @@ Quy tắc:
 - chỉ claim monetization validated ở milestone mà evidence hỗ trợ;
 - `missing ≠ zero`; `order ≠ valid order ≠ final/paid commission`.
 
-## 6. Safety boundary
+## 6. Ranh giới an toàn
 
 ### M00–M02
 
-- public/manual read hoặc provider analysis;
+- đọc công khai/thủ công hoặc provider analysis;
 - không external action;
 - secret không vào prompt/log/artifact.
 
 ### M03–M05
 
-- public action do human thực hiện;
-- owned/controlled account;
+- public action do người thực hiện;
+- account do người học sở hữu/kiểm soát;
 - current policy, disclosure, claim review và tracking;
 - không yêu cầu spend, transaction hoặc artificial engagement.
 
@@ -312,15 +312,15 @@ Quy tắc:
 ### M09–M11
 
 ```text
-RISK 0 → internal/read-only auto
-RISK 1 → bounded/reversible + mandatory audit
-RISK 2 → durable Human Approval + revalidate
-DENY   → prohibited regardless of approval
+RISK 0 → nội bộ/chỉ-đọc tự động
+RISK 1 → giới hạn/có thể đảo ngược + audit bắt buộc
+RISK 2 → Human Approval bền vững + revalidate
+DENY   → cấm bất kể có approval
 ```
 
 `DENY`: fake click/order, spam, né disclosure, bypass policy, restricted/private scraping, credential sharing và unbounded spend.
 
-## 7. Human-vs-Bot note
+## 7. Ghi chú so sánh người với Bot
 
 Template tối thiểu cho mỗi Mission có judgment/decision:
 
@@ -340,4 +340,4 @@ What can/cannot be concluded:
 Next versioned change proposal:
 ```
 
-Manual Affiliate Loop kết thúc vai trò “lane riêng” khi M11 hoàn tất; các nguyên tắc evidence, human judgment và outcome evaluation vẫn tiếp tục tồn tại trong production closed loop.
+Manual Affiliate Loop kết thúc vai trò “lane riêng” khi M11 hoàn tất; các nguyên tắc evidence, human judgment và outcome evaluation vẫn tiếp tục tồn tại trong vòng production khép kín.
