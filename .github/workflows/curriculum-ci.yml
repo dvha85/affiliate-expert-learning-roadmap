@@ -24,6 +24,9 @@ jobs:
       - name: Run curriculum validator
         run: python scripts/validate_curriculum.py
 
+      - name: Run authority drift validator
+        run: python scripts/validate_authority.py
+
       - name: Run hardening validator
         run: python scripts/validate_hardening.py
 
