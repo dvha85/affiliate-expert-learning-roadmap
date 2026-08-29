@@ -4,6 +4,8 @@
 - Quy mô: **6 chương / 36 bài**
 - Chỉ tick bài khi đã đạt đủ [5 tiêu chí PASS](../docs/PASS-CRITERIA.md).
 
+> AI capability tăng dần theo [`AI-CAPABILITY-LEVELS.md`](../docs/AI-CAPABILITY-LEVELS.md): A1 advisory/read-only có thể xuất hiện từ M05; Part 17 là nơi formalize A2 tool-assisted Agent, grounding, evaluation và state separation. `AI APPEARS EARLY ≠ AI GETS AUTHORITY EARLY`.
+
 ## Checklist bài học
 
 ### Chương 61 — LLM Foundation
@@ -18,7 +20,7 @@
 - [ ] **61.8** — Evaluation
 - [ ] **61.9** — Cost
 
-> Tool use phải được xem như một production boundary: schema, validation, permissions, side effects, timeout, retry, idempotency, policy decision và audit. MCP là interoperability concept quan trọng; không bắt buộc dùng cho mọi integration nếu REST/webhook/native API đơn giản hơn.
+> Structured output nên normalize về domain contract như `AnalysisPacket`/`DecisionPacket`, không để provider response object trở thành business model. Tool use là production boundary: schema, validation, permissions, side effects, timeout, retry, idempotency, policy decision và audit.
 
 ### Chương 62 — AI Product Understanding
 
@@ -27,6 +29,8 @@
 - [ ] **62.3** — Xác định Audience và Pain
 - [ ] **62.4** — Phân tích Objections
 - [ ] **62.5** — Đề xuất và kiểm chứng Content Angles
+
+> AI Product Understanding được phép xuất hiện sớm ở M06 dưới A1 để extract unstructured evidence thành structured features; deterministic score/ranking baseline vẫn ở Decision/Product Intelligence core.
 
 ### Chương 63 — AI Content Engine
 
@@ -45,7 +49,7 @@
 - [ ] **64.5** — RAG
 - [ ] **64.6** — Source Grounding, session state và workflow state
 
-> Knowledge ≠ session state ≠ durable workflow state. Approval wait, retry state và action history không được nhét tùy tiện vào prompt/RAG store.
+> Knowledge ≠ session state ≠ durable workflow state. Signal/Analysis/Decision/Execution state cũng phải tách để audit. Approval wait, retry state và action history không được nhét tùy tiện vào prompt/RAG store.
 
 ### Chương 65 — AI & Agent Evaluation
 
@@ -56,7 +60,7 @@
 - [ ] **65.5** — Brand Consistency và approval quality
 - [ ] **65.6** — Performance, latency, cost và human intervention rate
 
-> Evaluation không chỉ hỏi “text có hay không?”. Với agent phải đo cả trajectory: chọn đúng tool không, argument đúng không, có gọi tool thừa không, policy có chặn đúng không và task có hoàn thành thật không.
+> Evaluation không chỉ hỏi “text có hay không?”. Với Agent phải đo trajectory: tool selection/arguments, tool calls thừa, policy blocks, evidence coverage, confidence calibration, latency/cost và task/outcome success.
 
 ### Chương 66 — Human-in-the-loop & Approval Workflow
 
@@ -66,9 +70,11 @@
 - [ ] **66.4** — Pause/Resume, publish/action boundaries và expiry
 - [ ] **66.5** — Performance feedback, evaluation và learning loop
 
-> **Default architecture:** single-agent/tool workflow trước; multi-agent chỉ dùng khi decomposition thật sự có lợi. Human approval phải là stateful workflow boundary chứ không chỉ là “người xem lại text”.
+> **Default architecture:** single-agent/tool workflow trước; multi-agent chỉ dùng khi decomposition thật sự có lợi. Human Approval là stateful workflow boundary, không chỉ là “người xem lại text”.
 
-> **2026 freshness note:** AIGC policy is an operating constraint, not an optional ethics appendix. AI workflows must preserve source grounding, product fidelity, disclosure state, policy checks and human approval for claims/publishing boundaries. Current platform rules belong in the freshness layer and must be re-verified before production use.
+> **Provider-neutral rule:** model routing/tool capability có thể khác nhau giữa provider; domain Decision/Policy core phải giữ interface trung lập và có exit path.
+
+> **2026 freshness note:** AIGC policy là operating constraint. AI workflow phải giữ source grounding, product fidelity, disclosure state, policy checks và Human Approval cho claims/publishing boundary. Current platform/provider rules thuộc freshness layer và phải re-verify trước production use.
 
 ## Cổng thực hành
 
