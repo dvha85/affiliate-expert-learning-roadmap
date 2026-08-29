@@ -40,6 +40,18 @@ use a currently supported stable Go release
 
 Không biến `Go 1.27` thành permanent canonical truth.
 
+## EXT:MCP:SDK
+
+- **Source:** Model Context Protocol — official SDK/spec release context
+- **URL:** https://blog.modelcontextprotocol.io/posts/2026-07-28/
+- **Verified:** 2026-08-29
+- **Volatility:** HIGH
+- **Maps to:** 0.2, 51.x, 52.2, 61.6, 83.4, 87.2
+
+Đây là **compatibility source ID (ID nguồn tương thích)** được giữ để các lesson/source_refs đã author trước đây, đặc biệt Lesson `0.2`, tiếp tục resolve và bảo toàn provenance. Current operating detail được tách rõ hơn ở `EXT:MCP:2026-07-28` và `EXT:MCP:GO-SDK` bên dưới.
+
+Không xóa/rename source ID đã được lesson tham chiếu chỉ vì freshness register được chi tiết hóa; nếu cần migration ID phải có explicit compatibility/migration plan.
+
 ## EXT:MCP:2026-07-28
 
 - **Source:** Model Context Protocol Blog — The 2026-07-28 Specification
