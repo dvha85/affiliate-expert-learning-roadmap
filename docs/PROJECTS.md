@@ -17,7 +17,7 @@
 | 11 | Opportunity Engine | 16 | Rule/score/rank/recommendation + evidence/confidence/uncertainty/freshness/risk/policy |
 | 12 | AI Content Assistant | 17 | Grounded tool workflow, evaluation, prompt-injection controls, human approval |
 | 13 | Production Affiliate Bot | 19 | Durable HITL/recovery, observability/evaluation, security, RISK 0/1/2, outcome learning, kill switch, deployment |
-| 14 | Affiliate Intelligence Platform | 21 | End-to-end governed action + audit/evaluation/feedback loop |
+| 14 | Affiliate Intelligence Platform | 21 | End-to-end Decision Intelligence + governed action + outcome/evaluation/learning loop |
 
 Số lượng main project vẫn là **14**. Labs và Pass Gates không phải Project #15+.
 
@@ -144,23 +144,43 @@ Tài liệu:
 
 ### Project 14 — Affiliate Intelligence Platform
 
-Capstone phải demo được một closed loop:
+Capstone phải demo được closed loop đầy đủ:
 
 ```text
-Observe / Collect
-→ Signal
-→ Analyze
-→ DecisionPacket / ActionIntent
-→ Policy + Risk
-→ Auto action OR Human Approval
-→ Execute
+SENSE / COLLECT
+→ SignalPacket
+→ UNDERSTAND / AnalysisPacket
+→ PREDICT / Forecast-ML evidence khi relevant
+→ REASON / Evidence Escalation
+→ DECIDE / DecisionPacket
+→ POLICY + RISK
+→ ActionIntent
+→ RISK 0/1 controlled auto action OR RISK 2 durable Human Approval
+→ ACT / Execute
 → Audit / Trace
-→ Measure outcome
-→ Evaluate / Learn
+→ MEASURE / Outcome
+→ EVALUATE / Decision-Outcome Memory
+→ LEARN / Proposed Improvement
+→ Offline Test / Experiment / Review
+→ Deploy approved improvement
 ↺
 ```
 
-Acceptance phải bao gồm ít nhất một RISK 0/1 path, một RISK 2 approval path, một failure/retry/recovery case và evidence rằng model output không bypass policy.
+PASS evidence tối thiểu phải có:
+
+- ít nhất một A0/A1 path chứng minh deterministic core + advisory fallback;
+- ít nhất một A2 path dùng Tool Registry với permission/risk ceiling và evidence escalation;
+- ít nhất một RISK 0 hoặc RISK 1 controlled auto-action path;
+- ít nhất một RISK 2 durable approval path với restart/resume/revalidation;
+- một stale/missing/conflicting-evidence case dẫn tới `WAIT`, `GET_MORE_DATA` hoặc `HUMAN_REVIEW` đúng;
+- một tool failure/retry/idempotency case;
+- một prompt-injection/tool-misuse case chứng minh model/tool output không bypass policy;
+- DecisionPacket có evidence/confidence/uncertainty/freshness/expiry/risk/policy;
+- trace/correlation từ trigger → decision → action → outcome;
+- Agent evaluation có quality + trajectory + latency/cost + safety + outcome metric phù hợp;
+- Decision↔Outcome learning tạo proposed improvement qua test/review, không tự sửa production;
+- provider-neutral core/adapter boundary;
+- A4 multi-agent/A2A **không bắt buộc**; nếu dùng phải chứng minh independent-agent boundary và value rõ.
 
 ## 4. Labs
 
