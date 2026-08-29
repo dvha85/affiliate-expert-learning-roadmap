@@ -21,6 +21,27 @@ Tài liệu này định nghĩa **product, reality và authority spine** của c
 
 AI capability levels được định nghĩa tại [`AI-CAPABILITY-LEVELS.md`](AI-CAPABILITY-LEVELS.md). Multi-agent/A2A không phải core Mission; chỉ là advanced option sau khi M11 đã chứng minh một Agent/workflow đơn giản hơn không đủ.
 
+## Affiliate Intelligence spine
+
+Mỗi Bot version phải làm trưởng thành thêm cùng một domain contract, không chỉ thêm technical capability. Xem [`AFFILIATE-INTELLIGENCE-DECISION-CONTRACT.md`](AFFILIATE-INTELLIGENCE-DECISION-CONTRACT.md).
+
+```text
+M00 Product/Offer + Evidence + deterministic reason
+→ M01 trustworthy history/freshness
+→ M02 grounded audience/angle hypotheses, unsupported fields reject/fallback
+→ M03 Audience/Problem + Content Angle + Hook/CTA + Channel + Timing + human publish risk
+→ M04 real funnel/outcome + EV assumptions
+→ M05 Next Measurement / Experiment từ bottleneck thật
+→ M06 reliable automatic signals
+→ M07 canonical DecisionPacket + confidence/uncertainty/risk/abstention
+→ M08 read tools để lấp missing evidence
+→ M09 recommendation → ActionIntent, chưa phải permission
+→ M10 bounded governed action
+→ M11 end-to-end Affiliate Intelligence decision → outcome → reviewed change
+```
+
+Field chưa có evidence phải giữ `unknown`/`not_yet_observable` hoặc decision state như `GET_MORE_DATA`; automation maturity không được dùng để bịa domain intelligence.
+
 ## Dependency
 
 ```text
@@ -131,7 +152,7 @@ Fact / Signal
 ≠ Outcome
 ```
 
-Xem [`DECISION-CONTRACTS.md`](DECISION-CONTRACTS.md) và [`DECISION-OUTCOME-MEMORY.md`](DECISION-OUTCOME-MEMORY.md).
+Xem [`DECISION-CONTRACTS.md`](DECISION-CONTRACTS.md), [`AFFILIATE-INTELLIGENCE-DECISION-CONTRACT.md`](AFFILIATE-INTELLIGENCE-DECISION-CONTRACT.md) và [`DECISION-OUTCOME-MEMORY.md`](DECISION-OUTCOME-MEMORY.md).
 
 ## Outcome không phải điểm may mắn
 
@@ -185,7 +206,9 @@ SENSE / COLLECT
 → SignalPacket
 → deterministic analytics
 → grounded AnalysisPacket khi có giá trị
-→ DecisionPacket hoặc ABSTAIN
+→ Affiliate Intelligence DecisionPacket hoặc ABSTAIN
+   (Product/Offer, Audience/Problem, Content/Channel, EV,
+    Evidence, Confidence, Uncertainty, Risk, Next Measurement)
 → Policy + Risk
 → ActionIntent
 → auto trong R0/R1 bounds hoặc durable approval cho R2
