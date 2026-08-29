@@ -73,14 +73,91 @@ Khi capability (năng lực) tăng, các loop sau tiếp tục chạy khi releva
 
 Build-First thay **thời điểm capability được đưa vào**, không xóa yêu cầu giữ các operating loop hữu ích.
 
-## 5. Governed Action / Approval — Hành động và phê duyệt có kiểm soát
+## 5. Decision Intelligence Loop — Vòng trí tuệ quyết định
+
+Từ M05, AI có thể xuất hiện ở vai trò advisory/read-only nhưng authority tăng dần theo `docs/AI-CAPABILITY-LEVELS.md`.
+
+```text
+Event / Data
+→ Freshness + Quality Gate
+→ SignalPacket
+→ Deterministic Analytics / Forecast / ML
+→ AI AnalysisPacket khi có giá trị
+→ Evidence Escalation nếu thiếu dữ liệu
+→ Decision Fusion
+→ DecisionPacket
+→ Policy + Risk
+→ ActionIntent
+→ Auto hoặc Human Approval
+→ Execute
+→ Outcome
+→ Evaluation / Learning
+↺
+```
+
+Bốn state/contract phải tách biệt:
+
+```text
+Signal / Fact
+≠
+Analysis
+≠
+Decision
+≠
+Execution Record
+```
+
+Điều này cho phép audit rõ hệ thống đã thấy gì, AI/rule đã phân tích gì, quyết định nào được chọn và executor thực sự đã làm gì.
+
+## 6. Event-driven Invocation — Chỉ gọi AI khi có trigger đáng giá
+
+Không mặc định poll toàn bộ dữ liệu rồi hỏi LLM liên tục.
+
+Ưu tiên trigger như:
+
+- material state change;
+- anomaly;
+- threshold crossing;
+- freshness expiry;
+- experiment completion;
+- revenue reconciliation;
+- approval completion;
+- policy/platform change.
+
+```text
+DETERMINISTIC EVENT
+→ IS IT MATERIAL?
+→ YES: collect evidence + run analysis/decision workflow
+```
+
+Mục tiêu là phản ứng nhanh hơn khi có thay đổi thật, đồng thời giảm model cost và noise.
+
+## 7. AI Capability Progression — Tiến trình quyền AI
+
+```text
+A0 — deterministic only              M00–M04
+A1 — AI advisory/read-only           M05–M10
+A2 — tool-assisted Agent             M11–M12
+A3 — governed action Agent           M13–M14
+A4 — optional multi-agent            M15
+```
+
+```text
+AI APPEARS EARLY
+≠
+AI GETS AUTHORITY EARLY
+```
+
+Ở A1, AI được phân tích/đề xuất nhưng không external execute. Ở A2+, tool permission/risk/approval contract vẫn là bắt buộc.
+
+## 8. Governed Action / Approval — Hành động và phê duyệt có kiểm soát
 
 Consequential execution (thực thi có hậu quả đáng kể) giữ policy model hiện hành:
 
 ```text
 Observe (Quan sát)
 → Analyze (Phân tích)
-→ Recommend / ActionIntent (Khuyến nghị / Ý định hành động)
+→ DecisionPacket / ActionIntent
 → deterministic Policy + Risk (Chính sách + Rủi ro xác định)
    ├── RISK 0 → auto execute (tự thực thi)
    ├── RISK 1 → auto execute + mandatory audit (tự thực thi + bắt buộc ghi vết)
@@ -90,9 +167,22 @@ Observe (Quan sát)
 → Learn (Học)
 ```
 
-Human review dùng cho consequential decisions/exceptions (quyết định/ngoại lệ quan trọng), không dùng để babysit từng bước cơ học.
+Human review dùng cho consequential decisions/exceptions, không dùng để babysit từng bước cơ học.
 
-## 6. Go-First Progression — Tiến trình Go-first
+## 9. Evidence Escalation — Thiếu dữ liệu thì lấy thêm, không đoán
+
+```text
+Enough evidence?
+├─ YES → DecisionPacket
+└─ NO
+   → request allowed read tools/data
+   → collect more evidence
+   → reevaluate
+```
+
+`WAIT`, `GET_MORE_DATA`, `HUMAN_REVIEW` là decision hợp lệ. AI phải thể hiện `missing_evidence` và `uncertainty` thay vì tạo certainty giả.
+
+## 10. Go-First Progression — Tiến trình Go-first
 
 ```text
 Early Missions (Mission đầu)
@@ -109,21 +199,19 @@ Part 15+ mastery
 
 Learner workspace và reference implementation phải tách nhau để progression này có ý nghĩa.
 
-## 7. AI Progression — Tiến trình AI
+## 11. Provider-Neutral AI — AI trung lập nhà cung cấp
+
+Go domain/Decision/Policy core không phụ thuộc trực tiếp provider SDK.
 
 ```text
-Deterministic data/logic (Dữ liệu/logic xác định)
-→ AI summarize/classify/analyze (tóm tắt/phân loại/phân tích)
-→ evaluated recommendation (khuyến nghị đã được đánh giá)
-→ explicit tool contract (hợp đồng tool rõ ràng)
-→ ActionIntent
-→ Policy / Risk
-→ Auto hoặc Human Approval
+Go Domain / Decision / Policy
+→ AI Provider Interface
+→ Provider Adapter
 ```
 
-Không nhảy từ prompt trực tiếp tới privileged external action (hành động bên ngoài có quyền cao).
+Provider capability được đánh giá theo `docs/AI-PROVIDER-CAPABILITY-MATRIX.md`. Exact model/API/version thuộc freshness layer.
 
-## 8. Capacity — Quỹ thời gian
+## 12. Capacity — Quỹ thời gian
 
 - Standard: khoảng 9h/tuần.
 - Accelerated: khoảng 11–12h/tuần.
@@ -136,50 +224,47 @@ Heuristic (gợi ý) trong Build-First:
 10–20% evidence / review
 ```
 
-Tỷ lệ có thể adaptive (thay đổi theo thực tế); không hạ PASS quality chỉ để đạt ngày trên lịch.
+Tỷ lệ có thể adaptive; không hạ PASS quality chỉ để đạt ngày trên lịch.
 
-## 9. Capstone Evolution — Tiến hóa tới Capstone
+## 13. Capstone Evolution — Tiến hóa tới Capstone
 
 ```text
-Runnable Go Bot (Bot Go chạy được)
+Runnable Go Bot
 → Product Data
 → Product Watcher
 → Product Intelligence
 → Content / Revenue Intelligence
 → Experiment Engine
-→ Decision / Policy Engine
+→ Decision Intelligence / Policy Engine
 → AI Tool Workflow
 → Governed Production Bot
 → Affiliate Intelligence Platform
 ```
 
-Project artifact nên tiến hóa và reuse (tái sử dụng), không rebuild toàn bộ từ đầu ở mỗi Project.
+Project artifact nên tiến hóa và reuse, không rebuild toàn bộ từ đầu ở mỗi Project.
 
-## 10. Final Operating Rule — Quy tắc vận hành cuối cùng
+## 14. Final Operating Rule — Quy tắc vận hành cuối cùng
 
 ```text
 ONE current Mission
-(MỘT Mission hiện tại)
 +
 ONLY necessary Knowledge Pulls
-(CHỈ kiến thức thật sự cần)
 +
 ACTIVE operating loops within capacity
-(CÁC vòng vận hành cần thiết trong quỹ thời gian)
 +
 PASS evidence before mastery claim
-(BẰNG CHỨNG PASS trước tuyên bố mastery)
++
+EVIDENCE before AI confidence
 +
 POLICY before consequential execution
-(POLICY trước thực thi có hậu quả đáng kể)
 ```
 
-## 11. Quy tắc code sớm
+## 15. Quy tắc code sớm
 
 ```text
-BUILD CODE EARLY (viết code sớm)
+BUILD CODE EARLY
 ≠
-AUTOMATE REAL BUSINESS EARLY (tự động hóa kinh doanh thật quá sớm)
+AUTOMATE REAL BUSINESS EARLY
 ```
 
 Mission đầu dùng sample/local data và side effect thấp để learner học bằng thực hành mà không vượt quá mức hiểu biết hoặc policy boundary.

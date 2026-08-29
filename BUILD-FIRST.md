@@ -20,24 +20,24 @@ Build (Xây)
 
 ## Lộ trình tiến hóa của Bot
 
-| Mission | Bot Version (Phiên bản Bot) | Ship target (Mục tiêu bàn giao) |
-|---|---:|---|
-| M00 | v0.0 | Bot khởi động và có output quan sát được |
-| M01 | v0.1 | Product ingest (đọc dữ liệu sản phẩm) |
-| M02 | v0.2 | Product store + history (lưu trữ + lịch sử) |
-| M03 | v0.3 | Product ranking (xếp hạng sản phẩm) đầu tiên |
-| M04 | v0.4 | Product watcher (theo dõi thay đổi) |
-| M05 | v0.5 | Reliable alerts (cảnh báo đáng tin cậy) |
-| M06 | v1.0 | Product Intelligence (trí tuệ sản phẩm) |
-| M07 | v2.0 | Content Intelligence (trí tuệ nội dung) |
-| M08 | v3.0 | Revenue & Attribution Intelligence (doanh thu + ghi nhận chuyển đổi) |
-| M09 | v4.0 | Experiment Engine (hệ thống thử nghiệm) |
-| M10 | v5.0 | Decision & Policy Engine (hệ thống quyết định + chính sách) |
-| M11 | v6.0 | AI Analysis Assistant (trợ lý phân tích AI) |
-| M12 | v7.0 | Tool-Using Bot (Bot dùng công cụ) |
-| M13 | v8.0 | Governed Automation (tự động hóa có kiểm soát) |
-| M14 | v9.0 | Production Bot (Bot vận hành thật) |
-| M15 | v10.0 | Affiliate Intelligence Platform (nền tảng Affiliate Intelligence) |
+| Mission | Bot Version (Phiên bản Bot) | Ship target (Mục tiêu bàn giao) | AI level |
+|---|---:|---|---|
+| M00 | v0.0 | Bot khởi động và có output quan sát được | A0 |
+| M01 | v0.1 | Product ingest (đọc dữ liệu sản phẩm) | A0 |
+| M02 | v0.2 | Product store + history (lưu trữ + lịch sử) | A0 |
+| M03 | v0.3 | Product ranking (xếp hạng sản phẩm) đầu tiên | A0 |
+| M04 | v0.4 | Product watcher (theo dõi thay đổi) | A0 |
+| M05 | v0.5 | Reliable alerts + AI advisory triage | A1 |
+| M06 | v1.0 | Product Intelligence + AI product research | A1 |
+| M07 | v2.0 | Content Intelligence | A1 |
+| M08 | v3.0 | Revenue & Attribution Intelligence + investigation | A1 |
+| M09 | v4.0 | Experiment Engine + AI experiment copilot | A1 |
+| M10 | v5.0 | Decision Intelligence & Policy Engine | A1 |
+| M11 | v6.0 | AI Analysis Assistant + model routing/evaluation | A2 |
+| M12 | v7.0 | Tool-Using Agent / MCP | A2 |
+| M13 | v8.0 | Governed Automation | A3 |
+| M14 | v9.0 | Production Agentic Bot | A3 |
+| M15 | v10.0 | Affiliate Intelligence Platform | A4 optional |
 
 Xem chi tiết tại [`docs/BOT-EVOLUTION-ROADMAP.md`](docs/BOT-EVOLUTION-ROADMAP.md). Bản đồ kiến thức đúng lúc nằm tại [`docs/MISSION-KNOWLEDGE-MAP.md`](docs/MISSION-KNOWLEDGE-MAP.md).
 
@@ -112,6 +112,48 @@ AUTOMATE REAL BUSINESS EARLY (tự động hóa hoạt động kinh doanh thật
 
 M00–M03 dùng dữ liệu mẫu/local và không có external side effect (tác động bên ngoài). Không publish nội dung, không tiêu tiền, không thay đổi tài khoản và không gọi hành động có hậu quả trên platform.
 
+## AI xuất hiện sớm nhưng authority tăng dần
+
+Build-First dùng AI từ M05 ở vai trò **A1 advisory/read-only (tư vấn/chỉ đọc)**, nhưng không đưa execution authority lên sớm.
+
+```text
+A0 — deterministic only
+A1 — AI advisory/read-only
+A2 — tool-assisted agent
+A3 — governed action agent
+A4 — optional multi-agent tại M15
+```
+
+```text
+AI APPEARS EARLY
+≠
+AI GETS AUTHORITY EARLY
+```
+
+Luồng Decision Intelligence chuẩn:
+
+```text
+EVENT / DATA
+→ Freshness + Quality Gate
+→ Deterministic Analytics / Forecast / ML
+→ AI Analysis
+→ Decision Fusion
+→ DecisionPacket
+→ Policy + Risk
+→ Auto hoặc Human Approval
+→ Action
+→ Outcome
+→ Evaluation / Learn
+↺
+```
+
+Chi tiết:
+
+- [`docs/AI-AGENT-DECISION-ARCHITECTURE.md`](docs/AI-AGENT-DECISION-ARCHITECTURE.md)
+- [`docs/AI-CAPABILITY-LEVELS.md`](docs/AI-CAPABILITY-LEVELS.md)
+- [`docs/DECISION-CONTRACTS.md`](docs/DECISION-CONTRACTS.md)
+- [`docs/AI-PROVIDER-CAPABILITY-MATRIX.md`](docs/AI-PROVIDER-CAPABILITY-MATRIX.md)
+
 ## Safety / Autonomy (An toàn / Tự chủ)
 
 ```text
@@ -122,6 +164,8 @@ RISK 0 → auto (tự chạy)
 RISK 1 → auto + audit (tự chạy + ghi vết)
 RISK 2 → Human Approval (phê duyệt của con người)
 ```
+
+AI analysis có thể tạo `AnalysisPacket` hoặc đề xuất `DecisionPacket`, nhưng external execution luôn phải đi qua Policy/Risk boundary.
 
 ## Knowledge mastery (Làm chủ kiến thức) vẫn tồn tại
 
@@ -136,6 +180,8 @@ M00–M03 đã được author ở trạng thái `ready` trong `missions/`.
 - learner workspace bắt đầu ở M00 với capability tối thiểu;
 - reference implementation hiện tương đương v0.3 để đối chiếu;
 - M04–M15 mới là roadmap targets và chưa có file Mission `ready`.
+
+Việc thêm AI architecture không auto-author M04–M15 và không thay learner progress hiện tại.
 
 ## Quy chuẩn ngôn ngữ
 

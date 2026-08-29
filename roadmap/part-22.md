@@ -30,7 +30,11 @@
 - [ ] **87.4** — Theo dõi ML, Workflow, Automation và observability
 - [ ] **87.5** — Technology evaluation, security review và adoption decision
 
-> **Adoption rule:** protocol/framework mới không tự động trở thành dependency. MCP là interoperability concept quan trọng; A2A là SHOULD/WATCH cho tới khi có remote-agent interoperability use case thật. Adoption phải đánh giá value, operational complexity, security, maturity, cost và exit path.
+> **Adoption rule:** protocol/framework/provider capability mới không tự động trở thành dependency. Adoption phải đánh giá value, operational complexity, security, maturity, latency/cost, evaluation evidence và exit path.
+
+> **Agent adoption rule:** ưu tiên capability theo thứ tự `A0 deterministic → A1 advisory → A2 tool-assisted → A3 governed action → A4 optional multi-agent`. A2A hoặc multi-agent chỉ adopt khi có independent remote-agent/service boundary thật; không dùng chỉ vì công nghệ mới.
+
+> **Provider-neutral rule:** exact model name, context window, tool feature hay SDK version là freshness-scoped. Core `SignalPacket`/`AnalysisPacket`/`DecisionPacket`/`ActionIntent`, Policy/Risk và Go domain model không được phụ thuộc vĩnh viễn vào một provider.
 
 ### Chương 88 — Research Practice
 
@@ -40,7 +44,9 @@
 - [ ] **88.4** — Phân tích và viết kết luận
 - [ ] **88.5** — Thay đổi hệ thống và lưu learning
 
-> **Freshness operating rule:** áp dụng [`FRESHNESS-POLICY.md`](../docs/FRESHNESS-POLICY.md). Affiliate/platform/legal current facts bắt đầu tại [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md); Go/MCP/workflow/agent-security current facts bắt đầu tại [`BOT-ENGINEERING-REFRESH-2026.08.md`](../docs/BOT-ENGINEERING-REFRESH-2026.08.md). HIGH/MEDIUM/LOW cadence phải được áp dụng theo topic chứ không theo tên file.
+> **AI adoption experiment:** trước khi adopt một kỹ thuật Agent mới, đo ít nhất task success/quality, latency, cost, tool/error behavior, security impact và fallback/exit path. Provider demo không thay thế repo evidence.
+
+> **Freshness operating rule:** áp dụng [`FRESHNESS-POLICY.md`](../docs/FRESHNESS-POLICY.md). Affiliate/platform/legal current facts bắt đầu tại [`AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md`](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md); Go/MCP/workflow/agent-security current facts bắt đầu tại [`BOT-ENGINEERING-REFRESH-2026.08.md`](../docs/BOT-ENGINEERING-REFRESH-2026.08.md). HIGH/MEDIUM/LOW cadence áp dụng theo topic chứ không theo tên file.
 
 ## Hoàn thành phần
 

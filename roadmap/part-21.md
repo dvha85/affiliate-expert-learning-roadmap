@@ -18,23 +18,33 @@
 > Target capstone architecture:
 >
 > ```text
-> Data Sources
-> → Collection / Provenance
+> Data Sources / Events
+> → Collection / Provenance / Freshness
 > → Historical Data
-> → Analytics
-> → Opportunity / Experiment / Recommendation
+> → Deterministic Analytics / Forecast / ML
+> → AI Analysis / Evidence Escalation
+> → Decision Fusion
+> → DecisionPacket
 > → Tool Registry / Action Boundary
 > → Policy & Risk Engine
 > → RISK 0/1: controlled auto action
 > → RISK 2: Approval Queue → Human approve/reject
 > → Action Executor
 > → Audit / Trace Store
-> → Result / Revenue
-> → Evaluation / Feedback
+> → Result / Revenue / Outcome
+> → Evaluation / Decision-Outcome Learning
 > ↺
 > ```
 >
-> Các block trên là **logical capabilities**, không bắt buộc mỗi block là một microservice.
+> Các block trên là **logical capabilities**, không bắt buộc mỗi block là microservice.
+
+Decision flow phải giữ state separation:
+
+```text
+SignalPacket → AnalysisPacket → DecisionPacket → ActionIntent → ExecutionRecord → Outcome
+```
+
+A4 multi-agent chỉ optional ở M15. Nếu các capability vẫn nằm trong một modular Go application, interface/workflow nội bộ được ưu tiên hơn việc thêm protocol Agent-to-Agent không cần thiết.
 
 ### Chương 84 — Capstone Versions
 
@@ -52,7 +62,9 @@
 
 > **Go-first implementation note:** capstone bắt đầu như modular Go application; chỉ tách service khi có operational reason rõ như independent scaling, security boundary hoặc failure isolation.
 
-> **2026 freshness note:** capstone should treat policy/platform/legal/search updates as first-class data inputs with provenance and effective dates. The target loop is not just `collect → rank → publish`; it is `collect → verify → analyze → recommend → approve/act → measure → learn`, with compliance and freshness gates throughout.
+> **Decision Intelligence note:** target không chỉ là `collect → rank → publish`; target là `sense → understand → predict → reason → decide → policy → act → measure → learn`, với provenance/freshness/compliance gates xuyên suốt.
+
+> **2026 freshness note:** policy/platform/legal/search/AI-provider updates là first-class data inputs có provenance/effective dates. Agentic capability không loại bỏ accountability hoặc Human Approval.
 
 ## Cổng thực hành
 
