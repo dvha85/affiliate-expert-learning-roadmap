@@ -109,14 +109,31 @@ Các thuật ngữ Affiliate/Engineering quan trọng được giữ bằng ti�
 - `Tracking` (theo dõi đo lường);
 - `Outcome` (kết quả quan sát được).
 
-## 7. Kiểm tra trước Pull Request
+## 7. Output CLI và lỗi dành cho learner
 
-Trước khi merge thay đổi tài liệu dành cho learner, reviewer phải kiểm:
+Quy tắc tiếng Việt áp dụng cả cho output của chương trình, thông báo lỗi và test expectation mà learner trực tiếp đọc trong terminal.
+
+Ưu tiên dạng:
+
+```text
+Phiên bản Bot (Bot version): pre-v0.1
+Loại bằng chứng (Evidence kind): synthetic (dữ liệu tổng hợp dùng để kiểm thử)
+Trạng thái quyết định (Decision state): RANK_SCENARIO (xếp hạng kịch bản; chưa phải khuyến nghị hành động)
+```
+
+Không nên đổi token máy đọc chỉ để Việt hóa. Ví dụ `RANK_SCENARIO`, `GET_MORE_DATA`, `HUMAN_REVIEW`, `evidence_kind`, `commission_rate` phải giữ ổn định; phần label và giải thích xung quanh dùng tiếng Việt.
+
+Nếu error cần nhắc tới field/schema cụ thể, giữ nguyên tên field nhưng viết câu lỗi bằng tiếng Việt, ví dụ `thiếu commission_rate` hoặc `observed_at phải theo định dạng RFC3339`.
+
+## 8. Kiểm tra trước Pull Request
+
+Trước khi merge thay đổi tài liệu hoặc learner-facing code, reviewer phải kiểm:
 
 - prose có đang chủ yếu là tiếng Việt không;
 - heading/cột bảng có đang dùng tiếng Anh không cần thiết không;
 - thuật ngữ chuyên ngành mới đã có giải thích tiếng Việt ở lần xuất hiện quan trọng chưa;
 - code/schema/token có bị dịch sai không;
+- output CLI và error learner-facing có ưu tiên tiếng Việt không;
 - cùng một thuật ngữ có được dùng nhất quán không.
 
 Quy tắc này áp dụng cho README, CURRICULUM, ROADMAP, Mission, Lesson, docs hướng dẫn và learner workspace. Historical source trong `sources/` được giữ nguyên khi cần bảo toàn provenance; chỉ các tài liệu hướng dẫn bao quanh historical source phải theo quy ước này.

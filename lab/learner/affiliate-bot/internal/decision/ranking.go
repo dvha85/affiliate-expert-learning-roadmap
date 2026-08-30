@@ -28,8 +28,8 @@ type Result struct {
 	MissingEvidence []string
 }
 
-// Baseline ranks by commission per order only. It is intentionally incomplete:
-// M00 must expose its assumptions before the learner improves the decision.
+// Baseline xếp hạng chỉ theo hoa hồng mỗi đơn. Nó cố ý chưa đầy đủ để M00
+// buộc người học lộ rõ assumption (giả định) trước khi cải tiến quyết định.
 func Baseline(records []observation.Record) []Ranked {
 	ranked := make([]Ranked, 0, len(records))
 	for _, record := range records {
@@ -50,8 +50,8 @@ func Baseline(records []observation.Record) []Ranked {
 	return ranked
 }
 
-// Evaluate applies the safe starter states used throughout M00. "Abstain" is
-// the behavior family; GET_MORE_DATA and HUMAN_REVIEW are the concrete states.
+// Evaluate áp dụng các safe state (trạng thái an toàn) của starter M00.
+// Abstain là họ hành vi; GET_MORE_DATA và HUMAN_REVIEW là state cụ thể.
 func Evaluate(records []observation.Record) Result {
 	eligible := make([]observation.Record, 0, len(records))
 	issues := make([]string, 0)
@@ -64,7 +64,7 @@ func Evaluate(records []observation.Record) Result {
 	for _, record := range records {
 		if _, exists := seen[record.ID]; exists && record.ID != "" {
 			hasConflict = true
-			issues = append(issues, fmt.Sprintf("%s: duplicate observation_id", record.ID))
+			issues = append(issues, fmt.Sprintf("%s: observation_id bị trùng", record.ID))
 		}
 		seen[record.ID] = struct{}{}
 
@@ -87,7 +87,7 @@ func Evaluate(records []observation.Record) Result {
 	}
 	if len(currencies) > 1 {
 		hasConflict = true
-		issues = append(issues, "multiple currencies cannot share one price-based ranking")
+		issues = append(issues, "không thể xếp hạng theo price khi có nhiều currency trong cùng một lần so sánh")
 	}
 
 	result := Result{Ranked: Baseline(eligible), MissingEvidence: issues}

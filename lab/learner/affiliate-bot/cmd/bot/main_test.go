@@ -4,25 +4,56 @@ import (
 	"bytes"
 	"strings"
 	"testing"
+
+	"github.com/dvha85/affiliate-expert-learning-roadmap/lab/learner/affiliate-bot/internal/decision"
 )
 
 func TestDataPathUsesOptionalArgument(t *testing.T) {
 	if got := dataPath([]string{"bot"}); got != "data/m00-observations.json" {
-		t.Fatalf("unexpected default path: %q", got)
+		t.Fatalf("đường dẫn mặc định không đúng: %q", got)
 	}
 	if got := dataPath([]string{"bot", "custom.json"}); got != "custom.json" {
-		t.Fatalf("unexpected custom path: %q", got)
+		t.Fatalf("đường dẫn tùy chọn không đúng: %q", got)
 	}
 }
 
-func TestRunShowsSafeStarterState(t *testing.T) {
+func TestRunShowsSafeStarterStateInVietnamese(t *testing.T) {
 	var out bytes.Buffer
 	if err := run([]string{"bot", "../../data/m00-observations.json"}, &out); err != nil {
 		t.Fatal(err)
 	}
-	for _, want := range []string{"Bot version: pre-v0.1", "Evidence kind: synthetic", "Decision state: RANK_SCENARIO", "Missing evidence: none"} {
+
+	for _, want := range []string{
+		"Affiliate Bot đang khởi động...",
+		"Phiên bản Bot (Bot version): pre-v0.1",
+		"Loại bằng chứng (Evidence kind): synthetic (dữ liệu tổng hợp dùng để kiểm thử)",
+		"Số quan sát (Observations) đã nạp: 3",
+		"Phiên bản công thức (Formula version): commission-per-order/v1",
+		"Trạng thái quyết định (Decision state): RANK_SCENARIO (xếp hạng kịch bản; chưa phải khuyến nghị hành động)",
+		"Bằng chứng còn thiếu (Missing evidence): không có theo yêu cầu của baseline hiện tại",
+		"Khoảng trống tiếp theo (Next gap):",
+	} {
 		if !strings.Contains(out.String(), want) {
-			t.Fatalf("output missing %q:\n%s", want, out.String())
+			t.Fatalf("output thiếu %q:\n%s", want, out.String())
+		}
+	}
+}
+
+func TestDecisionStateExplanationsCoverStableMachineTokens(t *testing.T) {
+	cases := []struct {
+		state decision.State
+		want  string
+	}{
+		{decision.StateRankScenario, "xếp hạng kịch bản"},
+		{decision.StateRecommend, "khuyến nghị sơ bộ"},
+		{decision.StateGetMoreData, "cần thu thập thêm dữ liệu"},
+		{decision.StateHumanReview, "cần người kiểm tra"},
+	}
+
+	for _, tc := range cases {
+		got := decisionStateExplanation(tc.state)
+		if !strings.Contains(got, tc.want) {
+			t.Fatalf("state %s phải có diễn giải chứa %q, nhận được %q", tc.state, tc.want, got)
 		}
 	}
 }

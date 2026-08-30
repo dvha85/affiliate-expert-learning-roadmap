@@ -13,7 +13,7 @@ func TestLoadRejectsEmptyDataset(t *testing.T) {
 	}
 
 	if _, err := Load(path); err == nil {
-		t.Fatal("expected empty dataset error")
+		t.Fatal("phải trả lỗi khi tập dữ liệu rỗng")
 	}
 }
 
@@ -26,11 +26,11 @@ func TestDecisionIssuesKeepMissingDifferentFromObservedZero(t *testing.T) {
 		EvidenceKind: EvidenceSynthetic, Price: &zero, Currency: "TEST", CommissionRate: &rate,
 	}
 	if issues := base.DecisionIssues(); len(issues) != 0 {
-		t.Fatalf("observed zero must not be treated as missing: %v", issues)
+		t.Fatalf("giá trị 0 được quan sát không được coi là missing: %v", issues)
 	}
 	base.Price = nil
-	if issues := base.DecisionIssues(); !contains(issues, "missing price") {
-		t.Fatalf("expected missing price issue, got %v", issues)
+	if issues := base.DecisionIssues(); !contains(issues, "thiếu price") {
+		t.Fatalf("mong đợi lỗi thiếu price, nhận được %v", issues)
 	}
 }
 
@@ -42,7 +42,7 @@ func TestDecisionIssuesRejectRelabelledSampleAsReal(t *testing.T) {
 		EvidenceKind: EvidenceReal, Price: &price, Currency: "TEST", CommissionRate: &rate,
 	}
 	if len(record.DecisionIssues()) == 0 {
-		t.Fatal("expected real-evidence consistency issues")
+		t.Fatal("phải từ chối sample bị đổi nhãn thành real evidence")
 	}
 }
 
