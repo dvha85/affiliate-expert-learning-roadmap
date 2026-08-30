@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"strings"
 	"testing"
+
+	"github.com/dvha85/affiliate-expert-learning-roadmap/lab/learner/affiliate-bot/internal/decision"
 )
 
 func TestDataPathUsesOptionalArgument(t *testing.T) {
@@ -37,17 +39,21 @@ func TestRunShowsSafeStarterStateInVietnamese(t *testing.T) {
 	}
 }
 
-func TestDecisionStateExplanationsKeepMachineTokensStable(t *testing.T) {
-	cases := map[string]string{
-		"RANK_SCENARIO": "xếp hạng kịch bản",
-		"RECOMMEND":     "khuyến nghị sơ bộ",
-		"GET_MORE_DATA": "cần thu thập thêm dữ liệu",
-		"HUMAN_REVIEW":  "cần người kiểm tra",
+func TestDecisionStateExplanationsCoverStableMachineTokens(t *testing.T) {
+	cases := []struct {
+		state decision.State
+		want  string
+	}{
+		{decision.StateRankScenario, "xếp hạng kịch bản"},
+		{decision.StateRecommend, "khuyến nghị sơ bộ"},
+		{decision.StateGetMoreData, "cần thu thập thêm dữ liệu"},
+		{decision.StateHumanReview, "cần người kiểm tra"},
 	}
 
-	for token, explanation := range cases {
-		if explanation == "" || token == "" {
-			t.Fatalf("token và diễn giải phải tồn tại: token=%q explanation=%q", token, explanation)
+	for _, tc := range cases {
+		got := decisionStateExplanation(tc.state)
+		if !strings.Contains(got, tc.want) {
+			t.Fatalf("state %s phải có diễn giải chứa %q, nhận được %q", tc.state, tc.want, got)
 		}
 	}
 }
