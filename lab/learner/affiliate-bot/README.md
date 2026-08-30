@@ -88,7 +88,8 @@ Trong M00, ưu tiên tập trung vào phạm vi nhỏ này:
 ~~~text
 cmd/bot/main.go                 # đọc luồng/output hiện tại; chỉnh khi Mission yêu cầu
 data/*.json                     # dữ liệu mẫu + quan sát công khai của bạn
-cmd/bot/main_test.go            # test bảo vệ output/behavior của CLI\ README.md + HINTS-M00.md        # hướng dẫn và gợi ý
+cmd/bot/main_test.go            # test bảo vệ output/behavior của CLI
+README.md + HINTS-M00.md        # hướng dẫn và gợi ý
 ~~~
 
 Bạn **không cần hiểu toàn bộ repo** trước khi bắt đầu. Nếu thấy package/file liên quan history, AI, database, tools, approval, deployment hoặc capability của Mission sau, có thể bỏ qua cho đến khi Mission yêu cầu. Không refactor (tái cấu trúc code) trước chỉ vì thấy code chưa “đẹp”.
