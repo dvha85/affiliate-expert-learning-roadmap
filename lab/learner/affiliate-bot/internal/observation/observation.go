@@ -16,9 +16,9 @@ const (
 	EvidenceReal           = "real"
 )
 
-// Record is the small, canonical M00 machine-readable observation. Pointer
-// numbers preserve the difference between a missing value and an observed 0.
-// M01 later hardens schema/normalization and adds history.
+// Record là observation (bản ghi quan sát) machine-readable tối giản của M00.
+// Con trỏ số giữ khác biệt giữa giá trị thiếu và giá trị 0 được quan sát thật.
+// M01 sẽ siết schema/normalization và bổ sung history.
 type Record struct {
 	ID                 string   `json:"observation_id"`
 	ProductName        string   `json:"product_name"`
@@ -37,70 +37,70 @@ type Record struct {
 func Load(path string) ([]Record, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("read observations: %w", err)
+		return nil, fmt.Errorf("không đọc được file observations: %w", err)
 	}
 
 	var records []Record
 	if err := json.Unmarshal(data, &records); err != nil {
-		return nil, fmt.Errorf("decode observations: %w", err)
+		return nil, fmt.Errorf("không giải mã được observations JSON: %w", err)
 	}
 	if len(records) == 0 {
-		return nil, fmt.Errorf("decode observations: empty dataset")
+		return nil, fmt.Errorf("không giải mã được observations JSON: tập dữ liệu rỗng")
 	}
 	return records, nil
 }
 
-// DecisionIssues is the deliberately small M00 evidence gate. It prevents a
-// missing number from silently becoming 0 and prevents a sample:// fixture
-// from being relabelled as real evidence. Full ingest validation belongs to
-// M01; this helper only answers whether a record may enter the first ranking.
+// DecisionIssues là evidence gate (cổng bằng chứng) nhỏ có chủ đích ở M00.
+// Nó ngăn số liệu thiếu âm thầm biến thành 0 và ngăn fixture sample:// bị đổi nhãn
+// thành real evidence. Validation đầy đủ thuộc M01; helper này chỉ quyết định record
+// có được đi vào phép xếp hạng đầu tiên hay không.
 func (r Record) DecisionIssues() []string {
 	issues := make([]string, 0)
 	if strings.TrimSpace(r.ID) == "" {
-		issues = append(issues, "missing observation_id")
+		issues = append(issues, "thiếu observation_id")
 	}
 	if strings.TrimSpace(r.ProductName) == "" {
-		issues = append(issues, "missing product_name")
+		issues = append(issues, "thiếu product_name")
 	}
 	if strings.TrimSpace(r.SourceURL) == "" {
-		issues = append(issues, "missing source_url")
+		issues = append(issues, "thiếu source_url")
 	}
 	if _, err := time.Parse(time.RFC3339, r.ObservedAt); err != nil {
-		issues = append(issues, "observed_at must be RFC3339")
+		issues = append(issues, "observed_at phải theo định dạng RFC3339")
 	}
 
 	switch r.EvidenceKind {
 	case EvidenceSynthetic:
 		if r.AccessMethod != AccessSyntheticFixture {
-			issues = append(issues, "synthetic evidence requires access_method=synthetic_fixture")
+			issues = append(issues, "bằng chứng synthetic yêu cầu access_method=synthetic_fixture")
 		}
 		if !strings.HasPrefix(r.SourceURL, "sample://") {
-			issues = append(issues, "synthetic evidence requires a sample:// source")
+			issues = append(issues, "bằng chứng synthetic yêu cầu source_url dạng sample://")
 		}
 	case EvidenceReal:
 		if r.AccessMethod != AccessPublicManual {
-			issues = append(issues, "real M00 evidence requires access_method=public_manual")
+			issues = append(issues, "bằng chứng real ở M00 yêu cầu access_method=public_manual")
 		}
 		parsed, err := url.Parse(r.SourceURL)
 		if err != nil || (parsed.Scheme != "http" && parsed.Scheme != "https") || parsed.Host == "" {
-			issues = append(issues, "real evidence requires a concrete http(s) source_url")
+			issues = append(issues, "bằng chứng real yêu cầu source_url http(s) cụ thể")
 		}
 	default:
-		issues = append(issues, "evidence_kind must be synthetic or real")
+		issues = append(issues, "evidence_kind phải là synthetic hoặc real")
 	}
 
 	if r.Price == nil {
-		issues = append(issues, "missing price")
+		issues = append(issues, "thiếu price")
 	} else if *r.Price < 0 {
-		issues = append(issues, "price must not be negative")
+		issues = append(issues, "price không được âm")
 	}
 	if strings.TrimSpace(r.Currency) == "" {
-		issues = append(issues, "missing currency")
+		issues = append(issues, "thiếu currency")
 	}
 	if r.CommissionRate == nil {
-		issues = append(issues, "missing commission_rate")
+		issues = append(issues, "thiếu commission_rate")
 	} else if *r.CommissionRate < 0 || *r.CommissionRate > 1 {
-		issues = append(issues, "commission_rate must be between 0 and 1")
+		issues = append(issues, "commission_rate phải nằm trong khoảng 0 đến 1")
 	}
 	return issues
 }
