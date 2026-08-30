@@ -28,6 +28,22 @@ go run ./cmd/bot
 go test ./...
 ~~~
 
+Output mặc định dành cho người học dùng **tiếng Việt là ngôn ngữ chính**. Các token máy đọc như `RANK_SCENARIO`, `GET_MORE_DATA`, `HUMAN_REVIEW`, JSON key và code identifier vẫn giữ nguyên, nhưng có diễn giải tiếng Việt ở ngữ cảnh quan trọng.
+
+Ví dụ starter output:
+
+~~~text
+Affiliate Bot đang khởi động...
+Phiên bản Bot (Bot version): pre-v0.1
+Loại bằng chứng (Evidence kind): synthetic (dữ liệu tổng hợp dùng để kiểm thử)
+Số quan sát (Observations) đã nạp: 3
+Phiên bản công thức (Formula version): commission-per-order/v1
+Xếp hạng đường cơ sở (Baseline ranking — hiện chỉ dựa trên hoa hồng mỗi đơn):
+...
+Trạng thái quyết định (Decision state): RANK_SCENARIO (xếp hạng kịch bản; chưa phải khuyến nghị hành động)
+Bằng chứng còn thiếu (Missing evidence): không có theo yêu cầu của baseline hiện tại
+~~~
+
 Nó đọc ba quan sát **synthetic (giả lập)** từ `data/m00-observations.json`, giữ `null` khác `0`, không trộn currency (đơn vị tiền tệ), chạy baseline `price × commission_rate` và trả `RANK_SCENARIO`.
 
 Bộ khung cố ý chưa đầy đủ:
@@ -72,8 +88,7 @@ Trong M00, ưu tiên tập trung vào phạm vi nhỏ này:
 ~~~text
 cmd/bot/main.go                 # đọc luồng/output hiện tại; chỉnh khi Mission yêu cầu
 data/*.json                     # dữ liệu mẫu + quan sát công khai của bạn
-cmd/bot/main_test.go            # nếu có/được Mission trỏ tới
-README.md + HINTS-M00.md        # hướng dẫn và gợi ý
+cmd/bot/main_test.go            # test bảo vệ output/behavior của CLI\ README.md + HINTS-M00.md        # hướng dẫn và gợi ý
 ~~~
 
 Bạn **không cần hiểu toàn bộ repo** trước khi bắt đầu. Nếu thấy package/file liên quan history, AI, database, tools, approval, deployment hoặc capability của Mission sau, có thể bỏ qua cho đến khi Mission yêu cầu. Không refactor (tái cấu trúc code) trước chỉ vì thấy code chưa “đẹp”.
