@@ -48,7 +48,9 @@ Starting state là scaffold `pre-v0.1` có thể compile/test, đọc ba observa
 
 Scaffold chạy được để người chưa biết Go quan sát một decision-shaped output trước khi học syntax. Learner không phải viết parser từ trang trắng; công việc M00 là thay evidence, chỉ ra baseline yếu ở đâu rồi thêm một behavior/explanation có test.
 
-Reference implementation trong `lab/affiliate-bot/` không phải starting state. Khi bị chặn, dùng [hint ladder](../lab/learner/affiliate-bot/HINTS-M00.md) từng mức; chỉ mở reference sau khi đã ghi blocker cụ thể.
+Output dành cho learner phải theo [quy ước ngôn ngữ tiếng Việt](../docs/VIETNAMESE-LANGUAGE-STYLE.md): tiếng Việt là chính; enum/state, JSON key và code identifier được giữ nguyên khi cần nhưng phải có diễn giải tiếng Việt ở lần xuất hiện quan trọng.
+
+Reference implementation trong `lab/affiliate-bot/` không phải starting state. Khi bị chặn, dùng [thang gợi ý M00](../lab/learner/affiliate-bot/HINTS-M00.md) từng mức; chỉ mở reference sau khi đã ghi blocker cụ thể.
 
 ### Environment preflight
 
@@ -80,7 +82,7 @@ M00 có ba checkpoint. Mỗi checkpoint dự kiến 45–90 phút trước khi t
    go test ./...
    ```
 
-2. Đọc output synthetic baseline và test `TestRunShowsSafeStarterState`; tự thêm một output có ý nghĩa, ví dụ formula version hoặc weakest-assumption label.
+2. Đọc output synthetic baseline và test `TestRunShowsSafeStarterStateInVietnamese`; tự thêm một output có ý nghĩa, ví dụ formula version hoặc weakest-assumption label, theo dạng tiếng Việt + thuật ngữ kỹ thuật khi cần.
 3. Thêm assertion cho output mới trước để test fail, chạy test và đọc failure message.
 4. Sửa behavior/test đúng, chạy lại tới PASS.
 5. Ghi điều Bot hiện biết và chưa biết về Affiliate.
@@ -134,18 +136,20 @@ go run ./cmd/bot path/to/your-public-observations.json
 go test ./...
 ```
 
-Exact wording không bắt buộc, nhưng output cuối phải cho thấy:
+Câu chữ chính xác không bắt buộc, nhưng output cuối phải ưu tiên tiếng Việt và cho thấy tối thiểu:
 
 ```text
-Bot version: v0.1
-Evidence kind: real
-Observations loaded: 5
-Human ranking reference: saved
-Bot baseline ranking:
-  <rank + product + score/reason>
-Decision state: RANK_SCENARIO | RECOMMEND | GET_MORE_DATA | HUMAN_REVIEW
-Missing evidence:
+Phiên bản Bot (Bot version): v0.1
+Loại bằng chứng (Evidence kind): real (...)
+Số quan sát (Observations) đã nạp: 5
+Tham chiếu xếp hạng của con người (Human ranking reference): saved
+Xếp hạng đường cơ sở của Bot (Bot baseline ranking):
+  <hạng + sản phẩm + điểm/lý do>
+Trạng thái quyết định (Decision state): RANK_SCENARIO | RECOMMEND | GET_MORE_DATA | HUMAN_REVIEW
+Bằng chứng còn thiếu (Missing evidence):
 ```
+
+Các token máy đọc như `RANK_SCENARIO`, `RECOMMEND`, `GET_MORE_DATA`, `HUMAN_REVIEW`, JSON key và code identifier không được dịch hoặc đổi tùy tiện.
 
 Bot không được hard-code product count/ranking chỉ để khớp expected output.
 
@@ -212,6 +216,7 @@ Không thêm database, scheduler, AI provider hoặc Agent runtime ở M00.
 Automated/manual checks tối thiểu:
 
 - Bot boot và output version đúng;
+- output learner-facing ưu tiên tiếng Việt nhưng giữ nguyên semantic token cần thiết;
 - một test đã được cố ý làm fail và sau đó phục hồi PASS;
 - observations được đọc, không hard-code count;
 - malformed JSON fail rõ;
