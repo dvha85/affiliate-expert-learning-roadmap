@@ -8,17 +8,17 @@
 
 ## Trạng thái authoring
 
-- **Chương 3:** learner-ready sau review M01 ingest contract.
-- **Chương 4:** chưa author; chỉ pull sau khi learner tự thử overwrite/data-loss ở M01 Checkpoint 2.
-- **Chương 5:** chưa author; chỉ bắt đầu sau khi toàn M01 PASS.
-- M01 vẫn `draft` cho tới khi Chương 4 hoàn tất Capability + Reality + Operated của trustworthy history.
+- **Chương 3:** learner-ready — canonical ingest/identity/validation/normalization.
+- **Chương 4:** learner-ready — append-only history, delta/freshness, second E1 observation + restart.
+- **M01:** learner-ready; Mission chỉ DONE khi Capability + Reality E1 + Operated đều đạt.
+- **Chương 5 / M02:** chưa author; chỉ bắt đầu sau khi M01 PASS.
 
 ## Attempt trước knowledge pull
 
 1. M01 Checkpoint 1: đưa data xấu/ambiguous qua ingest M00 hiện có, quan sát identity/validation gap rồi mới pull Chương 3.
-2. M01 Checkpoint 2: cố ý ghi đè snapshot để quan sát data loss trước khi pull Chương 4.
-3. M01 Checkpoint 3: second E1 observation + restart + change report để hoàn tất history semantics.
-4. M02: chạy cùng một research case với deterministic baseline, AI hợp lệ, AI unsupported và AI unavailable.
+2. M01 Checkpoint 2: cố ý ghi đè snapshot để quan sát data loss trước khi pull `4.1–4.2`.
+3. M01 Checkpoint 3: second E1 observation + restart + raw change report trước khi pull `4.3`.
+4. M02: chạy deterministic baseline trước AI, rồi mới thử AI valid/unsupported/unavailable.
 
 ## Core checklist
 
@@ -38,13 +38,28 @@ M00 E1 observation
 → provenance-preserving observation
 ```
 
-Nó **chưa** chứng minh immutable history, persistence, delta hay freshness. Các capability đó thuộc Chương 4.
-
 ### Chương 4 — History và change observation
 
-- [ ] **4.1** — Append-only file snapshots và immutable history tối thiểu
-- [ ] **4.2** — Delta, timestamp, freshness và historical query
-- [ ] **4.3** — Second observation cycle, restart và change report
+- [ ] **4.1** — [Append-only JSONL và immutable snapshots](../lessons/part-01/chapter-04/4.1-append-only-jsonl-immutable-snapshots.md)
+- [ ] **4.2** — [Delta, timestamp, freshness và historical query](../lessons/part-01/chapter-04/4.2-delta-timestamp-freshness-historical-query.md)
+- [ ] **4.3** — [Second observation cycle, restart và change report](../lessons/part-01/chapter-04/4.3-second-observation-restart-change-report.md)
+
+Chương 4 phải hoàn thành flow:
+
+```text
+overwrite failure
+→ immutable append-only history
+→ exact duplicate vs conflict
+→ preserve valid out-of-order evidence
+→ historical query by observed_at
+→ delta semantics
+→ freshness(as_of, policy)
+→ second E1 observation
+→ restart proof
+→ deterministic change report
+```
+
+M01 không yêu cầu thị trường phải thay đổi. `UNCHANGED` là Reality outcome hợp lệ nếu t1/t2 đều là E1 observations thật.
 
 ### Chương 5 — Grounded AI advisory
 
@@ -52,12 +67,38 @@ Nó **chưa** chứng minh immutable history, persistence, delta hay freshness. 
 - [ ] **5.2** — Structured extraction với evidence refs và uncertainty
 - [ ] **5.3** — Eval case, invalid-output rejection, fallback, cost và privacy
 
+Chương 5 chưa được pull trước khi M01 PASS. AI không được dùng để bù cho history/evidence contract chưa đáng tin.
+
+## M01 gate trước M02
+
+Trước khi sang M02 phải chứng minh:
+
+```text
+Capability
++ Reality E1
++ Operated
+```
+
+Tối thiểu:
+
+- canonical ingest chạy đúng;
+- stable `subject_id` tách `observation_id`;
+- history append-only + durable qua restart;
+- duplicate/conflict/out-of-order semantics rõ;
+- delta không trộn missing/zero/unchanged;
+- freshness dùng explicit `as_of/policy`;
+- ít nhất một subject thật có E1 observations tại t1 và t2;
+- same history/as_of/policy cho report deterministic;
+- M00 behavior không regression;
+- S0, không external side effect.
+
 ## Part PASS
 
 - [ ] M01–M02 đều có Capability PASS, Reality verified và Operated
 - [ ] Stable subject identity không bị trộn với observation identity
 - [ ] Snapshot cũ không bị overwrite và query history được
-- [ ] Invalid/stale input fail rõ ràng
+- [ ] Valid out-of-order evidence không bị silently drop
+- [ ] Freshness không được invent khi thiếu policy
 - [ ] Core product decision vẫn chạy khi AI unavailable
 - [ ] Unsupported AI claim không trở thành scoring fact
 
