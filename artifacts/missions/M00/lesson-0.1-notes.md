@@ -1,5 +1,11 @@
 # Bài 0.1 — Ghi chú và giải thích thêm
 
+## Trạng thái bài học
+
+**PASS — 2026-08-31**
+
+Bài học được chốt PASS sau khi người học tự explain-back đúng các ý cốt lõi về `go run`, `go test`, intentional FAIL, giới hạn của baseline và vai trò của state token `RANK_SCENARIO`.
+
 ## `main.go` và `main_test.go`
 
 Cách hiểu đơn giản:
@@ -149,6 +155,31 @@ Ví dụ:
 
 `M` = Modified.
 
+## Explain-back của người học
+
+### 1. `go run ./cmd/bot` và `go test ./...` khác nhau thế nào?
+
+Người học trả lời đúng ý: `go run ./cmd/bot` dùng để chạy Bot, còn `go test ./...` dùng để chạy tất cả test case trong module.
+
+### 2. Vì sao intentional FAIL là điều tốt?
+
+Người học chốt đúng: test FAIL chứng minh test mới thực sự phát hiện được behavior/code đang thiếu trước khi implementation được thêm vào.
+
+Diễn đạt chuẩn hơn:
+
+```text
+FAIL trước khi sửa implementation
+= test có khả năng phát hiện behavior đang thiếu
+```
+
+### 3. Product B đứng #1 chứng minh gì?
+
+Người học trả lời đúng: Product B đứng #1 theo công thức hiện tại, nhưng điều đó chưa chứng minh Product B là sản phẩm Affiliate tốt nhất.
+
+### 4. Vì sao giữ nguyên `RANK_SCENARIO`?
+
+Người học trả lời đúng: `RANK_SCENARIO` là mã mà code và test đang sử dụng nên phải giữ ổn định; phần giải thích ý nghĩa cho con người dùng tiếng Việt.
+
 ## Câu cần nhớ
 
 ```text
@@ -180,3 +211,7 @@ Product B đứng #1 theo baseline
 ≠
 Product B là sản phẩm Affiliate tốt nhất
 ```
+
+## Bước tiếp theo
+
+Bài 0.2 — phân biệt sample/real evidence và fact/estimate/assumption/unknown.
