@@ -60,6 +60,12 @@ Không dùng `product_name` thay stable identity và không dùng `observation_i
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 
+Learner workspace:
+
+```text
+lab/learner/affiliate-bot/
+```
+
 Starting state là learner commit đã PASS M00 và đã apply Chương 03:
 
 - Bot v0.1 chạy/test được;
