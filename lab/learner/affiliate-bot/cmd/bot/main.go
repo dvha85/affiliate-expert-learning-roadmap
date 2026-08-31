@@ -58,6 +58,7 @@ func run(args []string, out io.Writer) error {
 	fmt.Fprintf(out, "Loại bằng chứng (Evidence kind): %s (%s)\n", result.EvidenceMode, evidenceKindExplanation(result.EvidenceMode))
 	fmt.Fprintf(out, "Số quan sát (Observations) đã nạp: %d\n", len(records))
 	fmt.Fprintf(out, "Phiên bản công thức (Formula version): %s\n", formulaVersion)
+	fmt.Fprintln(out, "Giới hạn đường cơ sở (Baseline limitation): chưa xét khả năng chuyển đổi (Conversion potential), mức phù hợp với nhóm mục tiêu (Audience fit) và rủi ro hoàn/hủy (Refund risk).")
 	fmt.Fprintln(out, "Xếp hạng đường cơ sở (Baseline ranking — hiện chỉ dựa trên hoa hồng mỗi đơn):")
 	for i, item := range result.Ranked {
 		fmt.Fprintf(out, "%d. %s | điểm (score)=%.2f\n", i+1, item.Observation.ProductName, item.Score)
