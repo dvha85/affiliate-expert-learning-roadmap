@@ -6,14 +6,27 @@
 
 ~~~text
 Current Mission: M00
-Learner Bot: pre-v0.1 scaffold
+Current Checkpoint: Checkpoint 1 — knowledge pull 0.1–0.3
+Current Lesson: 0.2 — bước tiếp theo
+Lesson 0.1: PASS (2026-08-31)
+Learner Bot: pre-v0.1 + baseline limitation learner change
 Capability PASS: chưa
 Reality verified: chưa
 Operated: chưa
-Actual time: 0 giờ
+Actual time: chưa ghi
 ~~~
 
-Người học chưa bắt đầu. Bước tiếp theo là [chạy starter Bot trong Mission M00](missions/M00-first-evidence-backed-decision.md), rồi mới tạo observation công khai đầu tiên.
+Người học đã bắt đầu M00 và hoàn thành Bài 0.1 — **Chạy, sửa và kiểm thử Bot đầu tiên**. Evidence gồm baseline run, intentional test failure, final PASS, learner change, commit và explain-back trong `artifacts/missions/M00/`.
+
+Bước tiếp theo là Bài 0.2 trong knowledge pull của Checkpoint 1. M00 chưa PASS vì chưa hoàn thành public observations, human ranking, Bot comparison và abstention/reality evidence.
+
+## Lesson progress
+
+| Bài | Trạng thái | Evidence / bước tiếp theo |
+|---|---|---|
+| 0.1 — Chạy, sửa và kiểm thử Bot đầu tiên | ✅ PASS | `artifacts/missions/M00/test-output.md`, `artifacts/missions/M00/lesson-0.1-notes.md`, learner commit `a3f787a` |
+| 0.2 | ▶️ NEXT | phân biệt sample/real evidence và fact/estimate/assumption/unknown |
+| 0.3 | ⬜ | observe failure, lưu evidence và explain-back |
 
 ## Mission spine
 
@@ -65,11 +78,11 @@ Với M00–M05, ghi:
 | Field | Giá trị |
 |---|---:|
 | planned_hours | — |
-| actual_build_hours | 0 |
-| actual_debug_hours | 0 |
-| actual_operate_hours | 0 |
-| actual_knowledge_hours | 0 |
-| actual_retry_hours | 0 |
+| actual_build_hours | chưa ghi |
+| actual_debug_hours | chưa ghi |
+| actual_operate_hours | chưa ghi |
+| actual_knowledge_hours | chưa ghi |
+| actual_retry_hours | chưa ghi |
 | waiting_for_outcome_hours | tách riêng, không tính focused time |
 
 Chỉ reforecast chương trình sau learner pilot; không điều chỉnh PASS criteria để khớp lịch.
