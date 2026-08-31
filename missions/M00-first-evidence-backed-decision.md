@@ -118,14 +118,19 @@ Sau attempt mới pull `1.1–1.3`.
 
 ### Checkpoint 3 — Human rank trước, Bot rank sau
 
-1. Với đúng 5 observations đã review, **trước khi chạy Bot với evidence set thật**, tự xếp hạng 5 sản phẩm.
-2. Với mỗi thứ hạng, ghi reason, strongest evidence và weakest assumption; lưu timestamp hoặc commit để chứng minh human ranking tồn tại trước Bot output.
-3. Chạy baseline ranking đơn giản đã có trên chính 5-product input, xác nhận deterministic và giải thích limitation của commission-per-order.
-4. Cải tiến reason/formula-version output bằng test có sẵn, nhưng giữ baseline dễ hiểu.
-5. Lưu Bot output, rồi so với human ranking.
-6. Chạy input missing/conflicting có sẵn và giải thích vì sao Bot trả `GET_MORE_DATA` hoặc `HUMAN_REVIEW`.
+Checkpoint này phải tạo **before evidence** thật sự trước khi learner học cách cải tiến decision. Không sửa Bot để làm output “đẹp hơn” trước khi đã lưu raw baseline.
 
-Sau attempt mới pull `2.1–2.3`.
+1. Với đúng 5 observations đã review, **trước khi chạy Bot với evidence set thật**, tự xếp hạng 5 sản phẩm.
+2. Với mỗi thứ hạng, ghi `reason`, `strongest_evidence`, `weakest_assumption` và `missing_evidence`; lưu timestamp hoặc commit để chứng minh human ranking tồn tại trước Bot output.
+3. Chạy starter Bot **nguyên trạng** trên chính 5-product input. Lưu raw output, formula version, command và input version trước khi thay đổi behavior.
+4. Chạy lại cùng input để kiểm tra ranking deterministic. Nếu output khác nhau, ghi blocker; chưa cải tiến công thức.
+5. So human ranking với raw Bot baseline. Ghi ít nhất một agreement nếu có, một disagreement nếu có, và một gap mà cả human/Bot chưa có evidence để kết luận.
+6. Chạy `m00-missing-input.json` và `m00-conflicting-input.json`; lưu state và lý do `GET_MORE_DATA` / `HUMAN_REVIEW`.
+7. Ghi các gap quan sát được: limitation của commission-per-order, assumption yếu, missing evidence, reason/confidence chưa đủ rõ. **Sau attempt này mới pull `2.1–2.3`.**
+
+Sau knowledge pull, learner mới được cải tiến reason/formula-version marker/decision artifact bằng test-first. Human ranking ban đầu và raw Bot baseline phải được giữ nguyên để before/after còn kiểm tra được.
+
+Nếu learner đã xem Bot ranking trước khi freeze human ranking, không backdate hoặc viết lại lịch sử. Gắn comparison đó là `contaminated`, tạo một evidence set/decision cycle mới nếu cần chứng minh human-first gate.
 
 ## Run — Chạy
 
@@ -193,22 +198,23 @@ Không yêu cầu learner học mọi platform field trước khi schema tối g
 
 ### Sau Checkpoint 3
 
-- `2.1` — human ranking trước code;
-- `2.2` — naive score, Expected Value và before/after comparison;
-- `2.3` — explainable decision, confidence, uncertainty và abstain.
+- `2.1` — audit human ranking đã freeze, hindsight contamination, evidence/assumption/confidence;
+- `2.2` — hiểu naive score, giới hạn Expected Value và human-vs-Bot comparison từ raw baseline;
+- `2.3` — đóng gói explainable decision, confidence, uncertainty, abstention và next measurement.
 
-Nếu Expected Value cần một input chưa được đo như conversion potential, giá trị đó phải là `estimate`/`assumption`, có confidence/reason và không được gọi là measured CVR.
+Nếu Expected Value cần một input chưa được đo như conversion probability, giá trị đó phải giữ `unknown` hoặc chỉ xuất hiện trong một scenario có nhãn `assumption`; không bắt buộc M00 phải tạo numeric EV. Không được gọi assumed CVR là measured CVR.
 
 ## Improve — Cải tiến
 
-Áp dụng knowledge vào đúng artifact vừa chạy:
+Áp dụng knowledge vào đúng artifact vừa chạy, nhưng giữ nguyên human baseline và raw Bot baseline làm before evidence:
 
 1. dùng đúng canonical M00 fields và giữ `null` khác observed `0`;
 2. tách human prediction khỏi Bot output;
-3. thêm formula/version hoặc weakest-assumption marker bằng test-first;
+3. thêm formula/version, reason hoặc weakest-assumption marker bằng test-first khi thật sự giúp giải thích raw gap;
 4. giữ deterministic tie-break đã có và chứng minh bằng test;
-5. thêm reason/missing evidence vào decision artifact;
-6. giải thích abstention state đã chạy; full validation/normalization để M01.
+5. thêm evidence refs, confidence reason, uncertainty/missing evidence và next measurement vào decision artifact;
+6. giải thích `RECOMMEND` chỉ là khuyến nghị sơ bộ theo baseline hiện tại, không phải `ACT` hay execution permission;
+7. giải thích abstention state đã chạy; full validation/normalization/freshness policy để M01 hoặc mission sau theo roadmap.
 
 Không thêm database, scheduler, AI provider hoặc Agent runtime ở M00.
 
@@ -269,6 +275,8 @@ Thử ít nhất:
 
 Bot phải fail rõ, reject evidence label sai hoặc abstain phù hợp; không âm thầm biến dữ liệu thiếu thành `0`.
 
+Human ranking tạo sau Bot output là **contaminated comparison evidence**, không được backdate để qua gate.
+
 ## Safety Gate — Cổng an toàn
 
 **S0 — Evidence/Data. Authority ceiling: read/manual local compute only.**
@@ -299,9 +307,10 @@ Lưu dưới `artifacts/missions/M00/` hoặc link tương đương:
 - test failure output + final PASS output;
 - 5 public Observation records;
 - human ranking có timestamp trước Bot run;
-- baseline BotDecision output + formula/version;
+- **raw** baseline BotDecision output + formula/version trước Chapter 02 improvement;
 - human-vs-Bot comparison;
-- abstention case;
+- abstention cases `GET_MORE_DATA` và `HUMAN_REVIEW`;
+- final explainable decision artifact có evidence refs, confidence reason, uncertainty/missing evidence và next measurement;
 - learner commit;
 - note: điều Bot biết, không biết và chưa được phép làm.
 
@@ -310,7 +319,9 @@ Evidence chain của M00:
 ```text
 Observation(E1)
 → HumanPrediction
-→ BotDecision(RANK_SCENARIO | RECOMMEND | GET_MORE_DATA | HUMAN_REVIEW)
+→ raw BotDecision
+→ Comparison
+→ reviewed BotDecision(RANK_SCENARIO | RECOMMEND | GET_MORE_DATA | HUMAN_REVIEW)
 → no Action in scope
 ```
 
@@ -320,12 +331,14 @@ Review đạt khi learner trả lời đúng, nêu quan hệ nhân quả và tr�
 
 1. Vì sao Bot boot chưa phải Affiliate intelligence?
 2. Field nào trong observations là fact, estimate, assumption hoặc unknown? Vì sao?
-3. Vì sao human judgment phải được ghi trước Bot ranking?
+3. Vì sao human judgment phải được ghi trước Bot ranking? Nếu thứ tự bị đảo thì evidence hỏng ở đâu?
 4. Baseline formula bỏ sót điều gì và limitation đó ảnh hưởng quyết định ra sao?
 5. Vì sao deterministic formula không làm assumption trở thành fact?
-6. Case nào Bot phải abstain và cần đo thêm gì?
-7. Vì sao M00 không được publish hoặc gọi AI/Agent?
-8. Bước đo thực tế tiếp theo nào làm quyết định tốt hơn?
+6. Commission per order khác Expected Value thế nào, và vì sao M00 có thể chưa tính được numeric EV đáng tin?
+7. Case nào Bot phải abstain và cần đo thêm gì?
+8. Vì sao `RECOMMEND` không phải `ACT` và không cấp execution permission?
+9. Vì sao M00 không được publish hoặc gọi AI/Agent?
+10. Bước đo thực tế tiếp theo nào làm quyết định tốt hơn?
 
 Không đạt nếu learner chỉ đọc lại định nghĩa mà không giải thích được output/failure/evidence của chính mình.
 
@@ -339,7 +352,8 @@ Không đạt nếu learner chỉ đọc lại định nghĩa mà không giải 
 - [ ] Bot đọc observation records và tạo baseline ranking deterministic
 - [ ] malformed JSON fail rõ
 - [ ] insufficient evidence tạo `GET_MORE_DATA`; conflict tạo `HUMAN_REVIEW`
-- [ ] human-vs-Bot comparison kiểm tra được
+- [ ] human-vs-Bot comparison kiểm tra được và dùng raw baseline đã lưu trước improvement
+- [ ] final decision artifact tách evidence, reason, confidence, uncertainty và missing evidence
 - [ ] required lessons `0.1–2.3` đã được pull sau đúng attempt và áp dụng
 - [ ] explain-back đạt
 
@@ -347,8 +361,9 @@ Không đạt nếu learner chỉ đọc lại định nghĩa mà không giải 
 
 - [ ] có 5 E1 public observations với source_url/observed_at/access_method
 - [ ] sample/synthetic không bị trình bày như market truth
-- [ ] human ranking tồn tại trước Bot output
+- [ ] human ranking tồn tại trước Bot output; nếu cycle bị contaminated thì cycle đó không tính gate
 - [ ] strongest evidence, weakest assumption và missing evidence được lưu
+- [ ] numeric EV không bị bịa khi probability/outcome evidence chưa có
 
 ### Operated
 
