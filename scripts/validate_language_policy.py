@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Kiểm các điểm neo tối thiểu của quy ước ngôn ngữ tiếng Việt.
+"""Kiểm các điểm neo của quy ước ngôn ngữ tiếng Việt.
 
-Validator này cố ý không tự động phán đoán ngôn ngữ tự nhiên của toàn bộ prose.
-Nó chỉ ngăn các regression dễ nhận biết: mất style guide, mất liên kết quy ước,
-quay lại một số heading tiếng Anh đã từng xuất hiện trong learner-facing docs,
-hoặc làm output starter Bot quay lại label tiếng Anh thuần túy.
+Validator không cố tự động dịch hay phán đoán toàn bộ ngôn ngữ tự nhiên. Nó khóa các
+regression có thể xác định chắc chắn, đồng thời quét toàn bộ Lesson/Mission thay vì
+chỉ một danh sách nhỏ tài liệu như trước.
 """
 from pathlib import Path
 import sys
@@ -19,7 +18,7 @@ REQUIRED_LINKS = {
     ROOT / "CONTRIBUTING.md": "docs/VIETNAMESE-LANGUAGE-STYLE.md",
 }
 
-LEARNER_FACING = [
+BASE_LEARNER_FACING = [
     ROOT / "README.md",
     ROOT / "CURRICULUM.md",
     ROOT / "lab" / "learner" / "affiliate-bot" / "README.md",
@@ -32,6 +31,15 @@ LEARNER_FACING = [
     ROOT / "docs" / "MANUAL-AFFILIATE-LOOP.md",
     ROOT / "sources" / "README.md",
 ]
+
+
+def learner_facing_files() -> list[Path]:
+    paths = list(BASE_LEARNER_FACING)
+    for folder in (ROOT / "lessons", ROOT / "missions"):
+        if folder.exists():
+            paths.extend(sorted(folder.rglob("*.md")))
+    return paths
+
 
 FORBIDDEN_HEADINGS = {
     "## Active authority hiện tại",
@@ -51,6 +59,24 @@ FORBIDDEN_HEADINGS = {
     "## Definition of integrity",
     "## Separation of authority",
     "## Early-mission partial output",
+}
+
+# Các mẫu English-first từng lọt qua review ở Lesson 0.2. Token máy đọc vẫn được giữ;
+# chỉ phần nhãn/giải thích dành cho learner phải Việt-first.
+FORBIDDEN_LEARNER_SNIPPETS = {
+    "TRỤC A — Evidence kind",
+    "TRỤC B — Claim kind",
+    "### Evidence kind hỏi gì?",
+    "### Claim kind hỏi gì?",
+    "| Evidence kind | Claim kind | Ví dụ |",
+    "## 3. Evidence kind: `synthetic`",
+    "## 4. Evidence kind: `test`",
+    "## 5. Evidence kind: `real`",
+    "## 6. Evidence kind: `replay`",
+    "## 7. Claim kind: `fact`",
+    "## 8. Claim kind: `estimate`",
+    "## 9. Claim kind: `assumption`",
+    "## 10. Claim kind: `unknown`",
 }
 
 REQUIRED_LEARNER_BOT_MARKERS = {
@@ -87,7 +113,7 @@ def main() -> int:
                 f"LANG003 {path.relative_to(ROOT)}: phải liên kết tới quy ước ngôn ngữ"
             )
 
-    for path in LEARNER_FACING:
+    for path in learner_facing_files():
         if not path.exists():
             continue
         text = path.read_text(encoding="utf-8")
@@ -95,6 +121,11 @@ def main() -> int:
             if heading in text:
                 problems.append(
                     f"LANG004 {path.relative_to(ROOT)}: heading tiếng Anh cũ quay lại: {heading!r}"
+                )
+        for snippet in FORBIDDEN_LEARNER_SNIPPETS:
+            if snippet in text:
+                problems.append(
+                    f"LANG008 {path.relative_to(ROOT)}: learner-facing prose phải Việt-first: {snippet!r}"
                 )
 
     if not LEARNER_BOT_MAIN.exists():
