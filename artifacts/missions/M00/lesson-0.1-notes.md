@@ -1,0 +1,182 @@
+# Bài 0.1 — Ghi chú và giải thích thêm
+
+## `main.go` và `main_test.go`
+
+Cách hiểu đơn giản:
+
+```text
+main.go
+= Bot thật
+
+main_test.go
+= người kiểm tra Bot
+```
+
+`main.go` định nghĩa behavior của Bot.
+
+`main_test.go` kiểm tra Bot có thực hiện đúng behavior đó hay không.
+
+## Vì sao viết test trước?
+
+Vòng vừa thực hành:
+
+```text
+Requirement mới
+→ viết test
+→ test FAIL
+→ sửa Bot
+→ test PASS
+```
+
+Test FAIL có chủ ý chứng minh test thật sự phát hiện được behavior đang thiếu.
+
+## Test PASS chứng minh gì?
+
+```text
+Test PASS
+= code đang thực hiện behavior mà test yêu cầu
+```
+
+Nhưng:
+
+```text
+Test PASS
+≠
+quyết định Affiliate ngoài thị trường là đúng
+```
+
+Có thể nhớ:
+
+```text
+Software evidence
+≠
+Business evidence
+```
+
+## Baseline hiện tại
+
+Bot hiện dùng:
+
+```text
+price × commission_rate
+```
+
+Vì vậy B đứng đầu chỉ có nghĩa:
+
+```text
+B đứng #1 theo baseline hiện tại
+```
+
+không có nghĩa:
+
+```text
+B là sản phẩm Affiliate tốt nhất
+```
+
+## Conversion potential
+
+`Conversion potential` là khả năng người quan tâm/click thực sự mua.
+
+Một sản phẩm có hoa hồng mỗi đơn cao nhưng rất khó chuyển đổi có thể tạo kết quả kém hơn sản phẩm có hoa hồng thấp hơn nhưng dễ chuyển đổi hơn.
+
+## Audience fit
+
+`Audience fit` là mức phù hợp giữa sản phẩm và nhu cầu của nhóm người mục tiêu.
+
+Commission cao không đủ nếu sản phẩm không phù hợp với audience.
+
+## Refund risk
+
+`Refund risk` là rủi ro đơn bị hoàn/hủy hoặc không trở thành commission cuối cùng.
+
+Vì vậy:
+
+```text
+Order
+→ Valid Order
+→ Final Commission
+```
+
+là các bước khác nhau.
+
+## Vì sao Bot phải nói giới hạn?
+
+Bot tốt không chỉ nói:
+
+```text
+Kết quả là gì?
+```
+
+mà còn phải giúp trả lời:
+
+```text
+Tôi dùng dữ liệu nào?
+Tôi dùng công thức nào?
+Tôi đang thiếu gì?
+Tôi được phép kết luận tới đâu?
+```
+
+## VS Code + Go đã setup
+
+```text
+VS Code                 ✅
+Go toolchain            ✅
+gopls                    ✅
+Autocomplete             ✅
+Go to Definition / F12   ✅
+Format on Save           ✅
+Go Test Runner           ✅
+go test ./...            ✅
+```
+
+## Các lệnh Git đã dùng
+
+`git diff`:
+- xem đã thay đổi gì.
+
+`git diff --check`:
+- kiểm lỗi whitespace cơ bản.
+
+`git status --short`:
+- xem file nào đã sửa.
+
+Ví dụ:
+
+```text
+ M cmd/bot/main.go
+ M cmd/bot/main_test.go
+```
+
+`M` = Modified.
+
+## Câu cần nhớ
+
+```text
+main.go
+= behavior của Bot
+
+main_test.go
+= kiểm tra behavior đó
+```
+
+```text
+Requirement
+→ Test
+→ FAIL
+→ Fix
+→ PASS
+```
+
+```text
+Score
+≠
+Truth
+```
+
+Và:
+
+```text
+Product B đứng #1 theo baseline
+≠
+Product B là sản phẩm Affiliate tốt nhất
+```
