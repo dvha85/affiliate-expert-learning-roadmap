@@ -91,8 +91,8 @@ Sau attempt mới pull `0.1–0.3`.
 
 ### Checkpoint 2 — Ghi public observations trước khi thiết kế schema hoàn hảo
 
-1. Chọn 5 sản phẩm công khai để M00 và G1 dùng cùng một gate.
-2. Ghi thủ công observation tối thiểu:
+1. Chọn 5 sản phẩm công khai để M00 và G1 dùng cùng một evidence set.
+2. **Tự thử ghi trước khi đọc Bài 1.1–1.3**. Ghi thủ công observation tối thiểu:
 
    ```yaml
    observation_id:
@@ -109,26 +109,27 @@ Sau attempt mới pull `0.1–0.3`.
    notes:
    ```
 
-3. Không điền một field chỉ vì muốn đủ schema. Nếu commission/rating/sales không công khai, giữ `unknown` và ghi nguồn không cung cấp. Dùng decimal cho rate (`10%` → `0.10`) và chỉ so price-based score trong cùng currency.
-4. Copy starter file thành input riêng, thay bằng public observations và cho Bot đọc file đó; không sửa nhãn `synthetic` thành `real` nếu record vẫn là sample.
-5. Chạy file thật. Nếu state là `GET_MORE_DATA`, đọc lý do; không bịa field để ép Bot recommend. Full ingest/schema validation để M01.
+3. Không điền một field chỉ vì muốn đủ schema. Nếu commission/rating/sales không công khai, giữ `unknown`/`null` và ghi nguồn không cung cấp. Dùng decimal cho rate (`10%` → `0.10`).
+4. Review thủ công 5 records theo provenance, freshness awareness, missing fields và money-flow limitation. Chưa xây schema/validator tổng quát; việc đó thuộc M01.
+5. Chuẩn bị một input file riêng từ 5 observations, nhưng **chưa chạy full Bot ranking với evidence set này**. Mục đích là giữ human judgment độc lập khỏi Bot output.
+6. Nếu cần kiểm engineering path ở Checkpoint 2, tiếp tục dùng sample/failure fixture hoặc review `DecisionIssues()` bằng test có sẵn; không xem ranking của 5 products thật trước khi human ranking được lưu.
 
 Sau attempt mới pull `1.1–1.3`.
 
 ### Checkpoint 3 — Human rank trước, Bot rank sau
 
-1. Trước khi chạy ranking, tự xếp hạng 5 observations.
-2. Với mỗi thứ hạng, ghi reason, strongest evidence và weakest assumption.
-3. Chạy baseline ranking đơn giản đã có, xác nhận deterministic và giải thích limitation của commission-per-order.
+1. Với đúng 5 observations đã review, **trước khi chạy Bot với evidence set thật**, tự xếp hạng 5 sản phẩm.
+2. Với mỗi thứ hạng, ghi reason, strongest evidence và weakest assumption; lưu timestamp hoặc commit để chứng minh human ranking tồn tại trước Bot output.
+3. Chạy baseline ranking đơn giản đã có trên chính 5-product input, xác nhận deterministic và giải thích limitation của commission-per-order.
 4. Cải tiến reason/formula-version output bằng test có sẵn, nhưng giữ baseline dễ hiểu.
-5. Chạy Bot, lưu output, rồi so với human ranking.
+5. Lưu Bot output, rồi so với human ranking.
 6. Chạy input missing/conflicting có sẵn và giải thích vì sao Bot trả `GET_MORE_DATA` hoặc `HUMAN_REVIEW`.
 
 Sau attempt mới pull `2.1–2.3`.
 
 ## Run — Chạy
 
-Lệnh tối thiểu:
+Lệnh tối thiểu cho **Bot ranking thật chỉ được dùng sau khi human ranking đã được lưu**:
 
 ```bash
 cd lab/learner/affiliate-bot
@@ -184,11 +185,11 @@ Chỉ pull phần giúp hoàn thành vòng `edit → run → fail → fix → te
 
 ### Sau Checkpoint 2
 
-- `1.1` — ghi Product observations có source và `observed_at`;
+- `1.1` — review và sửa 5 Product observations đã tự ghi, có source và `observed_at`;
 - `1.2` — actors, money flow, commission, validation và refund;
-- `1.3` — provenance, freshness, missing fields và giới hạn kết luận.
+- `1.3` — provenance, freshness awareness, missing fields, evidence eligibility và giới hạn kết luận.
 
-Không yêu cầu learner học mọi platform field trước khi schema tối giản chạy được.
+Không yêu cầu learner học mọi platform field trước khi schema tối giản chạy được. Không dùng Bot ranking của evidence set thật ở knowledge pull này; human-first thuộc Checkpoint 3.
 
 ### Sau Checkpoint 3
 
@@ -248,7 +249,7 @@ M00 không có outcome window kinh doanh vì chưa có external action.
 Chạy ít nhất ba cycle:
 
 1. sample fixture để kiểm engineering path;
-2. public observations hợp lệ để tạo ranking/decision;
+2. sau khi human ranking đã lưu, public observations hợp lệ để tạo ranking/decision;
 3. missing/conflicting evidence để tạo abstention.
 
 Chạy lại cùng input để chứng minh output deterministic. Lưu command, input version và output cho từng cycle.
