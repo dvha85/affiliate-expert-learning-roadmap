@@ -72,6 +72,8 @@ Nếu Git/Go/module chưa sẵn sàng, dừng và xử lý environment blocker t
 
 M00 có ba checkpoint. Mỗi checkpoint dự kiến 45–90 phút trước khi tính thời gian debug/evidence.
 
+`estimated_hours` là ngân sách Mission cho vòng attempt/pull/apply/evidence, không phải tổng của mọi `estimated_minutes` trong lesson. Lesson time là upper bound cho một lượt học sâu/remediation; learner chỉ pull phần cần để giải quyết gap hiện tại.
+
 ### Checkpoint 1 — Boot, sửa và quan sát test failure
 
 1. Chạy Bot và baseline tests trước khi đọc bài dài:
@@ -142,17 +144,37 @@ go run ./cmd/bot path/to/your-public-observations.json
 go test ./...
 ```
 
-Câu chữ chính xác không bắt buộc, nhưng output cuối phải ưu tiên tiếng Việt và cho thấy tối thiểu:
+Raw Bot runtime output và final reviewed Decision là **hai artifact khác nhau**.
+
+Raw Bot runtime output phải cho thấy tối thiểu:
 
 ```text
-Phiên bản Bot (Bot version): v0.1
+Phiên bản Bot (Bot version): pre-v0.1 trong lúc Mission chưa final; v0.1 chỉ sau khi M00 PASS
 Loại bằng chứng (Evidence kind): real (...)
 Số quan sát (Observations) đã nạp: 5
-Tham chiếu xếp hạng của con người (Human ranking reference): saved
+Phiên bản công thức (Formula version): ...
 Xếp hạng đường cơ sở của Bot (Bot baseline ranking):
   <hạng + sản phẩm + điểm/lý do>
 Trạng thái quyết định (Decision state): RANK_SCENARIO | RECOMMEND | GET_MORE_DATA | HUMAN_REVIEW
 Bằng chứng còn thiếu (Missing evidence):
+```
+
+`HumanPrediction` được lưu độc lập **trước** raw Bot run. Raw ranking không được dùng human ranking làm scoring input chỉ để khớp người.
+
+Sau comparison/knowledge pull, final reviewed Decision artifact mới reference cả hai phía, ví dụ:
+
+```text
+human_ranking_ref: <frozen HumanPrediction artifact>
+raw_bot_ref: <raw Bot output artifact>
+evidence_refs: <5 observations>
+formula_version: ...
+reason: ...
+confidence: ...
+confidence_reason: ...
+uncertainty: ...
+missing_evidence: ...
+recommended_state: ...
+next_measurement: ...
 ```
 
 Các token máy đọc như `RANK_SCENARIO`, `RECOMMEND`, `GET_MORE_DATA`, `HUMAN_REVIEW`, JSON key và code identifier không được dịch hoặc đổi tùy tiện.
@@ -203,6 +225,8 @@ Không yêu cầu learner học mọi platform field trước khi schema tối g
 - `2.3` — đóng gói explainable decision, confidence, uncertainty, abstention và next measurement.
 
 Nếu Expected Value cần một input chưa được đo như conversion probability, giá trị đó phải giữ `unknown` hoặc chỉ xuất hiện trong một scenario có nhãn `assumption`; không bắt buộc M00 phải tạo numeric EV. Không được gọi assumed CVR là measured CVR.
+
+Bài 0.2 có thể dùng taxonomy khái niệm `real | synthetic | test | replay`, nhưng learner Bot M00 chỉ serialize `evidence_kind: real | synthetic`. `test`/`replay` là role/use context ở giai đoạn này, không phải legal enum mới của M00 JSON.
 
 ## Improve — Cải tiến
 
@@ -310,7 +334,7 @@ Lưu dưới `artifacts/missions/M00/` hoặc link tương đương:
 - **raw** baseline BotDecision output + formula/version trước Chapter 02 improvement;
 - human-vs-Bot comparison;
 - abstention cases `GET_MORE_DATA` và `HUMAN_REVIEW`;
-- final explainable decision artifact có evidence refs, confidence reason, uncertainty/missing evidence và next measurement;
+- final explainable decision artifact có `human_ranking_ref`, `raw_bot_ref`, evidence refs, confidence reason, uncertainty/missing evidence và next measurement;
 - learner commit;
 - note: điều Bot biết, không biết và chưa được phép làm.
 
@@ -353,7 +377,7 @@ Không đạt nếu learner chỉ đọc lại định nghĩa mà không giải 
 - [ ] malformed JSON fail rõ
 - [ ] insufficient evidence tạo `GET_MORE_DATA`; conflict tạo `HUMAN_REVIEW`
 - [ ] human-vs-Bot comparison kiểm tra được và dùng raw baseline đã lưu trước improvement
-- [ ] final decision artifact tách evidence, reason, confidence, uncertainty và missing evidence
+- [ ] final decision artifact tách HumanPrediction ref, raw Bot ref, evidence, reason, confidence, uncertainty và missing evidence
 - [ ] required lessons `0.1–2.3` đã được pull sau đúng attempt và áp dụng
 - [ ] explain-back đạt
 
@@ -374,10 +398,14 @@ Không đạt nếu learner chỉ đọc lại định nghĩa mà không giải 
 
 ## Bot Version Result — Kết quả phiên bản Bot
 
+Chỉ sau khi Capability + Reality + Operated bắt buộc đều đạt và final M00 evidence bundle đã được freeze:
+
 ```text
 pre-v0.1 scaffold
 → v0.1 evidence-backed deterministic decision Bot
 ```
+
+Nếu một gate còn pending, giữ `pre-v0.1`/Mission pending thay vì bump version chỉ vì lesson đã đọc xong.
 
 Authority ceiling sau M00:
 
