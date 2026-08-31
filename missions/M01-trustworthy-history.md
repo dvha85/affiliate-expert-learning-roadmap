@@ -66,29 +66,30 @@ Learner workspace:
 lab/learner/affiliate-bot/
 ```
 
-Starting state là learner commit đã PASS M00 và đã apply Chương 03:
+Starting state là learner commit đã PASS M00:
 
 - Bot v0.1 chạy/test được;
 - có 5 E1 public observations;
 - có deterministic BotDecision + abstention;
-- observation đã có stable `subject_id`, `observation_id`, `observed_at`, `ingested_at` semantics;
-- canonical ingest/validation/normalization đã rõ;
-- chưa có immutable durable history, delta/freshness semantics hoặc restart proof.
+- M00 observation record và parser/validation tối thiểu đã tồn tại;
+- chưa có stable `subject_id`, canonical M01 ingest contract, immutable durable history, delta/freshness semantics hoặc restart proof.
 
-Reference không phải starting state.
+Reference không phải starting state. Chương 03 là knowledge/application slice của **M01 Checkpoint 1**, không phải prerequisite xảy ra trước khi M01 bắt đầu.
 
 ## Try First — Thử trước
 
 ### Checkpoint 1 — Ingest contract
 
-Checkpoint này dùng Chương 03 và đã hoàn tất trước khi sang history:
+Bắt đầu từ M00 record hiện có, chưa giả định Chương 03 đã được apply:
 
 ```text
 M00 record
-→ bad-input attempt
+→ bad-input/identity attempt
 → 3.1–3.3
 → canonical validated observation
 ```
+
+Sau khi Checkpoint 1 + Chương 03 được applied, learner mới có canonical observation đủ điều kiện để bước vào Checkpoint 2/history work.
 
 ### Checkpoint 2 — Cố ý overwrite để thấy data loss
 
