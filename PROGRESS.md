@@ -9,7 +9,8 @@ Current Mission: M00
 Current Checkpoint: Checkpoint 1 — knowledge pull 0.1–0.3
 Current Lesson: 0.2 — bước tiếp theo
 Lesson 0.1: PASS (2026-08-31)
-Learner Bot: pre-v0.1 + baseline limitation learner change
+Learner Bot: pre-v0.1 scaffold
+Learner change: baseline limitation đã được thêm ở Checkpoint 1
 Capability PASS: chưa
 Reality verified: chưa
 Operated: chưa
