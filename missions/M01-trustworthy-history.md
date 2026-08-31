@@ -1,7 +1,7 @@
 ---
 mission_id: "M01"
 title: "Trustworthy History"
-status: draft
+status: ready
 requires_missions: ["M00"]
 bot_version_from: "v0.1"
 bot_version_to: "v0.2"
@@ -31,376 +31,498 @@ read M00 observations
 → identify stable subject vs individual observation
 → validate/normalize without inventing missing values
 → create immutable snapshots
-→ append history without overwriting old evidence
-→ compare two observation times
-→ report change / unchanged / missing / stale / unknown
+→ append durable history without overwriting old evidence
+→ query same subject across observed_at
+→ compare two observations
+→ report changed / unchanged / missing / unknown
+→ classify freshness only from explicit as_of + policy
 ```
 
-M01 dùng data/store nhỏ nhất đáp ứng behavior. PostgreSQL, repository pattern, concurrency, scheduler hoặc abstraction rộng không phải mục tiêu tự thân.
+M01 dùng storage nhỏ nhất đáp ứng behavior. Canonical learner path là **append-only JSONL file**. PostgreSQL, repository pattern, concurrency, scheduler hoặc watcher không phải mục tiêu tự thân.
 
-M01 cố ý tách bốn identity/time concept ngay từ đầu:
+M01 giữ bốn identity/time concept tách biệt:
 
 ```text
 subject_id
-= đối tượng Product/Offer ổn định cần theo dõi qua thời gian
+= Product/Offer ổn định cần theo dõi qua thời gian
 
 observation_id
 = một lần quan sát cụ thể
 
 observed_at
-= khi thế giới/source được quan sát
+= khi source/world được quan sát
 
 ingested_at
 = khi Bot nhận/lưu observation
 ```
 
-Không dùng `product_name` thay cho stable identity, và không dùng `observation_id` để đại diện cho Product xuyên thời gian.
+Không dùng `product_name` thay stable identity và không dùng `observation_id` làm Product identity xuyên thời gian.
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 
-Starting state là learner commit đã PASS M00:
+Starting state là learner commit đã PASS M00 và đã apply Chương 03:
 
 - Bot v0.1 chạy/test được;
 - có 5 E1 public observations;
-- có human ranking, deterministic BotDecision và abstention case;
-- M00 `observation.Record` đã tồn tại;
-- chưa có stable `subject_id`, strict ingest contract, validated history hoặc change semantics.
+- có deterministic BotDecision + abstention;
+- observation đã có stable `subject_id`, `observation_id`, `observed_at`, `ingested_at` semantics;
+- canonical ingest/validation/normalization đã rõ;
+- chưa có immutable durable history, delta/freshness semantics hoặc restart proof.
 
-Reference không phải starting state. Chương 03 phải **evolve M00 record/code hiện có**, không yêu cầu learner viết parser/schema lại từ trang trắng.
+Reference không phải starting state.
 
 ## Try First — Thử trước
 
-### Checkpoint 1 — Đưa input xấu qua ingest M00 hiện có
+### Checkpoint 1 — Ingest contract
 
-1. Copy một M00 observation file thành scratch input; chưa refactor trước.
-2. Chạy lần lượt các case:
-   - valid record;
-   - malformed JSON;
-   - unknown JSON field;
-   - negative price;
-   - missing `source_url`;
-   - hai observations khác nhau nhưng cùng `product_name`;
-   - hai observations của cùng Product ở hai thời điểm nhưng không có stable `subject_id`.
-3. Ghi before behavior: parser/validator hiện fail rõ, silently accept hay khiến identity mơ hồ?
-4. Viết câu hỏi: “Nếu Product đổi tên hoặc hai Product trùng tên, Bot sẽ biết snapshot nào thuộc cùng subject bằng cách nào?”
-5. **Sau attempt mới pull `3.1–3.3`** rồi harden ingest/normalization.
+Checkpoint này dùng Chương 03 và đã hoàn tất trước khi sang history:
 
-Checkpoint 1 không yêu cầu history store. Output của Chương 03 là một **validated canonical observation** sẵn sàng để Chương 04 lưu append-only.
-
-### Checkpoint 2 — Cố ý ghi đè history
-
-1. Lưu một snapshot cho cùng `subject_id`.
-2. Tạo observation thứ hai ở thời điểm khác.
-3. Dùng implementation đơn giản ghi đè current record và quan sát evidence nào bị mất.
-4. Viết câu hỏi: watcher/decision audit sau này không còn trả lời được điều gì?
-5. Sau attempt, pull `4.1–4.2` rồi chuyển sang immutable append-only snapshots.
-
-### Checkpoint 3 — Second observation + restart
-
-1. Ghi observation thật lần hai trên ít nhất một `subject_id` sau một khoảng thời gian đã khai báo.
-2. Import snapshot thứ hai bằng command thủ công, rồi restart process.
-3. Đọc lại history, so snapshot cũ/mới và phân loại delta.
-4. Sau attempt, pull slice cần thiết từ `4.3` để tạo change report có thể lặp lại.
-
-## Canonical ingest contract của M01
-
-Chương 03 phải đưa M00 record tới shape tối thiểu về semantics như sau; exact Go type có thể khác nếu giải thích được:
-
-```yaml
-subject_id:
-observation_id:
-product_name:
-source_url:
-observed_at:
-ingested_at:
-access_method: public_manual
-evidence_kind: real
-price:
-currency:
-commission_rate:
-other_visible_signal:
-missing_fields: []
-notes:
+```text
+M00 record
+→ bad-input attempt
+→ 3.1–3.3
+→ canonical validated observation
 ```
 
-Quy tắc:
+### Checkpoint 2 — Cố ý overwrite để thấy data loss
 
-- `subject_id` phải ổn định qua nhiều observations của cùng Product/Offer;
-- `observation_id` phải xác định một observation cụ thể;
-- `observed_at` đến từ observation context, không được thay bằng thời điểm import;
-- `ingested_at` mô tả khi Bot nhận record và không được giả làm thời điểm thị trường được quan sát;
-- missing giữ `null`/unknown, không đổi thành `0`;
-- normalized value không được xóa raw/provenance cần thiết để audit;
-- unknown field phải có policy rõ: strict reject ở canonical ingest hoặc explicit quarantine; không silently ignore material field rồi tuyên bố input đã validated.
+1. Chọn một canonical observation của `subject_id` thật tại `t1`.
+2. Lưu nó bằng cách đơn giản nhất như một current JSON record.
+3. Tạo observation thứ hai của cùng `subject_id` tại `t2`.
+4. Ghi đè current record bằng observation `t2`.
+5. Trước khi đọc 4.1–4.2, ghi chính xác evidence nào đã mất và câu hỏi audit nào không còn trả lời được.
+
+Ví dụ:
+
+```text
+Tôi còn biết current price.
+Tôi không còn chứng minh được price tại t1 là gì.
+Tôi không còn biết change xảy ra giữa hai observations nào.
+```
+
+**Sau attempt mới pull `4.1–4.2`.**
+
+### Checkpoint 3 — Second E1 observation + restart
+
+1. Với ít nhất một `subject_id` thật từ M00/M01, tạo observation E1 lần hai tại `t2`, có `observed_at` khác `t1`.
+2. Append snapshot thứ hai vào durable history.
+3. Dừng process và chạy lại.
+4. Query history sau restart; xác minh cả `t1` và `t2` còn tồn tại.
+5. Compare theo `observed_at`, tạo change report.
+6. Chạy lại report trên cùng history để kiểm deterministic.
+7. **Sau attempt mới pull `4.3`** để harden second-cycle/restart/report behavior.
+
+## Canonical history contract
+
+### Canonical learner store
+
+M01 dùng:
+
+```text
+data/history.jsonl
+```
+
+Mỗi dòng là **một immutable snapshot** độc lập:
+
+```json
+{"subject_id":"product-a","observation_id":"obs-a-1","observed_at":"...","ingested_at":"..."}
+{"subject_id":"product-a","observation_id":"obs-a-2","observed_at":"...","ingested_at":"..."}
+```
+
+Không update dòng cũ tại chỗ để “sửa lịch sử”. Nếu observation cũ sai, giữ record gốc và tạo correction/review artifact theo implementation nhỏ nhất có thể audit.
+
+### Snapshot immutability
+
+Sau khi append thành công:
+
+```text
+caller mutate object in memory
+≠ historical record silently changes
+```
+
+Store phải lưu một serialized/copy value, không giữ alias cho object có thể mutate.
+
+### Duplicate/conflict semantics
+
+M01 phân biệt ba trường hợp:
+
+```text
+same observation_id + same canonical content
+→ EXACT_DUPLICATE
+→ idempotent / already_seen
+
+same observation_id + different canonical content
+→ CONFLICT
+→ HUMAN_REVIEW / reject conflicting append
+
+same subject_id + same observed_at + conflicting material values
+→ CONFLICT
+→ HUMAN_REVIEW
+```
+
+Không silently replace snapshot cũ.
+
+### Out-of-order observations
+
+Phân biệt:
+
+```text
+invalid observed_at
+→ reject/quarantine
+```
+
+với:
+
+```text
+valid evidence đến muộn
+observed_at < latest observed_at
+→ preserve evidence
+→ mark out_of_order = true nếu cần
+→ query/order lịch sử theo observed_at
+```
+
+Arrival order (`ingested_at`) không được giả làm world-time order (`observed_at`).
+
+## Delta contract
+
+Delta chỉ so observations của **cùng `subject_id`**.
+
+Per-field state tối thiểu:
+
+```text
+CHANGED
+UNCHANGED
+MISSING_CURRENT
+MISSING_PREVIOUS
+UNKNOWN
+NOT_COMPARABLE
+```
+
+Ví dụ:
+
+```text
+previous price = 299000
+current price = 299000
+→ UNCHANGED
+
+previous price = 299000
+current price = 259000
+→ CHANGED
+
+previous price = 299000
+current price = null
+→ MISSING_CURRENT
+```
+
+Không được:
+
+```text
+null → 0
+null → unchanged
+```
+
+Mixed currency hoặc semantic-unit mismatch phải `NOT_COMPARABLE`/review, không tính numeric delta giả.
+
+## Freshness contract
+
+M01 không dùng fixed global TTL như “7 ngày luôn stale”. Freshness phải có explicit inputs:
+
+```text
+observed_at
++ as_of
++ policy/max_age cho field/decision scope
+```
+
+Mental model:
+
+```text
+ClassifyFreshness(observed_at, as_of, max_age)
+```
+
+Rules:
+
+- `as_of` phải được truyền rõ trong test/report thay vì gọi `time.Now()` rải rác;
+- nếu không có policy phù hợp: `UNKNOWN`;
+- nếu `as_of < observed_at`: input/time context invalid;
+- freshness là property tương đối với decision scope, không phải thuộc tính vĩnh viễn của snapshot.
 
 ## Run — Chạy
 
-Exact history command sẽ được chốt khi Chương 04 hoàn tất. Với Chương 03, executable phải có một path có thể chạy/test để chứng minh ingest contract, ví dụ CLI hiện tại hoặc test trực tiếp trên ingest package.
-
-Draft target sau toàn M01:
+Chương 04 phải nối history path vào executable/test thật. Exact CLI có thể khác nếu learner giải thích được, nhưng phải quan sát được tương đương:
 
 ```bash
 cd lab/learner/affiliate-bot
-go run ./cmd/bot
 go test ./...
 ```
 
-Expected observable output sau toàn M01:
+Và một executable path cho history/report, ví dụ:
+
+```bash
+go run ./cmd/bot history data/history.jsonl <subject_id>
+```
+
+Expected observable information:
 
 ```text
 Bot version: v0.2
-Snapshots saved: <n>
+History store: data/history.jsonl
 Subject: <subject_id>
+Snapshots: <n>
 Previous observed_at: <time>
 Current observed_at: <time>
-Changes:
-  price: unchanged | changed | missing | unknown
-  commission: unchanged | changed | missing | unknown
-Freshness: current | stale | unknown
+Delta:
+  price: CHANGED | UNCHANGED | MISSING_CURRENT | MISSING_PREVIOUS | UNKNOWN | NOT_COMPARABLE
+  commission_rate: ...
+Freshness as_of: <time>
+Freshness: CURRENT | STALE | UNKNOWN
 ```
+
+Tên command/format không phải contract máy bắt buộc; semantics và evidence mới là gate.
 
 ## Observe — Quan sát
 
 Learner phải lưu:
 
-- parser/validation behavior trước và sau hardening;
-- identity ambiguity trước khi có `subject_id`;
-- distinction giữa `subject_id`, `observation_id`, `observed_at`, `ingested_at`;
-- raw/provenance nào được giữ qua normalization;
-- evidence bị mất trong overwrite attempt;
-- field thay đổi thật, không đổi, thiếu hoặc không so sánh được;
-- gap nào thực sự cần storage/query control; scheduler/retry vẫn để M06.
+- overwrite failure trước append-only;
+- count/history trước và sau append;
+- distinction giữa `observed_at` order và `ingested_at` order;
+- exact duplicate vs conflict;
+- changed/unchanged/missing/not-comparable delta;
+- freshness với explicit `as_of/policy`;
+- restart proof;
+- M00 decision/ranking regression status.
 
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
-### Checkpoint 1
+### Sau Checkpoint 1
 
-- `3.1` — evolve M00 record: stable subject identity, observation identity, timestamps và schema vừa đủ;
-- `3.2` — validation contract, clear errors, unknown/malformed/invalid field và failure-path tests;
-- `3.3` — normalization/provenance và source boundary nhỏ nhất cho public/manual ingest.
+- `3.1` — stable subject/observation identity và schema vừa đủ;
+- `3.2` — validation contract và failure-path tests;
+- `3.3` — normalization/provenance/source boundary.
 
-Chương 03 không build history store, watcher, database hay AI. Nó kết thúc ở canonical validated observation.
+### Sau Checkpoint 2
 
-### Checkpoint 2
+- `4.1` — append-only JSONL, immutable snapshot, idempotent duplicate và conflict;
+- `4.2` — historical query, delta semantics, observed vs ingest time, freshness từ explicit policy.
 
-- `4.1` — immutable snapshots và persistence tối thiểu;
-- `4.2` — delta, timestamp, freshness và historical query.
+### Sau Checkpoint 3
 
-### Checkpoint 3
+- `4.3` — second E1 observation cycle, restart proof, deterministic change report và M01 finalization.
 
-- `4.3` — second observation cycle, restart và change report.
-
-Khi author Chương 04, ưu tiên file/append-only implementation trước. SQL/repository chỉ ở slice bắt buộc nếu concrete Mission test thật cần chúng.
+Không kéo SQL, watcher, retry scheduler, message queue hay AI vào M01.
 
 ## Improve — Cải tiến
 
 Sau Chương 03:
 
-- evolve M00 record thay vì duplicate schema;
-- thêm stable subject identity;
-- reject malformed/invalid observations rõ ràng;
-- xử lý unknown field theo explicit policy;
-- preserve source/raw context và normalized value;
-- giữ `observed_at` khác `ingested_at`;
-- không coi missing là `0`;
-- nối ingest path vào executable/test thật, không để package dead code.
+- stable subject identity;
+- strict validated canonical observation;
+- provenance/raw context preserved;
+- `observed_at != ingested_at`.
 
 Sau Chương 04:
 
-- tạo immutable Snapshot có identity + `observed_at`;
-- append thay vì overwrite;
-- compare cùng `subject_id` qua hai timestamps;
-- thêm freshness classification từ explicit `as_of`/policy;
-- preserve valid out-of-order evidence thay vì silently drop.
+- append immutable JSONL snapshots;
+- exact duplicate idempotent;
+- conflict không overwrite;
+- valid late/out-of-order evidence được preserve;
+- history query order theo `observed_at`;
+- delta không trộn missing/zero/unchanged;
+- freshness dùng explicit `as_of/policy`;
+- history survive restart;
+- change report deterministic.
 
 ## Tests — Kiểm thử
 
 ### Chương 03 acceptance slice
 
-- valid M00/E1 observation đi qua canonical ingest;
-- malformed JSON fail rõ;
-- unknown field không bị silently ignored theo cách làm mất contract;
-- invalid negative/out-of-domain numeric value fail rõ;
-- missing source/identity fail rõ;
-- `subject_id` và `observation_id` không bị dùng lẫn;
-- same `subject_id` có thể có nhiều `observation_id`;
-- same product name không tự động chứng minh same subject;
-- missing giữ khác observed zero;
-- `observed_at` và `ingested_at` được phân biệt;
-- normalization không biến seller/source claim thành measured business fact;
-- M00 ranking/abstention không regression.
+- valid E1 observation đi qua canonical ingest;
+- malformed/unknown/invalid field fail rõ theo policy;
+- stable subject identity tách observation identity;
+- missing khác observed zero;
+- `observed_at` khác `ingested_at`;
+- normalization không invent data;
+- M00 behavior không regression.
 
 ### Chương 04 / final M01 acceptance slice
 
-- snapshot input mutation không sửa history cũ;
-- second snapshot không overwrite first snapshot;
-- exact duplicate xử lý idempotent/deterministic;
-- cùng `observation_id` nhưng content khác phải conflict/review, không silently replace;
-- valid out-of-order observation được preserve và đánh dấu/order đúng theo `observed_at`, hoặc nếu implementation tạm thời chưa hỗ trợ thì capability không được tuyên bố DONE;
+- first append tạo snapshot;
+- second snapshot không overwrite first;
+- input mutation sau append không sửa snapshot đã lưu;
+- exact duplicate là idempotent/deterministic;
+- same observation ID + conflicting content bị conflict/review;
+- same subject + same observed_at + conflicting material value bị conflict/review;
+- valid out-of-order evidence được preserve và query đúng theo `observed_at`;
+- invalid timestamp fail rõ;
 - missing khác zero/unchanged;
-- delta change/unchanged/missing đúng;
-- restart vẫn đọc lại được history theo persistence scope đã chọn;
-- second observation tạo change report deterministic.
+- mixed currency/units không bị tính delta numeric giả;
+- freshness `CURRENT/STALE/UNKNOWN` chỉ từ explicit `as_of/policy`;
+- corrupt/truncated JSONL fail rõ hoặc quarantine rõ, không silently bỏ dòng;
+- restart đọc lại history;
+- same history + same as_of + same policy tạo same report;
+- second E1 observation tạo report;
+- M00 ranking/abstention không regression.
 
 ## Reality Check — Kiểm chứng thực tế
 
 **Minimum:** E1.
 
-Chương 03 có thể dùng lại 5 E1 observations từ M00 để harden ingest; chưa cần chờ observation lần hai để lesson 3.1–3.3 được applied.
-
 Final M01 Reality minimum:
 
 ```text
 ít nhất 1 subject thật
-+ observation E1 tại t1
-+ observation E1 tại t2
++ E1 observation tại t1
++ E1 observation tại t2
 + cùng stable subject_id
 + observed_at khác nhau
 ```
 
-Recommended: lặp lại trên nhiều subject nếu thuận tiện, nhưng không ép learner đợi cả 5 Product thay đổi chỉ để PASS history semantics.
+Recommended: lặp lại nhiều subject nếu thuận tiện, nhưng không ép learner đợi cả 5 Product thay đổi.
 
-- raw/public source có thể không thay đổi; `unchanged` là outcome hợp lệ;
-- nếu source biến mất/không truy cập được, lưu missing/access failure thay vì tạo giá trị;
-- sample snapshots chỉ chứng minh edge cases, không thay second E1 observation.
+`UNCHANGED` là outcome hợp lệ. M01 kiểm history semantics, không yêu cầu thị trường phải thay đổi.
 
-M01 không yêu cầu source thật sự đổi giá/commission. Reality gate kiểm lịch sử quan sát trung thực, không kiểm learner may mắn gặp change.
+Nếu source không còn truy cập được tại t2, lưu access/missing evidence trung thực; không tạo lại last known value rồi gọi đó là observation mới.
+
+Sample/synthetic chỉ dùng edge/failure tests, không thay second E1 observation.
 
 ## Operate — Vận hành
 
-Final M01 tối thiểu:
+Tối thiểu:
 
-1. ingest hai observation times cho cùng subject;
-2. restart process và xác minh history theo persistence scope đã chọn;
-3. chạy một no-change cycle;
-4. chạy một changed/missing fixture cycle;
-5. chạy lại cùng hai snapshots để chứng minh report deterministic.
+1. ingest/append `t1` và `t2` cho cùng subject;
+2. restart và đọc lại cả hai snapshots;
+3. một no-change case;
+4. một changed hoặc missing fixture case;
+5. exact duplicate replay;
+6. conflict case;
+7. valid out-of-order case;
+8. rerun cùng history/as_of/policy để chứng minh deterministic report.
 
-Nếu store hiện tại không survive restart, capability chưa đạt `Operated`.
+Nếu store không survive restart hoặc evidence cũ bị overwrite, M01 chưa đạt `Operated`.
 
 ## Failure Case — Tình huống lỗi
 
 - malformed/unknown field;
-- source/subject/observation identity rỗng;
+- missing subject/observation/source;
 - invalid timestamp;
-- same name nhưng different subject;
 - exact duplicate;
-- same observation ID nhưng conflicting content;
+- same observation ID conflicting content;
+- same subject/time conflicting value;
 - out-of-order valid observation;
 - partial record;
-- store failure;
-- truncated/corrupt history file hoặc restart không đọc lại được;
-- learner code vô tình mutate snapshot cũ.
+- mixed currency/semantic unit;
+- append/write failure;
+- corrupt/truncated history line;
+- learner mutate object sau append;
+- freshness policy absent;
+- `as_of` trước `observed_at`.
 
-Không được silently drop record, silently relabel evidence hoặc overwrite evidence cũ.
+Không silently drop record, overwrite evidence hoặc invent current value.
 
 ## Safety Gate — Cổng an toàn
 
 **S0 — Evidence/Data.**
 
-Authority ceiling vẫn là public/manual read + local processing. M01 không tự scrape, login, publish, message, spend hoặc thay platform state.
+Authority ceiling vẫn là public/manual read + local processing. M01 không scrape tự động, login, publish, message, spend hoặc thay platform state.
 
-Nếu learner sau này dùng source adapter ngoài manual file, adapter phải có access method/permission rõ và vẫn read-only. Restricted/private scraping là `DENY`.
+`data/history.jsonl` là local learner artifact, không phải permission để watcher tự thu data. Automated collection thuộc Mission sau.
 
 ## Evidence — Bằng chứng
 
 Lưu dưới `artifacts/missions/M01/`:
 
-### Chương 03
-
-- before ingest behavior;
-- identity ambiguity note;
-- canonical observation shape sau hardening;
-- valid + malformed + unknown-field + invalid-domain outputs/tests;
-- `subject_id` vs `observation_id` example;
-- `observed_at` vs `ingested_at` example;
-- normalization/provenance note;
-- final Chương 03 test output.
-
-### Chương 04 / final M01
-
+- Chương 03 ingest artifacts;
 - overwrite/data-loss attempt;
-- t1/t2 E1 Observation records;
-- immutable Snapshot/history artifact;
-- delta/freshness output;
-- happy/failure/restart test output;
-- restart/persistence note;
-- learner commit và storage trade-off note.
+- t1/t2 E1 observations;
+- append-only `history.jsonl` hoặc equivalent artifact;
+- duplicate/conflict/out-of-order outputs;
+- delta/freshness report với `as_of/policy`;
+- restart proof;
+- happy/failure tests;
+- deterministic rerun evidence;
+- M00 regression test;
+- storage trade-off note;
+- learner commit.
 
 Evidence chain:
 
 ```text
 Public Observation(E1)
 → Canonical Validated Observation
-→ Snapshot(t1)
-→ Snapshot(t2)
-→ Signal-like Delta
+→ immutable Snapshot(t1)
+→ immutable Snapshot(t2)
+→ historical query
+→ Delta/Freshness Signal
 → no external Action
 ```
 
 ## Explain-back — Giải thích lại
 
-Sau Chương 03 learner phải giải thích được:
+Learner phải trỏ vào code/evidence của mình để giải thích:
 
-1. Vì sao Product/subject khác Observation?
-2. Vì sao `product_name` không phải stable identity đủ mạnh?
-3. Vì sao `observation_id` không thể dùng thay `subject_id`?
-4. `observed_at` khác `ingested_at` ở điểm nào và nhầm chúng gây lỗi gì?
-5. Validation khác normalization thế nào?
-6. Vì sao normalization không được invent missing data hoặc nâng seller claim thành fact?
-7. Vì sao M01 chưa cần database/watcher/concurrency?
-
-Final M01 bổ sung:
-
-8. Overwrite làm mất audit nào?
-9. Vì sao missing khác zero hoặc unchanged?
-10. Store tối giản đáp ứng gì và chưa đáp ứng gì?
-11. Provenance/freshness ảnh hưởng decision thế nào?
-12. Next measurement nào cần cho grounded AI ở M02?
+1. `subject_id` khác `observation_id` thế nào?
+2. `observed_at` khác `ingested_at` thế nào?
+3. Overwrite làm mất audit nào?
+4. Vì sao append-only giúp audit nhưng không tự làm data đúng?
+5. Exact duplicate khác conflict thế nào?
+6. Vì sao valid out-of-order observation nên được preserve?
+7. Vì sao query change phải order theo `observed_at`?
+8. `missing`, `zero`, `unchanged` và `not comparable` khác nhau thế nào?
+9. Freshness cần những input/policy nào?
+10. Vì sao không dùng một TTL 7 ngày cho mọi field?
+11. JSONL đáp ứng gì và chưa đáp ứng gì?
+12. Vì sao M01 chưa cần watcher/concurrency/database?
+13. M01 history làm grounded AI ở M02 đáng tin hơn ở điểm nào?
 
 ## Mission PASS — Tiêu chí PASS
-
-M01 vẫn `draft` cho tới khi Chương 04 được author/review; hoàn thành Chương 03 chưa đồng nghĩa M01 DONE.
 
 ### Capability
 
 - [ ] Chương 03 ingest/validation/normalization contract chạy đúng
-- [ ] stable subject identity tách khỏi observation identity
-- [ ] observed time tách khỏi ingest time
-- [ ] history immutable và append-only sau Chương 04
-- [ ] delta/freshness semantics đúng sau Chương 04
-- [ ] executable thực sự dùng ingest/history path
+- [ ] stable subject identity tách observation identity
+- [ ] observed time tách ingest time
+- [ ] history immutable + append-only + durable qua restart
+- [ ] duplicate/conflict/out-of-order semantics đúng
+- [ ] historical query + delta semantics đúng
+- [ ] freshness dùng explicit `as_of/policy`
+- [ ] executable/test thực sự dùng history path
 - [ ] happy/failure/restart tests đạt
 - [ ] M00 behavior không regression
-- [ ] required knowledge được pull sau attempt và explain-back đạt
+- [ ] `3.1–4.3` được pull sau đúng attempt và explain-back đạt
 
 ### Reality
 
-- [ ] M00 E1 evidence được ingest trung thực trong Chương 03
-- [ ] final M01 có ít nhất một subject với t1/t2 E1 observations
+- [ ] có ít nhất một subject với t1/t2 E1 observations
 - [ ] source/observed_at/access method được giữ
+- [ ] second observation không được giả bằng copy last-known value
+- [ ] `UNCHANGED` được chấp nhận như outcome thật
 - [ ] missing/unchanged/zero không bị trộn
-- [ ] sample chỉ dùng cho edge/failure cases
+- [ ] sample chỉ dùng edge/failure cases
 
 ### Operated
 
-- [ ] chạy đủ t1/t2, restart, no-change và failure cycles
+- [ ] chạy t1/t2 + restart
+- [ ] chạy no-change + changed/missing fixture
+- [ ] chạy duplicate + conflict + out-of-order
+- [ ] cùng history/as_of/policy tạo cùng report
 - [ ] không overwrite hoặc silently drop evidence
 - [ ] S0 đạt, không external side effect
 
 ## Bot Version Result — Kết quả phiên bản Bot
 
-Chỉ bump version sau khi **toàn M01** đạt Capability + Reality + Operated:
+Chỉ bump sau khi **Capability + Reality + Operated** đều đạt:
 
 ```text
 v0.1 first evidence decision
 → v0.2 trustworthy observation history
 ```
 
-Hoàn thành riêng Chương 03 chỉ tạo **M01 ingest checkpoint**, chưa phải Bot v0.2.
+Authority ceiling không đổi:
 
-Authority ceiling không đổi: public/manual read + local deterministic processing.
+```text
+public/manual read + local deterministic processing
+```
 
 ## Next Mission — Mission tiếp theo
 
-M02 — Grounded AI Advisor: chỉ bắt đầu sau khi M01 PASS; deterministic baseline/history phải tồn tại trước AI.
+M02 — Grounded AI Advisor chỉ bắt đầu sau M01 PASS. Deterministic baseline + trustworthy history phải tồn tại trước AI.
