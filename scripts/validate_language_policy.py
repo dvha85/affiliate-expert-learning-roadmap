@@ -79,6 +79,33 @@ FORBIDDEN_LEARNER_SNIPPETS = {
     "## 10. Claim kind: `unknown`",
 }
 
+# Các title cũ ở Chapter 05 dùng English phrase làm lõi của learner-facing title.
+# Khóa exact regressions thay vì cố dùng heuristic đếm từ tiếng Anh dễ false-positive.
+FORBIDDEN_ENGLISH_FIRST_LESSON_TITLES = {
+    'title: "Chọn deterministic rule hay AI theo decision value"',
+    '# Bài 5.1 — Chọn deterministic rule hay AI theo decision value',
+    'title: "Structured extraction với evidence refs và uncertainty"',
+    '# Bài 5.2 — Structured extraction với evidence refs và uncertainty',
+    'title: "Eval case, invalid-output rejection, fallback, cost và privacy"',
+    '# Bài 5.3 — Eval case, invalid-output rejection, fallback, cost và privacy',
+}
+
+REQUIRED_PART01_VIETNAMESE_FIRST_MARKERS = {
+    ROOT / "lessons" / "part-01" / "chapter-05" / "5.1-deterministic-rule-hay-ai-theo-decision-value.md": (
+        'title: "Chọn quy tắc tất định hay AI theo giá trị quyết định"',
+        "AI Advisor (A1) ≠ Agent Runtime",
+    ),
+    ROOT / "lessons" / "part-01" / "chapter-05" / "5.2-structured-extraction-evidence-refs-uncertainty.md": (
+        'title: "Trích xuất có cấu trúc với tham chiếu bằng chứng và độ bất định"',
+        "tính toàn vẹn phân tích",
+    ),
+    ROOT / "lessons" / "part-01" / "chapter-05" / "5.3-eval-rejection-fallback-cost-privacy.md": (
+        'title: "Đánh giá case, từ chối output sai, fallback, chi phí và riêng tư"',
+        "authority containment",
+        "analysis integrity",
+    ),
+}
+
 REQUIRED_LEARNER_BOT_MARKERS = {
     "Affiliate Bot đang khởi động...",
     "Phiên bản Bot (Bot version):",
@@ -126,6 +153,22 @@ def main() -> int:
             if snippet in text:
                 problems.append(
                     f"LANG008 {path.relative_to(ROOT)}: learner-facing prose phải Việt-first: {snippet!r}"
+                )
+        for old_title in FORBIDDEN_ENGLISH_FIRST_LESSON_TITLES:
+            if old_title in text:
+                problems.append(
+                    f"LANG009 {path.relative_to(ROOT)}: lesson title English-first cũ quay lại: {old_title!r}"
+                )
+
+    for path, markers in REQUIRED_PART01_VIETNAMESE_FIRST_MARKERS.items():
+        if not path.exists():
+            problems.append(f"LANG010 {path.relative_to(ROOT)}: thiếu lesson cần hardening")
+            continue
+        text = path.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in text:
+                problems.append(
+                    f"LANG011 {path.relative_to(ROOT)}: thiếu marker Việt-first/hardening {marker!r}"
                 )
 
     if not LEARNER_BOT_MAIN.exists():
