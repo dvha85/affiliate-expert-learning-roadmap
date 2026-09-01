@@ -24,11 +24,11 @@ go run ./cmd/bot
 go test ./...
 ~~~
 
-Bạn phải thấy `Bot version: pre-v0.1` và `Decision state: RANK_SCENARIO`. Sau đó mở [Mission M00](missions/M00-first-evidence-backed-decision.md), thực hiện Checkpoint 1 và chỉ kéo bài học nhỏ (`micro-lesson`) khi đã thấy một khoảng trống hoặc lỗi cụ thể. Nếu bị chặn, dùng [thang gợi ý M00](lab/learner/affiliate-bot/HINTS-M00.md) từng mức.
+Bạn phải thấy `Bot version: pre-v0.1` và `Decision state: RANK_SCENARIO`. Sau đó mở [Mission M00](missions/M00-first-evidence-backed-decision.md), thực hiện Checkpoint hiện hành và chỉ kéo bài học nhỏ (`micro-lesson`) khi đã thấy một khoảng trống hoặc lỗi cụ thể. Nếu bị chặn, dùng [thang gợi ý M00](lab/learner/affiliate-bot/HINTS-M00.md) từng mức.
 
 Nếu bạn chưa truy cập được bằng chứng sản phẩm công khai thật, ghi trạng thái chặn là `BLOCKED_EXTERNAL`/pending và tiếp tục phần kỹ thuật có thể làm bằng dữ liệu mẫu. **Không đổi dữ liệu mẫu thành “real” chỉ để vượt gate.**
 
-Sau lần chạy đầu, dùng [chương trình chuẩn](CURRICULUM.md) để hiểu mục tiêu và ranh giới, [Build-First](BUILD-FIRST.md) để hiểu mô hình thực thi và [Progress](PROGRESS.md) để lưu tiến độ.
+Sau lần chạy đầu, dùng [chương trình chuẩn](CURRICULUM.md) để hiểu mục tiêu và ranh giới, [Build-First](BUILD-FIRST.md) để hiểu mô hình thực thi và [Progress](PROGRESS.md) để xem/lưu tiến độ người học.
 
 ~~~text
 THỬ TRÊN BẰNG CHỨNG THẬT
@@ -95,15 +95,15 @@ lab/affiliate-bot/           # bản tham chiếu để đối chiếu sau khi �
 
 Không sao chép bản tham chiếu rồi coi là PASS.
 
-## Trạng thái hiện tại
+## Trạng thái hiện tại — không hard-code learner progress ở README
 
-Đây là bản thiết kế lại theo hướng làm mới từ đầu (`clean-slate revision`). Người học chưa bắt đầu; [Progress](PROGRESS.md) vẫn ở M00.
+README không phải nguồn chuẩn của tiến độ người học vì trạng thái này thay đổi sau mỗi checkpoint.
 
-- M00 và 9 micro-lesson Part 0: `ready`;
-- M01–M03: Mission ở trạng thái nháp (`draft`) để review sau bằng chứng từ người học;
-- M04–M11 và lesson Part 1–6: inventory dự kiến (`planned`), chưa giả vờ là nội dung sẵn sàng học.
+- **Learner progress hiện hành:** xem [PROGRESS.md](PROGRESS.md). Đây là canonical learner-state source.
+- **Mức sẵn sàng của Mission:** xem [missions/README.md](missions/README.md). Đây là canonical authoring-state source.
+- **Kiến trúc runtime hiện hành:** xem [ADR-003](docs/ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md).
 
-Việc biên soạn dần là có chủ đích: thử nghiệm (`pilot`) M00 trước, dùng blocker/thời gian/bằng chứng thực tế để gộp, bỏ hoặc sửa các bài sau. Mức sẵn sàng của nội dung được theo dõi tách biệt với tiến độ người học.
+Việc biên soạn dần là có chủ đích: pilot Mission hiện hành trước, dùng blocker/thời gian/bằng chứng thực tế để gộp, bỏ hoặc sửa các bài sau. Authoring status và learner progress là hai trục độc lập.
 
 ## Kiểm tra repository
 
@@ -113,6 +113,7 @@ python scripts/validate_authority.py
 python scripts/validate_hardening.py
 python scripts/validate_build_first.py
 python scripts/validate_agentic_architecture.py
+python scripts/validate_hybrid_runtime.py
 python -m unittest discover -s tests -v
 ~~~
 

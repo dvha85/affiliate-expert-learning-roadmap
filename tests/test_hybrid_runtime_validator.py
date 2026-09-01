@@ -47,14 +47,11 @@ class HybridRuntimeValidatorTests(unittest.TestCase):
     def test_part04_must_keep_go_policy_owner(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            write(
-                root,
-                "roadmap/part-04.md",
+            write(root, "roadmap/part-04.md",
                 "n8n\n= primary watcher/orchestration reference\n"
                 "Go creates/validates DecisionPacket\n"
                 "n8n routes DecisionPacket\n"
-                "Go validation/policy unavailable\n→ no consequential downstream execution\n",
-            )
+                "Go validation/policy unavailable\n→ no consequential downstream execution\n")
             problems = []
             validator.check_part04_ownership(root, problems)
             self.assertTrue(any(p.code == "HYB006" and "Go Policy owns final state" in p.message for p in problems))
@@ -62,16 +59,13 @@ class HybridRuntimeValidatorTests(unittest.TestCase):
     def test_part05_must_keep_risk2_out_of_n8n_authority(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            write(
-                root,
-                "roadmap/part-05.md",
+            write(root, "roadmap/part-05.md",
                 "AgentRuntime\n= investigate + read-only tool use + propose\n"
                 "Go\n= Tool Registry contract + validation + ActionIntent + deterministic risk/policy + authorization\n"
                 "n8n\n= invoke/route Agent + shadow workflow + durable approval routing + bounded execution\n"
                 "Hermes Agent là **primary Agent runtime reference/candidate**\n"
                 "CandidateEvidence\n→ Go validate / ground\n"
-                "kill switch ON\n→ execution blocked even with prior approval\n",
-            )
+                "kill switch ON\n→ execution blocked even with prior approval\n")
             problems = []
             validator.check_part05_governance(root, problems)
             self.assertTrue(any(p.code == "HYB007" and "RISK2" in p.message for p in problems))
@@ -79,17 +73,59 @@ class HybridRuntimeValidatorTests(unittest.TestCase):
     def test_part06_requires_policy_fail_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            write(
-                root,
-                "roadmap/part-06.md",
+            write(root, "roadmap/part-06.md",
                 "Agent unavailable\n≠ core deterministic decision unavailable\n"
                 "n8n unavailable\n≠ canonical evidence/history corrupted\n"
                 "Correlation ID phải survive cross-runtime boundaries\n"
-                "kill switch ON\n→ NO EXECUTION\n",
-            )
+                "kill switch ON\n→ NO EXECUTION\n")
             problems = []
             validator.check_part06_fail_safe(root, problems)
             self.assertTrue(any(p.code == "HYB008" and "Go Policy unavailable" in p.message for p in problems))
+
+    def test_agent_safe_profile_is_required(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root, "docs/AGENT-RUNTIME-STANDARD.md", "Agent runtime is useful but unrestricted")
+            problems = []
+            validator.check_runtime_hardening(root, problems)
+            self.assertTrue(any(p.code == "HYB010" for p in problems))
+
+    def test_n8n_canonical_state_claim_is_rejected_even_with_good_marker(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root, "docs/AGENT-HITL-RUNTIME.md",
+                  "n8n execution state/history\n≠ canonical Action / Approval / Execution state\n"
+                  "For convenience, n8n execution state = canonical business state\n")
+            problems = []
+            validator.check_negative_authority_drift(root, problems)
+            self.assertTrue(any(p.code == "HYB013" for p in problems))
+
+    def test_n8n_final_policy_claim_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root, "roadmap/part-05.md", "Go Policy owns final state.\nn8n owns final policy for convenience.\n")
+            problems = []
+            validator.check_negative_authority_drift(root, problems)
+            self.assertTrue(any(p.code == "HYB013" for p in problems))
+
+    def test_agent_direct_execution_claim_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root, "docs/AGENT-RUNTIME-STANDARD.md", "Agent proposal → direct execution")
+            problems = []
+            validator.check_negative_authority_drift(root, problems)
+            self.assertTrue(any(p.code == "HYB013" for p in problems))
+
+    def test_readme_stale_learner_claim_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root, "README.md",
+                  "README không phải nguồn chuẩn của tiến độ người học\n"
+                  "canonical learner-state source\ncanonical authoring-state source\n"
+                  "Người học chưa bắt đầu\n")
+            problems = []
+            validator.check_readme_status_source(root, problems)
+            self.assertTrue(any(p.code == "HYB014" and "forbidden" in p.message for p in problems))
 
 
 if __name__ == "__main__":
