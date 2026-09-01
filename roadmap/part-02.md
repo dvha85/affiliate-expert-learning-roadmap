@@ -1,16 +1,35 @@
-# Phần 2 — FIRST TRACKED MARKET LOOP
+# Phần 2 — FIRST TRACKED MARKET LOOP + FIRST SAFE ORCHESTRATION
 
 - Timeline: **Evidence-gated; includes a real observation window**.
 - **Chapters:** C6–C8
 - **Core:** 9 micro-lessons
 - **Missions:** M03–M04
-- **Outcome:** Learner thực hiện một publication thủ công có disclosure/tracking, đọc outcome thật và so human baseline với AI-assisted variant.
+- **Outcome:** Learner thực hiện một publication thủ công có disclosure/tracking, đọc outcome thật, so human baseline với AI-assisted variant và lần đầu dùng orchestration read-only để import/reconcile analytics mà không tăng authority của Bot.
+
+## Hybrid ownership trong Part 02
+
+```text
+Go
+= tracking/event identity + validation + reconciliation + decision truth
+
+n8n
+= chỉ bắt đầu ở M04 dưới dạng read-only orchestration learning slice
+
+Agent/AI
+= advisory only, no tools/write authority
+
+Human
+= actor duy nhất được publish trong M03–M04
+```
+
+Part 02 không cho n8n hoặc Agent publish, send, spend hoặc thay platform/account state.
 
 ## Attempt trước knowledge pull
 
 1. M03: chọn một product/audience problem và tự viết micro-content trước khi dùng framework hoặc AI.
-2. Human review và manual publish; Bot không có publish authority.
+2. Human review và manual publish; Bot/n8n/Agent không có publish authority.
 3. M04: chờ declared observation window, import analytics thật rồi mới giải thích outcome.
+4. Trước khi automation sâu hơn, learner thử một **read-only orchestration path** nhỏ nhất cho analytics import: manual trigger → map/import → gọi Go validation/reconciliation → report. Failure của orchestration không được làm hỏng canonical evidence/history.
 
 ## Core checklist
 
@@ -26,11 +45,36 @@
 - [ ] **7.2** — Observation window, zero, missing và not-yet-observable
 - [ ] **7.3** — Import analytics/export, provenance và reconciliation
 
+M04 implementation reference cho Chương 7.3 có thể dùng n8n để học orchestration read-only, nhưng canonical validation/reconciliation semantics vẫn thuộc Go/domain contract.
+
 ### Chương 8 — Human-vs-AI content comparison
 
 - [ ] **8.1** — Human baseline trước AI-assisted variant
 - [ ] **8.2** — Publish manually, freeze variants và record performance
 - [ ] **8.3** — Compare outcome, preserve uncertainty và chọn next measurement
+
+## First orchestration learning slice — M04
+
+Mục tiêu không phải “học hết n8n”, mà chứng minh separation:
+
+```text
+manual trigger
+→ n8n read-only/import workflow
+→ analytics/export payload
+→ Go validate + reconcile
+→ canonical outcome/report
+```
+
+Learner cần quan sát tối thiểu:
+
+- workflow input/output mapping;
+- execution failure rõ;
+- duplicate import không tạo duplicate canonical outcome;
+- secret không nằm trong workflow artifact/log;
+- n8n unavailable không biến `missing` thành `0`;
+- Go validation reject invalid/incompatible payload dù workflow chạy thành công.
+
+Nếu n8n không available hoặc không justified, equivalent manual/read-only orchestration fixture có thể dùng cho Capability; runtime choice không thay evidence gate của M04.
 
 ## Part PASS
 
@@ -39,5 +83,7 @@
 - [ ] Disclosure và claim boundary được kiểm tra
 - [ ] `0` không bị lẫn với missing data
 - [ ] Có human-vs-AI comparison; outcome xấu hoặc inconclusive vẫn hợp lệ nếu measurement trung thực
+- [ ] First orchestration slice không có external mutation và không bypass Go validation/reconciliation
+- [ ] Orchestrator failure không làm mất/corrupt canonical evidence
 
 [← Part trước](part-01.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-03.md)
