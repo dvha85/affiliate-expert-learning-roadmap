@@ -66,9 +66,9 @@ M01 không yêu cầu thị trường phải thay đổi. `UNCHANGED` là Realit
 
 ### Chương 5 — Grounded AI advisory
 
-- [ ] **5.1** — [Chọn deterministic rule hay AI theo decision value](../lessons/part-01/chapter-05/5.1-deterministic-rule-hay-ai-theo-decision-value.md)
-- [ ] **5.2** — [Structured extraction với evidence refs và uncertainty](../lessons/part-01/chapter-05/5.2-structured-extraction-evidence-refs-uncertainty.md)
-- [ ] **5.3** — [Eval case, invalid-output rejection, fallback, cost và privacy](../lessons/part-01/chapter-05/5.3-eval-rejection-fallback-cost-privacy.md)
+- [ ] **5.1** — [Chọn quy tắc tất định hay AI theo giá trị quyết định](../lessons/part-01/chapter-05/5.1-deterministic-rule-hay-ai-theo-decision-value.md)
+- [ ] **5.2** — [Trích xuất có cấu trúc với tham chiếu bằng chứng và độ bất định](../lessons/part-01/chapter-05/5.2-structured-extraction-evidence-refs-uncertainty.md)
+- [ ] **5.3** — [Đánh giá case, từ chối output sai, fallback, chi phí và riêng tư](../lessons/part-01/chapter-05/5.3-eval-rejection-fallback-cost-privacy.md)
 
 Chương 5 chỉ bắt đầu sau M01 PASS và phải hoàn thành flow:
 
@@ -96,6 +96,18 @@ citation/ref exists ≠ claim supported
 AI confidence ≠ evidence
 AI recommendation ≠ execution permission
 ```
+
+M02 là **AI Advisor (A1)**, không phải Agent runtime: không tool use, không autonomous loop, không write authority và không Action execution.
+
+Prompt-injection case chỉ PASS khi đồng thời giữ:
+
+```text
+authority containment
++
+analysis integrity / grounding
+```
+
+Tức là injected content không được tăng quyền **và** không được bypass schema/ref/support gate để trở thành grounded fact/scoring input.
 
 M02 chỉ đánh giá analysis/information utility trên E1 eval set. Không được tuyên bố AI tăng conversion/revenue trước khi có outcome evidence ở Mission sau.
 
@@ -141,6 +153,7 @@ Tối thiểu:
 - evidence-ref validity + claim-support grounding;
 - fact/hypothesis/missing tách rõ;
 - unsupported claim không mutate Product/history/scoring facts;
+- injection không tăng authority và không bypass grounding;
 - replay/live execution evidence được phân loại trung thực;
 - valid/invalid/unsupported/fallback/injection/skip cases được vận hành;
 - no tool/write/external side effect;
@@ -157,6 +170,7 @@ Tối thiểu:
 - [ ] Có ít nhất một `SKIP_AI` case hợp lý
 - [ ] Evidence ref tồn tại nhưng không support claim vẫn bị chặn
 - [ ] Unsupported AI claim không trở thành scoring/history fact
+- [ ] Prompt injection không đổi authority và không vượt grounding gates
 - [ ] Replay không bị trình bày như live provider evidence
 - [ ] M02 không claim business lift từ E1-only evaluation
 - [ ] AI không có tool/write/execution authority
