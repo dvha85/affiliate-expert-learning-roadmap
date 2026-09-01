@@ -36,7 +36,7 @@ Mục tiêu vẫn là khoảng **15% knowledge pull / 85% build-run-measure-impr
 Bài 0.2 dùng taxonomy khái niệm rộng:
 
 ```text
-real | synthetic | test | replay
+real | test | synthetic | replay
 ```
 
 để phân biệt nguồn gốc/vai trò của evidence.
@@ -89,7 +89,7 @@ Nếu một gate còn pending, learner có thể tiếp tục phần engineering
 ### Chương 0 — Bot đầu tiên và evidence discipline
 
 - [ ] **0.1** — [Chạy, sửa và kiểm thử Bot đầu tiên](../lessons/part-00/chapter-00/0.1-chay-sua-va-kiem-thu-bot-dau-tien.md)
-- [ ] **0.2** — [Sample, real evidence, fact, estimate, assumption và unknown](../lessons/part-00/chapter-00/0.2-sample-real-fact-estimate-assumption-unknown.md)
+- [ ] **0.2** — [Phân biệt loại bằng chứng và loại khẳng định](../lessons/part-00/chapter-00/0.2-sample-real-fact-estimate-assumption-unknown.md)
 - [ ] **0.3** — [Observe failure, lưu evidence và explain-back](../lessons/part-00/chapter-00/0.3-observe-failure-evidence-explain-back.md)
 
 ### Chương 1 — Quan sát Affiliate thật đầu tiên
