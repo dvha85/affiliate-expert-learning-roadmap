@@ -7,37 +7,48 @@
 ```text
 DecisionPacket
 → ActionIntent
+→ persist canonical action state
 → Policy Engine
+→ persist PolicyDecision
 → RiskLevel
    ├─ RISK 0 → execute theo policy
    ├─ RISK 1 → execute + mandatory audit
    └─ RISK 2
-       → persist workflow/action state
-       → create ApprovalRequest
-       → PAUSE
+       → create + persist ApprovalRequest
+       → orchestrator PAUSE/WAIT
        → human approve/reject/expire/cancel
-       → reload state
+       → persist ApprovalDecision
+       → reload canonical state
        → revalidate
        → policy/risk re-check
        → execute hoặc terminate
+       → persist ExecutionRecord
 ```
 
-## 2. State phải persist
+## 2. Canonical state phải persist ngoài runtime history
 
-Không giữ approval wait chỉ trong process memory.
+Invariant bắt buộc:
 
-Lưu tối thiểu:
+```text
+n8n execution state/history
+≠ canonical Action / Approval / Execution state
+```
 
-- workflow/run ID;
-- decision ID;
-- ActionIntent;
-- policy/risk result;
+Canonical store/domain contract phải lưu tối thiểu:
+
+- decision ID và DecisionPacket reference/version;
+- ActionIntent + version;
+- PolicyDecision/risk result + policy version;
 - ApprovalRequest;
+- ApprovalDecision actor/time/reason;
 - expiry;
-- safe evidence references;
+- safe evidence/context references;
 - idempotency key;
-- current state;
-- audit timestamps.
+- canonical action state;
+- ExecutionRecord/result;
+- audit timestamps/correlation ID.
+
+Orchestrator có thể lưu `workflow_execution_id`, workflow version và runtime status để correlation/debug, nhưng **không được là nguồn duy nhất** để chứng minh approval, authorization hoặc execution outcome.
 
 ## 3. ApprovalRequest
 
@@ -64,7 +75,7 @@ EXPIRE
 CANCEL
 ```
 
-Lưu actor/time/reason theo scope phù hợp.
+Lưu actor/time/reason vào canonical action state.
 
 ## 5. Revalidation bắt buộc
 
@@ -91,13 +102,16 @@ DO NOT EXECUTE OLD APPROVAL
 
 ## 6. Resume semantics
 
-Runtime/provider có thể hỗ trợ serialize/pause/resume trực tiếp, hoặc Go workflow layer tự persist state. Đây là implementation detail; business state machine phải nhất quán.
+Runtime/provider có thể hỗ trợ serialize/pause/resume trực tiếp, n8n có thể wait/resume workflow, hoặc Go workflow layer có thể điều phối state. Đây là implementation detail.
+
+Business state machine phải đọc lại **canonical persisted state** trước resume. Workflow memory/history không được thay canonical authorization record.
 
 ## 7. Failure / restart
 
 Test ít nhất:
 
-- process restart trong lúc chờ approval;
+- process/orchestrator restart trong lúc chờ approval;
+- workflow execution history không còn nhưng canonical approval/action state vẫn đọc được;
 - duplicate approve callback;
 - approval đến sau expiry;
 - target thay đổi sau approval;
@@ -114,16 +128,22 @@ ANALYZE may continue
 ACT can be disabled independently
 ```
 
-## 9. Current implementation reference
-
-Freshness register `BOT-ENGINEERING-REFRESH-2026.08.md` ghi current Agent runtime reference cho pattern interrupt → serialize run state → approve/reject → resume.
-
-Đó chỉ là implementation reference:
+## 9. Runtime ownership
 
 ```text
-SDK approval mechanism
-≠
-Business Policy/Risk authority
+Go/domain store
+= canonical Decision / ActionIntent / Policy / Approval / Execution records
+
+n8n/orchestrator
+= route, wait, resume, retry, integration execution
+
+Agent
+= analyze/propose within permission
+```
+
+```text
+orchestrator says "success"
+≠ business action is canonically authorized/successful
 ```
 
 ## 10. Metrics
@@ -136,5 +156,6 @@ Theo dõi:
 - expired/cancelled requests;
 - revalidation failures;
 - duplicate-prevention events;
+- runtime-recovery events;
 - human intervention rate;
 - outcome sau approved actions.
