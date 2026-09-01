@@ -6,9 +6,26 @@
 - **Mission:** M05
 - **Outcome:** Một thay đổi được đi từ observation đến hypothesis, outcome, reviewed decision và version/rollback rõ ràng.
 
+## Hybrid ownership trong Part 03
+
+```text
+Go
+= outcome truth + experiment/evaluation contract + release/reject decision
+
+n8n
+= optional reporting/orchestration; không quyết định experiment result
+
+Agent/AI
+= advisory/analysis; không tự sửa formula/prompt/production behavior
+```
+
+Part 03 không tăng execution authority. Orchestration chỉ hỗ trợ workflow; hypothesis, metric, outcome interpretation và reviewed improvement vẫn phải audit được độc lập khỏi runtime.
+
 ## Attempt trước knowledge pull
 
 Chọn một bất đồng hoặc weak assumption từ M00–M04. Viết proposed change trước, không sửa formula/prompt chỉ để khớp intuition hoặc làm số đẹp hơn.
+
+Nếu dùng orchestration để thu/report data, freeze hypothesis/metric trước outcome và giữ canonical event/outcome semantics trong Go/domain contract.
 
 ## Core checklist
 
@@ -30,6 +47,21 @@ Chọn một bất đồng hoặc weak assumption từ M00–M04. Viết propose
 - [ ] **11.2** — Proposed change, offline test và versioned evaluation
 - [ ] **11.3** — Human review, release/reject, rollback và retrospective
 
+## Runtime invariants
+
+```text
+workflow success
+≠ experiment success
+
+Agent recommendation
+≠ evidence that change works
+
+report generation failure
+≠ permission to invent/carry-forward outcome
+```
+
+Nếu n8n/Agent unavailable, learner vẫn phải đọc được canonical experiment evidence và đưa ra reviewed result từ dữ liệu đã lưu.
+
 ## Part PASS
 
 - [ ] M05 có Capability PASS, Reality verified cấp E4 và Operated
@@ -37,5 +69,6 @@ Chọn một bất đồng hoặc weak assumption từ M00–M04. Viết propose
 - [ ] Decision liên kết được với action/outcome hoặc ghi rõ vì sao chưa thể
 - [ ] Kết quả inconclusive không bị ép thành success/failure
 - [ ] Improvement qua test/review; không có silent self-modification
+- [ ] Orchestration/Agent không thay outcome truth hoặc release authority
 
 [← Part trước](part-02.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-04.md)
