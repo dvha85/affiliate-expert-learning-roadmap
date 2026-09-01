@@ -1,139 +1,128 @@
-# Technology Candidates — ứng viên công nghệ để đánh giá tại đúng Mission boundary
+# Technology References — n8n và Agent Runtime trong kiến trúc Hybrid
 
-- **Status:** Reference only — không phải Core/PASS requirement
-- **Last reviewed:** 2026-09-01
-- **Primary architecture authority:** [`ADR-001-GO-FIRST-BOT-STACK.md`](ADR-001-GO-FIRST-BOT-STACK.md)
+- **Status:** Reference only — không phải Core/PASS shortcut
+- **Last reviewed:** 2026-09-02
+- **Primary architecture authority:** [`ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md`](ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md)
 
-Tài liệu này ghi lại các công nghệ đáng xem xét cho Affiliate Intelligence Bot khi learner đã có evidence/bottleneck thực tế. Nó **không** khóa roadmap vào một vendor/framework và không cho phép công nghệ mới tăng authority của Bot sớm hơn Mission hiện tại.
+Tài liệu này không quyết định learner sequence. Nó ghi reference implementation và adoption gate cho hai runtime role ngoài Go core.
 
-## 1. Nguyên tắc không đổi
+## 1. Canonical ownership
 
 ```text
 Go core
-= evidence / history / deterministic decision / policy / audit authority
+= evidence / history / deterministic decision / policy / audit
 
-Orchestrator / Agent runtime
-= optional implementation layer
-= chỉ được thêm khi Mission/bottleneck thật sự justify
+n8n
+= primary orchestration reference
+
+AgentRuntime
+= intelligence role
+Hermes Agent
+= primary reference/candidate implementation cho tool-use stage
 ```
 
-Không chuyển business truth, scoring authority hoặc risk/policy authority sang workflow canvas hay LLM chỉ vì integration nhanh hơn.
+Framework capability không tự tăng Bot authority.
 
-Adoption progression mặc định:
+## 2. n8n — primary orchestration reference
 
-```text
-manual / deterministic Go
-→ reliable Go capability
-→ optional orchestration
-→ read-only agent
-→ shadow action
-→ governed bounded automation
-```
+### Role phù hợp
 
-## 2. Candidate A — n8n
-
-### Candidate role
-
-Ưu tiên đánh giá n8n như **workflow/orchestration layer**, không phải decision engine.
-
-Potential fit:
-
-- scheduler / trigger / webhook;
+- trigger / schedule / webhook;
 - API/integration glue;
-- notification/alert routing;
-- human approval routing;
 - analytics/import workflow;
-- calling Go services/CLI/API;
-- bounded workflow execution sau khi Go policy đã quyết định.
+- notification/alert routing;
+- approval routing;
+- calling Go service/CLI/API;
+- bounded execution sau Go policy gate.
 
-Không mặc định đặt trong n8n:
+Không đặt canonical authority của các phần sau vào n8n:
 
-- Product ranking logic;
+- Product ranking truth;
 - evidence truth classification;
 - deterministic risk policy;
-- final `ALLOW | DENY | HUMAN_REVIEW` authority;
+- final `ALLOW | DENY | WAIT | HUMAN_REVIEW`;
 - canonical business state nếu không có explicit persistence/audit contract.
 
-### Roadmap evaluation points
+### Roadmap learning progression
 
-| Mission | Mức xem xét | Lý do |
-|---|---|---|
-| M00–M05 | Chưa cần | Core evidence/decision/market loop phải tự chứng minh trước |
-| M06 | **Candidate mạnh** | watcher, trigger, integration và alert orchestration bắt đầu có giá trị |
-| M07 | Optional | DecisionPacket/policy vẫn ưu tiên Go core |
-| M08 | Optional bridge | có thể gọi read-only agent/tool workflow nhưng không thay Tool Registry/policy |
-| M09 | **Candidate mạnh** | approval/shadow workflow/routing |
-| M10 | **Candidate mạnh** | bounded RISK0/RISK1 workflow sau deterministic policy gate |
-| M11 | Candidate production layer | integration/orchestration nếu reliability/audit đạt yêu cầu |
+| Mission | n8n role |
+|---|---|
+| M00–M03 | Không cần cho Core |
+| M04 | **First read-only learning slice**: manual trigger → import/map → call Go → failure handling; không external mutation |
+| M05 | Optional reporting/orchestration |
+| M06 | **Primary watcher/orchestration reference**: trigger/integration/retry/alert |
+| M07–M08 | Route DecisionPacket / Agent requests nhưng không thay policy |
+| M09 | **Shadow + durable approval routing reference** |
+| M10 | **Bounded governed execution reference** sau deterministic policy gate |
+| M11 | Production orchestration candidate/reference |
 
-### Adoption gate cho n8n
+### Adoption gate
 
-Chỉ promote từ `candidate` thành implementation choice khi có ít nhất một bottleneck cụ thể, ví dụ:
-
-- số integration/webhook bắt đầu tạo nhiều glue code;
-- scheduler/approval routing làm Go application phức tạp nhưng không phải business logic;
-- cần visual operational workflow cho single operator;
-- integration cần thay đổi nhanh hơn release cycle của Go core.
-
-Phải chứng minh trước adoption:
+n8n chỉ được đưa vào implementation khi giải quyết bottleneck cụ thể và learner chứng minh:
 
 ```text
-same Go Decision/Policy contract
-+ n8n failure/retry behavior
+Go contract giữ nguyên
++ failure/retry behavior rõ
 + idempotency
 + audit/correlation
 + secret handling
 + no authority bypass
 ```
 
-## 3. Candidate B — Hermes Agent
+Nếu một Go script/service đơn giản hơn và ít failure surface hơn, không bắt buộc dùng n8n.
 
-Ở đây `Hermes Agent` chỉ ứng viên cho **agent runtime / research-tool layer**, không phải Bot core.
+## 3. AgentRuntime — intelligence role
 
-### Candidate role
+Canonical abstraction là `AgentRuntime`, không phải vendor name.
 
-Potential fit:
+Potential role:
 
-- read-only research khi `GET_MORE_DATA`;
-- web/file/tool evidence collection qua explicit permission;
-- decomposition/delegation của research task;
-- memory/session hỗ trợ investigation;
-- scheduled read-only research nếu Mission sau justify.
+- unstructured analysis;
+- research;
+- read-only missing-evidence acquisition;
+- tool use qua explicit Tool Registry;
+- decomposition/delegation;
+- candidate hypotheses/proposals.
 
-Không cho Hermes mặc định:
+Không cho Agent mặc định:
 
-- tự tạo measured fact từ inference;
-- tự sửa canonical Product/history/scoring input;
-- tự quyết định risk level;
-- tự publish/send/spend/change account;
-- unrestricted terminal/browser/tool access chỉ vì framework hỗ trợ.
+- biến inference thành measured fact;
+- sửa canonical Product/history/scoring input;
+- tự quyết định final risk class;
+- bypass Go policy;
+- publish/send/spend/change account ngoài Mission authority.
 
-### Roadmap evaluation points
+### Roadmap progression
 
-| Mission | Mức xem xét | Lý do |
-|---|---|---|
-| M00–M01 | Không dùng | deterministic evidence/data foundation trước |
-| M02 | Chỉ reference | AI advisory chưa có tools/write authority |
-| M03–M07 | Chưa cần cho Core | tiếp tục tích lũy real outcome + reliable DecisionPacket |
-| M08 | **Candidate mạnh** | khớp `read-only evidence agent` với explicit tool permission/audit |
-| M09 | Shadow-only nếu cần | agent có thể đề xuất ActionIntent nhưng không execute |
-| M10–M11 | Re-evaluate | chỉ mở thêm authority qua deterministic policy/approval/kill-switch |
+| Mission | Agent role |
+|---|---|
+| M00–M01 | Không dùng |
+| M02 | AI advisory, no tools, strict grounding/fallback |
+| M03–M07 | Advisory/analysis only; tool-use chưa phải Core |
+| M08 | **First read-only AgentRuntime tool-use** |
+| M09 | Agent có thể propose `ActionIntent`, không execute |
+| M10 | Governed reasoning trong permission/policy ceiling |
+| M11 | Production intelligence nhưng vẫn không tự tăng authority |
 
-### Adoption gate cho Hermes
+## 4. Hermes Agent — primary Agent reference/candidate
 
-Chỉ chạy spike khi M08 có một missing-evidence case thật mà deterministic/manual retrieval bắt đầu tốn công.
+Hermes Agent được giữ như **reference/candidate implementation** để spike ở M08 khi:
 
-Spike phải so ít nhất:
+- có missing-evidence case thật;
+- manual/deterministic retrieval bắt đầu tốn công;
+- Tool Registry/permission/audit có thể map rõ vào runtime.
+
+Spike phải so:
 
 ```text
-manual / deterministic retrieval baseline
+manual/deterministic retrieval baseline
 vs
-Hermes read-only agent
+Hermes read-only AgentRuntime
 ```
 
-Theo các tiêu chí:
+Theo:
 
-- evidence correctness / grounding;
+- evidence correctness/grounding;
 - unsupported claim rate;
 - tool-call success/failure;
 - permission compliance;
@@ -142,70 +131,60 @@ Theo các tiêu chí:
 - latency/cost;
 - human intervention rate.
 
-Nếu framework không thể giới hạn tool/permission/audit theo contract của repo, **không adopt** dù demo trông thông minh.
+Nếu framework không enforce được permission/audit/fallback theo contract repo, **không adopt** dù demo trông thông minh.
 
-## 4. Kiến trúc ứng viên dài hạn
+## 5. Hybrid architecture reference
 
 ```text
-                    Go Decision / Policy Core
-                    evidence + history + audit
-                              │
-              ┌───────────────┴───────────────┐
-              │                               │
-      n8n orchestration               Hermes Agent
-      trigger/integration              read-only research
-      approval/routing                 explicit tools only
-              │                               │
-              └───────────────┬───────────────┘
-                              │
-                        External world
+                     Go Core
+        evidence + history + decision + policy
+                        │
+             ┌──────────┴──────────┐
+             │                     │
+        n8n runtime           AgentRuntime
+      orchestration          intelligence
+             │                     │
+             └──────────┬──────────┘
+                        │
+                  External world
 ```
 
-Ranh giới bắt buộc:
+Required flow cho consequential path:
 
 ```text
-Hermes candidate evidence
+Agent candidate evidence/proposal
 → Go validation/grounding
 → Go Decision/Policy
 → ActionIntent
-→ n8n workflow/routing (nếu được adopt)
-→ approval/execution theo Mission authority
+→ n8n routing/execution workflow
+→ approval/revalidation khi required
+→ ExecutionRecord
 ```
 
-Không cho phép shortcut:
+Không cho phép:
 
 ```text
-Agent confidence
-→ direct execution
+Agent confidence → direct execution
 ```
 
 hoặc:
 
 ```text
-n8n workflow branch
-→ tự nâng RISK2 thành auto execute
+n8n branch → bypass deterministic RISK policy
 ```
 
-## 5. Candidate status
+## 6. Replaceability
 
-| Công nghệ | Hiện trạng | Revisit earliest | Mandatory? |
-|---|---|---|---|
-| n8n | Candidate | M06 | Không |
-| Hermes Agent | Candidate | M08 | Không |
+| Role | Primary reference | Mandatory? |
+|---|---|---|
+| Domain/Governance core | Go | Go là primary learner path |
+| Orchestration | n8n | Không; contract/behavior mới là gate |
+| AgentRuntime | Hermes Agent candidate/reference | Không |
 
-`Revisit earliest` không có nghĩa Mission đó phải dùng công nghệ này. Đến Mission boundary, learner phải hỏi lại:
+Một runtime khác có thể thay n8n/Hermes nếu đáp ứng tốt hơn permission, audit, retry/recovery, cost, security và operational simplicity mà không đổi Mission outcome.
 
-1. bottleneck thật là gì?
-2. Go/core implementation hiện tại còn đủ đơn giản không?
-3. candidate giải quyết bottleneck nào đo được?
-4. candidate có phá deterministic/policy/audit boundary không?
-5. failure/fallback khi candidate unavailable là gì?
-6. dependency/operational cost có đáng không?
+## 7. Freshness note
 
-Nếu chưa có câu trả lời đủ mạnh, giữ candidate ở trạng thái **không adopt**.
+Capabilities, license/deployment model, security và tool-permission behavior của n8n/Hermes thay đổi nhanh. Trước mỗi spike/adoption phải kiểm official docs/current version tại thời điểm đó.
 
-## 6. Freshness note
-
-Capabilities của n8n/Hermes thay đổi nhanh. Trước spike/adoption phải kiểm lại official docs, version, license/deployment model, security/tool-permission behavior và integration support tại thời điểm đó.
-
-Tài liệu này ghi **architectural candidate**, không đóng băng current feature list thành curriculum truth.
+Không đóng băng current feature list thành curriculum truth.
