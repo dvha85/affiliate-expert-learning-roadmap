@@ -120,8 +120,7 @@ def check_part02_boundary(root: Path, problems: list[Problem]) -> None:
         "roadmap/part-02.md",
         "HYB005",
         (
-            "first safe read-only orchestration",
-            "M04",
+            "First orchestration learning slice — M04",
             "manual trigger",
             "n8n read-only/import workflow",
             "Go validate + reconcile",
