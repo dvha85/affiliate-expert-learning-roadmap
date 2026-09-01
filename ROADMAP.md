@@ -6,6 +6,8 @@
 
 Hai syllabus trong `sources/` là historical research input. Chúng không còn quyết định learner sequence hiện hành.
 
+Tổng cộng: **7 phần · 21 chương · 63 bài học**.
+
 ## Learner execution
 
 ```text
