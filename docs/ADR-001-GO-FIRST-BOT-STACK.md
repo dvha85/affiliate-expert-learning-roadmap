@@ -1,280 +1,186 @@
-# ADR-001 — Quyết định Go-first cho Bot Engineering Stack
+# ADR-001 — Quyết định Go-first cho Domain/Governance Core
 
-- **Status (Trạng thái):** Accepted for Go-first stack; curriculum-structure clauses superseded by ADR-002
+- **Status (Trạng thái):** Accepted for Go domain/governance core; runtime ownership superseded by ADR-003
 - **Decision date (Ngày quyết định):** 2026-08-28
 - **Applies from (Áp dụng từ):** curriculum revision v2026.09
 - **Supersedes (Thay thế):** hướng C#/.NET-first trong `sources/SYLLABUS-v2026.08.md`
-- **Does not erase (Không xóa):** v2026.08 vẫn là historical provenance (nguồn gốc lịch sử)
+- **Does not erase (Không xóa):** v2026.08 vẫn là historical provenance
 
-> [`ADR-002`](ADR-002-OUTCOME-DRIVEN-CURRICULUM.md) thay thế toàn bộ invariant 23/89/671/14 và mission/lesson sequence cũ. ADR này hiện chỉ còn authority cho quyết định **Go-first nhưng tool/provider-neutral**, không còn authority cho curriculum count.
+> [`ADR-002`](ADR-002-OUTCOME-DRIVEN-CURRICULUM.md) thay thế structural invariant/mission sequence cũ.
+>
+> [`ADR-003`](ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md) thay thế các giả định runtime trước đây có thể bị hiểu thành `Go-everything`. ADR này hiện chỉ còn authority cho quyết định **Go là primary implementation language của domain/governance core**.
 
-> ADR = **Architecture Decision Record (Bản ghi quyết định kiến trúc)**. Tiếng Việt là ngôn ngữ chính; English terminology và tên công nghệ được giữ khi cần đối chiếu kỹ thuật. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
+## 1. Context — Bối cảnh
 
-## 1. Context (Bối cảnh)
-
-Curriculum hướng tới một **Affiliate Intelligence Platform (Nền tảng Affiliate Intelligence)** có thể chạy liên tục, thu thập/đối soát dữ liệu, phát hiện thay đổi, xếp hạng cơ hội, dùng AI khi hữu ích, tự thực hiện action rủi ro thấp và dừng chờ Human Approval (phê duyệt của con người) trước action có hậu quả đáng kể.
-
-Operator model (mô hình vận hành) mong muốn **không phải** “con người điều khiển từng bước của Bot”. Mô hình là:
-
-```text
-Bot quan sát
-→ Bot thu thập
-→ Bot phân tích
-→ Bot đề xuất/quyết định trong policy
-→ low-risk action: tự thực thi
-→ consequential action: dừng chờ phê duyệt
-→ thực thi hoặc từ chối
-→ audit kết quả
-→ đo lường
-→ học
-```
+Curriculum hướng tới một **Affiliate Intelligence Bot** có thể quan sát evidence, lưu lịch sử, tạo quyết định có giải thích, dùng AI/Agent khi hữu ích, tự động hóa workflow dần dần và chỉ tăng authority sau safety/evidence gates.
 
 Syllabus trước dùng C#/.NET làm primary engineering path. C#/.NET vẫn là stack hợp lệ, nhưng không còn là primary path của curriculum hiện hành.
 
-## 2. Decision (Quyết định)
+## 2. Decision — Quyết định
 
 Active curriculum dùng:
 
 ```text
-PRIMARY IMPLEMENTATION LANGUAGE = Go
-(Ngôn ngữ triển khai chính = Go)
+PRIMARY DOMAIN / GOVERNANCE IMPLEMENTATION LANGUAGE = Go
 ```
 
-C#/.NET trở thành **optional/reference stack (stack tùy chọn/tham khảo)**.
+Go là primary language cho:
 
-Engineering spine (xương sống kỹ thuật) ưu tiên:
+- evidence validation;
+- canonical history/state contracts;
+- deterministic decision logic;
+- risk/policy classification;
+- DecisionPacket / ActionIntent contracts;
+- audit/correlation contracts;
+- service/API boundary của domain core khi cần.
+
+C#/.NET trở thành optional/reference stack.
+
+Runtime architecture đầy đủ không còn được định nghĩa bởi ADR-001. Xem ADR-003:
 
 ```text
-Go
-→ Services / Workers
-→ Collectors & Adapters
-→ PostgreSQL / Redis khi có lý do
-→ Queue / Workflow
-→ Durable Execution khi cần
-→ Analytics / Decision Engine
-→ Tool Boundary / MCP
-→ AI Agent khi justified (có lý do)
-→ Policy & Risk Engine
-→ Human Approval Queue
-→ Action Executor
-→ Audit / Tracing / Feedback
+Go Domain / Governance Core
++ n8n Orchestration Reference
++ Agent Runtime Intelligence Layer
 ```
 
-## 3. Vì sao chọn Go
+## 3. Vì sao chọn Go cho core
 
-Quyết định dựa trên đặc tính vận hành hệ thống, **không** dựa trên kết luận đơn giản “Go luôn nhanh hơn C#”.
+Quyết định dựa trên đặc tính vận hành hệ thống, không dựa trên kết luận đơn giản “Go luôn nhanh hơn C#”.
 
-Affiliate Bot thường bị giới hạn bởi:
-
-- network/API latency (độ trễ mạng/API);
-- platform rate limit;
-- database;
-- queue/external services;
-- LLM calls;
-- retry/wait.
-
-Vì vậy raw CPU throughput không phải biến quyết định chính.
-
-Go được ưu tiên vì phù hợp target operating model:
+Affiliate Bot thường bị giới hạn bởi network/API latency, rate limit, database, external services, LLM calls và retry/wait. Go được ưu tiên cho core vì:
 
 - deployment đơn giản dưới dạng service/binary nhỏ;
-- concurrency model mạnh cho collector, watcher và background job;
-- resource efficiency tốt cho service chạy liên tục;
+- concurrency model mạnh khi cần collector/watcher/service;
+- resource efficiency tốt cho process chạy liên tục;
 - standard library mạnh cho HTTP/network/service;
 - operational complexity thấp cho team nhỏ/single operator;
-- cloud-native ecosystem trưởng thành;
-- hỗ trợ tốt cho modern tool/agent interoperability.
+- ecosystem cloud-native và interoperability trưởng thành;
+- code/test/versioning phù hợp với deterministic domain/policy logic.
 
-## 4. Current technical baseline (mốc kỹ thuật hiện hành)
+## 4. Current technical baseline — mốc kỹ thuật hiện hành
 
-Đây là **freshness-scoped reference facts (dữ kiện tham chiếu có thời hạn)**, không phải permanent syllabus constants.
+Đây là freshness-scoped reference facts, không phải permanent syllabus constants.
 
 Verified 2026-08-28:
 
-- Go 1.27.0 phát hành 2026-08-19. Curriculum phải dùng một Go stable release đang còn support, không giữ 1.27 vĩnh viễn.
-- Official Model Context Protocol SDK list xếp **Go là Tier 1**.
+- Go 1.27.0 phát hành 2026-08-19; curriculum phải dùng stable release còn support tại thời điểm học.
+- Official Model Context Protocol SDK list xếp Go là Tier 1.
 - MCP specification `2026-07-28` được Tier-1 Go SDK hỗ trợ.
-- Temporal Go SDK là current reference trưởng thành cho durable, asynchronous, long-running workflow.
-- OpenTelemetry Go hiện liệt kê traces/metrics stable; logs beta.
+- OpenTelemetry Go là reference observability phù hợp.
 
-Primary references (nguồn chính):
+Primary references:
 
 - https://go.dev/doc/devel/release
-- https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/docs/2026-07-28/sdk.mdx
 - https://github.com/modelcontextprotocol/go-sdk
-- https://github.com/temporalio/sdk-go
 - https://opentelemetry.io/docs/languages/go/
 
-Implementation lesson phụ thuộc current version/SDK/protocol phải theo repo freshness policy.
+Version/SDK facts phải theo freshness policy của repo.
 
-Tại thời điểm hardening Issue #37, learner/reference bootstrap dùng `go 1.27` để khớp current supported stable line đã verified.
+## 5. Architecture principles còn hiệu lực
 
-## 5. Architecture principles (Nguyên tắc kiến trúc)
-
-### 5.1. Modular Monolith (Khối đơn thể mô-đun) trước
-
-Không thiết kế curriculum theo microservices-first.
-
-Progression mặc định:
+### 5.1. Modular core trước microservices
 
 ```text
 single Go module
-→ packages/modules rõ ràng
-→ workers + adapters
-→ internal queues/workflows
-→ chỉ split services khi scaling/failure boundary thật sự yêu cầu
+→ packages/modules rõ
+→ service/API boundary khi có bottleneck thật
+→ split service chỉ khi failure/scaling boundary justify
 ```
 
-### 5.2. Deterministic Logic (Logic xác định) trước Agent autonomy (Tự chủ Agent)
+ADR-003 cho phép orchestration/Agent runtime ở lớp ngoài mà không yêu cầu biến Go core thành microservices sớm.
 
-Progression ưu tiên:
+### 5.2. Deterministic logic trước Agent autonomy
 
 ```text
-manual workflow
+manual evidence
 → deterministic function
-→ service
-→ worker
-→ reliable pipeline
-→ AI-assisted bot
-→ tool-using agent
-→ governed autonomous system
+→ trustworthy service/core
+→ grounded AI advisory
+→ read-only tools
+→ governed action
 ```
 
-LLM không được thay deterministic business logic khi rule, formula hoặc policy check có thể biểu diễn rõ ràng.
+LLM/Agent không thay deterministic business logic khi rule/formula/policy có thể biểu diễn và kiểm thử rõ.
 
-### 5.3. Human Approval là first-class system boundary (ranh giới hệ thống cấp một)
+### 5.3. Human approval và deterministic policy là first-class boundary
 
-Platform dùng ba risk level:
+Risk classification cuối cùng thuộc deterministic policy, không giao cho LLM/Agent hoặc workflow canvas tự quyết.
 
 ```text
-RISK 0
-→ auto execute
+RISK0
+→ bounded auto execute khi Mission cho phép
 
-RISK 1
-→ auto execute + mandatory audit
+RISK1
+→ bounded execute + mandatory audit khi Mission cho phép
 
-RISK 2
-→ pause workflow
-→ human approve/reject
-→ resume hoặc terminate
+RISK2
+→ durable human approval + context revalidation
 ```
 
-RISK 2 có thể bao gồm publish, spend money, thay production/account settings, xóa dữ liệu quan trọng hoặc external action có hậu quả tương tự.
+### 5.4. Tool boundary trước unrestricted action
 
-Classification (phân loại) cuối cùng do deterministic policy quyết định, không giao cho LLM tự định đoạt.
+Agent/tool action phải đi qua explicit contract:
 
-### 5.4. Durable Execution (Thực thi bền vững) khi workflow có thể chờ
-
-Workflow có thể pause nhiều phút/giờ/ngày để chờ approval không được chỉ phụ thuộc in-memory process state.
-
-Curriculum phải dạy:
-
-- persisted workflow state (state workflow lưu bền vững);
-- checkpoint/resume;
-- retry/backoff;
-- idempotency;
-- timeout/cancellation;
-- compensation (hành động bù);
-- approval wait;
-- crash/restart recovery.
-
-Temporal là reference implementation, **không** phải dependency bắt buộc mọi Project.
-
-### 5.5. Tool Boundary (Ranh giới công cụ) trước unrestricted action (hành động không giới hạn)
-
-Agent action phải đi qua explicit tool/interface.
-
-Tool engineering bao gồm:
-
-- schema/contract;
-- input/output validation;
-- tách read và write;
-- side-effect classification;
+- schema;
+- validation;
+- read/write separation;
 - permission;
+- side-effect classification;
 - idempotency;
 - timeout/retry;
-- policy check;
-- approval khi cần;
-- audit evidence.
+- policy;
+- approval;
+- audit.
 
-MCP là interoperability layer quan trọng, nhưng REST/webhook/native API vẫn đúng khi đơn giản hơn.
+MCP, REST, webhook hay native API là implementation choices; contract mới là authority.
 
-## 6. Hệ quả cho Agent Engineering
+## 6. Hệ quả cho curriculum
 
-Curriculum phải mở rộng Bot Engineer vượt khỏi collector/scheduler code để bao gồm:
-
-- tool engineering và MCP;
-- state/session/memory boundaries;
-- durable execution;
-- agent evaluation (đánh giá agent);
-- tracing và observability;
-- prompt-injection/tool-misuse defenses;
-- least-privilege tool permissions;
-- approval và kill switch;
-- policy-aware autonomous actions.
-
-Multi-agent và A2A là advanced patterns (mẫu nâng cao), **không** là default architecture Phase 1.
-
-## 7. Hệ quả cho curriculum
-
-### Active primary stack
+Primary domain stack:
 
 ```text
 Go
-PostgreSQL
-Redis chỉ khi justified
-HTTP/API/Webhook adapters
-queue/worker patterns
-Docker
-OpenTelemetry-style observability
-MCP khi hữu ích
-provider-neutral AI boundary
+HTTP/API boundary khi cần
+canonical evidence/history/decision/policy contracts
+provider-neutral AI/Agent boundary
 ```
 
-Reference implementation có thể dùng library/workflow engine hiện hành, nhưng library choice vẫn freshness-scoped.
-
-### C#/.NET
-
-C#/.NET:
-
-- vẫn là comparison/reference material;
-- vẫn tồn tại trong historical v2026.08 provenance;
-- có thể dùng khi so sánh runtime/framework trade-off;
-- không còn là active primary implementation path.
-
-## 8. Non-goals (Những điều ADR không có nghĩa)
-
-ADR này **không** có nghĩa:
-
-- Go bắt buộc cho mọi analytical/ML component tương lai;
-- Python không bao giờ được dùng cho ML/data workload có lý do;
-- mọi Bot phải dùng MCP;
-- mọi Bot phải dùng Temporal;
-- mọi Bot phải dùng LLM;
-- mọi workflow phải thành multi-agent;
-- microservices là kiến trúc khởi đầu mong muốn.
-
-## 9. Migration plan (Kế hoạch migration) lịch sử
-
-Migration Go-first đã được thực hiện theo các stage:
-
-1. canonical revision + ADR;
-2. migrate engineering roadmap/lesson titles mà không đổi counts;
-3. thêm Go engineering/autonomy/security standards + CI drift guards;
-4. author lesson 0.2 thành Go-first Bot Engineer reference lesson;
-5. Build-First migration sau đó đưa Go vào learner Mission từ M00.
-
-Phần này là migration history, không phải danh sách việc “sẽ làm” trong tương lai.
-
-## 10. Historical structural invariant — superseded
-
-Revision v2026.09 từng yêu cầu bảo toàn:
+Orchestration/runtime stack được ADR-003 định nghĩa riêng:
 
 ```text
-23 Parts
-89 Chapters
-671 lessons
-14 main Projects
+n8n = primary orchestration reference
+AgentRuntime = intelligence role
+Hermes Agent = primary Agent reference/candidate ở Mission phù hợp
 ```
 
-Constraint này đã bị ADR-002 thay thế. Inventory active được phép giảm/gộp/thay đổi theo learner evidence; xem `CURRICULUM.md`.
+Không được suy ra từ ADR này rằng mọi scheduler, webhook, approval workflow, notification hoặc Agent runtime phải viết bằng Go.
+
+## 7. Non-goals — Những điều ADR không có nghĩa
+
+ADR này không có nghĩa:
+
+- Go bắt buộc cho mọi runtime/integration;
+- Go phải tự viết mọi orchestration plumbing;
+- Python không bao giờ được dùng cho justified ML/data workload;
+- mọi Bot phải dùng MCP;
+- mọi Bot phải dùng n8n;
+- mọi Bot phải dùng Hermes;
+- mọi Bot phải dùng LLM;
+- microservices là default architecture.
+
+## 8. Historical migration note
+
+Go-first migration ban đầu đã thay C#/.NET-first bằng Go trong learner/reference engineering path. Sau learner-oriented hardening, ADR-003 tiếp tục rebaseline runtime ownership để giữ lợi ích của Go core mà không biến chương trình thành `Go-everything`.
+
+## 9. Final rule
+
+```text
+Go-first
+=
+Go domain/governance core first
+
+Go-first
+≠
+Go owns every runtime concern
+```
