@@ -72,6 +72,17 @@ Chi tiết mapping Mission↔Lesson và gate nằm trong [`CURRICULUM.md`](CURRI
 | G3 — First Market Learning Loop | M03–M05 | Tracked publication + real outcome + reviewed improvement |
 | G4 — Governed Production Loop | M06–M11 | Reliable decisions + governed tools/actions + production outcome loop |
 
+## Technology candidates — reference, không phải dependency
+
+Các framework/orchestrator có thể được ghi nhận trước nhưng chỉ được đánh giá khi đúng Mission boundary và có bottleneck/evidence thật. Hiện tại:
+
+- `n8n` — candidate cho orchestration/integration từ M06+, mạnh hơn ở approval/workflow M09–M10;
+- `Hermes Agent` — candidate cho read-only research/tool agent từ M08+.
+
+Chi tiết adoption gate, authority boundary và fallback nằm tại [`docs/TECHNOLOGY-CANDIDATES.md`](docs/TECHNOLOGY-CANDIDATES.md).
+
+Các candidate này **không thay Go core**, không thay Mission PASS và không cho phép Bot tăng authority sớm hơn roadmap.
+
 ## Advanced modules — ngoài Core/PASS
 
 | ID | Module |
