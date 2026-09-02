@@ -12,14 +12,17 @@
 
 Mục tiêu chương trình không phải biến learner thành Go developer. Mục tiêu là xây một Affiliate Intelligence Bot có evidence, deterministic decision, policy, audit và controlled automation.
 
-ADR-003 đã sửa đúng lỗi `Go-everything` bằng cách giao orchestration cho n8n và intelligence cho AgentRuntime. Tuy nhiên sau review tooling 2026-09-02, một assumption khác cần nới:
+ADR-003 đã sửa đúng lỗi `Go-everything` bằng cách giao orchestration cho n8n và intelligence cho AgentRuntime. Tuy nhiên sau review tooling 2026-09-02, hai assumption khác cần nới:
 
 ```text
 deterministic governance semantics
 ≠ bắt buộc phải được người học tự viết bằng Go
+
+AgentRuntime
+≠ bắt buộc phải bắt đầu bằng một framework code-heavy riêng
 ```
 
-Visual rule engine hiện có thể biểu diễn decision table/tree/flow, test input/output và version rule; coding agents trên GitHub có thể nhận issue, sửa code, chạy test và mở PR để người học review. Vì vậy khóa Core vào một implementation language tạo learning burden không trực tiếp cải thiện Affiliate judgment hoặc governance quality.
+Visual rule engine hiện có thể biểu diễn decision table/tree/flow, test input/output và version rule; coding agents trên GitHub có thể nhận issue, sửa code, chạy test và mở PR để người học review; n8n hiện đã có visual AI Agent/tool workflow + human-in-the-loop support. Vì vậy khóa Core vào một implementation language hoặc thêm Agent framework riêng quá sớm có thể tạo learning/ops burden không trực tiếp cải thiện Affiliate judgment hoặc governance quality.
 
 ## 2. Quyết định
 
@@ -46,6 +49,7 @@ DETERMINISTIC CORE FIRST
 ≠ CODE FIRST
 
 NO-CODE WHEN IT IS AUDITABLE
+REUSE AN EXISTING VISUAL RUNTIME BEFORE ADDING A NEW ONE
 AGENT-WRITTEN CODE WHEN CODE IS NECESSARY
 HUMAN WRITES CODE ONLY WHEN IT ADDS LEARNING OR REVIEW VALUE
 ```
@@ -66,6 +70,8 @@ Deterministic Domain/Governance Core owns the **contract/behavior** của:
 - invariants như `missing != 0`, `Decision != Execution`.
 
 Canonical ownership ở đây là ownership của **semantics và tests**, không phải ownership của một ngôn ngữ.
+
+AgentRuntime owns unstructured reasoning/research/proposal capability, nhưng không sở hữu final evidence truth hoặc authorization.
 
 ## 4. Implementation profiles
 
@@ -123,6 +129,29 @@ coding agent can open a PR
 ≠ production policy changed
 ```
 
+### 4.4. Visual-first AgentRuntime
+
+Khi M08 bắt đầu read-only tool use, ưu tiên thử **n8n AI Agent** trên cùng orchestration/runtime đã có trước khi thêm Hermes/OpenAI Agents SDK hoặc một Agent framework riêng.
+
+```text
+M08 first Agent spike
+→ n8n AI Agent + explicit read-only tools
+→ same Safe Profile/eval set
+→ measure limitation
+→ only then compare Hermes/OpenAI Agents SDK if needed
+```
+
+Lý do:
+
+- giảm số runtime phải vận hành;
+- giảm code integration;
+- reuse credential/routing/audit surface đã học ở n8n;
+- vẫn giữ AgentRuntime abstraction để không vendor-lock curriculum.
+
+n8n AI Agent không nhận policy authority; tool output vẫn là untrusted input tới khi deterministic validation PASS.
+
+Flowise chỉ ở watchlist/comparison khi n8n Agent graph thực sự khó maintain hoặc thiếu Agent-specific capability đo được.
+
 ## 5. No-code/low-code boundary
 
 n8n được phép sở hữu implementation plumbing như:
@@ -133,9 +162,10 @@ n8n được phép sở hữu implementation plumbing như:
 - notification;
 - approval routing;
 - bounded execution;
-- calling deterministic rule/API/service.
+- calling deterministic rule/API/service;
+- hosting/routing visual Agent workflow trong authority ceiling.
 
-Nhưng n8n canvas không tự trở thành canonical authority chỉ vì có IF/Switch/Code node.
+Nhưng n8n canvas không tự trở thành canonical authority chỉ vì có IF/Switch/Code/AI Agent node.
 
 Một visual deterministic rule engine **có thể** implement canonical deterministic decision/policy khi parity/audit/fail-closed gate PASS; n8n workflow routing không được âm thầm thay rule engine hoặc reviewed policy contract.
 
@@ -177,7 +207,19 @@ Mỗi agent-authored PR phải có:
 
 Learner phải hiểu **behavior và reason**, không bắt buộc tự viết mọi implementation detail.
 
-## 8. Authority progression giữ nguyên
+## 8. AgentRuntime candidate gate
+
+n8n AI Agent là visual-first candidate ở M08. Hermes/OpenAI Agents SDK chỉ được thêm khi cùng test set chứng minh measured benefit như:
+
+- permission isolation tốt hơn;
+- tool/runtime capability cần thiết hơn;
+- prompt-injection containment tốt hơn;
+- auditability/portability tốt hơn;
+- latency/cost/human intervention tốt hơn đáng kể.
+
+Không thêm runtime chỉ vì demo thông minh hơn.
+
+## 9. Authority progression giữ nguyên
 
 ```text
 A0 deterministic/manual
@@ -199,11 +241,14 @@ AI generated the rule
 
 workflow can execute
 ≠ workflow is authorized
+
+Agent can call a tool
+≠ Agent can authorize the result/action
 ```
 
-## 9. Fail-safe invariant mới
+## 10. Fail-safe invariant mới
 
-Thay vì:
+Thay vì khóa invariant vào một process cụ thể:
 
 ```text
 Go Policy unavailable
@@ -219,18 +264,18 @@ Deterministic Policy Authority unavailable / invalid / unverified
 
 Nếu implementation đang là Go thì Go failure kích hoạt invariant. Nếu implementation là DecisionRules/rule engine thì rule runtime/version/parity failure cũng phải fail closed.
 
-## 10. Hệ quả cho learner roadmap
+## 11. Hệ quả cho learner roadmap
 
 - M00 hiện tại: giữ Go starter/golden oracle, không học lại Bài 0.1.
 - M01–M03: không thêm tool chỉ để tránh vài dòng code; giữ implementation đơn giản nhất.
 - M04: n8n read-only orchestration có thể map/import và gọi deterministic validator implementation hiện hành.
 - M06: plumbing watcher/retry/alert ưu tiên n8n, không tự viết Go scheduler nếu không cần.
 - M07: first meaningful visual-rule comparison cho deterministic DecisionPacket/policy.
-- M08: AgentRuntime read-only tool use như cũ.
+- M08: n8n AI Agent là visual-first read-only AgentRuntime candidate; Hermes/OpenAI Agents SDK chỉ compare khi có bottleneck đo được.
 - M09–M10: visual policy/rule engine có thể được adopt nếu parity/fail-closed/audit gate PASS; Go vẫn fallback.
-- M11: production PASS dựa trên contract/evidence/recovery, không dựa vào số dòng Go.
+- M11: production PASS dựa trên contract/evidence/recovery, không dựa vào số dòng Go hay số framework dùng.
 
-## 11. Non-goals
+## 12. Non-goals
 
 ADR này không có nghĩa:
 
@@ -238,12 +283,14 @@ ADR này không có nghĩa:
 - n8n trở thành final policy authority;
 - Agent/LLM được tự quyết `ALLOW/DENY`;
 - DecisionRules mandatory;
+- n8n AI Agent mandatory;
+- Hermes/OpenAI SDK bị cấm;
 - coding agent được auto-merge;
 - learner không cần hiểu deterministic logic;
 - visual rule không cần tests;
 - workflow success đồng nghĩa evidence/policy đúng.
 
-## 12. Nguồn ngoài được kiểm tại review
+## 13. Nguồn ngoài được kiểm tại review
 
 - DecisionRules Rule Solver API và product docs: https://docs.decisionrules.io/doc/api/rule-solver-api
 - DecisionRules public-cloud release notes/AI Assistant: https://docs.decisionrules.io/doc/product-updates/release-notes/public-cloud
