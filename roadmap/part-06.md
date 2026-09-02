@@ -1,4 +1,4 @@
-# Phần 6 — HYBRID PRODUCTION CLOSED LOOP
+# Phần 6 — Vòng production Hybrid khép kín
 
 - Timeline: **Evidence-gated; includes a production observation window**.
 - **Chapters:** C18–C20
