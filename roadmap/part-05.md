@@ -27,8 +27,9 @@ Hermes Agent là **primary Agent runtime reference/candidate** để spike ở M
 ## Attempt trước knowledge pull
 
 1. M08: để Agent xử lý một case thiếu evidence nhưng chỉ expose explicit read-only tools. So với manual/deterministic retrieval baseline.
-2. M09: Agent có thể **propose** `ActionIntent`; Go risk policy phân loại; n8n chạy shadow/durable approval path. Thử duplicate/expired approval, changed context và process restart.
-3. M10: chạy limited RISK0/RISK1 canary qua bounded executor; RISK2 vẫn phải qua durable approval + context revalidation + kill switch.
+2. Với tool có thể chạm personal/customer/account data, thử một query trả **nhiều dữ liệu hơn task cần** để quan sát data-minimisation gap trước khi harden contract.
+3. M09: Agent có thể **propose** `ActionIntent`; Go risk policy phân loại; n8n chạy shadow/durable approval path. Thử duplicate/expired approval, changed context và process restart.
+4. M10: chạy limited RISK0/RISK1 canary qua bounded executor; RISK2 vẫn phải qua durable approval + context revalidation + kill switch.
 
 ## Core checklist
 
@@ -43,7 +44,7 @@ Canonical M08 path:
 ```text
 GET_MORE_DATA
 → AgentRuntime receives task + allowed Tool Registry
-→ read-only tool calls
+→ read-only tool calls within permission + data scope
 → CandidateEvidence
 → Go validate / ground
 → DecisionPacket
@@ -63,13 +64,37 @@ Agent sees a tool
 → therefore Agent may call it
 ```
 
-Permission phải explicit theo task/session/tool contract.
+hoặc:
+
+```text
+Agent may read dataset
+→ therefore Agent should collect/store every field
+```
+
+Permission phải explicit theo task/session/tool contract. Khi dữ liệu có privacy relevance, áp dụng `DataAccessContext` từ [`AGENT-SECURITY-AND-TOOL-GOVERNANCE.md`](../docs/AGENT-SECURITY-AND-TOOL-GOVERNANCE.md): purpose, minimum data, retention, downstream sharing và redaction.
+
+Invariant:
+
+```text
+read-only
+≠ privacy-safe by default
+```
 
 ### Chương 16 — Policy, risk và approval
 
 - [ ] **16.1** — ActionIntent và deterministic RISK0/RISK1/RISK2 policy
 - [ ] **16.2** — Durable approval, expiry, reject reason và context revalidation
 - [ ] **16.3** — Least privilege, secrets, prompt injection boundary và kill switch
+
+C16.3 dùng `least privilege` theo hai lớp:
+
+```text
+PERMISSION LEAST PRIVILEGE
+= tool/credential/action scope tối thiểu
+
+DATA LEAST PRIVILEGE
+= purpose + minimum necessary data + retention + downstream sharing + redaction
+```
 
 Ownership:
 
@@ -84,7 +109,7 @@ n8n
 → routes resulting workflow
 ```
 
-n8n IF/Switch node không được tự reclassify `RISK2` thành auto-executable.
+n8n IF/Switch node không được tự reclassify `RISK2` thành auto-executable. Orchestrator cũng không được log/forward raw personal data ngoài `DataAccessContext` chỉ vì integration node hỗ trợ.
 
 ### Chương 17 — Durable action workflow
 
@@ -105,6 +130,8 @@ DecisionPacket
 → ExecutionRecord
 ```
 
+Audit trace phải giữ đủ metadata để biết data access/purpose khi relevant nhưng không mặc định copy raw sensitive payload vào trace.
+
 ## M08 — Agent authority ceiling
 
 ```text
@@ -119,8 +146,9 @@ Hermes/reference spike phải test:
 - unsupported claim rate;
 - tool-call success/failure;
 - permission compliance;
+- data-scope/minimisation compliance khi relevant;
 - prompt-injection resistance;
-- auditability;
+- auditability không leak secret/full personal data;
 - latency/cost;
 - fallback khi Agent unavailable.
 
@@ -143,6 +171,8 @@ Approval phải durable và gắn với:
 - approver/reject reason;
 - revalidation result.
 
+Approval cho Action không tự cấp permission thu thêm data ngoài purpose/scope đã định.
+
 ## M10 — Limited governed automation
 
 RISK0/RISK1 chỉ auto execute khi deterministic policy cho phép và canary scope đã khai báo.
@@ -154,6 +184,7 @@ valid ActionIntent
 + Go Policy requires approval
 + durable human approval
 + current-context revalidation
++ data/action scope still valid
 + kill switch clear
 → execution may proceed
 ```
@@ -167,6 +198,9 @@ Bắt buộc test:
 ```text
 Agent unavailable/bad output
 → reject/fallback
+
+read-only tool returns excess personal data
+→ minimise/redact/reject outside purpose
 
 n8n duplicate/restart
 → no duplicate side effect
@@ -185,7 +219,9 @@ kill switch ON
 
 - [ ] M08–M10 đều có Capability PASS, Reality verified và Operated
 - [ ] Agent không thể gọi tool ngoài registry/permission
+- [ ] Read-only tool có privacy relevance không được lấy/giữ/share dữ liệu vượt purpose/minimum scope
 - [ ] CandidateEvidence phải qua Go validation/grounding trước khi thành canonical evidence
+- [ ] Audit giữ traceability nhưng không mặc định lưu raw secret/full personal data
 - [ ] Agent proposal không tự trở thành ActionIntent được authorize
 - [ ] n8n không bypass deterministic Go risk/policy result
 - [ ] RISK2 không execute nếu thiếu valid approval và revalidation
