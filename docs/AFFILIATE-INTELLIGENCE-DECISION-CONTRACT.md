@@ -18,6 +18,7 @@ Channel (kênh) nào?
 Khi nào / trong window (khoảng quan sát) nào?
 Expected Value / expected affiliate revenue (giá trị kỳ vọng / doanh thu Affiliate kỳ vọng) là bao nhiêu?
 Evidence nào hỗ trợ quyết định?
+Measurement context (ngữ cảnh đo lường) nào sẽ dùng để đọc outcome?
 Confidence (độ tin cậy) là bao nhiêu và theo method nào?
 Uncertainty / missing evidence (độ bất định / bằng chứng còn thiếu) là gì?
 Compliance / business risk (rủi ro tuân thủ / kinh doanh) là gì?
@@ -39,11 +40,14 @@ Bot có quyền **không trả lời một field** nếu evidence chưa đủ. `
 | `timing_window` | thời điểm / cửa sổ quan sát | tạo khẩn cấp giả |
 | `expected_value` | EV/doanh thu kỳ vọng với assumption rõ | commission rate đơn lẻ |
 | `evidence_refs` | nguồn/snapshot/metric hỗ trợ quyết định | văn bản AI tự sinh |
+| `measurement_context_ref` | ref tới source/scope/attribution/window/config dùng để diễn giải outcome | chính metric value hoặc attribution truth phổ quát |
 | `confidence` | mức tin cậy + method/reason | xác suất chân lý mặc định |
 | `uncertainty` | assumption, missing/conflict/staleness | giá trị `0` |
 | `risk` | rủi ro tuân thủ/kinh doanh/vận hành | quyền thực thi |
 | `recommended_state` | ACT/WAIT/GET_MORE_DATA/HUMAN_REVIEW/DENY | kết quả thực thi |
 | `next_measurement` | outcome/experiment cần thu tiếp | tự sửa production âm thầm |
+
+`measurement_context_ref` chỉ bắt đầu có ý nghĩa khi Mission có measurement thật. M00–M03 có thể giữ `unknown` hoặc mới chỉ pre-register expected window/tracking identity. Không backfill một context giả vào Mission sớm.
 
 ## Bằng chứng về cơ hội sản phẩm
 
@@ -64,6 +68,8 @@ Khi evidence trưởng thành, quyết định có thể cân nhắc các tín h
 
 Không Mission nào bắt buộc phải có đủ 12 signal. Mỗi signal phải mang trạng thái evidence riêng: `observed | estimated | assumed | unknown`, cùng provenance (nguồn gốc) và freshness (độ mới) phù hợp.
 
+Platform-derived score như creator quality/account score có thể là signal quan sát được, nhưng không tự trở thành `Product Quality`, `Seller Quality`, conversion truth hoặc Bot score nếu không có contract/evidence chứng minh semantics đó.
+
 Nguyên tắc:
 
 > **DATA > OPINION — Dữ liệu quan trọng hơn ý kiến.**
@@ -77,15 +83,15 @@ Nguyên tắc:
 | M00 | `product_or_offer`, evidence refs, lý do tất định, confidence/giả định yếu nhất, abstain khi evidence không đủ |
 | M01 | history, freshness, change/delta và identity làm evidence đáng tin hơn |
 | M02 | phân tích AI có grounding (căn cứ bằng chứng) có thể đề xuất audience/angle nhưng field không được hỗ trợ phải reject/fallback |
-| M03 | `audience_problem`, `content_angle`, `hook_cta`, `channel`, `timing_window`, risk/disclosure và quyết định publish của người |
-| M04 | outcome thật làm rõ CTR/CVR/order/valid/final commission và cập nhật assumption của EV |
-| M05 | `next_measurement` trở thành experiment/change proposal rõ ràng từ bottleneck thật |
+| M03 | `audience_problem`, `content_angle`, `hook_cta`, `channel`, `timing_window`, risk/disclosure; pre-register target metric/window/tracking identity; human publish |
+| M04 | outcome thật làm rõ CTR/CVR/order/valid/final commission; tạo `MeasurementContext` và reconcile source/attribution/config trước khi cập nhật assumption của EV |
+| M05 | `next_measurement` trở thành experiment/change proposal rõ ràng từ bottleneck thật; comparison giữ measurement-context compatibility/limitations |
 | M06 | thu tín hiệu tự động nhưng không tự tăng quyền quyết định |
-| M07 | `DecisionPacket` chuẩn gom evidence/confidence/uncertainty/risk/state/expiry |
-| M08 | agent chỉ dùng read tools để lấp missing evidence đáng giá |
+| M07 | `DecisionPacket` chuẩn gom evidence/confidence/uncertainty/risk/state/expiry và measurement-context refs khi relevant |
+| M08 | agent chỉ dùng read tools để lấp missing evidence/context đáng giá |
 | M09 | recommendation tạo `ActionIntent`; intent vẫn không phải permission |
 | M10 | ACT chỉ được tự chạy trong giới hạn RISK0/RISK1 đã được policy cho phép; RISK2 cần approval |
-| M11 | contract chạy đầu-cuối và nối decision → action → outcome → evaluation → reviewed change |
+| M11 | contract chạy đầu-cuối và nối decision → action → outcome → measurement context → evaluation → reviewed change |
 
 ## Output từng phần ở Mission sớm
 
@@ -99,6 +105,7 @@ hook_cta: unknown
 channel: unknown
 timing_window: unknown
 expected_value: scenario_only
+measurement_context_ref: unknown
 confidence: low
 uncertainty:
   - conversion probability unknown
@@ -107,7 +114,32 @@ recommended_state: GET_MORE_DATA
 next_measurement: observe public product evidence and preserve human ranking
 ```
 
-Output này tốt hơn việc Bot tự bịa audience, hook, CVR hoặc expected revenue.
+Output này tốt hơn việc Bot tự bịa audience, hook, CVR, attribution context hoặc expected revenue.
+
+## Measurement context không phải metric value
+
+Khi M04+ có outcome, một value phải truy được về ngữ cảnh đo lường. Canonical fields chi tiết nằm trong [`AFFILIATE-METRIC-REVENUE-SPINE.md`](AFFILIATE-METRIC-REVENUE-SPINE.md), nhưng mental model là:
+
+```text
+Metric/Outcome
++ reporting source/scope
++ tracking/campaign identity
++ attribution model/window nếu known
++ reporting timezone/config observed_at nếu relevant
++ freshness/import validation
++ limitations
+→ interpretable evidence
+```
+
+Invariant:
+
+```text
+same metric label
++ different measurement context
+≠ automatically comparable truth
+```
+
+Nếu TikTok, Shopee, YouTube/merchant export và analytics tool cho số khác nhau, Bot phải preserve/reconcile context; không được chọn số hỗ trợ recommendation ban đầu nhất.
 
 ## Tách biệt quyền hành động
 
@@ -134,10 +166,12 @@ Exposure / Impression (lượt hiển thị)
 → Order (đơn hàng)
 → Valid Order (đơn hợp lệ)
 → Final Commission (hoa hồng cuối cùng)
-→ Payment (thanh toán, nếu quan sát được)
+→ Payment / Net Payout (thanh toán/tiền thực nhận, nếu quan sát được)
 ```
 
-Không được tạo event giả để lấp khoảng trống của platform. Measurement spine (trục đo lường) chi tiết nằm ở [`AFFILIATE-METRIC-REVENUE-SPINE.md`](AFFILIATE-METRIC-REVENUE-SPINE.md).
+Không được tạo event giả để lấp khoảng trống của platform. Gross/final/paid/net payout phải tách khi source expose adjustment/withholding; không suy nghĩa vụ thuế từ một metric thiếu scope.
+
+Measurement spine (trục đo lường) chi tiết nằm ở [`AFFILIATE-METRIC-REVENUE-SPINE.md`](AFFILIATE-METRIC-REVENUE-SPINE.md).
 
 ## Định nghĩa tính toàn vẹn
 
@@ -147,8 +181,10 @@ Một Affiliate Intelligence Decision đạt integrity (tính toàn vẹn) khi:
 2. field thiếu được giữ thiếu;
 3. estimate/assumption không được trình bày như fact;
 4. EV không bị thay bằng shortcut chỉ nhìn commission rate;
-5. confidence có method/reason;
-6. risk và permission tách khỏi chất lượng recommendation;
-7. Bot có thể abstain;
-8. next measurement/experiment được ghi trước khi outcome được dùng để “học”;
-9. outcome không tự động viết lại hành vi production.
+5. metric/outcome quan trọng ở M04+ truy được về measurement context đủ để diễn giải hoặc ghi rõ context còn thiếu;
+6. hai metric khác source/window/attribution context không bị coi là trực tiếp tương đương nếu chưa reconcile;
+7. confidence có method/reason;
+8. risk và permission tách khỏi chất lượng recommendation;
+9. Bot có thể abstain;
+10. next measurement/experiment được ghi trước khi outcome được dùng để “học”;
+11. outcome không tự động viết lại hành vi production.
