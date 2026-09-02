@@ -8,6 +8,9 @@ kiểm soát.
 Nội dung learner-facing ưu tiên tiếng Việt; xem
 [Quy chuẩn ngôn ngữ](docs/VIETNAMESE-LANGUAGE-STYLE.md).
 
+Theo dõi phần còn thiếu của migration tại
+[Reality-First implementation checklist](docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md).
+
 ## Bắt đầu đúng chỗ
 
 1. Đọc [CURRICULUM.md](CURRICULUM.md), sequence authority hiện hành.
