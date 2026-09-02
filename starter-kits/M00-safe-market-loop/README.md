@@ -1,7 +1,7 @@
 # M00 starter kit — safe human market loop
 
 Đây là worksheet, không phải publishing automation. Copy
-`M00-EVIDENCE-SUMMARY.md` vào `artifacts/local/` trước khi điền data thật; chỉ
+`M00-EVIDENCE-SUMMARY.md` vào `workspace/artifacts/local/` trước khi điền data thật; chỉ
 commit bản đã redact sau review. Không đặt token, raw export, customer data,
 cookie, password hay account screenshot nhạy cảm trong kit/repo.
 

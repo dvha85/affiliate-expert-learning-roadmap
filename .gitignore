@@ -19,13 +19,12 @@ Thumbs.db
 
 # Learner evidence that can contain raw personal, account, analytics or export data.
 # Commit only redacted fixtures and explicitly reviewed evidence summaries.
-artifacts/local/
-artifacts/private/
-artifacts/missions/*/private/
-artifacts/missions/*/raw/
 data/private/
 workspace/
-pilot/raw/
+workspace/artifacts/local/
+workspace/artifacts/private/
+workspace/artifacts/missions/*/private/
+workspace/artifacts/missions/*/raw/
 lab/learner/affiliate-bot/data/local/
 raw-analytics/
 private-exports/

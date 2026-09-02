@@ -14,8 +14,6 @@ delivery:
   eval_pack: "evals/M01-outcome-snapshot/"
   verification_commands:
     - "python scripts/validate_m01_outcome_snapshot_pack.py"
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: ["7.2", "7.3"]
@@ -76,7 +74,7 @@ private evidence path, điền bằng analytics/export thật, rồi validate b�
 redacted summary trước review:
 
 ```bash
-python scripts/validate_m01_outcome_snapshot_pack.py --snapshot artifacts/local/m01-outcome-snapshot.md
+python scripts/validate_m01_outcome_snapshot_pack.py --snapshot workspace/artifacts/local/m01-outcome-snapshot.md
 ```
 
 ## Observe — Quan sát

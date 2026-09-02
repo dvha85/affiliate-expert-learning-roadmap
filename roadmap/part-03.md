@@ -37,7 +37,7 @@ Trước khi gọi một khác biệt là experiment effect, so `MeasurementCont
 
 ### Chương 9 — Outcome truth và attribution limits
 
-- [ ] **9.1** — Event identity và nối Decision → Action → Outcome
+- [ ] **9.1** — [Event identity và nối Decision → Action → Outcome](../lessons/part-03/chapter-09/9.1-event-identity-decision-action-outcome.md)
 - [ ] **9.2** — Pending, valid, final, refunded commission và reconciliation state
 - [ ] **9.3** — Delayed outcome, attribution uncertainty và data-quality boundary
 
@@ -61,7 +61,7 @@ Nếu nhiều source reporting cùng outcome nhưng khác nhau, preserve `MATCHE
 
 ### Chương 10 — Experiment nhỏ nhưng trung thực
 
-- [ ] **10.1** — Observation, question, hypothesis và falsifiable expectation
+- [ ] **10.1** — [Observation, question, hypothesis và falsifiable expectation](../lessons/part-03/chapter-10/10.1-observation-question-hypothesis-falsifiable-expectation.md)
 - [ ] **10.2** — Baseline, primary metric, noise, sample nhỏ và stop rule
 - [ ] **10.3** — Result, inconclusive, decision và next evidence
 
@@ -69,7 +69,7 @@ Experiment preregistration phải freeze không chỉ metric name mà còn measu
 
 ### Chương 11 — Controlled improvement
 
-- [ ] **11.1** — Decision–Outcome Memory và calibration note
+- [ ] **11.1** — [Decision–Outcome Memory và calibration note](../lessons/part-03/chapter-11/11.1-decision-outcome-memory-calibration-note.md)
 - [ ] **11.2** — Proposed change, offline test và versioned evaluation
 - [ ] **11.3** — Human review, release/reject, rollback và retrospective
 

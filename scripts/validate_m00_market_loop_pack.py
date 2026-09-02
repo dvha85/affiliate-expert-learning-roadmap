@@ -37,6 +37,10 @@ def main() -> int:
         default=Path(__file__).resolve().parents[1] / "evals/M00-safe-market-loop/valid-evidence-summary.md",
     )
     args = parser.parse_args()
+    if not args.evidence.is_file():
+        print("M00 MARKET LOOP PACK: FAIL")
+        print(f"- evidence file is missing: {args.evidence}")
+        return 1
     errors = validate(args.evidence)
     if errors:
         print("M00 MARKET LOOP PACK: FAIL")
@@ -45,3 +49,7 @@ def main() -> int:
         return 1
     print("M00 MARKET LOOP PACK: PASS — structure only; human reviews E1/E2 reality.")
     return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

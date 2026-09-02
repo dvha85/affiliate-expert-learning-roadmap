@@ -14,8 +14,6 @@ delivery:
   eval_pack: "evals/M04-grounded-advisory/"
   verification_commands:
     - "python scripts/validate_m04_grounded_advisory_pack.py"
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: ["5.1", "5.2", "5.3"]

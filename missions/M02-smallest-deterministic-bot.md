@@ -17,8 +17,6 @@ delivery:
   verification_commands:
     - "python scripts/validate_m02_deterministic_pack.py"
     - "python scripts/validate_m02_profile_parity.py"
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: ["0.2", "2.1", "2.2", "2.3"]

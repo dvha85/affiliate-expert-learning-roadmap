@@ -55,7 +55,7 @@ Reference material không có PASS checkbox
 | P5 — Tool Agent & Governed Automation | C15–C17 | Read-only evidence agent + policy/approval action boundary |
 | P6 — Production Closed Loop | C18–C20 | Operated Bot with recovery, safety and outcome learning |
 
-Mỗi Chapter có đúng ba micro-lessons. Con số 63 là initial authoring ceiling, không phải target cần bảo vệ vĩnh viễn; learner pilot có thể dẫn tới merge, rewrite hoặc loại lesson.
+Mỗi Chapter có đúng ba micro-lessons. Con số 63 là initial authoring ceiling, không phải target cần bảo vệ vĩnh viễn; personal actuals có thể dẫn tới merge, rewrite hoặc loại lesson.
 
 ## Pedagogy invariants
 
@@ -126,14 +126,14 @@ Glossary, cookbooks, platform/legal/tax current facts, schemas, provider matrix,
 - old IDs và count-based reporting không còn tương thích;
 - validators, progress tracking, plans và Mission map cần migration;
 - một số tài liệu cũ vẫn có thể nói 23/89/671 trong thời gian chuyển đổi;
-- authoring phải được pilot theo từng wave thay vì viết đủ 63 lesson trước.
+- authoring phải được kiểm bằng personal actuals theo từng wave thay vì viết đủ 63 lesson trước.
 
 ## Migration rules
 
 1. Không sửa historical files trong `sources/`.
 2. Không giữ compatibility chỉ để bảo toàn 23/89/671/14.
 3. Chỉ link lesson vào active roadmap khi lesson đã được rewrite theo new ID/title và authoring standard.
-4. Migrate M00/P0 trước, sau đó M01–M04/P1–P2; pilot với absolute beginners trước khi author toàn bộ Core.
+4. Migrate M00/P0 trước, sau đó M01–M04/P1–P2; chạy personal validation trước khi author toàn bộ Core.
 5. Rewrite validators để kiểm 7/21/63, Mission mapping, real-evidence gates và Core/Advanced/Reference boundary.
 6. Giữ learner/reference workspace separation và operating safety contracts.
 7. Archive hoặc un-link legacy lesson artifacts; file tồn tại không tự động khiến nó thành active Core.
@@ -150,9 +150,9 @@ Glossary, cookbooks, platform/legal/tax current facts, schemas, provider matrix,
 
 ADR cần được review sau:
 
-- ít nhất hai absolute beginners hoàn thành M00–M04;
-- có planned-vs-actual effort cho từng Mission;
-- có dropout/blocker data;
+- owner hoàn thành personal validation M00–M04 hoặc ghi `BLOCKED_EXTERNAL` trung thực;
+- có planned-vs-actual effort cho từng Mission, ghi rõ `n=1`;
+- có blocker data từ personal execution;
 - có ít nhất một real tracked outcome loop;
 - có evidence lesson nào không được dùng, quá dài hoặc xuất hiện quá sớm.
 

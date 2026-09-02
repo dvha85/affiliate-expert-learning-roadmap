@@ -14,8 +14,6 @@ delivery:
   eval_pack: null
   verification_commands:
     - "cd lab/learner/affiliate-bot && go test ./..."
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: ["0.1", "0.2", "0.3", "1.1", "1.2", "1.3", "2.1", "2.2", "2.3"]
   on_demand: []
@@ -334,7 +332,7 @@ Không cho phép:
 
 ## Evidence — Bằng chứng
 
-Lưu dưới `artifacts/missions/M00/` hoặc link tương đương:
+Lưu dưới `workspace/artifacts/missions/M00/` hoặc link tương đương:
 
 - environment preflight;
 - baseline và learner-changed Bot output;

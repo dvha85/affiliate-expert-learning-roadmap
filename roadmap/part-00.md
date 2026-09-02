@@ -5,7 +5,7 @@
 > below are not a new learner's execution order; remapping is tracked in
 > [`../docs/CURRICULUM-MIGRATION-v2.md`](../docs/CURRICULUM-MIGRATION-v2.md).
 
-- Timeline: **Evidence-gated; recalibrate after learner pilot**.
+- Timeline: **Evidence-gated; recalibrate from personal actuals (`n=1`)**.
 - **Chapters:** C0–C2
 - **Core:** 9 micro-lessons
 - **Mission:** M00

@@ -12,8 +12,6 @@ delivery:
   starter_paths: []
   eval_pack: null
   verification_commands: []
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: ["6.1", "6.2", "6.3", "7.1"]
   on_demand: []
@@ -300,7 +298,7 @@ Public publish là consequential human action. S2 không phải durable A3 appro
 
 ## Evidence — Bằng chứng
 
-Lưu dưới `artifacts/missions/M03/`:
+Lưu dưới `workspace/artifacts/missions/M03/`:
 
 - E1 evidence refs và content hypothesis;
 - first human draft trước AI;

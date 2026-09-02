@@ -1,7 +1,7 @@
 # Hồ sơ 15 tháng v2 — nhịp nhẹ
 
 Hồ sơ này dành cho người chỉ có 4–6 giờ focused work/tuần. Nó không được trì
-hoãn M00 market loop chỉ để khớp tháng: timing của v2 phải được pilot validate.
+hoãn M00 market loop chỉ để khớp tháng: timing của v2 phải được kiểm bằng personal actuals.
 
 ```text
 O00 safe demo

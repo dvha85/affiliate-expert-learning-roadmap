@@ -6,7 +6,7 @@ actuals trước khi lập forecast cho phần còn lại.
 | Dải | Mission | Mục đích |
 |---|---|---|
 | B0 | O00 | safe synthetic walkthrough, không PASS |
-| B1 | M00 | first E1→E2 human-only market loop; target pilot ≤8 focused hours |
+| B1 | M00 | first E1→E2 human-only market loop; personal target ≤8 focused hours (`n=1`) |
 | B2 | M01 + M02 | outcome snapshot song song với deterministic baseline |
 | B3 | M03–M05 | history/measurement → grounded advisory → reviewed improvement |
 | B4 | M06–M11 | reliable observation đến governed production |

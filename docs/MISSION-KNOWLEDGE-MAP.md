@@ -297,7 +297,7 @@ AI level mô tả quyền kỹ thuật của Bot, không phải learner PASS.
 
 - external draft integration khi learner có owned sandbox và scoped credential;
 - deployment scheduler/platform khi canary cần chạy bền;
-- SLO refinement từ actual pilot data.
+- SLO refinement từ personal actuals, ghi rõ giới hạn `n=1`.
 
 **REFERENCE**
 

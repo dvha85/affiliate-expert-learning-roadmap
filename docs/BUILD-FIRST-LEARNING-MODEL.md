@@ -30,7 +30,7 @@ Each authored v2 Mission must state:
 2. the evidence level and what remains pending;
 3. authority ceiling and prohibited actions;
 4. at most three immediate knowledge pulls;
-5. starter/eval/verification/pilot readiness separately from authoring status;
+5. authoring bundle, learner path và personal execution separately from authoring status;
 6. actual-time and blocker fields for recalibration.
 
 M01/M02 are parallel only after M00; M03 must reconcile both outputs. A learner

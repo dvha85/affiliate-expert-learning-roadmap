@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""Validate explicit Mission delivery/readiness metadata.
+"""Validate tracked Mission authoring-bundle and learner-path metadata.
 
-Authoring state (planned/draft/ready) is intentionally distinct from delivery
-readiness.  This guard makes missing starters, eval packs and pilot evidence
-visible during the v1 -> v2 migration without turning historical material into
-a false release claim.
+Personal execution records stay in the ignored workspace, so this guard never
+uses them as a release claim. It validates only reproducible repository assets.
 """
 from __future__ import annotations
 
@@ -19,18 +17,18 @@ STATUS_RE = re.compile(r'(?m)^status:\s*["\']?([A-Za-z_-]+)["\']?\s*$')
 VERSION_RE = re.compile(r'(?m)^curriculum_version:\s*(\d+)\s*$')
 KIND_RE = re.compile(r'(?m)^release_kind:\s*["\']?([A-Za-z_]+)["\']?\s*$')
 DELIVERY_RE = re.compile(r'(?ms)^delivery:\s*\n((?:^[ \t]+.*(?:\n|$))*)')
+KNOWLEDGE_RE = re.compile(r'(?ms)^knowledge:\s*\n((?:^[ \t]+.*(?:\n|$))*)')
 DELIVERY_KEY_RE = re.compile(r'(?m)^  ([A-Za-z_]+):(?:\s*(.*))?$')
 LIST_ITEM_RE = re.compile(r'^    -\s*["\']?(.*?)["\']?\s*$')
+LESSON_ID_RE = re.compile(r'(?m)^lesson_id:\s*["\']?(\d+\.\d+)["\']?\s*$')
 
 ALLOWED_KINDS = {"market_artifact", "bot"}
-ALLOWED_PILOT_STATES = {"untested", "validated"}
 DELIVERY_KEYS = {
     "starter_paths",
     "eval_pack",
     "verification_commands",
-    "pilot_status",
-    "pilot_evidence_refs",
 }
+KNOWLEDGE_KEYS = {"required", "on_demand", "reference"}
 
 
 @dataclass(frozen=True)
@@ -53,12 +51,15 @@ class Readiness:
     starter_paths: tuple[str, ...]
     eval_pack: str | None
     verification_commands: tuple[str, ...]
-    pilot_status: str
-    pilot_evidence_refs: tuple[str, ...]
+    knowledge_ids: tuple[str, ...]
 
     @property
     def delivery_complete(self) -> bool:
         return bool(self.starter_paths and self.eval_pack and self.verification_commands)
+
+    @property
+    def learner_path_complete(self) -> bool:
+        return True
 
 
 def quoted_or_null(value: str) -> str | None:
@@ -80,6 +81,8 @@ def parse_delivery(raw: str) -> tuple[dict[str, object], list[str]]:
             inline = key_match.group(2).strip()
             if inline == "[]":
                 values[current] = []
+            elif inline.startswith("[") and inline.endswith("]"):
+                values[current] = [item.strip().strip('"\'') for item in inline[1:-1].split(",") if item.strip()]
             elif inline:
                 values[current] = quoted_or_null(inline)
             else:
@@ -95,7 +98,16 @@ def parse_delivery(raw: str) -> tuple[dict[str, object], list[str]]:
     return values, errors
 
 
-def parse_mission(root: Path, path: Path, problems: list[Problem]) -> Readiness | None:
+def known_lesson_ids(root: Path) -> set[str]:
+    ids: set[str] = set()
+    for path in (root / "lessons").rglob("*.md") if (root / "lessons").exists() else ():
+        match = LESSON_ID_RE.search(path.read_text(encoding="utf-8"))
+        if match:
+            ids.add(match.group(1))
+    return ids
+
+
+def parse_mission(root: Path, path: Path, known_lessons: set[str], problems: list[Problem]) -> Readiness | None:
     rel = path.relative_to(root)
     front_match = FRONT_RE.match(path.read_text(encoding="utf-8"))
     if not front_match:
@@ -107,6 +119,7 @@ def parse_mission(root: Path, path: Path, problems: list[Problem]) -> Readiness 
     version_match = VERSION_RE.search(front)
     kind_match = KIND_RE.search(front)
     delivery_match = DELIVERY_RE.search(front)
+    knowledge_match = KNOWLEDGE_RE.search(front)
     if not id_match:
         problems.append(Problem("READY002", str(rel), "thiếu mission_id"))
         return None
@@ -120,6 +133,9 @@ def parse_mission(root: Path, path: Path, problems: list[Problem]) -> Readiness 
     if not delivery_match:
         problems.append(Problem("READY005", str(rel), "thiếu delivery metadata"))
         return None
+    if not knowledge_match:
+        problems.append(Problem("READY015", str(rel), "thiếu knowledge metadata"))
+        return None
     delivery, parse_errors = parse_delivery(delivery_match.group(1))
     for error in parse_errors:
         problems.append(Problem("READY006", str(rel), error))
@@ -130,16 +146,10 @@ def parse_mission(root: Path, path: Path, problems: list[Problem]) -> Readiness 
 
     starter_paths = delivery["starter_paths"]
     commands = delivery["verification_commands"]
-    evidence_refs = delivery["pilot_evidence_refs"]
     if not all(isinstance(item, str) and item for item in starter_paths):
         problems.append(Problem("READY008", str(rel), "starter_paths phải là list string không rỗng"))
     if not all(isinstance(item, str) and item for item in commands):
         problems.append(Problem("READY008", str(rel), "verification_commands phải là list string không rỗng"))
-    if not all(isinstance(item, str) and item for item in evidence_refs):
-        problems.append(Problem("READY008", str(rel), "pilot_evidence_refs phải là list string không rỗng"))
-    pilot_status = delivery["pilot_status"]
-    if not isinstance(pilot_status, str) or pilot_status not in ALLOWED_PILOT_STATES:
-        problems.append(Problem("READY009", str(rel), "pilot_status phải là untested hoặc validated"))
     eval_pack = delivery["eval_pack"]
     if eval_pack is not None and not isinstance(eval_pack, str):
         problems.append(Problem("READY010", str(rel), "eval_pack phải là path hoặc null"))
@@ -150,8 +160,25 @@ def parse_mission(root: Path, path: Path, problems: list[Problem]) -> Readiness 
             problems.append(Problem("READY011", str(rel), f"starter path không tồn tại: {declared}"))
     if isinstance(eval_pack, str) and not (root / eval_pack).exists():
         problems.append(Problem("READY012", str(rel), f"eval_pack không tồn tại: {eval_pack}"))
-    if pilot_status == "validated" and not evidence_refs:
-        problems.append(Problem("READY013", str(rel), "pilot validated phải có pilot_evidence_refs"))
+    knowledge, knowledge_errors = parse_delivery(knowledge_match.group(1))
+    for error in knowledge_errors:
+        problems.append(Problem("READY006", str(rel), f"knowledge: {error}"))
+    missing_knowledge_keys = sorted(KNOWLEDGE_KEYS - set(knowledge))
+    if missing_knowledge_keys:
+        problems.append(Problem("READY015", str(rel), f"knowledge thiếu field: {', '.join(missing_knowledge_keys)}"))
+        return None
+    required = knowledge["required"]
+    on_demand = knowledge["on_demand"]
+    reference = knowledge["reference"]
+    if not all(isinstance(value, list) for value in (required, on_demand, reference)):
+        problems.append(Problem("READY008", str(rel), "knowledge refs phải là list"))
+        return None
+    all_knowledge = [*required, *on_demand, *reference]
+    if not all(isinstance(item, str) and item for item in all_knowledge):
+        problems.append(Problem("READY008", str(rel), "knowledge refs phải là list string"))
+    if int(version_match.group(1)) == 2:
+        for lesson_id in sorted(set(all_knowledge) - known_lessons):
+            problems.append(Problem("READY013", str(rel), f"knowledge lesson không tồn tại: {lesson_id}"))
 
     if problems and any(problem.path == str(rel) for problem in problems):
         return None
@@ -164,16 +191,16 @@ def parse_mission(root: Path, path: Path, problems: list[Problem]) -> Readiness 
         starter_paths=tuple(starter_paths),
         eval_pack=eval_pack,
         verification_commands=tuple(commands),
-        pilot_status=pilot_status,
-        pilot_evidence_refs=tuple(evidence_refs),
+        knowledge_ids=tuple(all_knowledge),
     )
 
 
 def collect(root: Path) -> tuple[list[Readiness], list[Problem]]:
     problems: list[Problem] = []
     records: list[Readiness] = []
+    known_lessons = known_lesson_ids(root)
     for path in sorted((root / "missions").glob("M??-*.md")):
-        record = parse_mission(root, path, problems)
+        record = parse_mission(root, path, known_lessons, problems)
         if record:
             records.append(record)
     return records, problems
@@ -212,7 +239,14 @@ def main() -> int:
     print("READINESS METADATA: PASS")
     for record in records:
         delivery = "DELIVERY_COMPLETE" if record.delivery_complete else "DELIVERY_INCOMPLETE"
-        print(f"- {record.mission_id} v{record.curriculum_version} {record.release_kind}: {delivery}; pilot={record.pilot_status}")
+        learner_path = (
+            "LEARNER_PATH_NOT_APPLICABLE_V1"
+            if record.curriculum_version == 1
+            else "LEARNER_PATH_COMPLETE"
+            if record.learner_path_complete
+            else "LEARNER_PATH_INCOMPLETE"
+        )
+        print(f"- {record.mission_id} v{record.curriculum_version} {record.release_kind}: {delivery}; {learner_path}; personal_execution=LOCAL_ONLY")
     return 0
 
 

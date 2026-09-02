@@ -14,8 +14,6 @@ delivery:
   eval_pack: null
   verification_commands:
     - "cd lab/learner/affiliate-bot && go test ./..."
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: ["5.1", "5.2", "5.3"]
   on_demand: []
@@ -498,7 +496,7 @@ M02 không publish, send, spend, order, change account hay execute transaction.
 
 ## Evidence — Bằng chứng
 
-Lưu dưới `artifacts/missions/M02/`:
+Lưu dưới `workspace/artifacts/missions/M02/`:
 
 - human-labeled eval subset frozen trước AI;
 - deterministic baseline output/version;

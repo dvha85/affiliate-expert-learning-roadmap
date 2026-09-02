@@ -4,7 +4,7 @@
 > Outcome Snapshot and M02 Smallest Deterministic Bot. The History/AI sequence
 > below is retained knowledge lineage, not active Mission numbering.
 
-- Timeline: **Evidence-gated; recalibrate after learner pilot**.
+- Timeline: **Evidence-gated; recalibrate from personal actuals (`n=1`)**.
 - **Chapters:** C3–C5
 - **Core:** 9 micro-lessons
 - **Missions:** M01–M02

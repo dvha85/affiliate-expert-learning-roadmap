@@ -266,6 +266,6 @@ Khi tạo hoặc rewrite lesson:
 6. đưa learner quay lại build/run/measure trong tối đa ba micro-lessons;
 7. yêu cầu artifact/evidence áp dụng ngay và failure path;
 8. không nâng sample thành real evidence, không hứa outcome dương;
-9. nếu learner pilot cho thấy lesson thừa/quá dài/sai thời điểm, merge/rewrite/remove thay vì giữ inventory.
+9. nếu personal actuals cho thấy lesson thừa/quá dài/sai thời điểm, merge/rewrite/remove thay vì giữ inventory.
 
 Traceability tốt trả lời được: **vì sao learner cần knowledge này lúc này, đã dùng nguồn nào, áp dụng vào quyết định nào và evidence nào cho thấy nó giúp hoặc chưa giúp**.

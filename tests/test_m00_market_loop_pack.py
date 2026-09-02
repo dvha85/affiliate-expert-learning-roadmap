@@ -2,9 +2,15 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import subprocess
+import sys
 from pathlib import Path
 
 from scripts.validate_m00_market_loop_pack import REQUIRED_MARKERS, validate
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPT = ROOT / "scripts" / "validate_m00_market_loop_pack.py"
 
 
 class M00MarketLoopPackTests(unittest.TestCase):
@@ -27,3 +33,25 @@ class M00MarketLoopPackTests(unittest.TestCase):
     def test_bot_publish_is_rejected(self):
         self.path.write_text("\n".join(REQUIRED_MARKERS) + "\naction: bot publish\n", encoding="utf-8")
         self.assertTrue(any("human_only" in error for error in validate(self.path)))
+
+    def test_cli_valid_fixture_passes(self):
+        self.path.write_text("\n".join(REQUIRED_MARKERS), encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--evidence", str(self.path)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("M00 MARKET LOOP PACK: PASS", result.stdout)
+
+    def test_cli_missing_input_fails(self):
+        missing = self.path.with_name("missing-evidence.md")
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--evidence", str(missing)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("M00 MARKET LOOP PACK: FAIL", result.stdout)

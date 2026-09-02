@@ -12,9 +12,10 @@ redacted evidence summary + provenance/checksum/reference → repository khi c�
 secret/credential/token → never commit, never paste into prompt/log
 ```
 
-`artifacts/local/`, `artifacts/private/`, `artifacts/missions/*/private/` và
-`artifacts/missions/*/raw/` bị ignore. Điều này không biến dữ liệu thành an
-toàn tự động: learner vẫn chịu trách nhiệm kiểm redaction trước share/commit.
+`workspace/artifacts/local/`, `workspace/artifacts/private/`,
+`workspace/artifacts/missions/*/private/` và `workspace/artifacts/missions/*/raw/`
+bị ignore. Điều này không biến dữ liệu thành an toàn tự động: learner vẫn chịu
+trách nhiệm kiểm redaction trước share/commit.
 
 ## Phân loại dữ liệu trước khi lưu hoặc gửi downstream
 

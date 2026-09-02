@@ -14,8 +14,6 @@ delivery:
   eval_pack: "evals/M03-trustworthy-history/"
   verification_commands:
     - "python scripts/validate_m03_history_pack.py"
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: ["3.1", "3.2", "3.3", "4.1", "4.2", "4.3"]

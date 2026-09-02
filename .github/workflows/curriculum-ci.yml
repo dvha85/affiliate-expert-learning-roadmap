@@ -63,9 +63,6 @@ jobs:
       - name: Run M05 reviewed-improvement evaluator pack
         run: python scripts/validate_m05_reviewed_improvement_pack.py
 
-      - name: Run pilot template guard
-        run: python scripts/validate_pilot_template.py
-
       - name: Run evidence taxonomy validator
         run: python scripts/validate_evidence_taxonomy.py
 

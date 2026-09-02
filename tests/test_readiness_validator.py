@@ -7,15 +7,17 @@ from pathlib import Path
 from scripts.validate_readiness import validate
 
 
-def mission(starter: str = "starter/", pilot: str = "untested", include_delivery: bool = True) -> str:
+def mission(starter: str = "starter/", knowledge: str = '"0.1"', include_delivery: bool = True) -> str:
     delivery = "" if not include_delivery else f'''delivery:
   starter_paths:
     - "{starter}"
   eval_pack: null
   verification_commands:
     - "python -m unittest"
-  pilot_status: {pilot}
-  pilot_evidence_refs: []
+knowledge:
+  required: [{knowledge}]
+  on_demand: []
+  reference: []
 '''
     return f'''---
 mission_id: "M00"
@@ -32,6 +34,9 @@ class ReadinessValidatorTests(unittest.TestCase):
         root = Path(self.tmp.name)
         (root / "missions").mkdir()
         (root / "starter").mkdir()
+        lesson = root / "lessons" / "part-00" / "chapter-00" / "0.1-example.md"
+        lesson.parent.mkdir(parents=True)
+        lesson.write_text('---\nlesson_id: "0.1"\n---\n', encoding="utf-8")
         (root / "missions" / "M00-example.md").write_text(text, encoding="utf-8")
         return root
 
@@ -48,9 +53,9 @@ class ReadinessValidatorTests(unittest.TestCase):
         problems = validate(self.make_root(mission(include_delivery=False)))
         self.assertTrue(any(problem.code == "READY005" for problem in problems))
 
-    def test_invalid_pilot_status_is_rejected(self):
-        problems = validate(self.make_root(mission(pilot="guessed")))
-        self.assertTrue(any(problem.code == "READY009" for problem in problems))
+    def test_missing_v2_knowledge_lesson_is_rejected(self):
+        problems = validate(self.make_root(mission(knowledge='"99.9"')))
+        self.assertTrue(any(problem.code == "READY013" for problem in problems))
 
     def test_missing_starter_path_is_rejected(self):
         problems = validate(self.make_root(mission(starter="missing/")))

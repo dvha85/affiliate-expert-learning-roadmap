@@ -53,7 +53,7 @@ dedicated assets, Mission metadata, validator/report/test/CI và active prose.
 
 Các trường hợp sau không thuộc migration này:
 
-- “compliant micro-pilot” trong market loop là thử nghiệm affiliate nhỏ của
+- “compliant micro-experiment” trong market loop là thử nghiệm affiliate nhỏ của
   chính owner;
 - “5–10 eval cases” là số lượng test case, không phải số người;
 - cohort trong attribution/analytics là khái niệm phân tích dữ liệu;

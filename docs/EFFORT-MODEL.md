@@ -3,14 +3,14 @@
 Curriculum v2 không dùng nominal hours của v1 để hứa hẹn lịch. Những estimate
 M00→M03 ~48h thuộc baseline v1 và không mô tả thứ tự v2.
 
-## Hypothesis cần pilot
+## Hypothesis cần personal validation
 
 Mục tiêu thiết kế là đưa một beginner tới **E2 human-only market action** ở M00
 sớm, với target `≤ 8` focused hours khi account/channel/disclosure path đã sẵn
 sàng. Đây là hypothesis, không phải PASS criterion hay SLA. Setup, platform
 review, account eligibility và outcome window được ghi riêng.
 
-| Giai đoạn v2 | Cần đo trong pilot |
+| Giai đoạn v2 | Cần đo trong personal validation |
 |---|---|
 | O00 → M00 | setup friction, time-to-first-E1/E2, blocker, publish/review safety |
 | M01 + M02 | snapshot/measurement time và baseline implementation time riêng |
@@ -31,5 +31,5 @@ evidence level achieved
 ```
 
 Không double-count waiting như focused work, và không kéo dài market action chỉ
-để “học đủ lý thuyết”. Forecast chỉ được recalibrate sau pilot evidence; ưu
-tiên median/dispersion theo cohort thay vì một learner duy nhất.
+để “học đủ lý thuyết”. Forecast chỉ được recalibrate sau personal actuals;
+repository này ghi rõ giới hạn `n=1`, không tạo median/dispersion learner-wide.

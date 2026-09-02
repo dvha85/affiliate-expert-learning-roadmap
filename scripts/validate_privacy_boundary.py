@@ -20,12 +20,11 @@ REQUIRED_FILES = (
 )
 GITIGNORE_MARKERS = (
     ".env",
-    "artifacts/local/",
-    "artifacts/private/",
-    "artifacts/missions/*/private/",
-    "artifacts/missions/*/raw/",
     "workspace/",
-    "pilot/raw/",
+    "workspace/artifacts/local/",
+    "workspace/artifacts/private/",
+    "workspace/artifacts/missions/*/private/",
+    "workspace/artifacts/missions/*/raw/",
     "lab/learner/affiliate-bot/data/local/",
     "raw-analytics/",
     "private-exports/",
@@ -78,3 +77,7 @@ def main() -> int:
         return 1
     print("PRIVACY BOUNDARY: PASS")
     return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

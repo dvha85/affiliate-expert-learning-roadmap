@@ -41,8 +41,8 @@ bao giờ thỏa `LIVE_ACTIVATION`, E1–E6 hay Mission PASS.
   và readiness metadata/validator.
 - [x] O00, M00–M05 có Mission/starter/eval/verification scaffold.
 - [x] Privacy boundary cho secret/PII/raw analytics.
-- [~] M00–M05 v2 đang là `draft`, starter/eval/verification đã có; legacy
-  group-validation metadata và learner knowledge gap cần xử lý ở H1.
+- [x] M00–M05 v2 đang là `draft`, starter/eval/verification và learner path
+  đều resolve; tracked metadata không claim personal execution.
 - [x] M05 có reviewed-improvement contract/starter/eval; personal validation
   evidence còn trống.
 
@@ -53,11 +53,11 @@ bao giờ thỏa `LIVE_ACTIVATION`, E1–E6 hay Mission PASS.
 
 | Workstream | Trạng thái | Gate kế tiếp |
 |---|---|---|
-| CI và privacy checks có thể tin cậy | `BLOCKED` | H1.1 validator CLI |
-| Beginner path M00–M05 | `BLOCKED` | H1.2 workspace path + knowledge cards |
-| Personal-only metadata/docs | `IN_PROGRESS` | H1.3 xoá framework group-validation |
+| CI và privacy checks có thể tin cậy | `READY` | H2 owner execution |
+| Beginner path M00–M05 | `READY` | H2 owner execution |
+| Personal-only metadata/docs | `READY` | H2 personal evidence |
 | Personal evidence E1–E4 | `NOT_STARTED` | H2 personal validation |
-| PR10 authoring | `BLOCKED` | H1 hoàn tất |
+| PR10 authoring | `NOT_STARTED` | H2 retrospective (recommended order) |
 | M06 live read-only | `BLOCKED` | E3 thật + Gate PR10-LIVE |
 | M10 governed canary | `BLOCKED` | E4 thật + Gate PR12-CANARY |
 | M11 production loop | `BLOCKED` | E5 thật + Gate PR13-LIVE |
@@ -100,8 +100,8 @@ auto-credit Mission PASS.
 - [ ] (Tuỳ chọn) Xác minh trên GitHub rằng `Curriculum CI` là required status
   check và `main` có branch protection/ruleset nếu repository được cộng tác
   hoặc dùng từ nhiều máy.
-- [~] `ready` vẫn chỉ là authoring state; H1.3 sẽ đổi `delivery complete` thành
-  các thành phần kiểm được trong repo và bỏ group-validation metadata.
+- [x] `ready` vẫn chỉ là authoring state; delivery/report tách `authoring bundle`,
+  `learner path` và `personal execution=LOCAL_ONLY`.
 
 **Gate:** local CI-equivalent luôn xanh; GitHub protection là lớp bảo vệ bổ
 sung, không phải blocker cho personal repository.
@@ -121,8 +121,8 @@ sung, không phải blocker cho personal repository.
   ignore; không copy private sample vào Git.
 - [x] Bổ sung ignore path còn thiếu: `workspace/`,
   `lab/learner/affiliate-bot/data/local/` và raw analytics/private exports.
-- [~] Legacy `pilot/raw/` vẫn đang được ignore; H1.3 sẽ xoá cùng toàn bộ
-  group-validation kit.
+- [x] Learner-local artifacts dùng `workspace/` ignored; không còn raw directory
+  dành cho group validation.
 
 **Personal gate:** owner có thể đi từ browser → first safe output theo docs;
 không có secret/PII/raw analytics bị commit.
@@ -241,29 +241,29 @@ Negative/inconclusive outcome can pass if the measurement is honest.
 
 #### H1.1 Validator CLI và CI
 
-- [ ] Thêm `if __name__ == "__main__": raise SystemExit(main())` cho
+- [x] Thêm `if __name__ == "__main__": raise SystemExit(main())` cho
   `validate_m00_market_loop_pack.py` và `validate_privacy_boundary.py`.
-- [ ] Thêm subprocess tests: missing input/missing repository phải exit khác 0;
+- [x] Thêm subprocess tests: missing input/missing repository phải exit khác 0;
   valid fixture phải có output PASS và exit 0.
-- [ ] Quyết định `validate_runtime_architecture.py`: thêm CLI + CI nếu còn dùng,
-  hoặc archive/remove khỏi active checks để tránh validator chết nhưng tồn tại.
-- [ ] Chạy toàn bộ Python validators, unit tests và Go checks sau khi sửa.
+- [x] Giữ `validate_runtime_architecture.py` là module canonical; CI gọi
+  `validate_hybrid_runtime.py`, wrapper có CLI/exit code thật.
+- [x] Chạy toàn bộ Python validators, unit tests và Go checks sau khi sửa.
 
 **Gate H1.1:** command invalid phải fail thật; GitHub/local CI không được xanh
 do validator CLI không chạy.
 
 #### H1.2 Beginner path và knowledge-on-demand
 
-- [ ] Chuẩn hóa toàn bộ learner-local path thành `workspace/artifacts/local/`;
+- [x] Chuẩn hóa toàn bộ learner-local path thành `workspace/artifacts/local/`;
   initializer, M00/M01 Mission và starter command phải dùng cùng path.
-- [ ] Author/rewrite các knowledge cards đang được M00/M01/M05 gọi:
+- [x] Author/rewrite các knowledge cards đang được M00/M01/M05 gọi:
   `6.1`, `6.2`, `7.1`, `7.2`, `7.3`, `9.1`, `10.1`, `11.1`.
-- [ ] Mỗi card giữ Try First → Observe → Minimum Knowledge → Apply → Failure →
+- [x] Mỗi card giữ Try First → Observe → Minimum Knowledge → Apply → Failure →
   Evidence → Explain-back và target 20–45 phút.
-- [ ] Readiness report phải hiển thị riêng `delivery metadata complete` và
+- [x] Readiness report hiển thị riêng `authoring bundle complete` và
   `learner path complete`; unresolved knowledge ID không được ẩn.
-- [ ] Thêm validator/test bắt missing knowledge file khi Mission được đưa vào
-  personal execution hoặc promoted `ready`.
+- [x] Thêm validator/test bắt missing knowledge file khi Mission v2 được
+  validate/promoted `ready`.
 
 **Gate H1.2:** owner đi từ O00 tới từng knowledge link của M00–M05 mà không gặp
 dead link, path tự tạo hoặc yêu cầu đọc legacy v1 để tiếp tục.
@@ -271,7 +271,7 @@ dead link, path tự tạo hoặc yêu cầu đọc legacy v1 để tiếp tục
 #### H1.3 Personal-only cleanup — xoá framework group-validation
 
 Phạm vi audit là active curriculum/tooling. `sources/` tiếp tục là historical
-input; “compliant micro-pilot” là market experiment của owner, “5–10 eval
+input; “compliant micro-experiment” là market experiment của owner, “5–10 eval
 cases” là test volume, và cohort trong attribution/analytics là thuật ngữ dữ
 liệu — cả ba không phải điều kiện tuyển người và không bị xoá cơ học.
 
@@ -286,55 +286,55 @@ liệu — cả ba không phải điều kiện tuyển người và không bị
 
 ##### H1.3b Xoá dedicated group-validation assets và wiring
 
-- [ ] Xoá toàn bộ `pilot/` gồm `README.md`, `aggregate-template.json` và local
+- [x] Xoá toàn bộ `pilot/` gồm `README.md`, `aggregate-template.json` và local
   raw-directory convention.
-- [ ] Xoá `templates/PILOT-CONSENT.md`, `templates/PILOT-SESSION-REDACTED.md`
+- [x] Xoá `templates/PILOT-CONSENT.md`, `templates/PILOT-SESSION-REDACTED.md`
   và `templates/PILOT-AGGREGATE.md`.
-- [ ] Xoá `scripts/validate_pilot_template.py` và
+- [x] Xoá `scripts/validate_pilot_template.py` và
   `tests/test_pilot_template.py`.
-- [ ] Xoá workflow step `Run pilot template guard`, lệnh tương ứng trong
+- [x] Xoá workflow step `Run pilot template guard`, lệnh tương ứng trong
   README và mọi import/reference đã trở thành dead link.
-- [ ] Bỏ `pilot/raw/` khỏi `.gitignore`, `scripts/init_learner_workspace.py`,
+- [x] Bỏ `pilot/raw/` khỏi `.gitignore`, `scripts/init_learner_workspace.py`,
   `scripts/validate_privacy_boundary.py` và privacy-validator fixtures/tests.
 
 ##### H1.3c Bỏ metadata và readiness logic dành cho group validation
 
-- [ ] Bỏ `pilot_status` và `pilot_evidence_refs` khỏi `templates/MISSION.md`,
+- [x] Bỏ `pilot_status` và `pilot_evidence_refs` khỏi `templates/MISSION.md`,
   `docs/MISSION-AUTHORING-STANDARD.md` và front matter của mọi Mission v1/v2.
-- [ ] Refactor `scripts/validate_readiness.py` để chỉ kiểm artifact tracked:
+- [x] Refactor `scripts/validate_readiness.py` để chỉ kiểm artifact tracked:
   starter/manual-only rationale, eval pack, verification commands, knowledge
   links và schema/safety contract; không thay group field bằng một field giả.
-- [ ] Refactor `scripts/report_readiness.py` và
+- [x] Refactor `scripts/report_readiness.py` và
   `tests/test_readiness_validator.py`; report riêng authoring-bundle readiness,
   learner-path readiness và không đọc personal progress từ Git.
-- [ ] Giữ personal execution status/evidence trong `workspace/PROGRESS.md` và
+- [x] Giữ personal execution status/evidence trong `workspace/PROGRESS.md` và
   ignored artifact path; tracked Mission metadata không claim owner đã chạy.
 
 ##### H1.3d Thay active prose bằng personal actuals
 
-- [ ] Thay group-validation prerequisite/promotion wording trong ADR-002,
+- [x] Thay group-validation prerequisite/promotion wording trong ADR-002,
   ADR-005, `CURRICULUM-MIGRATION-v2.md`, `CURRICULUM-CI.md`,
   `MISSION-AUTHORING-STANDARD.md` và PR template bằng artifact + personal
   evidence + authority gates.
-- [ ] Thay learner-group calibration wording trong `EFFORT-MODEL.md`,
+- [x] Thay learner-group calibration wording trong `EFFORT-MODEL.md`,
   `BUILD-FIRST-CALIBRATION.md`, `12-MONTH-PLAN.md`, `15-MONTH-PLAN.md`,
   `roadmap/part-00.md` và `roadmap/part-01.md` bằng owner actuals, ghi rõ
   `n=1`, median/cohort claim không áp dụng.
-- [ ] Thay các mention active còn lại trong `REPOSITORY-GOVERNANCE.md`,
+- [x] Thay các mention active còn lại trong `REPOSITORY-GOVERNANCE.md`,
   `WORKSPACE-PRIVACY.md`, `SOURCE-MAPPING.md`, `FRESHNESS-POLICY.md`,
   `BUILD-FIRST-LEARNING-MODEL.md`, `AI-AGENT-DECISION-ARCHITECTURE.md` và
   `MISSION-KNOWLEDGE-MAP.md`; không xoá consent của audience/channel hoặc
   cohort analytics vì đó là safety/domain semantics khác.
-- [ ] Đổi wording mơ hồ `delivery complete` thành ba projection cụ thể:
+- [x] Đổi wording mơ hồ `delivery complete` thành ba projection cụ thể:
   `authoring bundle`, `learner path` và `personal execution`.
 
 ##### H1.3e Zero-reference và regression gate
 
-- [ ] `rg` không còn group-validation asset/field/condition trong active
-  README, docs, missions, templates, scripts, tests, workflow hay `.gitignore`.
-- [ ] Mọi link/command resolve; initializer không tạo `pilot/raw/`; readiness
+- [x] `rg` không còn group-validation asset/field/condition trong active runtime
+  artifacts; migration rationale và analytics-domain exceptions được giữ rõ.
+- [x] Mọi link/command resolve; initializer không tạo `pilot/raw/`; readiness
   CLI/report và full Python/Go CI-equivalent đều xanh.
-- [ ] Review thủ công các ngoại lệ được giữ: market micro-experiment, eval
+- [x] Review thủ công các ngoại lệ được giữ: market micro-experiment, eval
   case count, attribution cohort, platform name `Copilot` và historical
   `sources/`; không dùng broad replacement làm sai nghĩa.
 
@@ -344,9 +344,9 @@ personal evidence và live authority vẫn phải đạt đúng gate riêng.
 
 ### H2. Personal validation loop — E1 đến E4
 
-- [ ] Sau H1.3, khởi tạo personal progress/evidence path không có participant,
-  consent-session hay aggregate group report.
-- [ ] Chạy O00 sạch từ checkout mới; ghi actual setup/first-run time và blocker.
+- [x] Personal progress/evidence path đã dùng `workspace/`; không có participant,
+  consent-session hay aggregate group report. O00 synthetic validator đã PASS.
+- [ ] Owner chạy O00 từ clean checkout; ghi actual setup/first-run time và blocker.
 - [ ] M00: freeze brief/version trước action, có E1 public observations, human
   review và E2 manual publish; nếu block thì ghi `BLOCKED_EXTERNAL` và dừng
   mọi live progression phụ thuộc E2.
@@ -499,7 +499,7 @@ reviewed learning loop. Zero incident trong replay không thay production proof.
 - [x] README/readiness reports are factual; local CI-equivalent checks are green.
 - [ ] H1 trust repair hoàn tất và personal validation records đạt H2 tới mức
   evidence thực tế owner có thể truy lại.
-- [ ] Group-validation framework đã được xoá theo H1.3; authoring và live gates
+- [x] Group-validation framework đã được xoá theo H1.3; authoring và live gates
   được báo riêng; blocker không xuất hiện như evidence hoặc quyền activation.
 
 ## Recommended execution order

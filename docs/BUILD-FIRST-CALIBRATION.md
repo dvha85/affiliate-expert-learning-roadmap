@@ -1,6 +1,6 @@
 # Hiệu chỉnh Build-First
 
-> M00–M05 là calibration cohort (nhóm hiệu chỉnh) đầu tiên. Không giảm/tăng toàn bộ workload model (mô hình khối lượng học) chỉ từ cảm giác rằng Build-First nhanh hơn hay chậm hơn.
+> M00–M05 là personal calibration loop đầu tiên. Không giảm/tăng toàn bộ workload model (mô hình khối lượng học) chỉ từ cảm giác rằng Build-First nhanh hơn hay chậm hơn.
 
 ## Vì sao cần hiệu chỉnh bằng dữ liệu
 
@@ -9,12 +9,12 @@ Planning envelope chưa được kiểm chứng của Core hiện tại:
 ```text
 focused learner time          ≈ 240–360h
 external outcome waiting      = ghi riêng
-confidence                    = thấp trước learner pilot
+confidence                    = thấp trước personal actuals
 ```
 
 Build-First có thể giảm double work vì cùng một code/evidence phục vụ micro-lesson, Mission và milestone. Nhưng real observation, review, debug và operation cũng có thể làm calendar dài hơn.
 
-Chỉ **actual learner data (dữ liệu thời gian thực tế của người học)** mới được dùng để quyết định net effect (tác động ròng).
+Chỉ **personal actuals (dữ liệu thời gian thực tế của owner, `n=1`)** mới được dùng để quyết định net effect (tác động ròng) trong repository này.
 
 ## Dữ liệu cần ghi cho từng Mission
 
@@ -45,7 +45,7 @@ Không double-count (tính hai lần) cùng một khoảng thời gian vào nhi�
 
 Sau M00–M05:
 
-1. tính median (trung vị) tỷ lệ actual/planned;
+1. tính tỷ lệ actual/planned của owner và ghi rõ `n=1`;
 2. xác định overrun (vượt kế hoạch) đến từ learning, engineering setup, debugging hay operation;
 3. so sánh evidence được reuse giữa Mission/Lesson/Milestone với phần duplicate work đã tránh được;
 4. chỉ re-estimate phần scope còn lại có tính chất tương tự;
@@ -53,7 +53,7 @@ Sau M00–M05:
 
 ## Quyết định timeline
 
-Các profile 12/15 tháng chỉ là forecast. Không giữ một số giờ/tuần cố định nếu actual learner data cho thấy khác.
+Các profile 12/15 tháng chỉ là forecast. Không giữ một số giờ/tuần cố định nếu personal actuals cho thấy khác; không suy rộng thành median hay benchmark learner.
 
 ```text
 DATA > OPINION

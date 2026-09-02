@@ -9,7 +9,6 @@ FILES = {
     "README.md": """# Learner-local workspace\n\nThis directory is ignored by Git. Keep personal progress, raw exports, account\nreferences and private evidence here. Commit only reviewed/redacted summaries.\n\nRun O00 from the repository root:\n\n```bash\npython orientation/o00/run_o00.py --validate\n```\n""",
     "PROGRESS.md": """# Learner progress — local only\n\n- Curriculum version: 2\n- Current Mission: O00\n- Lesson credit retained from v1 (if any):\n- Capability: pending\n- Reality: NOT_REQUIRED for O00\n- Operated: pending\n- Blocker / next action:\n\nDo not put secrets, credentials, customer data or raw analytics in Git.\n""",
     "artifacts/local/.gitkeep": "",
-    "pilot/raw/.gitkeep": "",
 }
 
 

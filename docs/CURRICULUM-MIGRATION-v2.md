@@ -45,5 +45,6 @@ Một Mission v2 chỉ đổi từ `planned`/`draft` sang `ready` khi:
 1. có starter path cho beginner hoặc lý do explicit rằng Mission là manual-only;
 2. có eval pack/fixture và verification commands tái lập được;
 3. checkpoint attempt-first, safety/authority ceiling và evidence contract rõ;
-4. pilot thật đã đo actual time, blocker và outcome; và
+4. personal execution đã ghi actual time, blocker và outcome hoặc
+   `BLOCKED_EXTERNAL` trung thực; và
 5. `python scripts/validate_readiness.py --strict` cùng validator/test liên quan qua.

@@ -216,7 +216,7 @@ record source/status/recheck trigger
 
 - primary source xác nhận material change áp dụng đúng learner scope;
 - existing Mission artifact không còn đủ để phân biệt truth/uncertainty;
-- learner pilot gặp blocker hoặc unsafe ambiguity;
+- personal execution gặp blocker hoặc unsafe ambiguity;
 - current control không còn đủ cho legal/privacy/security boundary;
 - production behavior/test phải đổi để giữ authority/evidence invariant.
 

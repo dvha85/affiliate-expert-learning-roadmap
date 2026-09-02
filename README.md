@@ -112,7 +112,6 @@ python scripts/validate_m02_profile_parity.py
 python scripts/validate_m03_history_pack.py
 python scripts/validate_m04_grounded_advisory_pack.py
 python scripts/validate_m05_reviewed_improvement_pack.py
-python scripts/validate_pilot_template.py
 python scripts/validate_evidence_taxonomy.py
 python scripts/validate_authority.py
 python scripts/validate_language_policy.py

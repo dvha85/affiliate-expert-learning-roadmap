@@ -18,8 +18,6 @@ delivery:
   starter_paths: []
   eval_pack: null
   verification_commands: []
-  pilot_status: untested # untested | validated
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: []
@@ -34,7 +32,7 @@ risk_scope:
   external_side_effects: false
 ~~~
 
-Core Mission ready phải trỏ tới micro-lesson đã authored ready. Lesson chỉ cung cấp knowledge slice; Mission không tự đánh dấu lesson applied. `status: ready` chỉ là authoring state: phải dùng delivery metadata để nói starter/eval/pilot đã có hay chưa.
+Core Mission ready phải trỏ tới micro-lesson đã authored ready. Lesson chỉ cung cấp knowledge slice; Mission không tự đánh dấu lesson applied. `status: ready` chỉ là authoring state: delivery metadata chỉ nói starter/eval/verification, còn personal execution nằm local.
 
 ## Section bắt buộc
 
@@ -115,6 +113,6 @@ parallel with M02 deterministic baseline; AI is first allowed at M04 as A1
 advisory. Do not use v1 filename/lesson order as a v2 dependency.
 
 Before a v2 Mission is promoted, it needs an auditable starter or manual-only
-rationale, eval fixture/pack, reproducible verification commands, pilot actuals
-and evidence refs. `python scripts/validate_readiness.py --strict` is the
-metadata gate, not a substitute for human market-evidence review.
+rationale, eval fixture/pack, reproducible verification commands and resolvable
+knowledge links. `python scripts/validate_readiness.py --strict` is the
+authoring-bundle gate, not a substitute for personal market-evidence review.

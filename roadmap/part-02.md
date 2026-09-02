@@ -39,17 +39,17 @@ Part 02 không cho n8n hoặc Agent publish, send, spend hoặc thay platform/ac
 
 ## Core checklist
 
-### Chương 6 — Compliant micro-pilot
+### Chương 6 — Compliant micro-experiment
 
-- [ ] **6.1** — Audience problem, product fit và một testable content angle
-- [ ] **6.2** — Proof, claims, disclosure và current platform boundary
+- [ ] **6.1** — [Audience problem, product fit và một testable content angle](../lessons/part-02/chapter-06/6.1-audience-problem-product-fit-content-angle.md)
+- [ ] **6.2** — [Proof, claims, disclosure và current platform boundary](../lessons/part-02/chapter-06/6.2-proof-claims-disclosure-platform-boundary.md)
 - [ ] **6.3** — Human review, manual publish và Decision ≠ Execution
 
 ### Chương 7 — Track real market signals
 
-- [ ] **7.1** — Tracking ID, UTM/link, impression, click và outcome event
-- [ ] **7.2** — Observation window, zero, missing và not-yet-observable
-- [ ] **7.3** — Import analytics/export, provenance và reconciliation
+- [ ] **7.1** — [Tracking ID, UTM/link, impression, click và outcome event](../lessons/part-02/chapter-07/7.1-tracking-id-utm-link-impression-click-outcome.md)
+- [ ] **7.2** — [Observation window, zero, missing và not-yet-observable](../lessons/part-02/chapter-07/7.2-observation-window-zero-missing-not-yet-observable.md)
+- [ ] **7.3** — [Import analytics/export, provenance và reconciliation](../lessons/part-02/chapter-07/7.3-import-analytics-export-provenance-reconciliation.md)
 
 M04 implementation reference cho Chương 7.3 có thể dùng n8n để học orchestration read-only. Canonical validation/reconciliation **semantics** thuộc Deterministic Core; implementation hiện hành có thể vẫn là Go reference mà không buộc learner tự viết integration plumbing.
 

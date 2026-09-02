@@ -20,11 +20,18 @@ def main() -> int:
         for problem in problems:
             print(problem)
         return 1
-    print("| Mission | Curriculum | Release | Delivery | Pilot |")
-    print("|---|---:|---|---|---|")
+    print("| Mission | Curriculum | Release | Authoring bundle | Learner path | Personal execution |")
+    print("|---|---:|---|---|---|---|")
     for record in records:
         delivery = "complete" if record.delivery_complete else "incomplete"
-        print(f"| {record.mission_id} | v{record.curriculum_version} | {record.release_kind} | {delivery} | {record.pilot_status} |")
+        learner_path = (
+            "n/a (v1 reference)"
+            if record.curriculum_version == 1
+            else "complete"
+            if record.learner_path_complete
+            else "incomplete"
+        )
+        print(f"| {record.mission_id} | v{record.curriculum_version} | {record.release_kind} | {delivery} | {learner_path} | local-only |")
     return 0
 
 

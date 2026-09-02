@@ -14,8 +14,6 @@ delivery:
   eval_pack: null
   verification_commands:
     - "cd lab/learner/affiliate-bot && go test ./..."
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: ["3.1", "3.2", "3.3", "4.1", "4.2", "4.3"]
   on_demand: []
@@ -446,7 +444,7 @@ Authority ceiling vẫn là public/manual read + local processing. M01 không sc
 
 ## Evidence — Bằng chứng
 
-Lưu dưới `artifacts/missions/M01/`:
+Lưu dưới `workspace/artifacts/missions/M01/`:
 
 - Chương 03 ingest artifacts;
 - overwrite/data-loss attempt;

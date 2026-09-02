@@ -33,8 +33,8 @@ O00 safe synthetic walkthrough (không phải PASS)
 - M05 mới cho phép đề xuất improvement từ outcome, qua test/review/rollback.
 
 `authoring status` không phải release claim. Mission chỉ được gọi delivered khi
-metadata delivery có starter, eval pack, verification commands và evidence
-pilot phù hợp.
+metadata delivery có starter, eval pack, verification commands và knowledge
+links có thể kiểm trong repository.
 
 ## Consequences
 
@@ -42,10 +42,11 @@ pilot phù hợp.
   migration, không phải entrypoint cho learner mới.
 - Go vẫn có thể là reference/fallback hoặc implementation profile; v2 không
   ép người mới cài Go trước M00.
-- Mốc thời gian v2 là hypothesis cần pilot, không phải hứa hẹn. Target ban đầu
-  là E2 sớm, khoảng không quá 8 giờ focused work nếu account/channel sẵn sàng.
-- Chỉ chuyển một Mission v2 sang `ready` khi strict readiness check qua và có
-  pilot evidence. Không dùng sample để thay E1/E2/E3/E4 market evidence.
+- Mốc thời gian v2 là hypothesis cần personal actuals, không phải hứa hẹn.
+  Target ban đầu là E2 sớm, khoảng không quá 8 giờ focused work nếu
+  account/channel sẵn sàng.
+- Chỉ chuyển một Mission v2 sang `ready` khi strict authoring-bundle check qua.
+  Không dùng sample để thay E1/E2/E3/E4 market evidence cho live activation.
 
 ## Non-goals
 

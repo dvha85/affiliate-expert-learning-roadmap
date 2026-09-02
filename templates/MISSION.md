@@ -12,8 +12,6 @@ delivery:
   starter_paths: []
   eval_pack: null
   verification_commands: []
-  pilot_status: untested # untested | validated
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: []
@@ -33,8 +31,8 @@ risk_scope:
 ## Ship Target — Mục tiêu bàn giao
 
 Nêu một capability có thể demo và evidence level phải đạt. `status: ready` chỉ
-có nghĩa Mission đã được biên soạn; delivery/pilot trong metadata mới cho biết
-có starter, eval và bằng chứng pilot hay chưa.
+có nghĩa Mission đã được biên soạn. Delivery metadata chỉ mô tả starter, eval
+và verification có thể kiểm trong repository; personal execution nằm local.
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 

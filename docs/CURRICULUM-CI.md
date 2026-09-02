@@ -5,7 +5,7 @@
 `python scripts/validate_readiness.py` validates the distinction between
 authoring and delivery. Every Mission file declares `curriculum_version`,
 `release_kind`, `starter_paths`, `eval_pack`, `verification_commands`,
-`pilot_status`, and `pilot_evidence_refs`.
+knowledge links.
 
 Normal CI verifies schema and declared paths while preserving v1 baseline files.
 It reports `DELIVERY_INCOMPLETE` transparently without turning historical

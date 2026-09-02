@@ -214,4 +214,4 @@ Authority không được tăng chỉ vì Capability PASS. Mission phải có Re
 
 Nếu framework, protocol hoặc provider capability thay đổi, ưu tiên cập nhật [`FRESHNESS-POLICY.md`](FRESHNESS-POLICY.md), adapter và test. Không tự đổi Core/Mission hay policy authority vì một vendor feature mới.
 
-Nếu learner pilot cho thấy một capability đến quá sớm, quá muộn hoặc không được dùng, sửa `CURRICULUM.md` qua ADR/review dựa trên evidence; không giữ số lượng chỉ để bảo toàn inventory.
+Nếu personal actuals cho thấy một capability đến quá sớm, quá muộn hoặc không được dùng, sửa `CURRICULUM.md` qua ADR/review dựa trên evidence; không giữ số lượng chỉ để bảo toàn inventory.

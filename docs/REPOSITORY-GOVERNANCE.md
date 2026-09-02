@@ -13,7 +13,7 @@ Mission must declare `curriculum_version`, `release_kind`, and `delivery`.
 mode is required before a new v2 Mission is promoted to ready.
 
 Curriculum PRs must state migration impact, authority/evidence changes, and
-whether a beginner starter/eval/pilot is present. Preserve prior evidence and
+whether a starter/eval/verification bundle is present. Preserve prior evidence and
 links; do not silently renumber a learner's completed work.
 
 ## 1. Mục tiêu

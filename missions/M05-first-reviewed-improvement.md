@@ -14,8 +14,6 @@ delivery:
   eval_pack: "evals/M05-reviewed-improvement/"
   verification_commands:
     - "python scripts/validate_m05_reviewed_improvement_pack.py"
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: ["9.1", "10.1", "11.1"]

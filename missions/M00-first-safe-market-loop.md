@@ -15,8 +15,6 @@ delivery:
   verification_commands:
     - "python scripts/validate_m00_market_loop_pack.py"
     - "python scripts/validate_m00_market_evidence_bundle.py"
-  pilot_status: untested
-  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: ["6.1", "6.2", "7.1"]
@@ -76,7 +74,7 @@ python scripts/validate_m00_market_loop_pack.py
 Khi có evidence summary đã redact, kiểm local file trước khi review/publish:
 
 ```bash
-python scripts/validate_m00_market_loop_pack.py --evidence artifacts/local/m00-evidence-summary.md
+python scripts/validate_m00_market_loop_pack.py --evidence workspace/artifacts/local/m00-evidence-summary.md
 ```
 
 Raw export, credential, personal/customer data và screenshot nhạy cảm ở local
