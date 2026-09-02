@@ -366,7 +366,7 @@ personal evidence và live authority vẫn phải đạt đúng gate riêng.
 
 | Personal evidence gate | Result |
 |---|---|
-| O00 và toàn bộ trusted local CI-equivalent xanh | [ ] |
+| O00 và toàn bộ trusted local CI-equivalent xanh | [x] |
 | M00 có E1→E2 thật, human-only | [ ] |
 | M01/M03 có E3 thật, trace/provenance/freshness đúng | [ ] |
 | M05 có E4 thật hoặc progression live dừng ở `BLOCKED_EXTERNAL` | [ ] |
