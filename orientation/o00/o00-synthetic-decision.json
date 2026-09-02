@@ -1,0 +1,18 @@
+{
+  "orientation_only": true,
+  "evidence_kind": "synthetic",
+  "observation": {
+    "offer": "Synthetic demo offer",
+    "source_url": null,
+    "observed_at": null
+  },
+  "human_note": "Tôi chưa biết audience/channel hoặc outcome.",
+  "recommended_state": "GET_MORE_DATA",
+  "action": null,
+  "missing_evidence": [
+    "public source and observed_at",
+    "audience/problem hypothesis",
+    "human-reviewed artifact and tracking context"
+  ],
+  "next_measurement": "M00: collect a public observation and create a safe human-reviewed artifact."
+}

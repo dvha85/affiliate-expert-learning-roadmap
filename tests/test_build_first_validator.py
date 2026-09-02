@@ -282,34 +282,33 @@ class BuildFirstValidatorTests(unittest.TestCase):
             self.assertTrue(any(p.code == "BUILD016" and "phải là E1" in p.message for p in problems))
             self.assertTrue(any(p.code == "BUILD016" and "reality_required: true" in p.message for p in problems))
 
-    def test_m00_requires_real_evidence_and_human_before_bot(self):
+    def test_m00_requires_human_only_manual_market_loop(self):
         problems = []
         validator.check_mission_semantics(
             "M00",
-            "sample ranking only; Bot ranks before human",
-            "",
+            "synthetic demo only; Bot publishes automatically",
+            '  external_side_effects: false\n  execution_actor: "bot"\n',
             "missions/M00.md",
             problems,
         )
-        self.assertTrue(any(p.code == "BUILD017" and "human judgment" in p.message for p in problems))
-        self.assertTrue(any(p.code == "BUILD017" and "sample/synthetic" in p.message for p in problems))
+        self.assertTrue(any(p.code == "BUILD017" and "human_only" in p.message for p in problems))
+        self.assertTrue(any(p.code == "BUILD017" and "disclosure/tracking" in p.message for p in problems))
 
-    def test_m03_requires_human_only_publish(self):
+    def test_m01_requires_real_outcome_snapshot(self):
         problems = []
         validator.check_mission_semantics(
-            "M03",
-            "Bot publishes content automatically",
-            '  external_side_effects: true\n  execution_actor: "bot"\n',
-            "missions/M03.md",
+            "M01",
+            "synthetic metric demo",
+            "",
+            "missions/M01.md",
             problems,
         )
-        self.assertTrue(any(p.code == "BUILD017" and "human_only" in p.message for p in problems))
-        self.assertTrue(any(p.code == "BUILD017" and "manual publish" in p.message for p in problems))
+        self.assertTrue(any(p.code == "BUILD017" and "analytics/export/outcome thật" in p.message for p in problems))
 
-    def test_m04_requires_real_analytics_and_missing_zero_separation(self):
+    def test_m04_requires_grounded_no_tool_advisory(self):
         problems = []
-        validator.check_mission_semantics("M04", "synthetic metric demo", "", "missions/M04.md", problems)
-        self.assertTrue(any(p.code == "BUILD017" and "analytics/export thật" in p.message for p in problems))
+        validator.check_mission_semantics("M04", "AI gives advice", "", "missions/M04.md", problems)
+        self.assertTrue(any(p.code == "BUILD017" and "grounded advisory" in p.message for p in problems))
 
     def test_m05_requires_reviewed_outcome_improvement(self):
         problems = []

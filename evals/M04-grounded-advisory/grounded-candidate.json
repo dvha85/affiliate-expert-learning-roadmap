@@ -1,0 +1,6 @@
+{
+  "facts": [
+    {"claim": "Observed price is 100", "evidence_ref": "OBS-1", "field": "price", "value": 100}
+  ],
+  "hypotheses": ["A lower price may matter; measure before using it as a decision input."]
+}

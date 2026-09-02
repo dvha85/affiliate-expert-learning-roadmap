@@ -1,0 +1,5 @@
+{
+  "facts": [
+    {"claim": "Observed conversion rate is 12%", "evidence_ref": "OBS-1", "field": "conversion_rate", "value": 0.12}
+  ]
+}

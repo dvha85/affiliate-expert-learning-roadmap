@@ -37,11 +37,11 @@ open the current Mission
 
 | Mission | Product spine | Evidence | Authority | Delivery |
 |---|---|---|---|---|
-| M00 | first safe market loop | E2 | human_only; no Bot/AI publish | planned |
-| M01 | first outcome snapshot | E3 | manual/read-only | planned |
-| M02 | smallest deterministic Bot | E1 | A0 deterministic | planned |
-| M03 | trustworthy history & measurement | E3 | A0 deterministic | planned |
-| M04 | grounded AI advisor | E3 | A1 advisory, no tools/write | planned |
+| M00 | first safe market loop | E2 | human_only; no Bot/AI publish | draft |
+| M01 | first outcome snapshot | E3 | manual/read-only | draft |
+| M02 | smallest deterministic Bot | E1 | A0 deterministic | draft |
+| M03 | trustworthy history & measurement | E3 | A0 deterministic | draft |
+| M04 | grounded AI advisor | E3 | A1 advisory, no tools/write | draft |
 | M05 | first reviewed improvement | E4 | A1 propose only | planned |
 | M06 | reliable watcher | E4 | A0 core + A1 triage | planned |
 | M07 | decision + abstention | E4 | A1 advisory | planned |

@@ -11,16 +11,18 @@ Nội dung learner-facing ưu tiên tiếng Việt; xem
 ## Bắt đầu đúng chỗ
 
 1. Đọc [CURRICULUM.md](CURRICULUM.md), sequence authority hiện hành.
-2. Xem [Mission index](missions/README.md) để biết v2 hiện chưa có Mission
-   delivery bundle nào được tuyên bố ready/delivered.
-3. Dùng [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md) và
+2. Chạy [O00 Safe Synthetic Walkthrough](docs/O00-SAFE-SYNTHETIC-WALKTHROUGH.md)
+   để thấy loop an toàn, không tạo PASS hay public action.
+3. Mở [M00 First Safe Market Loop](missions/M00-first-safe-market-loop.md),
+   rồi xem [Mission index](missions/README.md). M00–M04 đã có starter/eval
+   bundle để review, nhưng chưa Mission nào có pilot thật được xác thực.
+4. Dùng [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md) và
    [migration guide](docs/CURRICULUM-MIGRATION-v2.md) khi muốn hiểu/đóng góp
    vào rebaseline.
 
-M00 v2 sẽ là human-only safe market loop: public observation → human-created
+M00 v2 là human-only safe market loop: public observation → human-created
 micro-artifact → disclosure/tracking → human review/manual publish. Bot/AI sẽ
-không publish. O00 (sắp author) chỉ là demo synthetic an toàn và không phải
-PASS.
+không publish. O00 chỉ là demo synthetic an toàn và không phải PASS.
 
 ```text
 REAL CONTEXT
@@ -80,6 +82,13 @@ renumbered.
 python scripts/validate_curriculum.py
 python scripts/validate_mission_status.py
 python scripts/validate_readiness.py
+python scripts/validate_privacy_boundary.py
+python scripts/validate_o00.py
+python scripts/validate_m00_market_loop_pack.py
+python scripts/validate_m01_outcome_snapshot_pack.py
+python scripts/validate_m02_deterministic_pack.py
+python scripts/validate_m03_history_pack.py
+python scripts/validate_m04_grounded_advisory_pack.py
 python scripts/validate_evidence_taxonomy.py
 python scripts/validate_authority.py
 python scripts/validate_language_policy.py

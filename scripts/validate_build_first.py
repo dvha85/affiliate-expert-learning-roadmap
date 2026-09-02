@@ -18,7 +18,7 @@ STATUS_RE = re.compile(r'^status:\s*(planned|draft|ready)\s*$', re.MULTILINE)
 CURRICULUM_VERSION_RE = re.compile(r'^curriculum_version:\s*(\d+)\s*$', re.MULTILINE)
 REQUIRES_RE = re.compile(r'^requires_missions:\s*\[(.*?)\]\s*$', re.MULTILINE)
 VERSION_FROM_RE = re.compile(r'^bot_version_from:\s*(null|"v\d+\.\d+")\s*$', re.MULTILINE)
-VERSION_TO_RE = re.compile(r'^bot_version_to:\s*"(v\d+\.\d+)"\s*$', re.MULTILINE)
+VERSION_TO_RE = re.compile(r'^bot_version_to:\s*(null|"v\d+\.\d+")\s*$', re.MULTILINE)
 REQUIRED_RE = re.compile(r'^\s*required:\s*\[(.*?)\]\s*$', re.MULTILINE)
 LESSON_ID_RE = re.compile(r'"(\d+\.\d+)"')
 ROADMAP_MISSION_RE = re.compile(r'^\|\s*(M\d{2})\s*\|\s*((?:v\d+\.\d+)|pre-bot)\s*\|', re.MULTILINE)
@@ -353,40 +353,63 @@ def check_mission_semantics(
 ) -> None:
     """Guard the reality-first sequence at its first irreversible milestones."""
     if mission_id == "M00":
+        actor = re.search(r'^\s{2}execution_actor:\s*"([^"]+)"\s*$', front, re.MULTILINE)
+        side_effect = re.search(r'^\s{2}external_side_effects:\s*(true|false)\s*$', front, re.MULTILINE)
+        if not actor or actor.group(1) != "human_only" or not side_effect or side_effect.group(1) != "true":
+            problems.append(Problem("BUILD017", rel, "M00 phải khai báo external side effect do human_only thực hiện"))
         require_semantic(
             text,
-            (r"public\s+(?:product\s+)?observations?|E1\s+public", r"human\s+(?:rank|ranking|judgment|prediction).{0,80}(?:trước|before)"),
+            (
+                r"(?:public\s+(?:product\s+)?observations?|E1\s+public)",
+                r"(?:manual publish|tự tay publish|human\s+(?:manual\s+)?publish)",
+                r"disclosure|công bố",
+                r"tracking|theo dõi",
+            ),
             rel,
-            "M00 phải dùng public/E1 evidence và lưu human judgment trước Bot output",
+            "M00 phải có E1 public evidence, human manual publish và disclosure/tracking",
             problems,
         )
         require_semantic(
             text,
-            (r"sample|synthetic", r"(?:không|not).{0,100}(?:Reality|reality|market truth|evidence_kind:\s*real)"),
+            (r"(?:Bot|AI).{0,120}(?:không có|no|never).{0,100}(?:publish|external execution)",),
             rel,
-            "M00 phải nói rõ sample/synthetic không thỏa reality evidence",
+            "M00 phải cấm Bot/AI publish hoặc external execution",
+            problems,
+        )
+
+    if mission_id == "M01":
+        require_semantic(
+            text,
+            (r"(?:real|thật)[^\n]{0,80}(?:analytics|export|outcome)|(?:analytics|export|outcome)[^\n]{0,80}(?:real|thật)", r"missing", r"zero|\b0\b"),
+            rel,
+            "M01 phải dùng analytics/export/outcome thật và giữ missing khác observed zero",
+            problems,
+        )
+
+    if mission_id == "M02":
+        require_semantic(
+            text,
+            (r"deterministic|tất định", r"GET_MORE_DATA|HUMAN_REVIEW|abstain", r"(?:không|no).{0,100}(?:AI|model call|tool)"),
+            rel,
+            "M02 phải có deterministic baseline, abstain state và không gọi AI/tool",
             problems,
         )
 
     if mission_id == "M03":
-        actor = re.search(r'^\s{2}execution_actor:\s*"([^"]+)"\s*$', front, re.MULTILINE)
-        side_effect = re.search(r'^\s{2}external_side_effects:\s*(true|false)\s*$', front, re.MULTILINE)
-        if not actor or actor.group(1) != "human_only" or not side_effect or side_effect.group(1) != "true":
-            problems.append(Problem("BUILD017", rel, "M03 phải khai báo external side effect do human_only thực hiện"))
         require_semantic(
             text,
-            (r"(?:manual publish|tự tay publish|human\s+(?:manual\s+)?publish)", r"Bot(?:/AI)?[^\n]{0,120}(?:không có|no)[^\n]{0,80}(?:publish|external execution)"),
+            (r"append-only|bất biến", r"provenance|nguồn gốc", r"freshness|độ mới", r"missing"),
             rel,
-            "M03 phải có human manual publish và cấm Bot/AI publish",
+            "M03 phải có history append-only, provenance/freshness và missing semantics",
             problems,
         )
 
     if mission_id == "M04":
         require_semantic(
             text,
-            (r"(?:real|thật)[^\n]{0,80}(?:analytics|export)|(?:analytics|export)[^\n]{0,80}(?:real|thật)", r"missing", r"zero|\b0\b"),
+            (r"grounded|căn cứ bằng chứng", r"evidence refs?|tham chiếu bằng chứng", r"fallback|từ chối", r"(?:không|no).{0,100}(?:tool|write|publish|execution)"),
             rel,
-            "M04 phải dùng analytics/export thật và giữ missing khác observed zero",
+            "M04 phải có grounded advisory, evidence refs, fallback và cấm tool/write/execute",
             problems,
         )
 
@@ -406,7 +429,7 @@ def check_missions(root: Path, canonical_ids: set[str], spine: dict[str, str], p
     authored_ids: list[str] = []
     dependency_map: dict[str, list[str]] = {}
     version_from_map: dict[str, str | None] = {}
-    version_to_map: dict[str, str] = {}
+    version_to_map: dict[str, str | None] = {}
     lesson_links = roadmap_lesson_links(root)
     expected_evidence = roadmap_evidence_levels(root)
 
@@ -452,9 +475,10 @@ def check_missions(root: Path, canonical_ids: set[str], spine: dict[str, str], p
 
         version_match = VERSION_TO_RE.search(text)
         if version_match:
-            version_to_map[mission_id] = version_match.group(1)
-            if mission_id in spine and version_match.group(1) != spine[mission_id]:
-                problems.append(Problem("BUILD006", rel, f"bot_version_to {version_match.group(1)} không khớp roadmap {spine[mission_id]}"))
+            version_to = parse_version_from(version_match.group(1))
+            version_to_map[mission_id] = version_to
+            if version_to is not None and mission_id in spine and version_to != spine[mission_id]:
+                problems.append(Problem("BUILD006", rel, f"bot_version_to {version_to} không khớp roadmap {spine[mission_id]}"))
         else:
             problems.append(Problem("BUILD006", rel, "thiếu bot_version_to hợp lệ"))
 

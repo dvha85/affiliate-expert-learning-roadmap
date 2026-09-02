@@ -1,0 +1,18 @@
+[
+  {
+    "subject_id": "synthetic-b",
+    "evidence_kind": "synthetic",
+    "source_url": "https://example.invalid/synthetic-b",
+    "observed_at": "2026-09-02T00:00:00Z",
+    "price": 100,
+    "commission_rate": 0.1
+  },
+  {
+    "subject_id": "synthetic-a",
+    "evidence_kind": "synthetic",
+    "source_url": "https://example.invalid/synthetic-a",
+    "observed_at": "2026-09-02T00:00:00Z",
+    "price": 50,
+    "commission_rate": 0.2
+  }
+]

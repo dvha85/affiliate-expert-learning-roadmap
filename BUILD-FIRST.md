@@ -18,8 +18,9 @@ DO A SMALL THING A REAL PERSON CAN VERIFY
 O00 is a safe synthetic walkthrough only. M00 is the first PASS candidate: a
 human observes, makes/reviews a small affiliate artifact, adds disclosure and
 tracking as applicable, and manually publishes. Bot/AI has no publish authority.
-M01 gets an outcome snapshot; M02 then supplies the smallest deterministic
-baseline. AI appears only at M04 as grounded, no-tool advisory.
+M01 gets an outcome snapshot and M02 supplies the smallest deterministic
+baseline in parallel after M00. AI appears only at M04 as grounded, no-tool
+advisory.
 
 ## Evidence taxonomy
 

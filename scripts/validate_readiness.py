@@ -183,7 +183,7 @@ def validate(root: Path, strict: bool = False) -> list[Problem]:
     records, problems = collect(root.resolve())
     if strict:
         for record in records:
-            if record.status == "ready" and not record.delivery_complete:
+            if record.curriculum_version == 2 and record.status == "ready" and not record.delivery_complete:
                 problems.append(
                     Problem(
                         "READY014",
@@ -202,7 +202,7 @@ def main() -> int:
     records, problems = collect(args.root.resolve())
     if args.strict:
         for record in records:
-            if record.status == "ready" and not record.delivery_complete:
+            if record.curriculum_version == 2 and record.status == "ready" and not record.delivery_complete:
                 problems.append(Problem("READY014", str(record.path), "status=ready nhưng chưa có starter + eval_pack + verification_commands"))
     if problems:
         print(f"READINESS METADATA: FAIL ({len(problems)} problem(s))")

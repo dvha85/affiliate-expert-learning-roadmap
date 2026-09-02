@@ -8,6 +8,9 @@
 - Date/reviewer:
 - Safety gate:
 - Required Reality level:
+- Data class: public | account | personal | sensitive | synthetic/test only
+- Raw/private evidence location (if any):
+- Redacted evidence summary/reference:
 
 ## Attempt before knowledge
 

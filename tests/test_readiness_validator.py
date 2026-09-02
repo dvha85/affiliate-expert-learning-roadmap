@@ -59,3 +59,7 @@ class ReadinessValidatorTests(unittest.TestCase):
     def test_strict_requires_complete_delivery_for_ready_mission(self):
         problems = validate(self.make_root(mission()), strict=True)
         self.assertTrue(any(problem.code == "READY014" for problem in problems))
+
+    def test_strict_ignores_legacy_ready_mission(self):
+        problems = validate(self.make_root(mission().replace("curriculum_version: 2", "curriculum_version: 1")), strict=True)
+        self.assertFalse(any(problem.code == "READY014" for problem in problems))

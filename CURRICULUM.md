@@ -89,11 +89,11 @@ M01 và M02 có thể làm song song sau M00; M03 cần cả hai.
 
 | Mission | Outcome thử trước | Evidence | Authority | Delivery state |
 |---|---|---|---|---|
-| M00 — First Safe Market Loop | human tự tạo/review/publish một artifact nhỏ có disclosure + tracking | E1→E2 | human_only; Bot/AI không publish | planned |
-| M01 — First Outcome Snapshot | ghi outcome/measurement snapshot nhỏ nhất, không ép kết quả dương | E3 | manual/read-only | planned |
-| M02 — Smallest Deterministic Bot | baseline audit được cho evidence/context đã có | E0 + hỗ trợ E1/E2 | A0 deterministic | planned |
-| M03 — Trustworthy History & Measurement | history append-only, provenance/freshness/reconcile | E3 | A0 deterministic | planned |
-| M04 — Grounded AI Advisor | AI advisory grounded + fallback, không tool/write | E3 | A1 advisory | planned |
+| M00 — First Safe Market Loop | human tự tạo/review/publish một artifact nhỏ có disclosure + tracking | E1→E2 | human_only; Bot/AI không publish | draft |
+| M01 — First Outcome Snapshot | ghi outcome/measurement snapshot nhỏ nhất, không ép kết quả dương | E3 | manual/read-only | draft |
+| M02 — Smallest Deterministic Bot | baseline audit được cho evidence/context đã có | E0 + hỗ trợ E1/E2 | A0 deterministic | draft |
+| M03 — Trustworthy History & Measurement | history append-only, provenance/freshness/reconcile | E3 | A0 deterministic | draft |
+| M04 — Grounded AI Advisor | AI advisory grounded + fallback, không tool/write | E3 | A1 advisory | draft |
 | M05 — First Reviewed Improvement | hypothesis từ outcome → test/review/rollback | E4 | A1 propose only | planned |
 | M06 — Reliable Watcher | reliable read/alert/recovery | E4 | A0 core + A1 triage | planned |
 | M07 — Decision and Abstention | DecisionPacket/policy/evaluation | E4 | A1 advisory | planned |

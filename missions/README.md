@@ -8,11 +8,11 @@ readiness: see `python scripts/report_readiness.py` and
 
 | Mission | Outcome | Authoring |
 |---|---|---|
-| M00 | First Safe Market Loop — human-only manual publish with disclosure/tracking | planned |
-| M01 | First Outcome Snapshot — real measurement, zero/pending/inconclusive allowed | planned |
-| M02 | Smallest Deterministic Bot — auditable A0 baseline | planned |
-| M03 | Trustworthy History & Measurement — provenance/freshness/reconcile | planned |
-| M04 | Grounded AI Advisor — A1, no tools/write/execute | planned |
+| [M00](M00-first-safe-market-loop.md) | First Safe Market Loop — human-only manual publish with disclosure/tracking | draft |
+| [M01](M01-first-outcome-snapshot.md) | First Outcome Snapshot — real measurement, zero/pending/inconclusive allowed | draft |
+| [M02](M02-smallest-deterministic-bot.md) | Smallest Deterministic Bot — auditable A0 baseline | draft |
+| [M03](M03-trustworthy-history-and-measurement.md) | Trustworthy History & Measurement — provenance/freshness/reconcile | draft |
+| [M04](M04-grounded-ai-advisor.md) | Grounded AI Advisor — A1, no tools/write/execute | draft |
 | M05 | First Reviewed Improvement — outcome → test/review/rollback | planned |
 | M06 | Reliable Watcher | planned |
 | M07 | Decision and Abstention | planned |

@@ -1,0 +1,2 @@
+{"subject_id":"synthetic-offer","observation_id":"obs-t2","observed_at":"2026-09-02T00:00:00Z","ingested_at":"2026-09-03T00:00:00Z","provenance_ref":"fixture-t2","missing_fields":[]}
+{"subject_id":"synthetic-offer","observation_id":"obs-t1","observed_at":"2026-09-01T00:00:00Z","ingested_at":"2026-09-04T00:00:00Z","provenance_ref":"fixture-t1","missing_fields":["revenue"]}

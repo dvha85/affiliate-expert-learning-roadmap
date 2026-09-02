@@ -61,3 +61,8 @@ Order/revenue là maturity milestone, không phải điều kiện may rủi đ�
 ## Dữ liệu nhạy cảm
 
 Không commit secret, token, credential, API key, raw personal/sensitive export. Dùng redacted sample hoặc secure external storage và chỉ lưu reference/checksum khi cần.
+
+V2 dùng [`PRIVACY-AND-LEARNER-EVIDENCE.md`](../docs/PRIVACY-AND-LEARNER-EVIDENCE.md)
+làm contract chi tiết. Raw/private evidence phải nằm trong các path local bị
+ignore; artifact commit được phải là summary đã redact, fixture synthetic/test
+hoặc reference/checksum đã review.
