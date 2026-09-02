@@ -150,10 +150,11 @@ ra sao.
 
 ## Bot Version Result — Kết quả phiên bản Bot
 
-`v0.4`: reviewed improvement proposal only. M06+ chỉ được mở tuần tự sau khi
-owner hoàn tất personal validation loop và review safety gate tương ứng.
+`v0.4`: reviewed improvement proposal only. M06+ authoring chỉ mở sau H1 trust
+repair; live activation vẫn cần personal Reality/evidence gate tương ứng.
 
 ## Next Mission — Mission tiếp theo
 
-PR9 personal validation loop. M06–M11 không được author sâu hay tăng automation
-trước khi personal safety gate tương ứng đạt.
+PR9 trust repair + personal validation loop. Xem
+[ADR-006](../docs/ADR-006-PERSONAL-VALIDATION-AND-PUBLIC-PILOT.md):
+`AUTHORING_OPEN` không đồng nghĩa `LIVE_ACTIVATION` hay `PUBLIC_VALIDATION`.

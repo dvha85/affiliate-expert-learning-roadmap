@@ -1,7 +1,8 @@
 # Lộ trình học Affiliate Intelligence Bot
 
 > **Curriculum v2 Personal:** M00–M05 có delivery scaffold/eval nhưng chưa
-> Mission nào được pilot validated. M06–M11 mở theo personal safety gates; xem
+> Mission nào được pilot validated. M06–M11 tách authoring gate khỏi live
+> activation gate; xem
 > [implementation checklist](docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md).
 
 **Curriculum v2 / Reality-First migration is active.** Đây là lộ trình cho
@@ -24,12 +25,21 @@ Theo dõi phần còn thiếu của migration tại
    rồi xem [Mission index](missions/README.md). M00–M05 đã có starter/eval
    bundle để review, nhưng chưa Mission nào có pilot thật được xác thực.
 4. Dùng [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md) và
-   [migration guide](docs/CURRICULUM-MIGRATION-v2.md) khi muốn hiểu/đóng góp
-   vào rebaseline.
+   [ADR-006 personal/public gates](docs/ADR-006-PERSONAL-VALIDATION-AND-PUBLIC-PILOT.md)
+   khi muốn hiểu sequence và điều kiện tăng capability.
 
 M00 v2 là human-only safe market loop: public observation → human-created
 micro-artifact → disclosure/tracking → human review/manual publish. Bot/AI sẽ
 không publish. O00 chỉ là demo synthetic an toàn và không phải PASS.
+
+Personal progression dùng ba trạng thái riêng:
+
+```text
+AUTHORING_OPEN ≠ LIVE_ACTIVATION ≠ PUBLIC_VALIDATION
+```
+
+`BLOCKED_EXTERNAL` cho phép tiếp tục scaffold/replay phù hợp nhưng không thay
+E1–E6 và không mở live automation.
 
 ```text
 REAL CONTEXT
