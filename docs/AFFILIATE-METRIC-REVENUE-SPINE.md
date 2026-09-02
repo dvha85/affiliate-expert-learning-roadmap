@@ -93,7 +93,65 @@ Revenue per Exposure = Final Commission / Exposure
 
 Nếu mẫu số bằng `0`, tỷ lệ phải tuân theo policy xử lý undefined đã định; không tự suy thành `0%` nếu semantics không cho phép.
 
-## 5. Mức trưởng thành theo Mission
+## 5. `MeasurementContext` — ngữ cảnh đo lường bắt buộc từ M04
+
+Tên metric và value chưa đủ để diễn giải outcome. Từ M04, analytics/outcome quan trọng phải reference một `MeasurementContext` (ngữ cảnh đo lường) hoặc equivalent canonical record.
+
+Shape logic tối thiểu:
+
+```yaml
+measurement_context_id:
+reporting_source:
+reporting_scope:
+tracking_id:
+campaign_id:
+attribution_model:
+attribution_lookback_window:
+reporting_timezone:
+configuration_observed_at:
+import_validation_status:
+data_freshness:
+limitations: []
+```
+
+Không phải source nào cũng expose mọi field. Field không có phải giữ `unknown`/`not_available`; không được invent attribution config.
+
+### Invariant so sánh
+
+```text
+same metric name
++ different attribution/source/scope/window context
+≠ directly comparable measurement
+```
+
+Ví dụ:
+
+```text
+TikTok reports 8 conversions
+Google Analytics reports 5 conversions
+```
+
+không tạo quyền chọn số thuận lợi hơn. Flow đúng là:
+
+```text
+compare source + event definition + tracking identity
++ attribution model/window + timezone + data freshness
+→ reconcile / explain limitation
+→ canonical interpretation
+```
+
+### Import success khác measurement completeness
+
+```text
+file/API import succeeded
+≠ payload semantically complete
+≠ attribution context known
+≠ canonical outcome accepted
+```
+
+Khi nguồn/import tool cung cấp validation status, giữ nó trong `MeasurementContext`. Thiếu cost/click/impression hoặc mismatch campaign ID phải là data-quality evidence, không được bị workflow success che mất.
+
+## 6. Mức trưởng thành theo Mission
 
 | Mission | Mức trưởng thành của metric |
 |---|---|
@@ -101,16 +159,16 @@ Nếu mẫu số bằng `0`, tỷ lệ phải tuân theo policy xử lý undefin
 | M01 | cùng metric có provenance, timestamp, history và freshness |
 | M02 | AI có thể giải thích/đặt giả thuyết nhưng không ghi đè metric truth |
 | M03 | đăng ký trước (`pre-register`) target metric, expected direction và outcome window trước publish |
-| M04 | import exposure/click/order/valid/final commission thật khi source hỗ trợ; tách test event |
-| M05 | chọn bottleneck theo funnel và thử nghiệm một thay đổi chính |
+| M04 | import exposure/click/order/valid/final commission thật khi source hỗ trợ; tách test event; tạo `MeasurementContext` và reconcile source/config |
+| M05 | chọn bottleneck theo funnel; experiment chỉ so outcome có measurement context tương thích hoặc limitation rõ |
 | M06 | watcher tự động thu signal đã hiểu với retry/dedup/freshness |
-| M07 | `DecisionPacket` tham chiếu metric window/confidence/missing evidence |
-| M08 | read-only tool chỉ lấy missing factor có giá trị cho quyết định |
+| M07 | `DecisionPacket` tham chiếu metric window/context/confidence/missing evidence |
+| M08 | read-only tool chỉ lấy missing factor/context có giá trị cho quyết định |
 | M09 | `ActionIntent` giữ expected outcome/cost/risk nhưng chưa có permission |
 | M10 | canary đo outcome, intervention, cost và policy block trong giới hạn |
-| M11 | trace decision → action → outcome → revenue/evaluation đầu-cuối |
+| M11 | trace decision → action → outcome → revenue/evaluation đầu-cuối, gồm measurement context khi relevant |
 
-## 6. Chẩn đoán nút thắt (`bottleneck diagnosis`)
+## 7. Chẩn đoán nút thắt (`bottleneck diagnosis`)
 
 ```text
 Không có exposure
@@ -126,14 +184,14 @@ Có order nhưng invalid/refunded
 → giả thuyết product quality / seller quality / expectation / compliance
 
 Metric thiếu hoặc xung đột
-→ giả thuyết measurement/instrumentation
+→ giả thuyết measurement/instrumentation/attribution context
 ```
 
 Không được nhảy tới automation/AI optimization khi lớp đo lường chưa phân biệt được các bottleneck trên.
 
-## 7. Tính toàn vẹn của cửa sổ và cohort
+## 8. Tính toàn vẹn của cửa sổ, cohort và attribution
 
-Mọi comparison phải ghi:
+Mọi comparison phải ghi hoặc reference:
 
 - time window (cửa sổ thời gian);
 - channel/scope (kênh/phạm vi);
@@ -141,13 +199,17 @@ Mọi comparison phải ghi:
 - content/action version;
 - test event khác real event;
 - trạng thái pending/partial/final;
+- reporting source;
+- attribution model/lookback window nếu source có;
+- timezone/config timestamp khi ảnh hưởng kỳ báo cáo;
+- data freshness/import validation;
 - giới hạn attribution đã biết.
 
-Không so hai rate từ scope/window khác nhau mà không ghi limitation.
+Không so hai rate từ scope/window/attribution context khác nhau mà không ghi limitation.
 
-## 8. Trạng thái sự thật của doanh thu
+## 9. Trạng thái sự thật của doanh thu
 
-Vòng đời đơn hàng phải tách khi nguồn hỗ trợ:
+Vòng đời đơn hàng/commission phải tách khi nguồn hỗ trợ:
 
 ```text
 ORDER_PENDING
@@ -161,12 +223,46 @@ COMMISSION_PAID
 
 `Order` không đồng nghĩa với `revenue`. `Commission pending` không đồng nghĩa với `paid`.
 
-## 9. Quy tắc ra quyết định
+Khi payment/export thật sự expose adjustment hoặc withholding, lưu riêng:
+
+```yaml
+gross_commission:
+platform_adjustment:
+tax_withheld:
+net_payout:
+payout_evidence_ref:
+```
+
+Boundary:
+
+```text
+gross commission
+≠ final commission
+≠ net payout
+```
+
+`tax_withheld` chỉ là observed financial evidence khi source cung cấp. Repo không hard-code một mức thuế Affiliate phổ quát và không suy nghĩa vụ thuế cá nhân chỉ từ một platform field.
+
+## 10. Reconciliation state
+
+Khi nhiều source cùng nói về một outcome, canonical record nên giữ reconciliation state thay vì overwrite:
+
+```text
+UNRECONCILED
+MATCHED
+EXPLAINED_DIFFERENCE
+CONFLICTING
+INSUFFICIENT_CONTEXT
+```
+
+Ví dụ một platform report và analytics tool khác nhau có thể vẫn hợp lệ nếu attribution window/event definition khác. `EXPLAINED_DIFFERENCE` tốt hơn ép hai số thành một.
+
+## 11. Quy tắc ra quyết định
 
 Metric spine phục vụ decision, không thay decision contract.
 
 ```text
-Evidence + Funnel Metrics + Opportunity Signals
+Evidence + Funnel Metrics + MeasurementContext + Opportunity Signals
 → Expected Value / đánh giá bottleneck
 → Affiliate Intelligence Decision
 → Risk / Policy
@@ -183,4 +279,6 @@ Nguyên tắc:
 >
 > **MISSING ≠ ZERO — Thiếu dữ liệu không phải số 0.**
 >
-> **ORDER ≠ VALID ORDER ≠ FINAL/PAID COMMISSION — Đơn hàng không đồng nghĩa đơn hợp lệ hay hoa hồng cuối/đã trả.**
+> **METRIC VALUE WITHOUT CONTEXT ≠ COMPARABLE TRUTH — Giá trị chỉ số thiếu ngữ cảnh không phải sự thật có thể so sánh trực tiếp.**
+>
+> **ORDER ≠ VALID ORDER ≠ FINAL/PAID COMMISSION ≠ NET PAYOUT — Đơn hàng không đồng nghĩa đơn hợp lệ, hoa hồng cuối/đã trả hay tiền thực nhận sau adjustment/withholding.**
