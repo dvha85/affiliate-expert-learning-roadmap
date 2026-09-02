@@ -150,10 +150,10 @@ ra sao.
 
 ## Bot Version Result — Kết quả phiên bản Bot
 
-`v0.4`: reviewed improvement proposal only. M06+ remain locked until beginner
-pilot evidence confirms the early loop is understandable and safe.
+`v0.4`: reviewed improvement proposal only. M06+ chỉ được mở tuần tự sau khi
+owner hoàn tất personal validation loop và review safety gate tương ứng.
 
 ## Next Mission — Mission tiếp theo
 
-PR9 pilot/promotion. M06–M11 không được author sâu hay tăng automation trước
-khi pilot gate đạt.
+PR9 personal validation loop. M06–M11 không được author sâu hay tăng automation
+trước khi personal safety gate tương ứng đạt.

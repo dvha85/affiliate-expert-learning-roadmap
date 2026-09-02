@@ -1,7 +1,7 @@
 # Lộ trình học Affiliate Intelligence Bot
 
-> **Curriculum v2 Beta:** M00–M04 có delivery scaffold/eval nhưng chưa Mission
-> nào được pilot validated. M05–M11 vẫn planned; xem
+> **Curriculum v2 Personal:** M00–M05 có delivery scaffold/eval nhưng chưa
+> Mission nào được pilot validated. M06–M11 mở theo personal safety gates; xem
 > [implementation checklist](docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md).
 
 **Curriculum v2 / Reality-First migration is active.** Đây là lộ trình cho
@@ -21,7 +21,7 @@ Theo dõi phần còn thiếu của migration tại
 2. Chạy [O00 Safe Synthetic Walkthrough](docs/O00-SAFE-SYNTHETIC-WALKTHROUGH.md)
    để thấy loop an toàn, không tạo PASS hay public action.
 3. Mở [M00 First Safe Market Loop](missions/M00-first-safe-market-loop.md),
-   rồi xem [Mission index](missions/README.md). M00–M04 đã có starter/eval
+   rồi xem [Mission index](missions/README.md). M00–M05 đã có starter/eval
    bundle để review, nhưng chưa Mission nào có pilot thật được xác thực.
 4. Dùng [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md) và
    [migration guide](docs/CURRICULUM-MIGRATION-v2.md) khi muốn hiểu/đóng góp

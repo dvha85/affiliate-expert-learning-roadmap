@@ -1,4 +1,4 @@
-# Kế hoạch triển khai còn lại — Curriculum v2 Reality-First
+# Kế hoạch triển khai cá nhân — Curriculum v2 Reality-First
 
 **Cập nhật:** 2026-09-02  
 **Baseline đã merge:** `2ab6656`  
@@ -6,9 +6,10 @@
 [ADR-005](ADR-005-REALITY-FIRST-CURRICULUM.md),
 [migration guide](CURRICULUM-MIGRATION-v2.md).
 
-Đây là checklist vận hành cho phần còn thiếu của kế hoạch v2. Nó phân biệt
-delivery scaffold, pilot thật và learner PASS: fixture/eval **không** được dùng
-để tuyên bố E1–E4 hay pilot validation.
+Đây là checklist vận hành cho phần còn thiếu của kế hoạch v2, dành cho một
+người vận hành repository. Nó phân biệt delivery scaffold, evidence thực hành
+cá nhân và learner PASS: fixture/eval **không** được dùng để tuyên bố E1–E4
+hay pilot validation tổng quát.
 
 ## Quy ước trạng thái
 
@@ -18,6 +19,10 @@ delivery scaffold, pilot thật và learner PASS: fixture/eval **không** đư�
 - `BLOCKED_EXTERNAL` là trạng thái trung thực khi learner không có access hoặc
   safe channel; không được thay bằng synthetic evidence.
 
+Personal validation chỉ xác nhận rằng owner đã làm được loop trong bối cảnh
+của mình. Nó không đổi `pilot_status` thành `validated`, không đại diện cho
+người mới khác và không tự mở quyền hành động bên ngoài.
+
 ## Snapshot hiện tại
 
 - [x] V2 canonical spine: `O00 → M00 → (M01 ∥ M02) → M03 → M04 → M05…`.
@@ -26,11 +31,12 @@ delivery scaffold, pilot thật và learner PASS: fixture/eval **không** đư�
 - [x] O00, M00–M05 có Mission/starter/eval/verification scaffold.
 - [x] Privacy boundary và redacted-evidence templates/validator.
 - [x] M00–M05 v2 đang là `draft`, `delivery complete`, `pilot_status: untested`.
-- [x] M05 có reviewed-improvement contract/starter/eval; chưa có pilot evidence thật.
+- [x] M05 có reviewed-improvement contract/starter/eval; personal validation
+  evidence còn trống.
 
 > Không đổi `draft` thành `ready` hay `pilot_status: validated` chỉ vì test/eval
-> xanh. Promotion cần starter/eval/verification **và** actual pilot/evidence
-> phù hợp với Mission.
+> xanh hoặc personal validation. Trạng thái đó chỉ dành cho pilot/evidence phù
+> hợp nếu repository sau này phục vụ người khác.
 
 ---
 
@@ -54,12 +60,14 @@ auto-credit Mission PASS.
 
 ### A2. CI/repository enforcement
 
-- [ ] Xác minh trên GitHub rằng `Curriculum CI` là required status check và
-  `main` có branch protection/ruleset; cập nhật audit date trong governance.
+- [ ] (Tuỳ chọn) Xác minh trên GitHub rằng `Curriculum CI` là required status
+  check và `main` có branch protection/ruleset nếu repository được cộng tác
+  hoặc dùng từ nhiều máy.
 - [x] Quy ước một PR chỉ được gọi “delivered” khi `delivery complete` và pilot
   claim có evidence refs; `ready` vẫn chỉ là authoring state.
 
-**Gate:** configuration được kiểm từ GitHub settings/API, không chỉ từ docs.
+**Gate:** local CI-equivalent luôn xanh; GitHub protection là lớp bảo vệ bổ
+sung, không phải blocker cho personal repository.
 
 ## B. PR3 còn thiếu — beginner onboarding và workspace privacy
 
@@ -77,8 +85,8 @@ auto-credit Mission PASS.
 - [x] Bổ sung ignore path còn thiếu: `workspace/`, `pilot/raw/`,
   `lab/learner/affiliate-bot/data/local/` và raw analytics/private exports.
 
-**Pilot gate:** median browser → first safe output ≤20 phút; không có
-secret/PII/raw analytics bị commit.
+**Personal gate:** owner có thể đi từ browser → first safe output theo docs;
+không có secret/PII/raw analytics bị commit.
 
 ## C. PR4 còn thiếu — contract registry và orientation đầy đủ
 
@@ -144,8 +152,8 @@ attempted production mutation) đều qua expected behavior.
   `synthetic`, `price × commission_rate` chỉ là weak scenario.
 
 **Gate:** thiếu audience/offer evidence → abstain; no external action; 3–6
-knowledge cards được pull on demand; target focused time 6–8 giờ cần pilot xác
-thực, không xem là promise.
+knowledge cards được pull on demand; owner ghi focused time thực tế để cải
+tiến personal workflow, không xem 6–8 giờ là promise cho người khác.
 
 ## F. PR7 còn thiếu — complete M03/M04 contracts
 
@@ -188,35 +196,37 @@ mutate deterministic baseline/history.
 **Gate:** M05 establishes E4 only with a real linked trace and human review.
 Negative/inconclusive outcome can pass if the measurement is honest.
 
-## H. PR9 — pilot và promotion (không thể fake bằng code)
+## H. PR9 — personal validation loop (không thể fake bằng code)
 
-- [x] Tạo pilot kit: consent/session/aggregate templates, privacy boundary và
-  validator; kit không chứa dữ liệu pilot hoặc telemetry.
-- [ ] Recruit 5–10 learners chưa lập trình; obtain explicit consent, no hidden
-  telemetry and no collection of secret/PII/raw account data.
-- [ ] Create anonymized pilot record: setup/first-run/build/debug/knowledge/
-  retry time, highest hint, blocker code, dropout point, Capability/Reality/
-  Operated and focused vs waiting time.
-- [ ] Measure time-to-E1/E2/E3/E4 and public-action authority violations.
-- [ ] Compare outcomes to promotion thresholds below; publish only aggregate or
-  redacted evidence.
+- [x] Có template consent/session/aggregate, privacy boundary và validator;
+  trong personal mode chúng chỉ là tuỳ chọn để ghi nhận redacted.
+- [ ] Owner chạy độc lập O00 rồi M00 → M05; với mỗi Reality gate, lưu linked
+  evidence thật hoặc ghi `BLOCKED_EXTERNAL` trong `workspace/` (đã ignore).
+- [ ] Ghi thời gian setup/first-run/build/debug, blocker, hint đã dùng, focused
+  time/waiting time và authority boundary đã áp dụng; không lưu secret, PII,
+  raw analytics hay thông tin tài khoản.
+- [ ] M00/M01 chỉ có human-owned action và measurement; missing/pending không
+  bị ghi thành observed `0` hay outcome thật.
+- [ ] M05 có một release/reject/rollback decision do chính owner review; nếu
+  thiếu traffic, kết quả phải là `INCONCLUSIVE`.
+- [ ] Owner review kết quả và quyết định có mở PR kế tiếp hay sửa M00–M05.
 
-| Promotion threshold | Result |
+| Personal safety gate | Result |
 |---|---|
-| ≥80% first demo ≤20 minutes | [ ] |
-| ≥70% M00 Capability in 4–6 focused hours | [ ] |
-| median first E2 ≤8 focused hours | [ ] |
-| required lesson median ≤30 min; p90 ≤45 min | [ ] |
-| dropout before M00 <20% | [ ] |
-| human-only public action 100%; fabricated evidence/secret/PII/safety bypass = 0 | [ ] |
-| ≥3 learners complete M05/E4 before production forecast | [ ] |
+| O00 và toàn bộ local CI-equivalent xanh trước mỗi thay đổi authority | [ ] |
+| M00–M05 có evidence thực hành hoặc `BLOCKED_EXTERNAL` trung thực | [ ] |
+| Không có public action tự động, secret/PII commit, fabricated evidence hay safety bypass | [ ] |
+| Owner đã review trace, giới hạn đo lường và rollback trước khi tăng capability | [ ] |
 
-**Promotion rule:** only after this evidence may timeline forecasts be
-recalibrated or a Mission move to `pilot_status: validated`.
+**Personal progression rule:** personal evidence chỉ mở PR kỹ thuật kế tiếp
+khi gate tương ứng bên dưới đạt. Nó không tạo claim về timeline/người dùng khác
+và không đổi `pilot_status: validated`.
 
-## I. PR10–PR13 — locked until PR9 promotion
+## I. PR10–PR13 — mở tuần tự theo personal safety gates
 
-> Do **not** author these deeply or grant more authority before PR9 passes.
+> Không PR nào được tự mở chỉ vì checklist xanh. Mỗi PR phải qua gate của PR
+> trước, giữ human approval và không tăng quyền external action ngoài phạm vi
+> được kiểm thử.
 
 ### PR10 — M06 read-only watcher
 
@@ -224,21 +234,38 @@ recalibrated or a Mission move to `pilot_status: validated`.
 - [ ] Retry, dedup, allowlist, alert and replay fixtures; exported workflows
   `active=false`, no credential.
 
+**Gate PR10:** owner đã hoàn thành/ghi `BLOCKED_EXTERNAL` cho M00–M05; O00,
+contract/eval/Go checks xanh; workflow chỉ read-only/replay, `active=false`,
+không credential và không external write.
+
 ### PR11 — M07/M08 decision and read-only agent
 
 - [ ] DecisionPacket, abstention/memory/evaluation contract.
 - [ ] Allowlisted read-only tool Agent; policy/evidence/freshness boundary.
+
+**Gate PR11:** PR10 replay cho thấy retry/dedup/allowlist hoạt động; tối thiểu
+10 DecisionPacket synthetic hoặc replay đều abstain/fail-closed khi evidence,
+freshness hoặc authorization không đủ; agent không có write/publish/execute.
 
 ### PR12 — M09/M10 shadow approval and canary
 
 - [ ] Durable ActionIntent/approval record and shadow mode.
 - [ ] Bounded canary, risk/policy gate, audit, kill switch and recovery tests.
 
+**Gate PR12:** PR11 có audit của owner cho DecisionPacket và read-only tool
+trace; shadow mode không phát external action; approval record, kill switch và
+recovery test đều pass trước khi có bất kỳ canary thủ công, giới hạn nào.
+
 ### PR13 — M11 production closed loop
 
 - [ ] Production trace, backup/restore, recovery, incident runbook and kill
   switch evidence.
 - [ ] No silent self-modification of prompt/policy/weights/workflow.
+
+**Gate PR13:** PR12 có trace canary/replay được owner review, rollback/restore
+được diễn tập và mọi ActionIntent vẫn cần human approval. Personal repository
+không cho phép production loop tự hành hoặc tự sửa prompt/policy/weights/
+workflow.
 
 ## Definition of Done — v2 Beta
 
@@ -249,7 +276,8 @@ recalibrated or a Mission move to `pilot_status: validated`.
   have parity; M03 survives restart; M04 meets grounded rejection/fallback
   thresholds; M05 creates only reviewed ChangeProposal.
 - [x] README/readiness reports are factual; local CI-equivalent checks are green.
-- [ ] Pilot evidence meets PR9 promotion gates.
+- [ ] Personal validation records đạt PR9 safety gates; `pilot_status` vẫn là
+  `untested` trừ khi sau này có pilot độc lập.
 
 ## Recommended execution order
 
@@ -257,10 +285,11 @@ recalibrated or a Mission move to `pilot_status: validated`.
 A + B + C
 → D + E + F
 → G (M05)
-→ H (pilot/promotion)
-→ I (PR10–PR13, only after pilot)
+→ H (personal validation loop)
+→ I (PR10–PR13, one personal safety gate at a time)
 ```
 
-M05 and pilot are the critical path to Beta. PR10–PR13 are deliberately not a
-near-term checklist for implementation until learners demonstrate that the
-earlier loop is understandable, safe and useful.
+M05 và personal validation là critical path cho owner. PR10–PR13 không còn bị
+block bởi cohort 5–10 người, nhưng vẫn không là near-term checklist: chỉ triển
+khai từng bước sau khi owner chứng minh loop trước an toàn, hiểu được và hữu
+ích trong bối cảnh của mình.
