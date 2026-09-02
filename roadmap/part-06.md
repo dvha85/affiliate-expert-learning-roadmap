@@ -4,13 +4,14 @@
 - **Chapters:** C18–C20
 - **Core:** 9 micro-lessons
 - **Mission:** M11
-- **Outcome:** Hybrid Affiliate Intelligence Bot chạy qua một observation window thật với Go core, orchestration runtime và Agent intelligence có recovery/security controls, end-to-end trace và reviewed improvement từ outcome.
+- **Outcome:** Hybrid Affiliate Intelligence Bot chạy qua một observation window thật với Deterministic Core, orchestration runtime và Agent intelligence có recovery/security controls, end-to-end trace và reviewed improvement từ outcome.
 
 ## Production ownership
 
 ```text
-Go
+Deterministic Core
 = canonical evidence/state + Decision/Policy contracts + authorization + audit semantics
+= Go reference/fallback hoặc reviewed deterministic rule implementation
 
 n8n
 = production orchestration reference
@@ -34,13 +35,15 @@ Không đợi “production hoàn hảo” mới quan sát operational evidence.
 
 Tối thiểu thử:
 
-1. Go core restart/unavailable case;
+1. Deterministic Core implementation restart/unavailable/version-mismatch case;
 2. n8n workflow failure/retry/duplicate case;
 3. Agent unavailable/invalid/tool failure case;
 4. stale/expired approval case;
 5. một data-scope/minimisation failure khi integration/tool có privacy relevance;
 6. kill-switch case;
 7. recovery rồi replay một end-to-end trace.
+
+Nếu production dùng Go thì test Go process/service failure. Nếu dùng visual rule engine thì test rule runtime/API failure, stale/unpublished version và rollback. Cả hai phải chứng minh cùng canonical fail-closed behavior.
 
 ## Core checklist
 
@@ -53,13 +56,15 @@ Tối thiểu thử:
 Operational view phải tách được ít nhất:
 
 ```text
-Go core health
+Deterministic Core implementation health
 n8n orchestration health
 AgentRuntime health
 external dependency health
 ```
 
-Một dashboard xanh của orchestrator không được che việc Go policy/Agent/external source đang fail.
+Nếu deterministic implementation là Go, có thể expose `Go core health`. Nếu là DecisionRules/rule engine, phải expose rule runtime + active version/parity status tương đương.
+
+Một dashboard xanh của orchestrator không được che việc deterministic policy/Agent/external source đang fail.
 
 ### Chương 19 — Security và incident containment
 
@@ -71,12 +76,13 @@ Cross-runtime security/data rule:
 
 - secrets chỉ tồn tại ở runtime cần chúng;
 - Agent không mặc định nhận orchestration/platform credentials;
-- n8n không nhận quyền sửa Go policy/business truth;
-- Go core không cần giữ mọi integration credential nếu orchestrator sở hữu adapter đó;
+- n8n không nhận quyền sửa deterministic policy/business truth;
+- deterministic core implementation không cần giữ mọi integration credential nếu orchestrator sở hữu adapter đó;
 - personal/customer/account data chỉ đi tới runtime/provider thật sự cần cho declared purpose;
 - ưu tiên aggregate/reference/redacted data khi đủ cho Mission outcome;
 - retention/downstream sharing phải theo `DataAccessContext` khi relevant;
-- log/traces phải redact sensitive values nhưng giữ correlation và đủ metadata để audit purpose/data scope.
+- log/traces phải redact sensitive values nhưng giữ correlation và đủ metadata để audit purpose/data scope;
+- AI-generated policy/rule/code không được tự promote lên production.
 
 Invariant:
 
@@ -102,7 +108,7 @@ production outcome
 → versioned release/reject
 ```
 
-Không cho Agent/n8n tự sửa production prompt, policy, formula, workflow authority, data-access scope hoặc weights dựa chỉ trên một outcome.
+Không cho Agent/n8n/Development Agent tự sửa production prompt, policy, formula, workflow authority, data-access scope hoặc weights dựa chỉ trên một outcome.
 
 ## Cross-runtime fail-safe invariants
 
@@ -131,11 +137,19 @@ Nếu orchestration fail:
 - không replay raw sensitive payload sang downstream ngoài retention/scope chỉ để “khôi phục workflow”.
 
 ```text
-Go Policy unavailable
+Deterministic Policy Authority unavailable / invalid / unverified
 → no consequential execution
 ```
 
 Không fallback sang workflow IF node hoặc Agent judgment để “giữ hệ thống chạy”.
+
+Nếu visual rule implementation fail/version mismatch:
+
+```text
+rule runtime error / stale rule / unknown active version
+→ fail closed
+→ no consequential execution
+```
 
 ## End-to-end trace contract
 
@@ -150,7 +164,7 @@ Trigger
 → Agent Analysis/tool trace nếu có
 → DecisionPacket
 → ActionIntent
-→ PolicyDecision
+→ PolicyDecision + deterministic implementation/rule version
 → Approval nếu required
 → ExecutionRecord
 → Outcome
@@ -163,7 +177,8 @@ Correlation ID phải survive cross-runtime boundaries. Trace phải chứng min
 
 | Failure | Expected safe behavior |
 |---|---|
-| Go core unavailable | stop dependent decisions/actions; no policy bypass |
+| Deterministic Core implementation unavailable | stop dependent decisions/actions; no policy bypass |
+| Deterministic rule version unknown/mismatched | fail closed; no consequential execution |
 | n8n unavailable | orchestration delayed/degraded; no history corruption |
 | Agent unavailable | deterministic fallback/abstain |
 | Agent malformed/unsupported output | reject/fallback |
@@ -191,28 +206,31 @@ Learner phải drill ít nhất một case đang có pending/approved work rồi
 
 Kill switch external action không phải privacy override: collection/analysis chỉ tiếp tục trong permission/data purpose hiện hành.
 
-## Framework replaceability check
+## Framework và implementation replaceability check
 
 M11 capstone phải giải thích:
 
-- phần nào là Go/domain contract;
+- phần nào là deterministic domain/governance contract;
+- deterministic implementation hiện dùng Go hay visual rule engine và vì sao;
 - phần nào là n8n implementation detail;
 - phần nào là AgentRuntime implementation detail;
 - phần nào là permission/data-governance contract phải giữ bất kể runtime;
-- nếu thay n8n/Hermes bằng runtime khác thì contracts/evidence nào phải giữ nguyên.
+- nếu thay Go/DecisionRules/n8n/Hermes bằng implementation khác thì contracts/evidence nào phải giữ nguyên;
+- phần code nào có thể do Development Agent maintain và review gate nào chặn unsafe merge.
 
-Production PASS không phụ thuộc vào vendor name; nó phụ thuộc behavior, evidence, authority, data boundary và recovery.
+Production PASS không phụ thuộc vào vendor name hoặc số dòng code; nó phụ thuộc behavior, evidence, authority, data boundary và recovery.
 
 ## Part PASS
 
 - [ ] M11 có Capability PASS, Reality verified cấp E6 và Operated
 - [ ] Bot chạy qua declared observation window với operational evidence
-- [ ] Go/n8n/Agent/external health/failure boundaries quan sát được
+- [ ] Deterministic Core/n8n/Agent/external health/failure boundaries quan sát được
 - [ ] Recovery và kill-switch drill có artifact
 - [ ] Duplicate/retry/restart không tạo consequential side effect trùng
 - [ ] Agent unavailable/invalid vẫn có deterministic fallback/abstention
 - [ ] n8n unavailable không corrupt canonical evidence/history
-- [ ] Go Policy unavailable không có consequential execution
+- [ ] Deterministic Policy Authority unavailable/invalid/unverified không có consequential execution
+- [ ] Nếu visual rule engine được dùng: active version/parity/reason/rollback/fail-closed evidence PASS
 - [ ] Production data flow giữ purpose/minimisation/retention/downstream-sharing boundary khi relevant
 - [ ] Trace nối được trigger → evidence/data context → analysis → decision → policy/approval → action → outcome → evaluation
 - [ ] Trace/audit không mặc định lưu raw secret/full personal data
