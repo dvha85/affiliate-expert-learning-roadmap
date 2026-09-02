@@ -86,7 +86,7 @@ Implementation của Deterministic Policy Authority có thể là Go reference h
 - [ ] **14.2** — Unsupported, stale, missing và conflicting-evidence cases
 - [ ] **14.3** — Decision utility, latency, cost và human intervention rate
 
-M07 là **earliest meaningful visual-rule comparison** cho Core path. Candidate hiện tại: DecisionRules hoặc equivalent deterministic rule engine.
+M07 là **first meaningful visual-rule comparison** cho Core path. Candidate hiện tại: DecisionRules hoặc equivalent deterministic rule engine.
 
 Comparison tối thiểu:
 
