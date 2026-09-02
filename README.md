@@ -1,8 +1,9 @@
 # Lộ trình học Affiliate Intelligence Bot
 
-> **Curriculum v2 Personal:** M00–M05 có delivery scaffold/eval nhưng chưa
-> Mission nào được pilot validated. M06–M11 tách authoring gate khỏi live
-> activation gate; xem
+> **Curriculum v2 Personal-only:** M00–M05 có delivery scaffold/eval nhưng
+> personal execution evidence còn trống. M06–M11 tách authoring gate khỏi
+> live activation gate; repository không có gate tuyển/đánh giá nhóm learner.
+> Xem
 > [implementation checklist](docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md).
 
 **Curriculum v2 / Reality-First migration is active.** Đây là lộ trình cho
@@ -23,19 +24,19 @@ Theo dõi phần còn thiếu của migration tại
    để thấy loop an toàn, không tạo PASS hay public action.
 3. Mở [M00 First Safe Market Loop](missions/M00-first-safe-market-loop.md),
    rồi xem [Mission index](missions/README.md). M00–M05 đã có starter/eval
-   bundle để review, nhưng chưa Mission nào có pilot thật được xác thực.
+   bundle để review, nhưng chưa có personal execution trace được xác thực.
 4. Dùng [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md) và
-   [ADR-006 personal/public gates](docs/ADR-006-PERSONAL-VALIDATION-AND-PUBLIC-PILOT.md)
+   [ADR-006 personal-only validation](docs/ADR-006-PERSONAL-ONLY-VALIDATION.md)
    khi muốn hiểu sequence và điều kiện tăng capability.
 
 M00 v2 là human-only safe market loop: public observation → human-created
 micro-artifact → disclosure/tracking → human review/manual publish. Bot/AI sẽ
 không publish. O00 chỉ là demo synthetic an toàn và không phải PASS.
 
-Personal progression dùng ba trạng thái riêng:
+Personal progression dùng hai trạng thái riêng:
 
 ```text
-AUTHORING_OPEN ≠ LIVE_ACTIVATION ≠ PUBLIC_VALIDATION
+AUTHORING_OPEN ≠ LIVE_ACTIVATION
 ```
 
 `BLOCKED_EXTERNAL` cho phép tiếp tục scaffold/replay phù hợp nhưng không thay
@@ -74,16 +75,17 @@ v2 M02; do not treat it as a v2 M00 quickstart.
 
 ## Current readiness and learner state
 
-README không phải nguồn chuẩn của tiến độ người học. The canonical learner-state source is [PROGRESS.md](PROGRESS.md), currently a v1 pilot snapshot. The canonical authoring-state source is [missions/README.md](missions/README.md).
-Delivery/pilot visibility comes from:
+README không phải nguồn chuẩn của tiến độ người học. The canonical learner-state source is [PROGRESS.md](PROGRESS.md), currently a v1 progress snapshot. The canonical authoring-state source is [missions/README.md](missions/README.md).
+Delivery visibility comes from:
 
 ```bash
 python scripts/validate_readiness.py
 python scripts/report_readiness.py
 ```
 
-`ready` means authored; it does not mean a beginner starter, eval pack or pilot
-has been delivered. Use `--strict` only as a promotion gate for a new v2 Mission.
+`ready` means authored; it does not mean the learner path or personal execution
+has been completed. Use `--strict` only as an authoring-bundle gate for a new
+v2 Mission.
 
 ## Legacy v1 reference
 

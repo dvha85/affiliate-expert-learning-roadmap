@@ -1,14 +1,11 @@
-# Optional public pilot kit — do not fabricate results
+# Deprecated group-validation kit — pending removal
 
-PR9 hiện là personal validation theo
-[`ADR-006`](../docs/ADR-006-PERSONAL-VALIDATION-AND-PUBLIC-PILOT.md). Kit này
-được giữ cho public curriculum validation nếu owner sau này recruit 5–10
-consenting beginners. Nó không chặn personal authoring/live gates và personal
-evidence không được ghi thành participant/cohort evidence.
+Repository đã chuyển sang personal-only theo
+[`ADR-006`](../docs/ADR-006-PERSONAL-ONLY-VALIDATION.md). Không dùng directory
+này cho personal progression và không tạo thêm record mới.
 
-There is no hidden telemetry: use the redacted session and aggregate templates,
-keep identifying/raw material in ignored `pilot/raw/`, and commit an aggregate
-only after review.
-
-Track focused time separately from waiting time. `not_started` is the only
-truthful status until real sessions exist.
+Toàn bộ directory cùng template/validator/wiring liên quan được lên lịch xoá
+tại H1.3 của
+[implementation plan](../docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md). File này
+chỉ là migration marker để người đang ở commit chuyển tiếp không hiểu nhầm kit
+cũ là một gate còn hiệu lực.

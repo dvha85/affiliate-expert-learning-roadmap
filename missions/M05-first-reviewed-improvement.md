@@ -156,5 +156,5 @@ repair; live activation vẫn cần personal Reality/evidence gate tương ứng
 ## Next Mission — Mission tiếp theo
 
 PR9 trust repair + personal validation loop. Xem
-[ADR-006](../docs/ADR-006-PERSONAL-VALIDATION-AND-PUBLIC-PILOT.md):
-`AUTHORING_OPEN` không đồng nghĩa `LIVE_ACTIVATION` hay `PUBLIC_VALIDATION`.
+[ADR-006](../docs/ADR-006-PERSONAL-ONLY-VALIDATION.md):
+`AUTHORING_OPEN` không đồng nghĩa `LIVE_ACTIVATION`.

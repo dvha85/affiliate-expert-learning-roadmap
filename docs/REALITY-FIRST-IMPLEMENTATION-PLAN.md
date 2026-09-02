@@ -1,16 +1,16 @@
 # Kế hoạch triển khai cá nhân — Curriculum v2 Reality-First
 
 **Cập nhật:** 2026-09-02  
-**Baseline đã merge:** `1d33f71`
+**Baseline đã merge:** `8957b04`
 **Authority:** [CURRICULUM](../CURRICULUM.md),
 [ADR-005](ADR-005-REALITY-FIRST-CURRICULUM.md),
-[ADR-006](ADR-006-PERSONAL-VALIDATION-AND-PUBLIC-PILOT.md),
+[ADR-006](ADR-006-PERSONAL-ONLY-VALIDATION.md),
 [migration guide](CURRICULUM-MIGRATION-v2.md).
 
 Đây là checklist vận hành cho phần còn thiếu của kế hoạch v2, dành cho một
 người vận hành repository. Nó phân biệt delivery scaffold, evidence thực hành
 cá nhân và learner PASS: fixture/eval **không** được dùng để tuyên bố E1–E4
-hay pilot validation tổng quát.
+hay mở live authority.
 
 ## Quy ước trạng thái
 
@@ -21,19 +21,18 @@ hay pilot validation tổng quát.
   safe channel; không được thay bằng synthetic evidence.
 
 Personal validation chỉ xác nhận rằng owner đã làm được loop trong bối cảnh
-của mình. Nó không đổi `pilot_status` thành `validated`, không đại diện cho
-người mới khác và không tự mở quyền hành động bên ngoài.
+của mình. Nó không tự mở quyền hành động bên ngoài và không được suy rộng
+thành claim cho người học khác.
 
-## Ba loại gate không được gộp
+## Hai loại gate không được gộp
 
 | Gate | Cho phép | Không cho phép |
 |---|---|---|
 | `AUTHORING_OPEN` | viết contract, code, fixture, replay, dry-run, inactive workflow | claim Reality/PASS, dùng credential live, external side effect |
 | `LIVE_ACTIVATION` | chạy capability đúng authority ceiling trên source/account owner kiểm soát | tăng authority cao hơn Mission, đổi blocker thành evidence |
-| `PUBLIC_VALIDATION` | claim phù hợp cho learner khác sau pilot độc lập | suy từ personal evidence ra timeline/readiness tổng quát |
 
 `BLOCKED_EXTERNAL` là blocker hợp lệ và có thể mở `AUTHORING_OPEN`; nó không
-bao giờ thỏa `LIVE_ACTIVATION`, E1–E6, Mission PASS hay public validation.
+bao giờ thỏa `LIVE_ACTIVATION`, E1–E6 hay Mission PASS.
 
 ## Snapshot hiện tại
 
@@ -41,15 +40,14 @@ bao giờ thỏa `LIVE_ACTIVATION`, E1–E6, Mission PASS hay public validation.
 - [x] Tag baseline `curriculum-v1-pre-reality-first`, ADR-005, migration rules
   và readiness metadata/validator.
 - [x] O00, M00–M05 có Mission/starter/eval/verification scaffold.
-- [x] Privacy boundary và redacted-evidence templates/validator.
-- [x] M00–M05 v2 đang là `draft`, delivery metadata complete,
-  `pilot_status: untested`; learner knowledge path vẫn còn gap cần xử lý ở H1.
+- [x] Privacy boundary cho secret/PII/raw analytics.
+- [~] M00–M05 v2 đang là `draft`, starter/eval/verification đã có; legacy
+  group-validation metadata và learner knowledge gap cần xử lý ở H1.
 - [x] M05 có reviewed-improvement contract/starter/eval; personal validation
   evidence còn trống.
 
-> Không đổi `draft` thành `ready` hay `pilot_status: validated` chỉ vì test/eval
-> xanh hoặc personal validation. Trạng thái đó chỉ dành cho pilot/evidence phù
-> hợp nếu repository sau này phục vụ người khác.
+> Không đổi `draft` thành `ready`, Reality/PASS hay live-enabled chỉ vì test/eval
+> xanh. Mỗi trạng thái cần đúng artifact, personal evidence và authority gate.
 
 ## Bảng điều khiển công việc hiện tại
 
@@ -57,7 +55,7 @@ bao giờ thỏa `LIVE_ACTIVATION`, E1–E6, Mission PASS hay public validation.
 |---|---|---|
 | CI và privacy checks có thể tin cậy | `BLOCKED` | H1.1 validator CLI |
 | Beginner path M00–M05 | `BLOCKED` | H1.2 workspace path + knowledge cards |
-| Authority docs personal/public | `IN_PROGRESS` | ADR-006 + H1.3 đồng bộ docs |
+| Personal-only metadata/docs | `IN_PROGRESS` | H1.3 xoá framework group-validation |
 | Personal evidence E1–E4 | `NOT_STARTED` | H2 personal validation |
 | PR10 authoring | `BLOCKED` | H1 hoàn tất |
 | M06 live read-only | `BLOCKED` | E3 thật + Gate PR10-LIVE |
@@ -82,9 +80,9 @@ evidence ở cột thứ hai có thể truy lại và authority gate tương ứ
 
 ### A1. Projection trạng thái và migration artifacts
 
-- [x] Thêm banner **Curriculum v2 Personal** với trạng thái factual: M00–M05
-  có delivery scaffold nhưng chưa pilot validated; M06–M11 đi qua personal
-  authoring/live gates riêng.
+- [x] Thêm banner **Curriculum v2 Personal-only** với trạng thái factual:
+  M00–M05 có delivery scaffold nhưng chưa có personal execution trace;
+  M06–M11 đi qua authoring/live gates riêng.
 - [x] Tạo `scripts/migrate_curriculum_v1_to_v2.py --dry-run`, chỉ báo mapping
   và không sửa `PROGRESS.md`/learner evidence.
 - [x] Thêm redirect/migration stub rõ ràng cho các Mission v1 để learner mới
@@ -102,8 +100,8 @@ auto-credit Mission PASS.
 - [ ] (Tuỳ chọn) Xác minh trên GitHub rằng `Curriculum CI` là required status
   check và `main` có branch protection/ruleset nếu repository được cộng tác
   hoặc dùng từ nhiều máy.
-- [x] Quy ước một PR chỉ được gọi “delivered” khi `delivery complete` và pilot
-  claim có evidence refs; `ready` vẫn chỉ là authoring state.
+- [~] `ready` vẫn chỉ là authoring state; H1.3 sẽ đổi `delivery complete` thành
+  các thành phần kiểm được trong repo và bỏ group-validation metadata.
 
 **Gate:** local CI-equivalent luôn xanh; GitHub protection là lớp bảo vệ bổ
 sung, không phải blocker cho personal repository.
@@ -121,8 +119,10 @@ sung, không phải blocker cho personal repository.
   yêu cầu secret/PII).
 - [x] Tạo workspace initializer sinh learner-local state/evidence paths đã bị
   ignore; không copy private sample vào Git.
-- [x] Bổ sung ignore path còn thiếu: `workspace/`, `pilot/raw/`,
+- [x] Bổ sung ignore path còn thiếu: `workspace/`,
   `lab/learner/affiliate-bot/data/local/` và raw analytics/private exports.
+- [~] Legacy `pilot/raw/` vẫn đang được ignore; H1.3 sẽ xoá cùng toàn bộ
+  group-validation kit.
 
 **Personal gate:** owner có thể đi từ browser → first safe output theo docs;
 không có secret/PII/raw analytics bị commit.
@@ -268,23 +268,84 @@ do validator CLI không chạy.
 **Gate H1.2:** owner đi từ O00 tới từng knowledge link của M00–M05 mà không gặp
 dead link, path tự tạo hoặc yêu cầu đọc legacy v1 để tiếp tục.
 
-#### H1.3 Authority và status vocabulary
+#### H1.3 Personal-only cleanup — xoá framework group-validation
 
-- [x] Ghi ADR-006 tách Personal Development khỏi Public Curriculum Validation.
-- [ ] Đồng bộ ADR-002, ADR-005, migration, effort/calibration, mission authoring,
-  `pilot/README.md` và PR template với ba gate ở đầu tài liệu này.
-- [ ] Giữ `pilot_status: untested` và không dùng personal evidence để claim
-  beginner readiness, timeline hay cohort success.
-- [ ] Đổi wording mơ hồ `delivery complete` thành đúng lớp trạng thái ở mọi
-  learner-facing summary.
+Phạm vi audit là active curriculum/tooling. `sources/` tiếp tục là historical
+input; “compliant micro-pilot” là market experiment của owner, “5–10 eval
+cases” là test volume, và cohort trong attribution/analytics là thuật ngữ dữ
+liệu — cả ba không phải điều kiện tuyển người và không bị xoá cơ học.
 
-**Gate H1.3:** không active authority doc nào nói cohort pilot là prerequisite
-cho personal authoring; không doc nào cho personal evidence thay public pilot.
+##### H1.3a Decision và inventory
+
+- [x] Ghi ADR-006 xác nhận repository personal-only, chỉ còn
+  `AUTHORING_OPEN` và `LIVE_ACTIVATION`.
+- [x] Rà active repo theo `pilot`, `cohort`, `participant`, `consent`, `5–10`,
+  `pilot_status` và `pilot_evidence_refs`; phân loại delete/replace/keep.
+- [x] Đổi README và implementation plan sang personal-only; không còn
+  public/group validation gate trong entrypoint.
+
+##### H1.3b Xoá dedicated group-validation assets và wiring
+
+- [ ] Xoá toàn bộ `pilot/` gồm `README.md`, `aggregate-template.json` và local
+  raw-directory convention.
+- [ ] Xoá `templates/PILOT-CONSENT.md`, `templates/PILOT-SESSION-REDACTED.md`
+  và `templates/PILOT-AGGREGATE.md`.
+- [ ] Xoá `scripts/validate_pilot_template.py` và
+  `tests/test_pilot_template.py`.
+- [ ] Xoá workflow step `Run pilot template guard`, lệnh tương ứng trong
+  README và mọi import/reference đã trở thành dead link.
+- [ ] Bỏ `pilot/raw/` khỏi `.gitignore`, `scripts/init_learner_workspace.py`,
+  `scripts/validate_privacy_boundary.py` và privacy-validator fixtures/tests.
+
+##### H1.3c Bỏ metadata và readiness logic dành cho group validation
+
+- [ ] Bỏ `pilot_status` và `pilot_evidence_refs` khỏi `templates/MISSION.md`,
+  `docs/MISSION-AUTHORING-STANDARD.md` và front matter của mọi Mission v1/v2.
+- [ ] Refactor `scripts/validate_readiness.py` để chỉ kiểm artifact tracked:
+  starter/manual-only rationale, eval pack, verification commands, knowledge
+  links và schema/safety contract; không thay group field bằng một field giả.
+- [ ] Refactor `scripts/report_readiness.py` và
+  `tests/test_readiness_validator.py`; report riêng authoring-bundle readiness,
+  learner-path readiness và không đọc personal progress từ Git.
+- [ ] Giữ personal execution status/evidence trong `workspace/PROGRESS.md` và
+  ignored artifact path; tracked Mission metadata không claim owner đã chạy.
+
+##### H1.3d Thay active prose bằng personal actuals
+
+- [ ] Thay group-validation prerequisite/promotion wording trong ADR-002,
+  ADR-005, `CURRICULUM-MIGRATION-v2.md`, `CURRICULUM-CI.md`,
+  `MISSION-AUTHORING-STANDARD.md` và PR template bằng artifact + personal
+  evidence + authority gates.
+- [ ] Thay learner-group calibration wording trong `EFFORT-MODEL.md`,
+  `BUILD-FIRST-CALIBRATION.md`, `12-MONTH-PLAN.md`, `15-MONTH-PLAN.md`,
+  `roadmap/part-00.md` và `roadmap/part-01.md` bằng owner actuals, ghi rõ
+  `n=1`, median/cohort claim không áp dụng.
+- [ ] Thay các mention active còn lại trong `REPOSITORY-GOVERNANCE.md`,
+  `WORKSPACE-PRIVACY.md`, `SOURCE-MAPPING.md`, `FRESHNESS-POLICY.md`,
+  `BUILD-FIRST-LEARNING-MODEL.md`, `AI-AGENT-DECISION-ARCHITECTURE.md` và
+  `MISSION-KNOWLEDGE-MAP.md`; không xoá consent của audience/channel hoặc
+  cohort analytics vì đó là safety/domain semantics khác.
+- [ ] Đổi wording mơ hồ `delivery complete` thành ba projection cụ thể:
+  `authoring bundle`, `learner path` và `personal execution`.
+
+##### H1.3e Zero-reference và regression gate
+
+- [ ] `rg` không còn group-validation asset/field/condition trong active
+  README, docs, missions, templates, scripts, tests, workflow hay `.gitignore`.
+- [ ] Mọi link/command resolve; initializer không tạo `pilot/raw/`; readiness
+  CLI/report và full Python/Go CI-equivalent đều xanh.
+- [ ] Review thủ công các ngoại lệ được giữ: market micro-experiment, eval
+  case count, attribution cohort, platform name `Copilot` và historical
+  `sources/`; không dùng broad replacement làm sai nghĩa.
+
+**Gate H1.3:** active repository không còn dependency, artifact, metadata hay
+claim dành cho một nhóm learner. Readiness chỉ mô tả thứ có thể kiểm trong repo;
+personal evidence và live authority vẫn phải đạt đúng gate riêng.
 
 ### H2. Personal validation loop — E1 đến E4
 
-- [x] Có template consent/session/aggregate, privacy boundary và validator;
-  trong personal mode chúng chỉ là tuỳ chọn để ghi nhận redacted.
+- [ ] Sau H1.3, khởi tạo personal progress/evidence path không có participant,
+  consent-session hay aggregate group report.
 - [ ] Chạy O00 sạch từ checkout mới; ghi actual setup/first-run time và blocker.
 - [ ] M00: freeze brief/version trước action, có E1 public observations, human
   review và E2 manual publish; nếu block thì ghi `BLOCKED_EXTERNAL` và dừng
@@ -312,8 +373,9 @@ cho personal authoring; không doc nào cho personal evidence thay public pilot.
 | Không secret/PII commit, fabricated evidence, auto-publish hay safety bypass | [ ] |
 | Owner đã review limitations và rollback trước khi tăng authority | [ ] |
 
-Personal evidence không đổi `pilot_status: validated`. Nếu H2 bị block, owner
-vẫn có thể mở authoring-only PR sau H1 nhưng không được kích hoạt live gate.
+Personal evidence được giữ trong ignored workspace và link bằng redacted refs
+khi cần review. Nếu H2 bị block, owner vẫn có thể mở authoring-only PR sau H1
+nhưng không được kích hoạt live gate.
 
 ## I. PR10–PR13 — authoring và live activation tách riêng
 
@@ -436,9 +498,9 @@ reviewed learning loop. Zero incident trong replay không thay production proof.
   thresholds; M05 creates only reviewed ChangeProposal.
 - [x] README/readiness reports are factual; local CI-equivalent checks are green.
 - [ ] H1 trust repair hoàn tất và personal validation records đạt H2 tới mức
-  evidence thực tế owner có thể truy lại; `pilot_status` vẫn `untested`.
-- [ ] Authoring/live/public gates được báo riêng; blocker không xuất hiện như
-  evidence hoặc quyền activation.
+  evidence thực tế owner có thể truy lại.
+- [ ] Group-validation framework đã được xoá theo H1.3; authoring và live gates
+  được báo riêng; blocker không xuất hiện như evidence hoặc quyền activation.
 
 ## Recommended execution order
 
@@ -453,7 +515,7 @@ A + B + C
 → PR13 authoring → E6 production loop
 ```
 
-H1 là blocker trước mọi PR mới. Cohort 5–10 người không còn chặn personal
-authoring, nhưng Reality/E3–E6 vẫn chặn live activation. Public readiness chỉ
-được claim sau independent pilot; personal evidence không được nâng cấp thành
-cohort evidence bằng wording hoặc metadata.
+H1 là blocker trước mọi PR mới. Repository không có điều kiện tuyển/đánh giá
+nhóm learner; Reality/E3–E6, permission và safety controls vẫn chặn live
+activation. Personal actuals chỉ mô tả bối cảnh owner và không được suy rộng
+thành claim cho người khác.
