@@ -4,7 +4,7 @@
 - **Chapters:** C15–C17
 - **Core:** 9 micro-lessons
 - **Missions:** M08–M10
-- **Outcome:** AgentRuntime dùng explicit read-only tools để lấy missing evidence; Go giữ Tool/Decision/Policy contracts; n8n orchestration xử lý shadow/approval/bounded execution mà không bypass deterministic authority.
+- **Outcome:** AgentRuntime dùng explicit read-only tools để lấy missing evidence; Deterministic Core giữ Tool/Decision/Policy contracts; n8n orchestration xử lý shadow/approval/bounded execution mà không bypass deterministic authority.
 
 ## Hybrid ownership trong Part 05
 
@@ -12,8 +12,9 @@
 AgentRuntime
 = investigate + read-only tool use + propose
 
-Go
+Deterministic Core
 = Tool Registry contract + validation + ActionIntent + deterministic risk/policy + authorization
+= Go reference/fallback; reviewed visual rule engine có thể implement policy sau parity gate
 
 n8n
 = invoke/route Agent + shadow workflow + durable approval routing + bounded execution
@@ -24,12 +25,15 @@ Human
 
 Hermes Agent là **primary Agent runtime reference/candidate** để spike ở M08. Canonical curriculum khóa `AgentRuntime`/`Tool Registry` contract, không khóa vendor.
 
+DecisionRules hoặc deterministic visual rule engine tương đương có thể được cân nhắc cho policy từ M09 **chỉ sau** khi M07 comparison đã có parity/reason/version/fail-closed evidence. Go vẫn là fallback nếu visual rule không đủ rõ hoặc an toàn.
+
 ## Attempt trước knowledge pull
 
 1. M08: để Agent xử lý một case thiếu evidence nhưng chỉ expose explicit read-only tools. So với manual/deterministic retrieval baseline.
 2. Với tool có thể chạm personal/customer/account data, thử một query trả **nhiều dữ liệu hơn task cần** để quan sát data-minimisation gap trước khi harden contract.
-3. M09: Agent có thể **propose** `ActionIntent`; Go risk policy phân loại; n8n chạy shadow/durable approval path. Thử duplicate/expired approval, changed context và process restart.
-4. M10: chạy limited RISK0/RISK1 canary qua bounded executor; RISK2 vẫn phải qua durable approval + context revalidation + kill switch.
+3. M09: Agent có thể **propose** `ActionIntent`; Deterministic Policy Authority phân loại; n8n chạy shadow/durable approval path. Thử duplicate/expired approval, changed context và process restart.
+4. M09: nếu visual rule candidate đã có parity baseline, thử policy table trên cùng canonical cases; AI có thể hỗ trợ draft rule nhưng **không được auto-publish rule**.
+5. M10: chạy limited RISK0/RISK1 canary qua bounded executor; RISK2 vẫn phải qua durable approval + context revalidation + kill switch.
 
 ## Core checklist
 
@@ -46,9 +50,11 @@ GET_MORE_DATA
 → AgentRuntime receives task + allowed Tool Registry
 → read-only tool calls within permission + data scope
 → CandidateEvidence
-→ Go validate / ground
+→ Deterministic Core validate / ground
 → DecisionPacket
 ```
+
+Go có thể là implementation của validation path này, nhưng canonical requirement là deterministic validation/grounding behavior chứ không phải language name.
 
 Không cho phép:
 
@@ -102,11 +108,19 @@ Ownership:
 Agent
 → may propose ActionIntent
 
-Go Policy
+Deterministic Policy Authority
 → classifies RISK / ALLOW / DENY / REQUIRE_APPROVAL
 
 n8n
 → routes resulting workflow
+```
+
+Policy implementation có thể là:
+
+```text
+Go reference/fallback
+OR
+reviewed visual rule engine with parity + fail-closed proof
 ```
 
 n8n IF/Switch node không được tự reclassify `RISK2` thành auto-executable. Orchestrator cũng không được log/forward raw personal data ngoài `DataAccessContext` chỉ vì integration node hỗ trợ.
@@ -121,8 +135,8 @@ Primary orchestration reference:
 
 ```text
 DecisionPacket
-→ Go creates ActionIntent
-→ Go PolicyDecision
+→ Deterministic Core creates/validates ActionIntent
+→ Deterministic PolicyDecision
 → n8n shadow/dry-run workflow
 → durable approval if required
 → context revalidation
@@ -158,7 +172,7 @@ Agent unavailable phải fallback về deterministic/manual evidence path thay v
 
 ```text
 Agent may propose
-Go may classify
+Deterministic Policy Authority may classify
 n8n may dry-run/route approval
 no consequential execution from Agent proposal alone
 ```
@@ -173,6 +187,8 @@ Approval phải durable và gắn với:
 
 Approval cho Action không tự cấp permission thu thêm data ngoài purpose/scope đã định.
 
+Nếu visual rule engine được adopt ở M09, bắt buộc lưu rule version/decision reason và parity cases đủ để chứng minh nó đang implement canonical contract, không tạo contract mới ngoài review.
+
 ## M10 — Limited governed automation
 
 RISK0/RISK1 chỉ auto execute khi deterministic policy cho phép và canary scope đã khai báo.
@@ -181,7 +197,7 @@ RISK2:
 
 ```text
 valid ActionIntent
-+ Go Policy requires approval
++ Deterministic Policy requires approval
 + durable human approval
 + current-context revalidation
 + data/action scope still valid
@@ -190,6 +206,17 @@ valid ActionIntent
 ```
 
 Thiếu bất kỳ gate nào → no execution.
+
+## Development Agent — không phải runtime authority
+
+Codex/Copilot/Claude coding agent có thể implement/refactor Go, workflow artifact, tests hoặc rule-adapter code qua PR. Nhưng:
+
+```text
+coding agent writes policy code/rule adapter
+≠ production policy changed
+```
+
+Mọi policy/runtime PR vẫn cần CI + human review; không auto-merge chỉ vì coding agent hoặc AI reviewer đánh giá cao.
 
 ## Cross-runtime failure cases
 
@@ -208,8 +235,11 @@ n8n duplicate/restart
 approval expired/context changed
 → revalidation fails / no execution
 
-Go Policy unavailable
+Deterministic Policy Authority unavailable / invalid / unverified
 → no consequential execution
+
+visual policy runtime error/version mismatch
+→ fail closed / no consequential execution
 
 kill switch ON
 → execution blocked even with prior approval
@@ -220,13 +250,14 @@ kill switch ON
 - [ ] M08–M10 đều có Capability PASS, Reality verified và Operated
 - [ ] Agent không thể gọi tool ngoài registry/permission
 - [ ] Read-only tool có privacy relevance không được lấy/giữ/share dữ liệu vượt purpose/minimum scope
-- [ ] CandidateEvidence phải qua Go validation/grounding trước khi thành canonical evidence
+- [ ] CandidateEvidence phải qua Deterministic Core validation/grounding trước khi thành canonical evidence
 - [ ] Audit giữ traceability nhưng không mặc định lưu raw secret/full personal data
 - [ ] Agent proposal không tự trở thành ActionIntent được authorize
-- [ ] n8n không bypass deterministic Go risk/policy result
+- [ ] n8n không bypass deterministic risk/policy result
 - [ ] RISK2 không execute nếu thiếu valid approval và revalidation
 - [ ] Restart/duplicate approval/workflow không tạo side effect trùng
 - [ ] Kill switch chặn execution kể cả khi approval đã tồn tại
-- [ ] Agent/n8n framework có thể thay mà không đổi Mission outcome/contracts
+- [ ] Nếu visual policy được adopt: parity/version/reason/fail-closed/rollback evidence PASS
+- [ ] Go/n8n/Agent/rule-engine implementations có thể thay mà không đổi Mission outcome/contracts
 
 [← Part trước](part-04.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-06.md)
