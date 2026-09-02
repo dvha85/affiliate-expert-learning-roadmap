@@ -1,4 +1,4 @@
-# Phần 2 — FIRST TRACKED MARKET LOOP + FIRST SAFE ORCHESTRATION
+# Phần 2 — Vòng thị trường có tracking đầu tiên và orchestration an toàn đầu tiên
 
 - Timeline: **Evidence-gated; includes a real observation window**.
 - **Chapters:** C6–C8
