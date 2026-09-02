@@ -1,4 +1,4 @@
-# Phần 5 — TOOL AGENT & GOVERNED HYBRID AUTOMATION
+# Phần 5 — Tool Agent và tự động hóa Hybrid có quản trị
 
 - Timeline: **Evidence-gated; authority increases only after safety cases pass**.
 - **Chapters:** C15–C17
