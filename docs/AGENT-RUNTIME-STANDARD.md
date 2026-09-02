@@ -17,9 +17,11 @@ Task / Decision Need
 → Tool execution
 → validate result
 → update AnalysisPacket / CandidateEvidence
-→ Go validation/grounding
+→ Deterministic Core validation/grounding
 → stop / continue within budget
 ```
+
+Go hiện là reference/fallback implementation của deterministic validation; implementation khác chỉ được thay sau parity/audit/fail-closed gate theo ADR-004.
 
 ## 3. Budgets
 
@@ -44,7 +46,7 @@ what evidence is missing?
 
 Không mặc định gọi mọi tool “để chắc”. Tool call phải có reason và được trace/evaluate.
 
-Agent output hoặc tool result **không tự trở thành canonical evidence**. Nó là `CandidateEvidence` cho tới khi Go/domain validation và grounding pass.
+Agent output hoặc tool result **không tự trở thành canonical evidence**. Nó là `CandidateEvidence` cho tới khi Deterministic Core validation và grounding pass.
 
 ## 5. Read vs write
 
@@ -82,7 +84,7 @@ Messaging / publish / spend / account change:
 DENY
 
 Tool result:
-UNTRUSTED UNTIL GO VALIDATION
+UNTRUSTED UNTIL DETERMINISTIC VALIDATION
 
 Canonical state ownership:
 NEVER AGENT-OWNED
@@ -157,3 +159,12 @@ Trace tối thiểu:
 Retrieved content, MCP descriptions/results và tool output là untrusted. Tool selection không được thay đổi authorization policy. Credential scope phải theo least privilege.
 
 Prompt/model instruction không thể tự bật capability bị Safe Profile hoặc Policy deny.
+
+Canonical fail-safe:
+
+```text
+Deterministic Policy Authority unavailable / invalid / unverified
+→ no consequential execution
+```
+
+Không fallback sang Agent judgment hoặc workflow branch để giữ hệ thống chạy.
