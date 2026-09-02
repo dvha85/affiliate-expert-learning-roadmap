@@ -2,7 +2,7 @@
 
 > **BẮT ĐẦU TỪ ĐÂY.** Người học xây một Affiliate Bot duy nhất qua các phiên bản nhỏ. Mỗi capability phải xuất phát từ một vấn đề đã quan sát, chạy trên evidence đúng loại và được cải tiến bằng outcome thật trước khi Bot nhận thêm quyền.
 
-Nguồn cấu trúc có thẩm quyền là [`CURRICULUM.md`](CURRICULUM.md); tài liệu này triển khai execution order của canonical đó.
+Nguồn cấu trúc có thẩm quyền là [`CURRICULUM.md`](CURRICULUM.md); tài liệu này triển khai execution order của canonical đó. Kiến trúc implementation hiện hành được chốt bởi [`ADR-004`](docs/ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md).
 
 ## Mục tiêu của chương trình
 
@@ -43,7 +43,7 @@ REAL OBSERVATION
 → NEXT BOT VERSION
 ```
 
-Không đợi học hết một Part mới thực hành. Không build hạ tầng chỉ vì “sau này có thể cần”. Không dùng sample data để thay thế âm thầm cho reality evidence.
+Không đợi học hết một Part mới thực hành. Không build hạ tầng chỉ vì “sau này có thể cần”. Không dùng sample data để thay thế âm thầm cho reality evidence. **Không viết code chỉ để chứng minh rằng mình đã code nếu một implementation ít code hơn vẫn giữ được deterministic behavior, testability và auditability.**
 
 ## Bảy Part thực thi
 
@@ -128,11 +128,13 @@ REAL_COMMISSION_PAID
 
 ## Một artifact tích lũy, không nhiều bài tập rời
 
-Learner workspace:
+Learner workspace hiện tại:
 
 ```text
 lab/learner/affiliate-bot/
 ```
+
+M00 Go starter tiếp tục là learner workspace và **golden oracle** cho deterministic baseline đầu tiên. Không rewrite M00 chỉ vì có visual/no-code tool mới.
 
 Mỗi Mission bắt đầu từ commit đã PASS Mission trước. Reference implementation chỉ được mở sau attempt hoặc khi có blocker thật:
 
@@ -147,27 +149,48 @@ TRY
 → mới đối chiếu reference nếu cần
 ```
 
-Không copy một reference version cao rồi coi đó là learner progress.
+Không copy một reference version cao rồi coi đó là learner progress. Tương tự, không chấp nhận một workflow/rule/PR do AI tạo chỉ vì nó “chạy được”.
 
-## Beginner-first và Go just-in-time
+## Beginner-first và implementation just-in-time
 
 Mỗi Mission nên chia thành checkpoint 45–90 phút. Knowledge card bắt buộc nên ngắn, gắn với một failure/gap vừa xuất hiện và tạo artifact ngay.
 
 ```text
-M00 → terminal, package/function, nullable data/evidence gate có scaffold, output test
-M01 → struct, JSON/CSV, file, timestamp, validation
-M02 → provider adapter, structured output, error/secret/cost tối thiểu
-M06 → context, scheduler, retry, deduplication, observability
-M09 → state machine, durable state, idempotency, approval
+M00 → Go starter: terminal, package/function, nullable data/evidence gate có scaffold, output test
+M01 → schema/history/persistence tối giản; code chỉ khi cần contract rõ hơn
+M02 → provider/structured output/eval; không cần Agent runtime
+M04 → n8n read-only import/map/reconcile workflow đầu tiên
+M06 → n8n schedule/retry/alert; không tự viết Go scheduler nếu không có bottleneck
+M07 → DecisionPacket/policy + first visual-rule comparison nếu justified
+M09 → state/approval/idempotency; deterministic policy implementation có thể visual hoặc Go sau parity gate
 ```
 
 M01 dùng append-only file store hoặc implementation tối giản trước. PostgreSQL, repository abstraction và distributed components chỉ được pull khi scale/recovery/query requirement thật làm chúng cần thiết.
+
+### Implementation ladder
+
+```text
+1. manual / deterministic simplest slice
+2. no-code / low-code khi behavior vẫn test/audit được
+3. agent-written code khi code thật sự cần
+4. human-written custom code khi nó tạo learning/security/operational value rõ
+```
+
+Go là reference/fallback ưu tiên cho deterministic core, **không phải quota code learner phải tự viết**.
+
+DecisionRules hoặc rule engine tương đương chỉ được adopt khi cùng canonical fixtures chứng minh parity, version/review trace và fail-closed behavior. Development Agent chỉ được merge qua PR/CI/human review.
 
 ```text
 USE BEFORE MASTER
 ≠
 COPY BEFORE UNDERSTAND
+
+AI IMPLEMENTED IT
+≠
+I UNDERSTAND / APPROVE THE BEHAVIOR
 ```
+
+Chi tiết: [`docs/IMPLEMENTATION-STRATEGY.md`](docs/IMPLEMENTATION-STRATEGY.md).
 
 ## AI xuất hiện sớm, authority tăng chậm
 
@@ -182,6 +205,8 @@ A4 — multi-agent optional sau core, không phải mục tiêu bắt buộc
 ```
 
 M03 cho learner publish thủ công sau compliance/tracking gate. Đây là business action của human, không phải quyền publish của AI.
+
+Development Agent dùng để sửa repository **không nằm trên authority ladder của runtime Bot**. Nó có thể viết code sớm hơn M08 nhưng chỉ qua branch/PR/test/review.
 
 ## Safety / autonomy
 
@@ -199,6 +224,15 @@ DENY   → hành động bị cấm dù có người bấm approve
 `DENY` gồm ít nhất: fake click/order, spam, né disclosure, bypass platform policy, restricted/private scraping, credential sharing và unbounded spend.
 
 Public publish, spend, account/platform settings, xóa dữ liệu quan trọng và consequential external communication mặc định là RISK 2. Trước execution phải revalidate evidence, policy, approval expiry, target và idempotency state. Kill switch phải chặn execution độc lập với Agent.
+
+Canonical fail-safe:
+
+```text
+Deterministic Policy Authority unavailable / invalid / unverified
+→ no consequential execution
+```
+
+Không fallback sang Agent judgment hoặc n8n IF/Switch chỉ để giữ workflow chạy.
 
 ## Evidence và PASS
 
@@ -224,7 +258,7 @@ Trường tối thiểu khi relevant:
 - actor thực thi, risk, approval và exact side effect;
 - outcome window cùng `pending | partial | final`;
 - expected-vs-observed, limitation và next hypothesis;
-- code/workflow/model/policy version.
+- code/workflow/rule/model/policy version.
 
 Trạng thái evidence được ghi riêng:
 
@@ -242,6 +276,9 @@ ONE CURRENT MISSION
 + REALITY EVIDENCE REQUIRED BY SCOPE
 + ONLY JUST-IN-TIME KNOWLEDGE
 + BASELINE BEFORE AI
++ DETERMINISTIC CORE BEFORE AUTHORITY
++ NO-CODE WHEN AUDITABLE
++ AGENT-WRITTEN CODE WHEN CODE IS NECESSARY
 + EVIDENCE BEFORE CONFIDENCE
 + POLICY BEFORE AUTHORITY
 + OUTCOME BEFORE CLAIMED IMPROVEMENT
