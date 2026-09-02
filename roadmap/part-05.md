@@ -11,6 +11,8 @@
 ```text
 AgentRuntime
 = investigate + read-only tool use + propose
+= n8n AI Agent là visual-first candidate ở M08
+= Hermes/OpenAI Agents SDK chỉ compare khi có measured bottleneck
 
 Deterministic Core
 = Tool Registry contract + validation + ActionIntent + deterministic risk/policy + authorization
@@ -23,17 +25,18 @@ Human
 = approve/reject RISK2 và consequential action theo Mission gate
 ```
 
-Hermes Agent là **primary Agent runtime reference/candidate** để spike ở M08. Canonical curriculum khóa `AgentRuntime`/`Tool Registry` contract, không khóa vendor.
+Canonical curriculum khóa `AgentRuntime`/`Tool Registry` contract, không khóa vendor. Ở M08, ưu tiên spike **n8n AI Agent** trước vì n8n đã là orchestration runtime; chỉ thêm Hermes/OpenAI Agents SDK nếu visual-first baseline lộ limitation đo được.
 
 DecisionRules hoặc deterministic visual rule engine tương đương có thể được cân nhắc cho policy từ M09 **chỉ sau** khi M07 comparison đã có parity/reason/version/fail-closed evidence. Go vẫn là fallback nếu visual rule không đủ rõ hoặc an toàn.
 
 ## Attempt trước knowledge pull
 
-1. M08: để Agent xử lý một case thiếu evidence nhưng chỉ expose explicit read-only tools. So với manual/deterministic retrieval baseline.
+1. M08: để n8n AI Agent hoặc AgentRuntime candidate đơn giản nhất xử lý một case thiếu evidence nhưng chỉ expose explicit read-only tools. So với manual/deterministic retrieval baseline.
 2. Với tool có thể chạm personal/customer/account data, thử một query trả **nhiều dữ liệu hơn task cần** để quan sát data-minimisation gap trước khi harden contract.
-3. M09: Agent có thể **propose** `ActionIntent`; Deterministic Policy Authority phân loại; n8n chạy shadow/durable approval path. Thử duplicate/expired approval, changed context và process restart.
-4. M09: nếu visual rule candidate đã có parity baseline, thử policy table trên cùng canonical cases; AI có thể hỗ trợ draft rule nhưng **không được auto-publish rule**.
-5. M10: chạy limited RISK0/RISK1 canary qua bounded executor; RISK2 vẫn phải qua durable approval + context revalidation + kill switch.
+3. Chỉ nếu n8n AI Agent baseline thật sự thiếu capability/isolated runtime/auditability, compare Hermes hoặc OpenAI Agents SDK trên cùng fixture/eval set.
+4. M09: Agent có thể **propose** `ActionIntent`; Deterministic Policy Authority phân loại; n8n chạy shadow/durable approval path. Thử duplicate/expired approval, changed context và process restart.
+5. M09: nếu visual rule candidate đã có parity baseline, thử policy table trên cùng canonical cases; AI có thể hỗ trợ draft rule nhưng **không được auto-publish rule**.
+6. M10: chạy limited RISK0/RISK1 canary qua bounded executor; RISK2 vẫn phải qua durable approval + context revalidation + kill switch.
 
 ## Core checklist
 
@@ -52,6 +55,15 @@ GET_MORE_DATA
 → CandidateEvidence
 → Deterministic Core validate / ground
 → DecisionPacket
+```
+
+Visual-first implementation reference:
+
+```text
+n8n AI Agent
+→ approved read-only tools / MCP client
+→ CandidateEvidence
+→ Deterministic Core validation
 ```
 
 Go có thể là implementation của validation path này, nhưng canonical requirement là deterministic validation/grounding behavior chứ không phải language name.
@@ -154,7 +166,7 @@ read-only tools only
 no external write
 ```
 
-Hermes/reference spike phải test:
+n8n AI Agent visual-first spike phải test:
 
 - evidence correctness/grounding;
 - unsupported claim rate;
@@ -165,6 +177,8 @@ Hermes/reference spike phải test:
 - auditability không leak secret/full personal data;
 - latency/cost;
 - fallback khi Agent unavailable.
+
+Hermes/OpenAI Agents SDK comparison chỉ có ý nghĩa khi chạy **cùng test set** và chứng minh measured benefit trên một bottleneck n8n Agent cụ thể.
 
 Agent unavailable phải fallback về deterministic/manual evidence path thay vì làm core decision contract biến mất.
 
@@ -257,6 +271,7 @@ kill switch ON
 - [ ] RISK2 không execute nếu thiếu valid approval và revalidation
 - [ ] Restart/duplicate approval/workflow không tạo side effect trùng
 - [ ] Kill switch chặn execution kể cả khi approval đã tồn tại
+- [ ] Nếu Hermes/OpenAI SDK được thêm: có measured benefit so với n8n AI Agent trên cùng eval set
 - [ ] Nếu visual policy được adopt: parity/version/reason/fail-closed/rollback evidence PASS
 - [ ] Go/n8n/Agent/rule-engine implementations có thể thay mà không đổi Mission outcome/contracts
 
