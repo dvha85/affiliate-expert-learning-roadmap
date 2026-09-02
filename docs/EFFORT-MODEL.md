@@ -20,15 +20,15 @@ Thời gian chờ outcome: ghi riêng, không tính như giờ làm tập trung
 
 Dùng 240–360 giờ làm planning envelope (khung lập kế hoạch) để có khoảng review/integration tối thiểu. Đây là forecast (dự báo), không phải lời hứa.
 
-## Ước lượng danh nghĩa của các Mission đã draft
+## Ước lượng danh nghĩa của các Mission đã có execution file
 
-Các Mission đang author/draft có ước lượng hẹp hơn Gate envelope và hữu ích cho kế hoạch gần hạn:
+Các Mission đã có execution file có ước lượng hẹp hơn Gate envelope và hữu ích cho kế hoạch gần hạn. **Authoring state chuẩn nằm trong front matter của từng Mission file**; bảng này chỉ lặp lại trạng thái để lập kế hoạch và không được dùng làm nguồn chuẩn độc lập.
 
 | Mission | Giờ tập trung danh nghĩa | Ghi chú |
 |---|---:|---|
 | M00 | ~10h | ready / mục tiêu pilot |
-| M01 | ~12h | draft |
-| M02 | ~12h | draft |
+| M01 | ~12h | ready |
+| M02 | ~12h | ready |
 | M03 | ~14h | draft |
 | **M00→M03** | **~48h** | hành động thị trường có tracking đầu tiên do người thực hiện nếu không có blocker bên ngoài |
 
