@@ -2,10 +2,20 @@
 mission_id: "M02"
 title: "Grounded AI Advisor"
 status: ready
+curriculum_version: 1
+release_kind: "bot"
 requires_missions: ["M01"]
 bot_version_from: "v0.2"
 bot_version_to: "v0.3"
 estimated_hours: 12
+delivery:
+  starter_paths:
+    - "lab/learner/affiliate-bot/"
+  eval_pack: null
+  verification_commands:
+    - "cd lab/learner/affiliate-bot && go test ./..."
+  pilot_status: untested
+  pilot_evidence_refs: []
 knowledge:
   required: ["5.1", "5.2", "5.3"]
   on_demand: []

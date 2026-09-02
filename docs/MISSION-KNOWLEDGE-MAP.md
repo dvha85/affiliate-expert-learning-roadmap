@@ -2,6 +2,23 @@
 
 Tài liệu này ánh xạ knowledge pull nhỏ nhất cho spine M00–M11. Mission quyết định learner cần build và chứng minh gì; knowledge chỉ được pull khi attempt, evidence hoặc failure làm lộ nhu cầu.
 
+> **V2 authority note:** bảng chi tiết M00–M11 bên dưới là v1 knowledge
+> baseline/reference. Active order is M00 market loop → M01 outcome snapshot ∥
+> M02 deterministic baseline → M03 history → M04 grounded AI. Lesson IDs are
+> preserved knowledge IDs, not v2 sequence. See
+> [`CURRICULUM-MIGRATION-v2.md`](CURRICULUM-MIGRATION-v2.md).
+
+## V2 knowledge pull map
+
+| Mission | Pull only when the attempt exposes this gap |
+|---|---|
+| M00 | offer/audience/channel hypothesis, claim/disclosure/tracking, human review and safe manual publish |
+| M01 | measurement source/window/attribution and zero vs missing/pending |
+| M02 | minimum deterministic input/decision/abstain and a testable explanation |
+| M03 | identity, append-only record, provenance/freshness/reconciliation |
+| M04 | grounded advisory, schema/claim validation, fallback/eval |
+| M05 | hypothesis, honest comparison, review/version/rollback |
+
 ## Ba mức kiến thức
 
 - **REQUIRED** — knowledge slice phải hiểu và áp dụng để Mission PASS.
@@ -17,7 +34,7 @@ TRY / OBSERVE FIRST
 
 `REQUIRED FOR MISSION` không có nghĩa phải học hết một Part hoặc full-pass mọi reference lesson trước khi build.
 
-## Part execution map
+## V1 baseline part execution map
 
 | Part | Mission | Knowledge outcome |
 |---|---|---|
@@ -29,7 +46,7 @@ TRY / OBSERVE FIRST
 | P5 — Governed Agent | M08–M10 | read tools, security, approval và bounded automation |
 | P6 — Production Closed Loop | M11 | production operation, outcome learning và reviewed deployment |
 
-## AI/authority map
+## V1 baseline AI/authority map
 
 ```text
 M00–M01 → A0 deterministic
@@ -43,7 +60,7 @@ post-core → A4 multi-agent optional, không bắt buộc
 
 AI level mô tả quyền kỹ thuật của Bot, không phải learner PASS.
 
-## M00 — Real public evidence + first human-vs-bot decision
+## V1 M00 — Real public evidence + first human-vs-bot decision
 
 **REQUIRED**
 

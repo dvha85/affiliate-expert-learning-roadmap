@@ -127,7 +127,11 @@ required offline test/review
 
 ## 4. Tiến triển thực tế M00–M11
 
-### M00 — Evidence công khai + quyết định đầu tiên
+> **V1 detail below:** M00–M04 labels in this section are retained reference.
+> In v2, the same manual loop is M00, outcome snapshot M01, deterministic Bot
+> M02, history M03, and AI advisory M04.
+
+### V1 M00 — Evidence công khai + quyết định đầu tiên
 
 - chọn 5 sản phẩm/subject từ nguồn công khai thật;
 - ghi source, observed time, fact/assumption và field còn thiếu;

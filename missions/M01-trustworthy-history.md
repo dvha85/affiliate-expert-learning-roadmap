@@ -2,10 +2,20 @@
 mission_id: "M01"
 title: "Trustworthy History"
 status: ready
+curriculum_version: 1
+release_kind: "bot"
 requires_missions: ["M00"]
 bot_version_from: "v0.1"
 bot_version_to: "v0.2"
 estimated_hours: 12
+delivery:
+  starter_paths:
+    - "lab/learner/affiliate-bot/"
+  eval_pack: null
+  verification_commands:
+    - "cd lab/learner/affiliate-bot && go test ./..."
+  pilot_status: untested
+  pilot_evidence_refs: []
 knowledge:
   required: ["3.1", "3.2", "3.3", "4.1", "4.2", "4.3"]
   on_demand: []

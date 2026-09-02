@@ -1,5 +1,24 @@
 # Curriculum CI — Hệ thống kiểm tra curriculum
 
+## V2 readiness metadata
+
+`python scripts/validate_readiness.py` validates the distinction between
+authoring and delivery. Every Mission file declares `curriculum_version`,
+`release_kind`, `starter_paths`, `eval_pack`, `verification_commands`,
+`pilot_status`, and `pilot_evidence_refs`.
+
+Normal CI verifies schema and declared paths while preserving v1 baseline files.
+It reports `DELIVERY_INCOMPLETE` transparently without turning historical
+authoring status into a failing release claim. A new v2 Mission may be promoted
+to `ready` only after its delivery bundle is real and:
+
+```bash
+python scripts/validate_readiness.py --strict
+```
+
+passes alongside its evaluator and relevant curriculum tests. See
+[`CURRICULUM-MIGRATION-v2.md`](CURRICULUM-MIGRATION-v2.md) for the mapping.
+
 Curriculum CI bảo vệ [`../CURRICULUM.md`](../CURRICULUM.md), Mission-first/Real Evidence semantics, provenance/freshness, Agentic Decision Intelligence, learner/reference code và safety invariants. CI không bảo vệ một inventory legacy hoặc biến số lượng hiện tại thành mục tiêu vĩnh viễn.
 
 Tiếng Việt là ngôn ngữ chính thức. English term được giữ cho code, error code, công nghệ và thuật ngữ kỹ thuật khi cần; xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md).

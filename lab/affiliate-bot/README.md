@@ -1,6 +1,9 @@
 # Affiliate Bot — legacy engineering reference snapshot v0.3
 
-> Snapshot này được viết cho mission sequence cũ. Nó **không** phải lời giải M00–M03 hiện hành: M02 hiện là Grounded AI Advisor và M03 là Human Tracked Publish. Dùng code ở đây để đối chiếu từng pattern ingest/history/ranking sau attempt, không dùng version/mapping cũ làm learner progress.
+> This is a **legacy engineering reference**. Curriculum v2 maps the first
+> deterministic Bot to **M02**; M03 is Trustworthy History & Measurement and
+> M04 is Grounded AI Advisor. Use this code to compare ingest/history/ranking
+> patterns after an attempt, never as v2 learner progress or a solution copy.
 
 Đây **không phải learner workspace**.
 

@@ -90,9 +90,9 @@ coding cần thiết nhưng giá trị học nằm ở domain/review
 → giao implementation cho Development Agent, learner review contract/test/diff
 ```
 
-## M00 hiện tại
+## V1 M00 reference
 
-M00 starter hiện tại tiếp tục dùng Go và là **golden oracle/reference implementation** cho deterministic behavior đầu tiên.
+V1 M00 starter hiện tại tiếp tục dùng Go và là **golden oracle/reference implementation** cho deterministic behavior đầu tiên. In v2, this reference maps to M02 after M00 human market loop and M01 outcome snapshot.
 
 Điều này có ba lý do:
 

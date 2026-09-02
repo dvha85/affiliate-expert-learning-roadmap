@@ -13,7 +13,9 @@ Bot chỉ được nâng level khi evidence, evaluation, failure controls và bu
 
 ## A0 — Deterministic Baseline
 
-**Core Mission:** M00–M01; deterministic core tiếp tục tồn tại ở mọi Mission sau.
+**Core Mission:** M00–M03; M00/M01 are human/manual and M02/M03 are the
+first deterministic baseline/history stages. Deterministic core tiếp tục tồn
+tại ở mọi Mission sau.
 
 Cho phép:
 
@@ -34,7 +36,7 @@ Không cần model call. A0 là baseline để đánh giá AI, không phải gia
 
 ## A1 — Grounded Advisory / Read-Only
 
-**Core Mission:** M02–M07.
+**Core Mission:** M04–M07.
 
 Cho phép:
 
@@ -54,7 +56,7 @@ Bắt buộc:
 - latency/cost trace;
 - deterministic fallback khi capability chính không cần AI.
 
-A1 không có external execution authority. M03 public publish là **human action** sau exact-artifact review, compliance và tracking gate; không phải AI publish.
+A1 không có external execution authority. M00 public publish là **human action** sau exact-artifact review, compliance và tracking gate; không phải AI publish.
 
 ```text
 AI AnalysisPacket

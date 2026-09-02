@@ -1,5 +1,9 @@
 # Phần 1 — Dữ liệu đáng tin cậy và AI có căn cứ bằng chứng
 
+> **V1 inventory/reference detail.** In v2 this Part is pulled by M01 First
+> Outcome Snapshot and M02 Smallest Deterministic Bot. The History/AI sequence
+> below is retained knowledge lineage, not active Mission numbering.
+
 - Timeline: **Evidence-gated; recalibrate after learner pilot**.
 - **Chapters:** C3–C5
 - **Core:** 9 micro-lessons

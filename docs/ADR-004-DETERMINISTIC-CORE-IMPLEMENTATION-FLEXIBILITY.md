@@ -103,7 +103,7 @@ Dùng Go khi:
 - custom protocol/invariant khó biểu diễn bằng rule engine;
 - security/fail-closed enforcement cần process boundary riêng.
 
-M00 Go starter hiện tại được giữ làm **golden oracle/reference implementation**. Bài 0.1 đã PASS không bị reset.
+V1 M00 Go starter hiện tại được giữ làm **golden oracle/reference implementation**. Bài 0.1 đã PASS không bị reset; under ADR-005 it maps to v2 M02, not the first learner action.
 
 ### 4.3. Agent-maintained code
 

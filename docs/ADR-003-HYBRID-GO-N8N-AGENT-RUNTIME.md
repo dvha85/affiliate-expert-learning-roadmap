@@ -8,6 +8,10 @@
 - **Keeps:** Go remains the primary language for domain/governance core
 - **Technology candidates:** [`TECHNOLOGY-CANDIDATES.md`](TECHNOLOGY-CANDIDATES.md)
 
+> **Curriculum-sequence note:** ADR-005 supersedes this document's v1 M00–M04
+> learning-order examples. The runtime ownership principles remain reference;
+> the v2 canonical sequence is [`../CURRICULUM.md`](../CURRICULUM.md).
+
 ## 1. Context — Bối cảnh
 
 Đích cuối của chương trình là một **Affiliate Intelligence Bot thông minh, tự động cao nhưng vẫn kiểm soát được**.

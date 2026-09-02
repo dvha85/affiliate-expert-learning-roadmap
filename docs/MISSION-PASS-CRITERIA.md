@@ -39,9 +39,10 @@ Mission chỉ được đánh dấu DONE khi ba chiều bắt buộc của Missi
 
 ## Reality gate
 
-- M00–M02 yêu cầu public evidence E1; sample chỉ là fallback cho Capability.
-- M03 yêu cầu public artifact do learner tự review/thực hiện, không yêu cầu bot publish.
-- M04 yêu cầu analytics/export thật; observed zero hợp lệ, missing phải giữ là missing.
+- M00 yêu cầu E1 public observation và E2 public artifact do learner tự review/thực hiện; Bot/AI không publish.
+- M01 yêu cầu analytics/export/outcome snapshot thật; observed zero hợp lệ, missing phải giữ là missing.
+- M02–M03 chứng minh deterministic baseline/history theo evidence có sẵn; sample chỉ là fallback cho Capability.
+- M04 yêu cầu grounded advisory có eval/fallback, không phải quyền tool/write.
 - M05 yêu cầu một real improvement cycle; negative/inconclusive vẫn PASS nếu measurement trung thực.
 - M06–M11 tăng dần từ automatic read-only tới governed action và production loop.
 

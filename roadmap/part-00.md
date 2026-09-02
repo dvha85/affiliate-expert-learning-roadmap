@@ -1,5 +1,10 @@
 # Phần 0 — Quyết định đầu tiên dựa trên bằng chứng
 
+> **V1 inventory/reference detail.** In canonical v2, P0 supports M00 First
+> Safe Market Loop (human-only E1→E2). The Bot-first wording and M00 file links
+> below are not a new learner's execution order; remapping is tracked in
+> [`../docs/CURRICULUM-MIGRATION-v2.md`](../docs/CURRICULUM-MIGRATION-v2.md).
+
 - Timeline: **Evidence-gated; recalibrate after learner pilot**.
 - **Chapters:** C0–C2
 - **Core:** 9 micro-lessons

@@ -1,5 +1,9 @@
 # Phần 2 — Vòng thị trường có tracking đầu tiên và orchestration an toàn đầu tiên
 
+> **V1 inventory/reference detail.** V2 has already put the human tracked
+> market loop at M00. This Part now supports M03 History & Measurement and M04
+> Grounded AI; do not read its legacy M03–M04 labels as the canonical sequence.
+
 - Timeline: **Evidence-gated; includes a real observation window**.
 - **Chapters:** C6–C8
 - **Core:** 9 micro-lessons

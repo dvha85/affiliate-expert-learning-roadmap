@@ -1,6 +1,10 @@
 # Tiến độ người học
 
 > File này theo dõi learner evidence. Authoring status của curriculum không tự thay đổi checkbox bên dưới.
+> **Curriculum version: 1.** Đây là pilot snapshot được giữ lại để provenance;
+> nó không phải learner state của canonical Reality-First v2. Xem
+> [`docs/CURRICULUM-MIGRATION-v2.md`](docs/CURRICULUM-MIGRATION-v2.md) trước
+> khi chuyển learner sang v2.
 
 ## Trạng thái hiện tại
 

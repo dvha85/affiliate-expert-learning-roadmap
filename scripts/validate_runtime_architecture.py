@@ -67,9 +67,11 @@ def check_implementation_strategy(root: Path, problems: list[Problem]) -> None:
 
 def check_roadmap_maturity(root: Path, problems: list[Problem]) -> None:
     require(root, "ROADMAP.md", "HYB004", (
-        "DOMAIN / GOVERNANCE", "AUTOMATION / ORCHESTRATION", "INTELLIGENCE / AGENT", "DEVELOPMENT AGENT",
-        "M00 Go golden oracle/reference", "M07 compare visual rule engine", "M08 n8n AI Agent visual-first comparison",
-        "M09 propose ActionIntent", "M10 governed participation",
+        "DETERMINISTIC CORE FIRST ≠ CODE FIRST", "M00 | first safe market loop",
+        "M01 | first outcome snapshot", "M02 | smallest deterministic Bot",
+        "M04 | grounded AI advisor", "A1 advisory, no tools/write",
+        "M08 | read-only evidence agent", "M09 | shadow action + approval",
+        "M10 | bounded governed canary", "Development Agent",
     ), problems)
 
 

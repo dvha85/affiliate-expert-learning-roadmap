@@ -27,6 +27,9 @@ jobs:
       - name: Run Mission authoring-state validator
         run: python scripts/validate_mission_status.py
 
+      - name: Run Mission readiness metadata validator
+        run: python scripts/validate_readiness.py
+
       - name: Run evidence taxonomy validator
         run: python scripts/validate_evidence_taxonomy.py
 

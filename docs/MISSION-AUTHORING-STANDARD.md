@@ -8,10 +8,18 @@ Mission là đơn vị **try + build + run + observe + pull + improve + operate 
 mission_id: "M00"
 title: "..."
 status: planned
+curriculum_version: 2
+release_kind: market_artifact # market_artifact | bot
 requires_missions: []
 bot_version_from: null
 bot_version_to: "v0.0"
 estimated_hours: 6
+delivery:
+  starter_paths: []
+  eval_pack: null
+  verification_commands: []
+  pilot_status: untested # untested | validated
+  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: []
@@ -26,7 +34,7 @@ risk_scope:
   external_side_effects: false
 ~~~
 
-Core Mission ready phải trỏ tới micro-lesson đã authored ready. Lesson chỉ cung cấp knowledge slice; Mission không tự đánh dấu lesson applied.
+Core Mission ready phải trỏ tới micro-lesson đã authored ready. Lesson chỉ cung cấp knowledge slice; Mission không tự đánh dấu lesson applied. `status: ready` chỉ là authoring state: phải dùng delivery metadata để nói starter/eval/pilot đã có hay chưa.
 
 ## Section bắt buộc
 
@@ -99,3 +107,14 @@ Mission ready phải có:
 - measurable Capability/Reality/Operated criteria;
 - evidence/review path;
 - không cần secret hoặc paid service để hoàn thành Core.
+
+## V2 sequencing and promotion
+
+V2 starts with M00 human-only market action, then M01 outcome snapshot in
+parallel with M02 deterministic baseline; AI is first allowed at M04 as A1
+advisory. Do not use v1 filename/lesson order as a v2 dependency.
+
+Before a v2 Mission is promoted, it needs an auditable starter or manual-only
+rationale, eval fixture/pack, reproducible verification commands, pilot actuals
+and evidence refs. `python scripts/validate_readiness.py --strict` is the
+metadata gate, not a substitute for human market-evidence review.

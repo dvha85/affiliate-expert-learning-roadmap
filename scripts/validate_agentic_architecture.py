@@ -36,8 +36,8 @@ REQUIRED_AUTHORITY_FILES = (
 EXPECTED_LEVELS = {
     "M00": "A0",
     "M01": "A0",
-    "M02": "A1",
-    "M03": "A1",
+    "M02": "A0",
+    "M03": "A0",
     "M04": "A1",
     "M05": "A1",
     "M06": "A0 core + A1 triage",
@@ -102,7 +102,7 @@ def capability_rows(text: str) -> dict[str, str]:
             cells.pop()
         # Only the product-spine table has Bot version as its first remaining
         # cell. Later reality/safety tables may legitimately reuse Mission IDs.
-        if cells and re.fullmatch(r"v\d+\.\d+", cells[0]):
+        if cells and re.fullmatch(r"(?:v\d+\.\d+|pre-bot)", cells[0]):
             rows[mission] = cells[-1]
     return rows
 

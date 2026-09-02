@@ -77,7 +77,7 @@ Không candidate nào tự trở thành canonical owner chỉ vì framework có 
 
 ## 2. Go — deterministic reference/fallback, không phải coding quota
 
-M00 Go starter được giữ làm **golden oracle/reference implementation** cho deterministic evidence decision đầu tiên.
+V1 M00 Go starter được giữ làm **golden oracle/reference implementation**; it maps to v2 M02 Smallest Deterministic Bot rather than the first learner action.
 
 Go phù hợp khi:
 

@@ -1,6 +1,6 @@
 # Publish Policy Context — Ngữ cảnh policy trước publish
 
-Tài liệu này định nghĩa contract tối thiểu để M03+ kiểm một public content artifact trước khi human publish hoặc trước khi một Mission sau cân nhắc external execution. Nó không thay legal advice và không biến platform policy thành permanent Core truth.
+Tài liệu này định nghĩa contract tối thiểu để M00+ kiểm một public content artifact trước khi human publish hoặc trước khi một Mission sau cân nhắc external execution. Nó không thay legal advice và không biến platform policy thành permanent Core truth.
 
 ## 1. Mục tiêu
 

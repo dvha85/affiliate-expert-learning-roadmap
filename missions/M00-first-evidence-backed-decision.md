@@ -2,10 +2,20 @@
 mission_id: "M00"
 title: "First Evidence-Backed Decision"
 status: ready
+curriculum_version: 1
+release_kind: "bot"
 requires_missions: []
 bot_version_from: null
 bot_version_to: "v0.1"
 estimated_hours: 10
+delivery:
+  starter_paths:
+    - "lab/learner/affiliate-bot/"
+  eval_pack: null
+  verification_commands:
+    - "cd lab/learner/affiliate-bot && go test ./..."
+  pilot_status: untested
+  pilot_evidence_refs: []
 knowledge:
   required: ["0.1", "0.2", "0.3", "1.1", "1.2", "1.3", "2.1", "2.2", "2.3"]
   on_demand: []

@@ -15,12 +15,13 @@ from pathlib import Path
 
 MISSION_ID_RE = re.compile(r'^mission_id:\s*"(M\d{2})"\s*$', re.MULTILINE)
 STATUS_RE = re.compile(r'^status:\s*(planned|draft|ready)\s*$', re.MULTILINE)
+CURRICULUM_VERSION_RE = re.compile(r'^curriculum_version:\s*(\d+)\s*$', re.MULTILINE)
 REQUIRES_RE = re.compile(r'^requires_missions:\s*\[(.*?)\]\s*$', re.MULTILINE)
 VERSION_FROM_RE = re.compile(r'^bot_version_from:\s*(null|"v\d+\.\d+")\s*$', re.MULTILINE)
 VERSION_TO_RE = re.compile(r'^bot_version_to:\s*"(v\d+\.\d+)"\s*$', re.MULTILINE)
 REQUIRED_RE = re.compile(r'^\s*required:\s*\[(.*?)\]\s*$', re.MULTILINE)
 LESSON_ID_RE = re.compile(r'"(\d+\.\d+)"')
-ROADMAP_MISSION_RE = re.compile(r'^\|\s*(M\d{2})\s*\|\s*(v\d+\.\d+)\s*\|', re.MULTILINE)
+ROADMAP_MISSION_RE = re.compile(r'^\|\s*(M\d{2})\s*\|\s*((?:v\d+\.\d+)|pre-bot)\s*\|', re.MULTILINE)
 CANON_LESSON_RE = re.compile(r'^- \[[ xX]\] \*\*(\d+\.\d+)\*\* — ', re.MULTILINE)
 CANON_LESSON_LINK_RE = re.compile(
     r'^- \[[ xX]\] \*\*(\d+\.\d+)\*\* — \[[^]]+\]\(([^)]+)\)',
@@ -318,7 +319,7 @@ def check_roadmap_spine(root: Path, problems: list[Problem]) -> dict[str, str]:
         authority_ids = TABLE_MISSION_RE.findall(authority.read_text(encoding="utf-8"))
         if authority_ids != expected:
             problems.append(Problem("BUILD003", str(rel), f"Mission table phải đúng M00..M11 theo thứ tự; hiện có {authority_ids}"))
-    versions = [version for _, version in rows]
+    versions = [version for _, version in rows if version != "pre-bot"]
     for prev, current in zip(versions, versions[1:]):
         if version_tuple(current) <= version_tuple(prev):
             problems.append(Problem("BUILD006", str(path.relative_to(root)), f"Bot Version phải tăng; gặp {prev} rồi {current}"))
@@ -412,6 +413,12 @@ def check_missions(root: Path, canonical_ids: set[str], spine: dict[str, str], p
     for path in files:
         rel = str(path.relative_to(root))
         text = path.read_text(encoding="utf-8")
+        # v1 files are immutable migration/reference material. Their own
+        # schema is checked by validate_readiness; only v2 files participate
+        # in the active dependency/evidence/version graph.
+        curriculum_match = CURRICULUM_VERSION_RE.search(text)
+        if curriculum_match and int(curriculum_match.group(1)) != 2:
+            continue
         match = MISSION_ID_RE.search(text)
         if not match:
             problems.append(Problem("BUILD002", rel, "thiếu hoặc sai mission_id metadata"))
@@ -566,6 +573,8 @@ def current_mission(root: Path) -> str | None:
     if not path.exists():
         return None
     text = path.read_text(encoding="utf-8")
+    if "Curriculum version: 1" in text:
+        return None
     for pattern in CURRENT_MISSION_RES:
         match = pattern.search(text)
         if match:
@@ -594,9 +603,9 @@ def check_bootstrap(root: Path, problems: list[Problem]) -> None:
     reference_readme = root / "lab/affiliate-bot/README.md"
     if reference_readme.exists():
         text = reference_readme.read_text(encoding="utf-8")
-        required = ("legacy engineering reference", "M02 hiện là Grounded AI Advisor", "M03 là Human Tracked Publish")
+        required = ("legacy engineering reference", "Curriculum v2 maps the first", "M04 is Grounded AI Advisor")
         if not all(marker in text for marker in required):
-            problems.append(Problem("BUILD020", str(reference_readme.relative_to(root)), "reference snapshot phải cảnh báo mapping mission cũ và nêu M02/M03 hiện hành"))
+            problems.append(Problem("BUILD020", str(reference_readme.relative_to(root)), "reference snapshot phải cảnh báo mapping v1 và nêu v2 M02/M04 hiện hành"))
     learner_data = root / "lab/learner/affiliate-bot/data"
     if not learner_data.exists() or not any(learner_data.glob("*.json")):
         problems.append(Problem("BUILD010", str(learner_data.relative_to(root)), "learner bootstrap phải có ít nhất một JSON fixture được gắn nhãn rõ"))

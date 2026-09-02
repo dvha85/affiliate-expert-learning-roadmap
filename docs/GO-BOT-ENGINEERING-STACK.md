@@ -1,17 +1,22 @@
-# Go Bot Engineering Stack — Chuẩn kỹ thuật Bot dùng Go
+# Go Bot Engineering Stack — Go implementation profile/reference
 
-> Active implementation standard cho Go-first curriculum tại [`CURRICULUM.md`](../CURRICULUM.md).
+> Go là implementation profile/reference cho deterministic Bot từ v2 M02 khi
+> phù hợp, không phải prerequisite cho v2 M00. Sequence authority nằm tại
+> [`CURRICULUM.md`](../CURRICULUM.md) và implementation flexibility ở
+> [`ADR-004`](ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md).
 
 Tiếng Việt là ngôn ngữ chính. English terminology (thuật ngữ tiếng Anh) được giữ để đối chiếu kỹ thuật và có giải thích tiếng Việt ở lần xuất hiện quan trọng. Xem [`LANGUAGE-POLICY.md`](LANGUAGE-POLICY.md) và [`GLOSSARY-VI.md`](GLOSSARY-VI.md).
 
 ## 1. Quy tắc chính
 
 ```text
-PRIMARY IMPLEMENTATION LANGUAGE = Go
-(Ngôn ngữ triển khai chính = Go)
+GO PROFILE = AUDITABLE DETERMINISTIC IMPLEMENTATION OPTION
+(Go là lựa chọn triển khai deterministic có thể audit)
 ```
 
-C#/.NET là comparison/reference material (tài liệu so sánh/tham khảo), không phải default implementation path (đường triển khai mặc định).
+No-code/visual rule profile hoặc agent-maintained code đều có thể hợp lệ nếu
+giữ parity, test, audit, fail-closed và ownership contract. C#/.NET vẫn là
+comparison/reference material, không phải default implementation path.
 
 ## 2. Kiến trúc mặc định
 

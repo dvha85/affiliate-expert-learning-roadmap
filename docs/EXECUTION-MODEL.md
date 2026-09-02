@@ -1,269 +1,33 @@
-# Build-First Execution Model — Mô hình thực thi Build-First
+# Execution model v2
 
-> [`CURRICULUM.md`](../CURRICULUM.md) dùng **Mission-first execution (thực thi theo Mission) + real evidence + just-in-time knowledge pulls + persistent operating loops**.
+This is a v2 companion to [CURRICULUM.md](../CURRICULUM.md) and ADR-005. It
+preserves governed-action safety while moving real human action before Bot/AI.
 
-## 1. Mental Model — Mô hình tư duy
-
-```text
-                 BUILD-FIRST SPINE
-                 (Xương sống Build-First)
-
-Mission M00 → M01 → M02 → M03 → ...
-    │          │      │
-    ▼          ▼      ▼
-Knowledge   Knowledge Knowledge
-  Pull        Pull      Pull
-    │          │        │
-    └──────────┴────────┘
-             ↓
-        Bot Version evolves
-        (Phiên bản Bot tiến hóa)
-```
-
-`CURRICULUM.md` quyết định outcome/spine/PASS boundary; `ROADMAP.md` là normalized Core index. Mission system quyết định learner làm gì tiếp theo.
-
-## 2. Build-First Loop — Vòng học Build-First
+## Execution lanes
 
 ```text
-Real observation + Human judgment
-→ Ship Target
-→ Build smallest working slice
-→ Run (Chạy)
-→ Observe failure/gap (Quan sát lỗi/thiếu sót)
-→ Pull required knowledge (Lấy kiến thức cần ngay)
-→ Improve (Cải tiến)
-→ Test (Kiểm thử)
-→ Operate (Vận hành)
-→ Measure (Đo lường)
-→ Explain (Giải thích)
-→ Save evidence (Lưu bằng chứng)
-→ Next Bot Version (Phiên bản Bot tiếp theo)
+human market lane: observe → create/review → manual publish → measure
+deterministic lane: validate → record → decide/abstain → audit
+AI lane: grounded analysis/proposal only; never fact or permission
+automation lane: read/watch/orchestrate only after policy contracts exist
 ```
 
-Learner dùng Go scope hẹp ngay M00. Knowledge sâu chỉ được kéo khi failure/bottleneck thật làm nó cần thiết.
+M00 has no Bot/AI publish capability. M04 advice is no-tool/no-write. Later
+runtime choice remains implementation-flexible under ADR-004.
 
-## 3. Knowledge Dependency Semantics — Ý nghĩa quan hệ kiến thức
+## Governed Action / Approval
 
-Mission knowledge có ba mức:
-
-- **REQUIRED (Bắt buộc cho Mission)** — phải hiểu phần cần thiết để Mission PASS.
-- **ON-DEMAND (Khi phát sinh nhu cầu)** — pull khi implementation/business context làm lộ nhu cầu.
-- **REFERENCE (Tham khảo)** — kiến thức đào sâu, không phải Mission PASS gate.
+Consequential automation starts only after the later Mission contracts:
 
 ```text
-REQUIRED FOR MISSION
-= applied knowledge slice after an attempt
+DecisionPacket / ActionIntent
+→ deterministic Policy + Risk
+   ├── RISK 0 → explicitly allowlisted execution + audit
+   ├── RISK 1 → bounded execution + mandatory audit
+   └── RISK 2 → persist → human approval → revalidate → execute/reject
+→ ExecutionRecord → outcome/evaluation
 ```
 
-Việc đọc lesson không tạo Mission PASS. Lesson chỉ được đánh dấu applied khi đã thay đổi code/evidence/decision trong Mission.
-
-## 4. Operating Loops Remain Cumulative — Các vòng vận hành được tích lũy
-
-Khi capability (năng lực) tăng, các loop sau tiếp tục chạy khi relevant:
-
-- Compliance / Platform Watch — theo dõi tuân thủ/nền tảng;
-- Market / Customer / Product Watch — theo dõi thị trường/khách hàng/sản phẩm;
-- Content Production — sản xuất nội dung;
-- Traffic Distribution — phân phối traffic;
-- Funnel / Revenue / Data Capture — ghi nhận funnel/doanh thu/dữ liệu;
-- Experiment Loop — vòng thử nghiệm;
-- Bot / Automation — Bot/tự động hóa;
-- AI-assisted Workflow — workflow có AI hỗ trợ;
-- Governed Action / Approval — hành động/phê duyệt có kiểm soát.
-
-Build-First thay **thời điểm capability được đưa vào**, không xóa yêu cầu giữ các operating loop hữu ích.
-
-## 5. Decision Intelligence Loop — Vòng trí tuệ quyết định
-
-Từ M02, AI có thể xuất hiện ở vai trò grounded advisory/read-only; authority tăng dần theo [`AI-CAPABILITY-LEVELS.md`](AI-CAPABILITY-LEVELS.md).
-
-```text
-Event / Data
-→ Freshness + Quality Gate
-→ SignalPacket
-→ Deterministic Analytics / Forecast / ML
-→ AI AnalysisPacket khi có giá trị
-→ Evidence Escalation nếu thiếu dữ liệu
-→ Decision Fusion
-→ DecisionPacket
-→ Policy + Risk
-→ ActionIntent
-→ Auto hoặc Human Approval
-→ Execute
-→ Outcome
-→ Evaluation / Learning
-↺
-```
-
-Bốn state/contract phải tách biệt:
-
-```text
-Signal / Fact
-≠
-Analysis
-≠
-Decision
-≠
-Execution Record
-```
-
-Điều này cho phép audit rõ hệ thống đã thấy gì, AI/rule đã phân tích gì, quyết định nào được chọn và executor thực sự đã làm gì.
-
-## 6. Event-driven Invocation — Chỉ gọi AI khi có trigger đáng giá
-
-Không mặc định poll toàn bộ dữ liệu rồi hỏi LLM liên tục.
-
-Ưu tiên trigger như:
-
-- material state change;
-- anomaly;
-- threshold crossing;
-- freshness expiry;
-- experiment completion;
-- revenue reconciliation;
-- approval completion;
-- policy/platform change.
-
-```text
-DETERMINISTIC EVENT
-→ IS IT MATERIAL?
-→ YES: collect evidence + run analysis/decision workflow
-```
-
-Mục tiêu là phản ứng nhanh hơn khi có thay đổi thật, đồng thời giảm model cost và noise.
-
-## 7. AI Capability Progression — Tiến trình quyền AI
-
-```text
-A0 — deterministic baseline          M00–M01
-A1 — grounded advisory/read-only      M02–M07
-A2-RO — read-only tool Agent          M08
-A3-shadow — governed dry-run          M09
-A3-limited — bounded R0/R1 auto       M10
-A3-production — governed closed loop  M11
-A4 — multi-agent                      Advanced only
-```
-
-```text
-AI APPEARS EARLY
-≠
-AI GETS AUTHORITY EARLY
-```
-
-Ở A1, AI được phân tích/đề xuất nhưng không external execute. Ở A2+, tool permission/risk/approval contract vẫn là bắt buộc.
-
-## 8. Governed Action / Approval — Hành động và phê duyệt có kiểm soát
-
-Consequential execution (thực thi có hậu quả đáng kể) giữ policy model hiện hành:
-
-```text
-Observe (Quan sát)
-→ Analyze (Phân tích)
-→ DecisionPacket / ActionIntent
-→ deterministic Policy + Risk (Chính sách + Rủi ro xác định)
-   ├── RISK 0 → auto execute (tự thực thi)
-   ├── RISK 1 → auto execute + mandatory audit (tự thực thi + bắt buộc ghi vết)
-   └── RISK 2 → persist → approval → revalidate → execute/reject
-→ Audit / Trace (Ghi vết)
-→ Measure outcome (Đo kết quả)
-→ Learn (Học)
-```
-
-Human review dùng cho consequential decisions/exceptions, không dùng để babysit từng bước cơ học.
-
-## 9. Evidence Escalation — Thiếu dữ liệu thì lấy thêm, không đoán
-
-```text
-Enough evidence?
-├─ YES → DecisionPacket
-└─ NO
-   → request allowed read tools/data
-   → collect more evidence
-   → reevaluate
-```
-
-`WAIT`, `GET_MORE_DATA`, `HUMAN_REVIEW` là decision hợp lệ. AI phải thể hiện `missing_evidence` và `uncertainty` thay vì tạo certainty giả.
-
-## 10. Go-First Progression — Tiến trình Go-first
-
-```text
-M00 → function/data/test đủ sửa starter baseline
-M01 → struct/file/time/validation/history
-M06 → context/scheduler/retry/deduplication
-M09 → state machine/durable state/idempotency/approval
-```
-
-Đây là chủ ý **USE BEFORE MASTER (dùng trước, làm chủ sau)**, không phải mastery-by-copying (làm chủ bằng cách copy lời giải).
-
-Learner workspace và reference implementation phải tách nhau để progression này có ý nghĩa.
-
-## 11. Provider-Neutral AI — AI trung lập nhà cung cấp
-
-Go domain/Decision/Policy core không phụ thuộc trực tiếp provider SDK.
-
-```text
-Go Domain / Decision / Policy
-→ AI Provider Interface
-→ Provider Adapter
-```
-
-Provider capability được đánh giá theo `docs/AI-PROVIDER-CAPABILITY-MATRIX.md`. Exact model/API/version thuộc freshness layer.
-
-## 12. Capacity — Quỹ thời gian
-
-- Profile 12 tháng: khoảng 5–8 focused hours/tuần.
-- Profile 15 tháng: khoảng 4–6 focused hours/tuần.
-- Cả hai là forecast cho tới khi có actual M00–M05.
-
-Heuristic (gợi ý) trong Build-First:
-
-```text
-70–85% build / run / measure / operate
-10–20% required knowledge pull
-10–20% evidence / review
-```
-
-Tỷ lệ có thể adaptive; không hạ PASS quality chỉ để đạt ngày trên lịch.
-
-## 13. Capstone Evolution — Tiến hóa tới Capstone
-
-```text
-Runnable Go Bot
-→ Product Data
-→ Product Watcher
-→ Product Intelligence
-→ Content / Revenue Intelligence
-→ Experiment Engine
-→ Decision Intelligence / Policy Engine
-→ AI Tool Workflow
-→ Governed Production Bot
-→ Affiliate Intelligence Platform
-```
-
-Một Bot artifact tiến hóa và reuse qua bốn Milestone; không rebuild nhiều project độc lập.
-
-## 14. Final Operating Rule — Quy tắc vận hành cuối cùng
-
-```text
-ONE current Mission
-+
-ONLY necessary Knowledge Pulls
-+
-ACTIVE operating loops within capacity
-+
-PASS evidence before mastery claim
-+
-EVIDENCE before AI confidence
-+
-POLICY before consequential execution
-```
-
-## 15. Quy tắc code sớm
-
-```text
-BUILD CODE EARLY
-≠
-AUTOMATE REAL BUSINESS EARLY
-```
-
-M00 dùng public/manual read + local compute; M03 mới có public action do human review/thực hiện. Bot chỉ nhận external authority sau các policy/evaluation gate tương ứng.
+ActionIntent is not permission. Any unavailable/invalid policy, stale evidence,
+unknown version or kill switch must fail closed. Workflow and agent runtime do
+not own canonical truth, risk or authorization.

@@ -1,5 +1,21 @@
 # Repository Governance — Quản trị repository
 
+## Curriculum versioning and promotion
+
+`CURRICULUM.md` is the active authority. Since ADR-005, its v2 Reality-First
+sequence governs new work. The local tag `curriculum-v1-pre-reality-first`
+preserves the v1 baseline; v1 Mission files remain historical/reference until
+their v2 replacements are authored.
+
+Do not equate `status: ready` with a delivered learning experience. Every
+Mission must declare `curriculum_version`, `release_kind`, and `delivery`.
+`python scripts/validate_readiness.py` checks metadata and paths; the `--strict`
+mode is required before a new v2 Mission is promoted to ready.
+
+Curriculum PRs must state migration impact, authority/evidence changes, and
+whether a beginner starter/eval/pilot is present. Preserve prior evidence and
+links; do not silently renumber a learner's completed work.
+
 ## 1. Mục tiêu
 
 Repository là curriculum có CI và learner evidence, vì vậy `main` phải được coi là protected integration branch (nhánh tích hợp được bảo vệ), không phải nơi push thử nghiệm trực tiếp.

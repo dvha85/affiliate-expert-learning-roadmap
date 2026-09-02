@@ -1,6 +1,10 @@
 # Affiliate Bot — không gian làm việc của người học
 
-Đây là Bot người học tự phát triển qua M00–M11. Bản tham chiếu (`reference`) ở `lab/affiliate-bot/` chỉ dùng sau khi đã tự thử (`attempt`) hoặc khi review.
+> **V1 learner scaffold/reference.** Curriculum v2 does not require Go before
+> M00. This workspace maps to v2 M02 Smallest Deterministic Bot after the
+> human market loop and outcome snapshot; do not use this as a v2 M00 entrypoint.
+
+Đây là Bot người học tự phát triển qua v1 M00–M11. Bản tham chiếu (`reference`) ở `lab/affiliate-bot/` chỉ dùng sau khi đã tự thử (`attempt`) hoặc khi review.
 
 ## Kiểm tra trước M00 (`preflight`)
 

@@ -188,11 +188,11 @@ Publish, spend, account/security change, destructive delete và consequential co
 
 | Mission | AI/Agent outcome | Evidence gate |
 |---|---|---|
-| M00 | deterministic evidence-backed decision đầu tiên | E1 public observations + human rank trước Bot |
-| M01 | trustworthy history/change baseline | ít nhất hai real snapshots, không overwrite |
-| M02 | grounded AI advisor với schema/eval/fallback | claim có evidence ref; invalid/unavailable path được test |
-| M03 | AI có thể tư vấn, learner tự duyệt và publish | E2 manual compliant tracked publication |
-| M04 | reconcile outcome và human-vs-AI comparison | E3 analytics/export thật; missing khác zero |
+| M00 | no AI/Bot; human-only safe market loop | E1→E2 public observation + manual tracked publish |
+| M01 | no AI/Bot; first outcome snapshot | E3 real analytics/export; zero khác missing |
+| M02 | smallest deterministic baseline | evidence/context + abstain behavior test |
+| M03 | trustworthy history/change baseline | provenance/freshness/reconcile, không overwrite |
+| M04 | grounded AI advisor với schema/eval/fallback | claim có evidence ref; invalid/unavailable path được test |
 | M05 | outcome tạo proposed improvement | E4 decision/action/outcome/review trace |
 | M06 | reliable automatic watcher | retry, duplicate, timeout và recovery evidence |
 | M07 | DecisionPacket + confidence/uncertainty/abstain | stale/missing/conflicting cases |
@@ -203,9 +203,9 @@ Publish, spend, account/security change, destructive delete và consequential co
 
 ## 11. Bốn Milestone Gate
 
-- **G1 — M00:** first evidence-backed decision;
-- **G2 — M01–M02:** trustworthy data và grounded advisory;
-- **G3 — M03–M05:** first tracked market loop và reviewed improvement;
+- **G1 — M00:** first safe human market loop;
+- **G2 — M01–M03:** outcome snapshot, deterministic baseline và trustworthy history;
+- **G3 — M04–M05:** grounded advisory và reviewed improvement;
 - **G4 — M06–M11:** reliable, governed production loop.
 
 Authority không được tăng chỉ vì Capability PASS. Mission phải có Reality verified, Operated và đạt gate trước đó; outcome có thể `zero`, `negative` hoặc `inconclusive` miễn measurement trung thực.

@@ -155,11 +155,11 @@ Khi nguồn/import tool cung cấp validation status, giữ nó trong `Measureme
 
 | Mission | Mức trưởng thành của metric |
 |---|---|
-| M00 | commission/price chỉ là baseline scenario; xác suất conversion vẫn unknown nếu chưa đo |
-| M01 | cùng metric có provenance, timestamp, history và freshness |
-| M02 | AI có thể giải thích/đặt giả thuyết nhưng không ghi đè metric truth |
-| M03 | đăng ký trước (`pre-register`) target metric, expected direction và outcome window trước publish |
-| M04 | import exposure/click/order/valid/final commission thật khi source hỗ trợ; tách test event; tạo `MeasurementContext` và reconcile source/config |
+| M00 | pre-register tracking/window trước human publish; commission/conversion vẫn unknown nếu chưa đo |
+| M01 | import outcome snapshot thật; tách test event, zero, missing, pending và tạo `MeasurementContext` |
+| M02 | deterministic baseline chỉ dùng evidence/context đã có |
+| M03 | metric có provenance, timestamp, append-only history, freshness và reconcile |
+| M04 | AI có thể giải thích/đặt giả thuyết nhưng không ghi đè metric truth |
 | M05 | chọn bottleneck theo funnel; experiment chỉ so outcome có measurement context tương thích hoặc limitation rõ |
 | M06 | watcher tự động thu signal đã hiểu với retry/dedup/freshness |
 | M07 | `DecisionPacket` tham chiếu metric window/context/confidence/missing evidence |

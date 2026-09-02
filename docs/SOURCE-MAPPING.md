@@ -22,6 +22,22 @@ CURRENT FACTS: EXT refs + verified date + volatility
 
 Current Core gồm 7 Parts, 21 Chapters và 63 micro-lessons trên Mission spine `M00–M11`. Đây là inventory hiện tại, không phải số lượng phải bảo vệ trước learner evidence.
 
+## V2 sequence overlay
+
+The detailed Part/Mission tables below preserve v1 source lineage. They are not
+the active sequence. V2 routes existing knowledge inventory through:
+
+```text
+M00 human safe market loop
+→ M01 outcome snapshot ∥ M02 deterministic baseline
+→ M03 history/measurement → M04 grounded AI → M05 reviewed improvement
+→ M06–M11 governed production
+```
+
+Mapping is explicit in [`CURRICULUM-MIGRATION-v2.md`](CURRICULUM-MIGRATION-v2.md).
+When authoring a v2 Mission, cite active outcome/evidence need first, then add
+historical IDs only as provenance; do not inherit v1 sequence from a lesson ID.
+
 ## 2. Source roles
 
 ### Active curriculum
@@ -117,7 +133,7 @@ Rules:
 - source ref không thay citation/evidence cho claim cụ thể;
 - không quá ba Core micro-lessons liên tiếp trước khi learner quay lại Mission attempt.
 
-## 5. Active Part và Mission map
+## 5. V1 baseline Part và Mission map
 
 | Part | Chapters | Lessons | Mission | Capability outcome |
 |---|---:|---:|---|---|

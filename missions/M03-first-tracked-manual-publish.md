@@ -2,10 +2,18 @@
 mission_id: "M03"
 title: "First Tracked Manual Publish"
 status: draft
+curriculum_version: 1
+release_kind: "market_artifact"
 requires_missions: ["M02"]
 bot_version_from: "v0.3"
 bot_version_to: "v0.4"
 estimated_hours: 14
+delivery:
+  starter_paths: []
+  eval_pack: null
+  verification_commands: []
+  pilot_status: untested
+  pilot_evidence_refs: []
 knowledge:
   required: ["6.1", "6.2", "6.3", "7.1"]
   on_demand: []

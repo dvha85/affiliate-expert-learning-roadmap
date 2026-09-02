@@ -1,5 +1,9 @@
 # Phần 3 — Cải tiến dựa trên outcome
 
+> **V1 inventory/reference detail.** This Part remains the knowledge source for
+> v2 M05 First Reviewed Improvement. Its legacy implementation naming below is
+> not an authority over ADR-004 implementation flexibility.
+
 - Timeline: **Evidence-gated; experiment duration follows the declared observation window**.
 - **Chapters:** C9–C11
 - **Core:** 9 micro-lessons

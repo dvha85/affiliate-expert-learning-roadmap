@@ -4,6 +4,21 @@ Tài liệu này giữ cho chương trình luôn là khóa học xây **Affiliat
 
 Hợp đồng (`contract`) có tính **tích lũy (`cumulative`)**: Mission sớm chỉ điền các field đã có evidence; field chưa đủ bằng chứng phải là `unknown`, `not_yet_observable` hoặc một trạng thái từ chối quyết định (`abstention state`) hợp lệ. Không được bịa dữ liệu để output có vẻ đầy đủ.
 
+## Active v2 maturity map
+
+| Mission | Contract increment v2 |
+|---|---|
+| M00 | offer/audience/channel/content hypothesis, evidence, disclosure/tracking and human-only Action record; Bot fields may remain unknown |
+| M01 | first `MeasurementContext` and outcome snapshot; distinguish zero/missing/pending/inconclusive |
+| M02 | smallest deterministic reason, confidence, uncertainty and abstain |
+| M03 | append-only history, provenance, freshness and reconciliation |
+| M04 | grounded AI explanation with source refs/fallback; no tool/write permission |
+| M05 | outcome → evaluation → proposed improvement → test/review/rollback |
+| M06–M11 | reliable observation, DecisionPacket, read tools, governed ActionIntent and closed-loop recovery |
+
+The v1 details below remain reference only; their M00–M04 labels do not define
+the active execution order. See [`CURRICULUM-MIGRATION-v2.md`](CURRICULUM-MIGRATION-v2.md).
+
 ## Câu hỏi cuối cùng Bot phải hỗ trợ
 
 Ở mức production (môi trường vận hành thật), Bot phải có khả năng trả lời có bằng chứng:
@@ -76,7 +91,7 @@ Nguyên tắc:
 >
 > **EXPECTED VALUE > COMMISSION RATE — Giá trị kỳ vọng quan trọng hơn tỷ lệ hoa hồng đơn lẻ.**
 
-## Mức trưởng thành theo Mission
+## V1 baseline maturity detail
 
 | Mission | Hợp đồng phải trưởng thành thêm |
 |---|---|

@@ -2,10 +2,18 @@
 mission_id: "MXX"
 title: "Tên Mission"
 status: planned
+curriculum_version: 2
+release_kind: market_artifact # market_artifact | bot
 requires_missions: []
 bot_version_from: null
 bot_version_to: "vX.Y"
 estimated_hours: 6
+delivery:
+  starter_paths: []
+  eval_pack: null
+  verification_commands: []
+  pilot_status: untested # untested | validated
+  pilot_evidence_refs: []
 knowledge:
   required: []
   on_demand: []
@@ -24,7 +32,9 @@ risk_scope:
 
 ## Ship Target — Mục tiêu bàn giao
 
-Nêu một capability có thể demo và evidence level phải đạt.
+Nêu một capability có thể demo và evidence level phải đạt. `status: ready` chỉ
+có nghĩa Mission đã được biên soạn; delivery/pilot trong metadata mới cho biết
+có starter, eval và bằng chứng pilot hay chưa.
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 

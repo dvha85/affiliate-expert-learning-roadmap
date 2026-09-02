@@ -1,65 +1,42 @@
-# Mission system
+# Mission index
 
-Mission là đơn vị tiến độ chính của curriculum. Một Bot duy nhất tiến hóa qua M00–M11.
+The active canonical sequence is curriculum v2. `authoring` is not delivery
+readiness: see `python scripts/report_readiness.py` and
+[migration rules](../docs/CURRICULUM-MIGRATION-v2.md).
 
-~~~text
-Mission ≠ Lesson ≠ Milestone ≠ Bot Version
-~~~
-
-- Lesson cung cấp knowledge slice đúng lúc.
-- Mission ship một capability/evidence step.
-- Milestone gom nhiều Mission thành demo.
-- Bot Version là trạng thái sản phẩm sau Mission.
-
-## Spine
-
-> `status` trong front matter của từng Mission file là **nguồn chuẩn cho authoring state**. Bảng dưới đây chỉ là projection để đọc nhanh và được CI kiểm tra không được drift khỏi front matter.
+## V2 canonical Mission spine
 
 | Mission | Outcome | Authoring |
 |---|---|---|
-| [M00](M00-first-evidence-backed-decision.md) | First evidence-backed decision | ready |
-| [M01](M01-trustworthy-history.md) | Trustworthy history | ready |
-| [M02](M02-grounded-ai-advisor.md) | Grounded AI advisor | ready |
-| [M03](M03-first-tracked-manual-publish.md) | First tracked manual publish | draft |
-| M04 | Real outcome analytics | planned |
-| M05 | First real improvement loop | planned |
-| M06 | Reliable automatic watcher | planned |
-| M07 | Decision, abstention và memory | planned |
-| M08 | Read-only tool agent | planned |
-| M09 | Shadow action + durable approval | planned |
-| M10 | Limited governed automation | planned |
-| M11 | Production closed loop | planned |
+| M00 | First Safe Market Loop — human-only manual publish with disclosure/tracking | planned |
+| M01 | First Outcome Snapshot — real measurement, zero/pending/inconclusive allowed | planned |
+| M02 | Smallest Deterministic Bot — auditable A0 baseline | planned |
+| M03 | Trustworthy History & Measurement — provenance/freshness/reconcile | planned |
+| M04 | Grounded AI Advisor — A1, no tools/write/execute | planned |
+| M05 | First Reviewed Improvement — outcome → test/review/rollback | planned |
+| M06 | Reliable Watcher | planned |
+| M07 | Decision and Abstention | planned |
+| M08 | Read-only Evidence Agent | planned |
+| M09 | Shadow Action and Approval | planned |
+| M10 | Governed Canary | planned |
+| M11 | Production Closed Loop | planned |
 
-`planned` nghĩa là outcome/knowledge/gate đã có trong `CURRICULUM.md`, roadmap và Mission Knowledge Map, nhưng execution file chưa được author/review. Không tự nhảy tới một Mission planned rồi đoán acceptance criteria.
+M00 → {M01, M02}; M01 + M02 → M03 → M04 → M05 → M06 … M11. `O00`
+is a non-PASS synthetic orientation and intentionally has no Mission file yet.
 
-## Trạng thái độc lập
+## V1 baseline/reference delivery
 
-Authoring: planned → draft → ready.
+These are retained exactly enough to preserve existing links, learner evidence
+and reference behavior. Their `curriculum_version: 1` metadata means they do
+not project the v2 rows above; do not use them as a new learner's v2 order.
 
-Learner:
+| V1 file | Historical outcome | Authoring | Delivery |
+|---|---|---|---|
+| [M00 First Evidence-Backed Decision](M00-first-evidence-backed-decision.md) | maps to v2 M02 knowledge/baseline | ready | incomplete |
+| [M01 Trustworthy History](M01-trustworthy-history.md) | maps to v2 M03 history | ready | incomplete |
+| [M02 Grounded AI Advisor](M02-grounded-ai-advisor.md) | maps to v2 M04 AI advisor | ready | incomplete |
+| [M03 First Tracked Manual Publish](M03-first-tracked-manual-publish.md) | maps to v2 M00 market loop | draft | incomplete |
 
-- Capability PASS;
-- Reality verified;
-- Operated;
-- DONE khi các chiều bắt buộc đều đạt.
-
-Mission ready không nghĩa learner đã PASS. CI xanh cũng không tạo learner evidence.
-
-## Evidence chain
-
-~~~text
-Observation → HumanPrediction → BotDecision
-→ Action/ActionIntent → Outcome → Evaluation
-→ ChangeProposal → BotVersion
-~~~
-
-Early Mission chưa có mọi record; không được dùng synthetic record để giả vờ đã có real outcome.
-
-## Workspace
-
-~~~text
-lab/learner/affiliate-bot/   # learner tự build
-lab/affiliate-bot/           # reference sau attempt
-~~~
-
-Chi tiết: [Mission authoring standard](../docs/MISSION-AUTHORING-STANDARD.md) và [Mission PASS](../docs/MISSION-PASS-CRITERIA.md).
+No v1 `ready` row is evidence that a v2 Mission is delivered. The explicit
+old-to-new mapping is maintained in
+[CURRICULUM-MIGRATION-v2.md](../docs/CURRICULUM-MIGRATION-v2.md).
