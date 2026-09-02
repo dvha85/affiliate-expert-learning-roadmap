@@ -133,7 +133,9 @@ external action sau scope/approval Mission sau.
 
 Dùng `[M04 contract](../docs/M04-GROUNDED-ADVISORY-CONTRACT.md)`, evaluator
 replay, `templates/MISSION-EVIDENCE.md` và redacted summary. Evidence refs phải
-resolve được nhưng raw/private data không commit.
+resolve được nhưng raw/private data không commit. Dùng
+`starter-kits/M04-grounded-advisory/ADVISORY-EVALUATION-RECORD.md`; replay phải
+ghi `live_provider_verified: pending`, không tự nhận là live.
 
 ## Explain-back — Giải thích lại
 

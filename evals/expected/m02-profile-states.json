@@ -1,0 +1,1 @@
+{"valid":"RANK_SCENARIO","missing":"GET_MORE_DATA","observed-zero":"RANK_SCENARIO","malformed":"INPUT_ERROR","duplicate":"HUMAN_REVIEW","identity-conflict":"HUMAN_REVIEW","mixed-currency":"HUMAN_REVIEW","deterministic-tie":"RANK_SCENARIO"}

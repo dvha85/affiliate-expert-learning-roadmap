@@ -4,6 +4,9 @@ The active canonical sequence is curriculum v2. `authoring` is not delivery
 readiness: see `python scripts/report_readiness.py` and
 [migration rules](../docs/CURRICULUM-MIGRATION-v2.md).
 
+Learners migrating from the retained v1 files should first read
+[V1 migration redirects](V1-MIGRATION-REDIRECTS.md).
+
 ## V2 canonical Mission spine
 
 | Mission | Outcome | Authoring |
@@ -13,7 +16,7 @@ readiness: see `python scripts/report_readiness.py` and
 | [M02](M02-smallest-deterministic-bot.md) | Smallest Deterministic Bot — auditable A0 baseline | draft |
 | [M03](M03-trustworthy-history-and-measurement.md) | Trustworthy History & Measurement — provenance/freshness/reconcile | draft |
 | [M04](M04-grounded-ai-advisor.md) | Grounded AI Advisor — A1, no tools/write/execute | draft |
-| M05 | First Reviewed Improvement — outcome → test/review/rollback | planned |
+| [M05](M05-first-reviewed-improvement.md) | First Reviewed Improvement — outcome → test/review/rollback | draft |
 | M06 | Reliable Watcher | planned |
 | M07 | Decision and Abstention | planned |
 | M08 | Read-only Evidence Agent | planned |

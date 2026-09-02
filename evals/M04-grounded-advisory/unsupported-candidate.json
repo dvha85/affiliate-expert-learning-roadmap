@@ -1,4 +1,6 @@
 {
+  "schema_version": "m04-advisory-v1",
+  "advisor_execution_kind": "replay",
   "facts": [
     {"claim": "Observed conversion rate is 12%", "evidence_ref": "OBS-1", "field": "conversion_rate", "value": 0.12}
   ]

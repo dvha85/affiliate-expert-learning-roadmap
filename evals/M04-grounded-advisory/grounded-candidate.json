@@ -1,4 +1,6 @@
 {
+  "schema_version": "m04-advisory-v1",
+  "advisor_execution_kind": "replay",
   "facts": [
     {"claim": "Observed price is 100", "evidence_ref": "OBS-1", "field": "price", "value": 100}
   ],

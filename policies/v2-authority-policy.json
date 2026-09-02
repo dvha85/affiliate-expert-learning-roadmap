@@ -1,0 +1,9 @@
+{
+  "policy_version": "v2-authority-1",
+  "rules": {
+    "synthetic_external_side_effect_count": 0,
+    "change_proposal_production_mutation": false,
+    "m00_execution_actor": "human_only",
+    "m04_tool_write_publish_execution": "forbidden"
+  }
+}

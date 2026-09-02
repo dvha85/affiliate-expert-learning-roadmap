@@ -1,0 +1,18 @@
+{
+  "pilot_status": "not_started",
+  "consent_required": true,
+  "hidden_telemetry": false,
+  "participant_count": null,
+  "metrics": {
+    "first_demo_minutes": [],
+    "m00_capability_focused_hours": [],
+    "first_e2_focused_hours": [],
+    "lesson_minutes": [],
+    "dropout_before_m00_count": null,
+    "human_only_public_action_count": null,
+    "fabricated_evidence_count": null,
+    "secret_pii_or_safety_bypass_count": null,
+    "m05_e4_completed_count": null
+  },
+  "limitation": "Template only; no learner or pilot result has been recorded."
+}

@@ -1,0 +1,10 @@
+{
+  "name": "affiliate-reality-first-curriculum",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "postCreateCommand": "python scripts/preflight.py",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "golang.go"]
+    }
+  }
+}

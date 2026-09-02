@@ -1,0 +1,10 @@
+{
+  "experiment": {"experiment_id":"EXP-1","origin":"synthetic","main_variable":"headline_variant","hypothesis":"A clearer headline may improve tracked clicks.","primary_metric":"tracked_clicks","measurement_context_id":"MC-1","window_start":"2026-09-02T00:00:00Z","window_end":"2026-09-03T00:00:00Z","stop_rule":"stop at window end; do not infer below minimum evidence","frozen_at":"2026-09-01T00:00:00Z"},
+  "trace": {"decision_id":"DEC-1","action_record_id":"ACT-1","outcome_id":"OUT-1","evaluation_id":"EVAL-1"},
+  "outcome": {"outcome_id":"OUT-1","action_record_id":"ACT-1","measurement_context_id":"MC-1","status":"inconclusive","value_state":"not_yet_observable","observed_value":null,"observed_at":"2026-09-03T00:00:00Z"},
+  "evaluation": {"evaluation_id":"EVAL-1","outcome_id":"OUT-1","result":"INCONCLUSIVE","limitation":"Synthetic low-traffic evaluator fixture."},
+  "change_proposal": {"change_proposal_id":"CP-1","evaluation_id":"EVAL-1","status":"PENDING_REVIEW","production_mutation":false},
+  "offline_replay": {"champion_id":"v0.3","challenger_id":"v0.4-candidate","result":"inconclusive"},
+  "review": {"reviewer":"fixture-human","decision":"reject","rollback_target":"v0.3","rollback_reason":"No release before real reviewed evidence."},
+  "costs": {"content_production_minutes":15,"model_tool_cost":"not_applicable","net_value_limitation":"No market value is inferred from this fixture."}
+}

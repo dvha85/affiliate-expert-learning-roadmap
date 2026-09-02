@@ -14,6 +14,7 @@ from pathlib import Path
 
 REQUIRED_FILES = (
     Path("docs/PRIVACY-AND-LEARNER-EVIDENCE.md"),
+    Path("docs/WORKSPACE-PRIVACY.md"),
     Path("templates/DATA-ACCESS-CONTEXT.md"),
     Path("templates/REDACTED-EVIDENCE-SUMMARY.md"),
 )
@@ -23,6 +24,11 @@ GITIGNORE_MARKERS = (
     "artifacts/private/",
     "artifacts/missions/*/private/",
     "artifacts/missions/*/raw/",
+    "workspace/",
+    "pilot/raw/",
+    "lab/learner/affiliate-bot/data/local/",
+    "raw-analytics/",
+    "private-exports/",
 )
 SUSPICIOUS_ASSIGNMENT = re.compile(
     r"(?im)^\s*(?:api[_-]?key|secret|password|authorization|access[_-]?token)\s*:\s*(?!$|<redacted>|\[redacted\]|REDACTED|\$\{)[^\s]+"

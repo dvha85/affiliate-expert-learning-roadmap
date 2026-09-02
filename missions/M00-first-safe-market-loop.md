@@ -14,6 +14,7 @@ delivery:
   eval_pack: "evals/M00-safe-market-loop/"
   verification_commands:
     - "python scripts/validate_m00_market_loop_pack.py"
+    - "python scripts/validate_m00_market_evidence_bundle.py"
   pilot_status: untested
   pilot_evidence_refs: []
 knowledge:
@@ -131,9 +132,13 @@ spam, paid spend, login scraping, credential sharing hoặc account change.
 
 ## Evidence — Bằng chứng
 
-Dùng `starter-kits/M00-safe-market-loop/M00-EVIDENCE-SUMMARY.md` cùng
-`templates/REDACTED-EVIDENCE-SUMMARY.md`. Lưu raw/private ở ignore path;
-summary commit được phải có provenance, redaction và limitations.
+Dùng `templates/MARKET-BRIEF.md`, ba bản
+`templates/AUDIENCE-OBSERVATION.md`, `templates/PUBLISH-READINESS.md`,
+`templates/ACTION-RECORD.md` và
+`starter-kits/M00-safe-market-loop/M00-EVIDENCE-SUMMARY.md`. Chạy
+`python scripts/validate_m00_market_evidence_bundle.py --real --bundle <local-bundle>`
+sau khi có evidence thật. Lưu raw/private ở ignore path; summary commit được
+phải có provenance, redaction và limitations.
 
 ## Explain-back — Giải thích lại
 

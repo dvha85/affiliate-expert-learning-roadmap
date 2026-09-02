@@ -17,7 +17,7 @@ class M02DeterministicPackTests(unittest.TestCase):
 
     def test_missing_value_abstains_without_action(self):
         result = evaluate([
-            {"subject_id": "x", "source_url": "https://example.invalid/x", "observed_at": "2026-09-02T00:00:00Z", "price": 0, "commission_rate": None}
+            {"subject_id": "x", "observation_id": "obs-x", "source_url": "https://example.invalid/x", "observed_at": "2026-09-02T00:00:00Z", "price": 0, "currency": "USD", "commission_rate": None}
         ])
         self.assertEqual(result["recommended_state"], "GET_MORE_DATA")
         self.assertIsNone(result["action"])
@@ -25,7 +25,7 @@ class M02DeterministicPackTests(unittest.TestCase):
 
     def test_equal_scores_use_stable_subject_tie_break(self):
         rows = [
-            {"subject_id": "z", "source_url": "x", "observed_at": "t", "price": 10, "commission_rate": 0.1},
-            {"subject_id": "a", "source_url": "x", "observed_at": "t", "price": 10, "commission_rate": 0.1},
+            {"subject_id": "z", "observation_id": "obs-z", "evidence_kind": "synthetic", "source_url": "x", "observed_at": "t", "price": 10, "currency": "USD", "commission_rate": 0.1},
+            {"subject_id": "a", "observation_id": "obs-a", "evidence_kind": "synthetic", "source_url": "x", "observed_at": "t", "price": 10, "currency": "USD", "commission_rate": 0.1},
         ]
         self.assertEqual([row["subject_id"] for row in evaluate(rows)["ranking"]], ["a", "z"])

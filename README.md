@@ -1,5 +1,9 @@
 # Lộ trình học Affiliate Intelligence Bot
 
+> **Curriculum v2 Beta:** M00–M04 có delivery scaffold/eval nhưng chưa Mission
+> nào được pilot validated. M05–M11 vẫn planned; xem
+> [implementation checklist](docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md).
+
 **Curriculum v2 / Reality-First migration is active.** Đây là lộ trình cho
 người mới xây một bot hỗ trợ quyết định Affiliate, nhưng điểm bắt đầu không
 phải là cài Go hay gọi AI: đó là một market loop nhỏ, an toàn và do con người
@@ -87,11 +91,16 @@ python scripts/validate_mission_status.py
 python scripts/validate_readiness.py
 python scripts/validate_privacy_boundary.py
 python scripts/validate_o00.py
+python scripts/validate_contract_registry.py
 python scripts/validate_m00_market_loop_pack.py
+python scripts/validate_m00_market_evidence_bundle.py
 python scripts/validate_m01_outcome_snapshot_pack.py
 python scripts/validate_m02_deterministic_pack.py
+python scripts/validate_m02_profile_parity.py
 python scripts/validate_m03_history_pack.py
 python scripts/validate_m04_grounded_advisory_pack.py
+python scripts/validate_m05_reviewed_improvement_pack.py
+python scripts/validate_pilot_template.py
 python scripts/validate_evidence_taxonomy.py
 python scripts/validate_authority.py
 python scripts/validate_language_policy.py

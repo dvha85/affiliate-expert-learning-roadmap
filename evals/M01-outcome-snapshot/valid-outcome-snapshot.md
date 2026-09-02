@@ -1,6 +1,10 @@
 # Structural evaluator fixture — not learner E3 evidence
 
 - evidence_kind: real
+- outcome_id: OUT-FIXTURE-1
+- origin: real
+- action_record_id: ACT-FIXTURE-1
+- measurement_context_id: MC-FIXTURE-1
 - measurement_source/reference: redacted-local-analytics-ref
 - observed_at: 2026-09-02T00:00:00Z
 - window_start: 2026-09-01T00:00:00Z
@@ -12,6 +16,7 @@
 - missing_vs_zero: source was queried; zero is observed, not missing
 - attribution limitation: source only exposes clicks, not conversion/revenue
 - reconciliation/source limitation: single source; no cross-platform reconciliation
+- next_read_at: 2026-09-03T00:00:00Z
 - execution_actor: human_only
 - action: none (read-only snapshot)
 - raw/private location: local/private only

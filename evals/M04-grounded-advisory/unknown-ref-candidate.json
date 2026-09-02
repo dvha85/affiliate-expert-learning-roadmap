@@ -1,0 +1,1 @@
+{"schema_version":"m04-advisory-v1","advisor_execution_kind":"replay","facts":[{"claim":"Unknown", "evidence_ref":"NOPE","field":"price","value":100}]}

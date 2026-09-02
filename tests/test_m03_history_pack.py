@@ -14,6 +14,7 @@ from scripts.validate_m03_history_pack import validate
 class M03HistoryPackTests(unittest.TestCase):
     def snapshot(self) -> dict[str, object]:
         return {
+            "record_type": "Observation",
             "subject_id": "a",
             "observation_id": "obs-1",
             "observed_at": "2026-09-01T00:00:00Z",

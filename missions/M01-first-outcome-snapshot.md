@@ -133,6 +133,7 @@ và không tạo external side effect.
 ## Evidence — Bằng chứng
 
 Dùng `starter-kits/M01-outcome-snapshot/M01-OUTCOME-SNAPSHOT.md`,
+`templates/MEASUREMENT-CONTEXT.md`, `templates/OUTCOME-SNAPSHOT.md`,
 `templates/REDACTED-EVIDENCE-SUMMARY.md` và
 [M01 contract](../docs/M01-OUTCOME-SNAPSHOT-CONTRACT.md). Raw export giữ local
 private; commit summary đã redact cùng limitation/reference.

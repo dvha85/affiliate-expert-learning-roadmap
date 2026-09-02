@@ -23,10 +23,10 @@ delivery scaffold, pilot thật và learner PASS: fixture/eval **không** đư�
 - [x] V2 canonical spine: `O00 → M00 → (M01 ∥ M02) → M03 → M04 → M05…`.
 - [x] Tag baseline `curriculum-v1-pre-reality-first`, ADR-005, migration rules
   và readiness metadata/validator.
-- [x] O00, M00–M04 có Mission/starter/eval/verification scaffold.
+- [x] O00, M00–M05 có Mission/starter/eval/verification scaffold.
 - [x] Privacy boundary và redacted-evidence templates/validator.
-- [x] M00–M04 v2 đang là `draft`, `delivery complete`, `pilot_status: untested`.
-- [ ] Chưa có Mission M05 hoặc pilot evidence thật.
+- [x] M00–M05 v2 đang là `draft`, `delivery complete`, `pilot_status: untested`.
+- [x] M05 có reviewed-improvement contract/starter/eval; chưa có pilot evidence thật.
 
 > Không đổi `draft` thành `ready` hay `pilot_status: validated` chỉ vì test/eval
 > xanh. Promotion cần starter/eval/verification **và** actual pilot/evidence
@@ -38,15 +38,15 @@ delivery scaffold, pilot thật và learner PASS: fixture/eval **không** đư�
 
 ### A1. Projection trạng thái và migration artifacts
 
-- [ ] Thêm banner **Curriculum v2 Beta** với trạng thái factual: M00–M04 có
+- [x] Thêm banner **Curriculum v2 Beta** với trạng thái factual: M00–M04 có
   delivery scaffold nhưng chưa pilot validated; M05–M11 planned.
-- [ ] Tạo `scripts/migrate_curriculum_v1_to_v2.py --dry-run`, chỉ báo mapping
+- [x] Tạo `scripts/migrate_curriculum_v1_to_v2.py --dry-run`, chỉ báo mapping
   và không sửa `PROGRESS.md`/learner evidence.
-- [ ] Thêm redirect/migration stub rõ ràng cho các Mission v1 để learner mới
+- [x] Thêm redirect/migration stub rõ ràng cho các Mission v1 để learner mới
   không đi nhầm sequence v1.
-- [ ] Thêm/ghi rõ vị trí `legacy-v1-M00` hoặc historical reference tương đương
+- [x] Thêm/ghi rõ vị trí `legacy-v1-M00` hoặc historical reference tương đương
   có link tới artifact v1 được giữ lại.
-- [ ] Chuyển `PROGRESS.md` upstream thành example/template v1; tạo learner
+- [x] Chuyển `PROGRESS.md` upstream thành example/template v1; tạo learner
   state local ignored cho v2 mà vẫn giữ lesson credit/provenance.
 
 **Gate:** migration dry-run không thay file; link/artifact cũ resolve; không
@@ -56,25 +56,25 @@ auto-credit Mission PASS.
 
 - [ ] Xác minh trên GitHub rằng `Curriculum CI` là required status check và
   `main` có branch protection/ruleset; cập nhật audit date trong governance.
-- [ ] Quy ước một PR chỉ được gọi “delivered” khi `delivery complete` và pilot
+- [x] Quy ước một PR chỉ được gọi “delivered” khi `delivery complete` và pilot
   claim có evidence refs; `ready` vẫn chỉ là authoring state.
 
 **Gate:** configuration được kiểm từ GitHub settings/API, không chỉ từ docs.
 
 ## B. PR3 còn thiếu — beginner onboarding và workspace privacy
 
-- [ ] Tạo `docs/BEGINNER-START-HERE.md`: browser → first safe output, mô tả
+- [x] Tạo `docs/BEGINNER-START-HERE.md`: browser → first safe output, mô tả
   không cần biết terminal/Go trước M00.
-- [ ] Thêm hướng dẫn Windows/macOS/Linux có đường xử lý blocker cụ thể.
-- [ ] Thêm `.devcontainer/devcontainer.json` hoặc nêu rõ supported alternative
+- [x] Thêm hướng dẫn Windows/macOS/Linux có đường xử lý blocker cụ thể.
+- [x] Thêm `.devcontainer/devcontainer.json` hoặc nêu rõ supported alternative
   nếu devcontainer không phù hợp với curriculum.
-- [ ] Tạo `scripts/preflight.py` kiểm tool/workspace và in remediation có thể
+- [x] Tạo `scripts/preflight.py` kiểm tool/workspace và in remediation có thể
   làm theo, không chỉ báo lỗi chung chung.
-- [ ] Thêm issue template `beginner-blocker` (OS, step, blocker code, không
+- [x] Thêm issue template `beginner-blocker` (OS, step, blocker code, không
   yêu cầu secret/PII).
-- [ ] Tạo workspace initializer sinh learner-local state/evidence paths đã bị
+- [x] Tạo workspace initializer sinh learner-local state/evidence paths đã bị
   ignore; không copy private sample vào Git.
-- [ ] Bổ sung ignore path còn thiếu: `workspace/`, `pilot/raw/`,
+- [x] Bổ sung ignore path còn thiếu: `workspace/`, `pilot/raw/`,
   `lab/learner/affiliate-bot/data/local/` và raw analytics/private exports.
 
 **Pilot gate:** median browser → first safe output ≤20 phút; không có
@@ -84,23 +84,23 @@ secret/PII/raw analytics bị commit.
 
 ### C1. Contract registry
 
-- [ ] Tạo `contracts/schemas/`, `contracts/examples/`, `policies/`,
+- [x] Tạo `contracts/schemas/`, `contracts/examples/`, `policies/`,
   `evals/packs/`, `evals/cases/`, `evals/expected/`.
-- [ ] Define/version schemas: Observation, HumanPrediction, BotDecision,
+- [x] Define/version schemas: Observation, HumanPrediction, BotDecision,
   ActionRecord, MeasurementContext, Outcome, Evaluation, ChangeProposal,
   TraceBundle.
-- [ ] Encode common semantics: `origin`, provenance/time, `unknown`/missing
+- [x] Encode common semantics: `origin`, provenance/time, `unknown`/missing
   khác observed `0`, idempotency/duplicate và authority/action boundary.
-- [ ] Thêm schema/example validator vào CI.
+- [x] Thêm schema/example validator vào CI.
 
 ### C2. O00 full synthetic trace
 
-- [ ] Nâng O00 thành one-command trace:
+- [x] Nâng O00 thành one-command trace:
   `Observation → HumanPrediction → BotDecision → human-approved DRY_RUN →
   Outcome → Evaluation → ChangeProposal(PENDING_REVIEW)`.
-- [ ] Assert mọi record `origin=synthetic`, external side effect count = 0,
+- [x] Assert mọi record `origin=synthetic`, external side effect count = 0,
   replay idempotent và ChangeProposal không modify production.
-- [ ] Cung cấp quickstart ≤60 phút, tách rõ E0 orientation khỏi M00 Reality.
+- [x] Cung cấp quickstart ≤60 phút, tách rõ E0 orientation khỏi M00 Reality.
 
 **Gate:** valid trace + failure fixtures (missing/zero, duplicate replay,
 attempted production mutation) đều qua expected behavior.
@@ -109,38 +109,38 @@ attempted production mutation) đều qua expected behavior.
 
 ### D1. M00 templates và evidence gates
 
-- [ ] Thêm `templates/MARKET-BRIEF.md`, `AUDIENCE-OBSERVATION.md`,
+- [x] Thêm `templates/MARKET-BRIEF.md`, `AUDIENCE-OBSERVATION.md`,
   `PUBLISH-READINESS.md`, `ACTION-RECORD.md`.
-- [ ] Validator/checklist yêu cầu tối thiểu 3 audience/problem observations có
+- [x] Validator/checklist yêu cầu tối thiểu 3 audience/problem observations có
   source, access method và observed_at.
-- [ ] Freeze hypothesis, exact artifact, tracking ID và outcome window trước
+- [x] Freeze hypothesis, exact artifact, tracking ID và outcome window trước
   manual publish; lưu human review reference.
-- [ ] Check claim/disclosure/rights/PII/channel permission; block paid spend,
+- [x] Check claim/disclosure/rights/PII/channel permission; block paid spend,
   DM, scraping và auto-publish.
 
 ### D2. M01 measurement contract
 
-- [ ] Thêm `templates/MEASUREMENT-CONTEXT.md` và `OUTCOME-SNAPSHOT.md`, liên
+- [x] Thêm `templates/MEASUREMENT-CONTEXT.md` và `OUTCOME-SNAPSHOT.md`, liên
   kết Outcome → ActionRecord → MeasurementContext bằng IDs.
-- [ ] Viết low-traffic protocol: predeclared window, observed zero khác
+- [x] Viết low-traffic protocol: predeclared window, observed zero khác
   missing/pending/not_yet_observable, attribution limitation và next read time.
-- [ ] Eval phải fail khi source/window/action linkage không đủ.
+- [x] Eval phải fail khi source/window/action linkage không đủ.
 
 **Gate:** learner có safe channel tạo E1→E2 human-only; nếu không, Reality là
 `BLOCKED_EXTERNAL`. M01 chỉ dùng analytics/export/outcome thật cho E3.
 
 ## E. PR6 còn thiếu — M02 hai implementation profile
 
-- [ ] Define Operator/no-code profile (không paid/proprietary prerequisite).
-- [ ] Define Go builder profile; giữ Go như golden oracle, không entrypoint
+- [x] Define Operator/no-code profile (không paid/proprietary prerequisite).
+- [x] Define Go builder profile; giữ Go như golden oracle, không entrypoint
   bắt buộc trước M00.
-- [ ] Cùng consume contract fixtures: valid, missing, observed zero, malformed,
+- [x] Cùng consume contract fixtures: valid, missing, observed zero, malformed,
   duplicate, identity conflict, mixed currency, deterministic tie.
-- [ ] Thêm parity runner; expected output/state/reason phải **100%** giống nhau
+- [x] Thêm parity runner; expected output/state/reason phải **100%** giống nhau
   giữa hai profile.
-- [ ] Thêm `HINTS-M02.md`, checkpoint pack, intentional failing tests và
+- [x] Thêm `HINTS-M02.md`, checkpoint pack, intentional failing tests và
   Decision Context Card.
-- [ ] Đọc MarketBrief/evidence reference thật khi có access; sample luôn giữ
+- [x] Đọc MarketBrief/evidence reference thật khi có access; sample luôn giữ
   `synthetic`, `price × commission_rate` chỉ là weak scenario.
 
 **Gate:** thiếu audience/offer evidence → abstain; no external action; 3–6
@@ -151,20 +151,20 @@ thực, không xem là promise.
 
 ### F1. M03 history
 
-- [ ] Mở rộng append-only history cho Observation, ActionRecord, Outcome và
+- [x] Mở rộng append-only history cho Observation, ActionRecord, Outcome và
   MeasurementContext (không chỉ generic snapshot).
-- [ ] Bổ sung fixtures/test: duplicate exact, identity conflict, out-of-order,
+- [x] Bổ sung fixtures/test: duplicate exact, identity conflict, out-of-order,
   restart, correction/reconciliation và missing provenance.
-- [ ] Thêm starter progression, intentional failure và `HINTS-M03.md`.
+- [x] Thêm starter progression, intentional failure và `HINTS-M03.md`.
 
 ### F2. M04 grounded advisory
 
-- [ ] Eval fixtures cho malformed schema, unknown ref, valid ref nhưng
+- [x] Eval fixtures cho malformed schema, unknown ref, valid ref nhưng
   unsupported claim, prompt injection, provider unavailable và replay/live
   labeling.
-- [ ] Log redacted versions/inputs/fallback; live optional phải ghi
+- [x] Log redacted versions/inputs/fallback; live optional phải ghi
   `live_provider_verified: pending` khi chưa có live evidence.
-- [ ] Encode merge thresholds: schema validity 100%; material unsupported claim
+- [x] Encode merge thresholds: schema validity 100%; material unsupported claim
   reject 100%; authorization violation 0; deterministic fallback 100%.
 
 **Gate:** no API key cần cho eval; AI không tool/write/publish/execute và không
@@ -172,17 +172,17 @@ mutate deterministic baseline/history.
 
 ## G. PR8 — M05 First Reviewed Improvement
 
-- [ ] Author `missions/M05-first-reviewed-improvement.md`, starter, hints,
+- [x] Author `missions/M05-first-reviewed-improvement.md`, starter, hints,
   contract fixtures/eval pack và CI command.
-- [ ] Define Experiment/Evaluation/ChangeProposal contracts and TraceBundle
+- [x] Define Experiment/Evaluation/ChangeProposal contracts and TraceBundle
   linkage from Decision → Action → Outcome → Evaluation.
-- [ ] Freeze one main variable, hypothesis, primary metric, MeasurementContext,
+- [x] Freeze one main variable, hypothesis, primary metric, MeasurementContext,
   outcome window và stop rule before outcome.
-- [ ] Treat insufficient traffic as `INCONCLUSIVE`, not positive/negative proof.
-- [ ] Record content-production time, model/tool cost và net value limitation.
-- [ ] Implement offline replay/champion–challenger, human release/reject and
+- [x] Treat insufficient traffic as `INCONCLUSIVE`, not positive/negative proof.
+- [x] Record content-production time, model/tool cost và net value limitation.
+- [x] Implement offline replay/champion–challenger, human release/reject and
   rollback records.
-- [ ] Enforce: Outcome creates ChangeProposal only; it cannot self-modify
+- [x] Enforce: Outcome creates ChangeProposal only; it cannot self-modify
   prompt/rule/policy/workflow.
 
 **Gate:** M05 establishes E4 only with a real linked trace and human review.
@@ -190,6 +190,8 @@ Negative/inconclusive outcome can pass if the measurement is honest.
 
 ## H. PR9 — pilot và promotion (không thể fake bằng code)
 
+- [x] Tạo pilot kit: consent/session/aggregate templates, privacy boundary và
+  validator; kit không chứa dữ liệu pilot hoặc telemetry.
 - [ ] Recruit 5–10 learners chưa lập trình; obtain explicit consent, no hidden
   telemetry and no collection of secret/PII/raw account data.
 - [ ] Create anonymized pilot record: setup/first-run/build/debug/knowledge/
@@ -240,13 +242,13 @@ recalibrated or a Mission move to `pilot_status: validated`.
 
 ## Definition of Done — v2 Beta
 
-- [ ] M00–M05 each have Mission, lesson mapping, starter, hint ladder, eval
+- [x] M00–M05 each have Mission, lesson mapping, starter, hint ladder, eval
   pack and verification command.
-- [ ] O00 runs one synthetic end-to-end trace with no side effect.
-- [ ] M00 is human-only E2; M01 keeps zero/missing semantics; M02 profiles
+- [x] O00 runs one synthetic end-to-end trace with no side effect.
+- [x] M00 is human-only E2; M01 keeps zero/missing semantics; M02 profiles
   have parity; M03 survives restart; M04 meets grounded rejection/fallback
   thresholds; M05 creates only reviewed ChangeProposal.
-- [ ] README/readiness reports are factual; CI is green.
+- [x] README/readiness reports are factual; local CI-equivalent checks are green.
 - [ ] Pilot evidence meets PR9 promotion gates.
 
 ## Recommended execution order

@@ -42,7 +42,7 @@ open the current Mission
 | M02 | smallest deterministic Bot | E1 | A0 deterministic | draft |
 | M03 | trustworthy history & measurement | E3 | A0 deterministic | draft |
 | M04 | grounded AI advisor | E3 | A1 advisory, no tools/write | draft |
-| M05 | first reviewed improvement | E4 | A1 propose only | planned |
+| M05 | first reviewed improvement | E4 | A1 propose only | draft |
 | M06 | reliable watcher | E4 | A0 core + A1 triage | planned |
 | M07 | decision + abstention | E4 | A1 advisory | planned |
 | M08 | read-only evidence agent | E4 | A2-RO | planned |

@@ -1,0 +1,5 @@
+[
+  {"observation_id":"AUD-1","evidence_kind":"synthetic","source_url":"sample://audience-1","access_method":"public_manual","observed_at":"2026-09-02T00:00:00Z","audience_problem":"fixture problem 1"},
+  {"observation_id":"AUD-2","evidence_kind":"synthetic","source_url":"sample://audience-2","access_method":"public_manual","observed_at":"2026-09-02T00:00:00Z","audience_problem":"fixture problem 2"},
+  {"observation_id":"AUD-3","evidence_kind":"synthetic","source_url":"sample://audience-3","access_method":"public_manual","observed_at":"2026-09-02T00:00:00Z","audience_problem":"fixture problem 3"}
+]

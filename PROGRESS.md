@@ -1,4 +1,9 @@
-# Tiến độ người học
+# Ví dụ historical learner progress — không phải personal state
+
+> **Người học v2 không sửa file này.** Tạo state local bị ignore bằng
+> `python scripts/init_learner_workspace.py --init`, rồi dùng
+> `workspace/PROGRESS.md`. Lesson credit v1 được giữ như knowledge credit, không
+> tự tạo v2 Mission PASS.
 
 > File này theo dõi learner evidence. Authoring status của curriculum không tự thay đổi checkbox bên dưới.
 > **Curriculum version: 1.** Đây là pilot snapshot được giữ lại để provenance;
@@ -6,7 +11,7 @@
 > [`docs/CURRICULUM-MIGRATION-v2.md`](docs/CURRICULUM-MIGRATION-v2.md) trước
 > khi chuyển learner sang v2.
 
-## Trạng thái hiện tại
+## Historical v1 snapshot (example only)
 
 ~~~text
 Current Mission: M00

@@ -16,7 +16,13 @@ class M01OutcomeSnapshotPackTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def valid_text(self) -> str:
-        return "\n".join(REQUIRED_MARKERS) + "\noutcome_status: zero\nobserved_value: 0\n"
+        values = {
+            "outcome_id:": "OUT-1",
+            "action_record_id:": "ACT-1",
+            "measurement_context_id:": "MC-1",
+        }
+        markers = [marker + (" " + values[marker] if marker in values else "") for marker in REQUIRED_MARKERS]
+        return "\n".join(markers) + "\noutcome_status: zero\nobserved_value: 0\n"
 
     def test_valid_structural_fixture_passes(self):
         self.path.write_text(self.valid_text(), encoding="utf-8")

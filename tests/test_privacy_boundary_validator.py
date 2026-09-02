@@ -16,7 +16,7 @@ class PrivacyBoundaryValidatorTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("# Resource\n", encoding="utf-8")
         (self.root / ".gitignore").write_text(
-            ".env\nartifacts/local/\nartifacts/private/\nartifacts/missions/*/private/\nartifacts/missions/*/raw/\n",
+            ".env\nartifacts/local/\nartifacts/private/\nartifacts/missions/*/private/\nartifacts/missions/*/raw/\nworkspace/\npilot/raw/\nlab/learner/affiliate-bot/data/local/\nraw-analytics/\nprivate-exports/\n",
             encoding="utf-8",
         )
 

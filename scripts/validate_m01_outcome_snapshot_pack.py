@@ -7,6 +7,10 @@ from pathlib import Path
 
 REQUIRED_MARKERS = (
     "evidence_kind: real",
+    "outcome_id:",
+    "origin: real",
+    "action_record_id:",
+    "measurement_context_id:",
     "measurement_source/reference:",
     "observed_at:",
     "window_start:",
@@ -15,6 +19,7 @@ REQUIRED_MARKERS = (
     "observed_value:",
     "missing_vs_zero:",
     "attribution limitation:",
+    "next_read_at:",
     "execution_actor: human_only",
     "action: none (read-only snapshot)",
     "raw/private location:",
@@ -46,6 +51,9 @@ def validate(path: Path) -> list[str]:
         errors.append("outcome_status zero phải ghi observed_value: 0")
     if status == "pending" and value == "0":
         errors.append("pending không được giả làm observed zero")
+    for field in ("outcome_id:", "action_record_id:", "measurement_context_id:"):
+        if not value_after(text, field):
+            errors.append(f"{field[:-1]} phải có value để trace Outcome → ActionRecord → MeasurementContext")
     if "action: manual publish" in text.lower() or "action: bot publish" in text.lower():
         errors.append("M01 là read-only snapshot, không được publish")
     return errors

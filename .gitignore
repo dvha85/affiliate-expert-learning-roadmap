@@ -24,3 +24,8 @@ artifacts/private/
 artifacts/missions/*/private/
 artifacts/missions/*/raw/
 data/private/
+workspace/
+pilot/raw/
+lab/learner/affiliate-bot/data/local/
+raw-analytics/
+private-exports/

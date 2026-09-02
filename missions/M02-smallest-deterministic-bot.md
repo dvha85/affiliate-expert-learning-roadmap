@@ -11,9 +11,12 @@ estimated_hours: 8
 delivery:
   starter_paths:
     - "starter-kits/M02-deterministic-baseline/"
+    - "starter-kits/M02-operator-profile/"
+    - "starter-kits/M02-go-builder/"
   eval_pack: "evals/M02-deterministic-baseline/"
   verification_commands:
     - "python scripts/validate_m02_deterministic_pack.py"
+    - "python scripts/validate_m02_profile_parity.py"
   pilot_status: untested
   pilot_evidence_refs: []
 knowledge:
@@ -49,10 +52,10 @@ chỉ là decision-shaped scenario; không phải publish, spend hay execution.
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 
-Dùng `starter-kits/M02-deterministic-baseline/`. Python standard-library
-scaffold là implementation profile dễ inspect; Go reference có thể được mở sau
-khi learner đã thử baseline. Fixture synthetic là E0 để test plumbing, không
-được đổi nhãn thành E1.
+Dùng Operator/no-code rule card hoặc Go builder profile sau khi đã thử baseline.
+Hai profile dùng cùng fixtures và phải có parity 100%; Go là golden oracle,
+không phải entrypoint bắt buộc trước M00. Fixture synthetic là E0 để test
+plumbing, không được đổi nhãn thành E1.
 
 ## Try First — Thử trước
 
@@ -72,6 +75,7 @@ formula. Không nhìn output Bot để backfill human assumption.
 python starter-kits/M02-deterministic-baseline/run_baseline.py \
   evals/M02-deterministic-baseline/rankable-observations.json
 python scripts/validate_m02_deterministic_pack.py
+python scripts/validate_m02_profile_parity.py
 ```
 
 Thay input bằng summary/reference được phép dùng. Không đưa raw account data,
@@ -129,9 +133,9 @@ external execution.
 
 ## Evidence — Bằng chứng
 
-Lưu redacted input reference, command, formula version và output. Dùng
-`templates/MISSION-EVIDENCE.md`; raw/private source giữ ngoài Git. E0 eval
-fixture phải luôn được gắn synthetic/test.
+Lưu redacted input reference, command, formula version, Decision Context Card
+và output. Dùng `templates/MISSION-EVIDENCE.md`; raw/private source giữ ngoài
+Git. E0 eval fixture phải luôn được gắn synthetic/test.
 
 ## Explain-back — Giải thích lại
 

@@ -2,6 +2,10 @@
 
 ## Measurement provenance
 
+- outcome_id:
+- origin: real
+- action_record_id:
+- measurement_context_id:
 - evidence_kind: real
 - measurement_source/reference:
 - observed_at:
@@ -17,6 +21,7 @@
 - missing_vs_zero: explain explicitly
 - attribution limitation:
 - reconciliation/source limitation:
+- next_read_at:
 
 ## Safety and privacy
 

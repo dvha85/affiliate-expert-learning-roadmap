@@ -126,8 +126,10 @@ append-only learner-owned history, không phải external execution.
 ## Evidence — Bằng chứng
 
 Dùng `[M03 contract](../docs/M03-MEASUREMENT-HISTORY-CONTRACT.md)`, starter
-pack và `templates/MISSION-EVIDENCE.md`. Raw analytics/history ở private path;
-commit redacted reference plus command/output/limitation.
+pack, `HINTS-M03.md` và `templates/MISSION-EVIDENCE.md`. M03 lưu Observation,
+ActionRecord, MeasurementContext và Outcome như record types append-only. Raw
+analytics/history ở private path; commit redacted reference plus command/output/
+limitation.
 
 ## Explain-back — Giải thích lại
 

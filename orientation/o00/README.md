@@ -5,8 +5,11 @@ thêm credential, không đổi `orientation_only` thành `false` và không dù
 này làm evidence E1+.
 
 ```bash
-python run_o00.py
+python orientation/o00/run_o00.py --validate
+python orientation/o00/run_o00.py
 ```
 
-Bạn chỉ cần quan sát chain `evidence → decision state → no action → next
-measurement`, rồi mở `../../docs/O00-SAFE-SYNTHETIC-WALKTHROUGH.md`.
+Bạn quan sát chain `Observation → HumanPrediction → BotDecision → DRY_RUN →
+Outcome → Evaluation → ChangeProposal(PENDING_REVIEW)`. Mọi record synthetic,
+replay idempotent và không có external action; sau đó mở
+`../../docs/O00-SAFE-SYNTHETIC-WALKTHROUGH.md`.

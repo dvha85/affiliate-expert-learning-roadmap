@@ -1,0 +1,67 @@
+{
+  "trace_id": "o00-synthetic-trace-v1",
+  "origin": "synthetic",
+  "external_side_effect_count": 0,
+  "replay_id": "o00-replay-v1",
+  "replay_new_record_count": 0,
+  "records": {
+    "observation": {
+      "observation_id": "OBS-O00-1",
+      "origin": "synthetic",
+      "observed_at": null,
+      "provenance_ref": null,
+      "value_state": "unknown"
+    },
+    "human_prediction": {
+      "prediction_id": "HP-O00-1",
+      "origin": "synthetic",
+      "observation_refs": ["OBS-O00-1"],
+      "reason": "Synthetic learner note; no audience or channel evidence exists."
+    },
+    "bot_decision": {
+      "decision_id": "DEC-O00-1",
+      "origin": "synthetic",
+      "state": "GET_MORE_DATA",
+      "evidence_refs": ["OBS-O00-1"],
+      "action": null,
+      "missing_evidence": ["public source", "audience hypothesis", "tracking context"]
+    },
+    "action_record": {
+      "action_record_id": "ACT-O00-1",
+      "origin": "synthetic",
+      "mode": "DRY_RUN",
+      "execution_actor": "human_only",
+      "external_side_effect": false
+    },
+    "measurement_context": {
+      "measurement_context_id": "MC-O00-1",
+      "origin": "synthetic",
+      "window_start": null,
+      "window_end": null,
+      "metric_scope": "orientation only"
+    },
+    "outcome": {
+      "outcome_id": "OUT-O00-1",
+      "origin": "synthetic",
+      "action_record_id": "ACT-O00-1",
+      "measurement_context_id": "MC-O00-1",
+      "status": "pending",
+      "observed_value": null,
+      "value_state": "not_yet_observable"
+    },
+    "evaluation": {
+      "evaluation_id": "EVAL-O00-1",
+      "origin": "synthetic",
+      "outcome_id": "OUT-O00-1",
+      "result": "INCONCLUSIVE",
+      "limitation": "Synthetic orientation has no market outcome."
+    },
+    "change_proposal": {
+      "change_proposal_id": "CP-O00-1",
+      "origin": "synthetic",
+      "evaluation_id": "EVAL-O00-1",
+      "status": "PENDING_REVIEW",
+      "production_mutation": false
+    }
+  }
+}

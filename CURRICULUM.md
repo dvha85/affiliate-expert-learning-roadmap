@@ -94,7 +94,7 @@ M01 và M02 có thể làm song song sau M00; M03 cần cả hai.
 | M02 — Smallest Deterministic Bot | baseline audit được cho evidence/context đã có | E0 + hỗ trợ E1/E2 | A0 deterministic | draft |
 | M03 — Trustworthy History & Measurement | history append-only, provenance/freshness/reconcile | E3 | A0 deterministic | draft |
 | M04 — Grounded AI Advisor | AI advisory grounded + fallback, không tool/write | E3 | A1 advisory | draft |
-| M05 — First Reviewed Improvement | hypothesis từ outcome → test/review/rollback | E4 | A1 propose only | planned |
+| M05 — First Reviewed Improvement | hypothesis từ outcome → test/review/rollback | E4 | A1 propose only | draft |
 | M06 — Reliable Watcher | reliable read/alert/recovery | E4 | A0 core + A1 triage | planned |
 | M07 — Decision and Abstention | DecisionPacket/policy/evaluation | E4 | A1 advisory | planned |
 | M08 — Read-only Evidence Agent | allowlisted read-only tool evidence | E4 | A2-RO | planned |

@@ -1,36 +1,26 @@
 #!/usr/bin/env python3
-"""Validate the O00 safety invariant: synthetic orientation never acts."""
+"""Validate the O00 safety invariant through the shared contract registry."""
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 
-
-REQUIRED = {
-    "orientation_only": True,
-    "evidence_kind": "synthetic",
-    "recommended_state": "GET_MORE_DATA",
-    "action": None,
-}
+try:
+    from scripts.validate_contract_registry import validate as validate_registry
+except ModuleNotFoundError:
+    from validate_contract_registry import validate as validate_registry
 
 
 def validate(path: Path) -> list[str]:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    errors: list[str] = []
-    for key, expected in REQUIRED.items():
-        if data.get(key) != expected:
-            errors.append(f"{key} phải là {expected!r}; hiện là {data.get(key)!r}")
-    if data.get("observation", {}).get("source_url") is not None:
-        errors.append("O00 không được chứa public/real source_url")
-    if not data.get("missing_evidence"):
-        errors.append("O00 phải nêu missing_evidence")
-    return errors
+    root = Path(__file__).resolve().parents[1]
+    if path.resolve() == root / "contracts/examples/o00-trace.json":
+        return validate_registry(root)
+    return ["O00 validator only accepts the canonical contract trace; use validate_contract_registry for a copied fixture."]
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Kiểm O00 synthetic walkthrough")
-    parser.add_argument("--fixture", type=Path, default=Path(__file__).resolve().parents[1] / "orientation/o00/o00-synthetic-decision.json")
+    parser.add_argument("--fixture", type=Path, default=Path(__file__).resolve().parents[1] / "contracts/examples/o00-trace.json")
     args = parser.parse_args()
     errors = validate(args.fixture)
     if errors:
@@ -38,7 +28,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("O00: PASS — synthetic orientation is non-actionable.")
+    print("O00: PASS — synthetic full trace is non-actionable and idempotent.")
     return 0
 
 

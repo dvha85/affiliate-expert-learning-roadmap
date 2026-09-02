@@ -19,13 +19,13 @@ class M04GroundedAdvisoryPackTests(unittest.TestCase):
         self.assertEqual(validate(), [])
 
     def test_unknown_ref_falls_back(self):
-        result = evaluate(self.baseline, self.evidence, {"facts": [{"evidence_ref": "NOPE", "field": "price", "value": 100}]})
+        result = evaluate(self.baseline, self.evidence, {"schema_version": "m04-advisory-v1", "advisor_execution_kind": "replay", "facts": [{"evidence_ref": "NOPE", "field": "price", "value": 100}]})
         self.assertEqual(result["status"], "rejected")
         self.assertTrue(result["fallback_used"])
         self.assertEqual(result["baseline"], self.baseline)
 
     def test_tool_request_is_not_executed(self):
-        result = evaluate(self.baseline, self.evidence, {"facts": [], "writes": ["history"]})
+        result = evaluate(self.baseline, self.evidence, {"schema_version": "m04-advisory-v1", "advisor_execution_kind": "replay", "facts": [], "writes": ["history"]})
         self.assertEqual(result["status"], "rejected")
         self.assertFalse(result["tool_or_write_called"])
         self.assertIsNone(result["action"])
