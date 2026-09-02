@@ -9,8 +9,9 @@
 ## Hybrid ownership trong Part 02
 
 ```text
-Go
-= tracking/event identity + validation + reconciliation + decision truth
+Deterministic Core
+= tracking/event identity + validation + reconciliation + decision truth contracts
+= Go là reference implementation hiện hành; không bắt buộc tự viết thêm plumbing nếu không cần
 
 n8n
 = chỉ bắt đầu ở M04 dưới dạng read-only orchestration learning slice
@@ -30,7 +31,7 @@ Part 02 không cho n8n hoặc Agent publish, send, spend hoặc thay platform/ac
 2. Human review và manual publish; Bot/n8n/Agent không có publish authority.
 3. M04: chờ declared observation window, import analytics thật rồi mới giải thích outcome.
 4. Khi import outcome, learner ghi cả **measurement context (ngữ cảnh đo lường)**: source/scope, tracking identity, attribution/window nếu known, timezone/config timestamp khi relevant và import/data-quality status.
-5. Trước khi automation sâu hơn, learner thử một **read-only orchestration path** nhỏ nhất cho analytics import: manual trigger → map/import → gọi Go validation/reconciliation → report. Failure của orchestration không được làm hỏng canonical evidence/history.
+5. Trước khi automation sâu hơn, learner thử một **read-only orchestration path** nhỏ nhất cho analytics import: manual trigger → map/import → gọi deterministic validation/reconciliation implementation → report. Failure của orchestration không được làm hỏng canonical evidence/history.
 
 ## Core checklist
 
@@ -46,7 +47,7 @@ Part 02 không cho n8n hoặc Agent publish, send, spend hoặc thay platform/ac
 - [ ] **7.2** — Observation window, zero, missing và not-yet-observable
 - [ ] **7.3** — Import analytics/export, provenance và reconciliation
 
-M04 implementation reference cho Chương 7.3 có thể dùng n8n để học orchestration read-only, nhưng canonical validation/reconciliation semantics vẫn thuộc Go/domain contract.
+M04 implementation reference cho Chương 7.3 có thể dùng n8n để học orchestration read-only. Canonical validation/reconciliation **semantics** thuộc Deterministic Core; implementation hiện hành có thể vẫn là Go reference mà không buộc learner tự viết integration plumbing.
 
 Từ M04, analytics/outcome quan trọng phải reference một `MeasurementContext` hoặc equivalent canonical record. Minimum logical shape:
 
@@ -93,9 +94,11 @@ Mục tiêu không phải “học hết n8n”, mà chứng minh separation:
 manual trigger
 → n8n read-only/import workflow
 → analytics/export payload + measurement metadata
-→ Go validate + reconcile
+→ Deterministic Core validate + reconcile
 → canonical outcome/report
 ```
+
+Ở M04, Go implementation hiện tại có thể được gọi như service/CLI/API nếu đó là cách đơn giản nhất. Learner **không phải tự viết Go integration/scheduler** nếu n8n đã xử lý được phần plumbing.
 
 Learner cần quan sát tối thiểu:
 
@@ -105,7 +108,7 @@ Learner cần quan sát tối thiểu:
 - secret không nằm trong workflow artifact/log;
 - n8n unavailable không biến `missing` thành `0`;
 - import/workflow success không biến payload thiếu context thành canonical comparable truth;
-- Go validation reject invalid/incompatible payload dù workflow chạy thành công.
+- Deterministic Core reject invalid/incompatible payload dù workflow chạy thành công.
 
 Nếu n8n không available hoặc không justified, equivalent manual/read-only orchestration fixture có thể dùng cho Capability; runtime choice không thay evidence gate của M04.
 
@@ -118,7 +121,7 @@ Nếu n8n không available hoặc không justified, equivalent manual/read-only 
 - [ ] Outcome quan trọng ở M04 truy được về `MeasurementContext` hoặc equivalent source/scope/config evidence
 - [ ] Khác source/attribution/window được reconcile hoặc giữ limitation/conflict; không chọn metric thuận lợi
 - [ ] Có human-vs-AI comparison; outcome xấu hoặc inconclusive vẫn hợp lệ nếu measurement trung thực
-- [ ] First orchestration slice không có external mutation và không bypass Go validation/reconciliation
+- [ ] First orchestration slice không có external mutation và không bypass Deterministic Core validation/reconciliation
 - [ ] Orchestrator failure không làm mất/corrupt canonical evidence
 
 [← Part trước](part-01.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-03.md)
