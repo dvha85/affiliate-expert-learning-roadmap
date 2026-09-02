@@ -39,9 +39,10 @@ AUTOMATION / ORCHESTRATION
 = trigger + integration + routing + approval + bounded execution
 
 INTELLIGENCE / AGENT
-= AgentRuntime
+= AgentRuntime abstraction
 = analysis + research + tool-use theo permission
-= Hermes Agent là primary reference/candidate từ tool-use stage
+= n8n AI Agent là visual-first candidate ở M08
+= Hermes Agent / OpenAI Agents SDK là comparison khi có measured bottleneck
 ```
 
 Development automation là lớp hỗ trợ ngang, **không phải runtime authority lane**:
@@ -98,7 +99,7 @@ Chiến lược implementation chi tiết: [`docs/IMPLEMENTATION-STRATEGY.md`](d
 | M05 | experiment/evaluation/release decision | optional reporting/orchestration | advisory | E4 |
 | M06 | signal/reliability contracts; không tự viết scheduler nếu n8n đủ | **n8n primary watcher/orchestration reference** | optional triage | E4 |
 | M07 | DecisionPacket + deterministic policy; **first meaningful visual-rule comparison** | route decisions | advisory | E4 |
-| M08 | Tool Registry/policy/audit contracts | invoke/route read-only tools | **read-only AgentRuntime** | E4 |
+| M08 | Tool Registry/policy/audit contracts | invoke/route read-only tools | **read-only AgentRuntime; n8n AI Agent visual-first candidate** | E4 |
 | M09 | ActionIntent + deterministic risk; visual rule engine có thể adopt nếu parity/fail-closed PASS | **shadow + durable approval routing** | propose only | E4 |
 | M10 | deterministic authorization implementation-flexible | **bounded governed execution** | governed reasoning within permission | E5 |
 | M11 | canonical state/policy/audit contracts; vendor/language replaceable | production orchestration | production intelligence within authority ceiling | E6 |
@@ -124,6 +125,7 @@ DecisionRules là visual deterministic rule-engine candidate hiện tại; **kh�
 ```text
 M04 read-only import learning slice
 → M06 reliable orchestration
+→ M08 visual-first AI Agent candidate for read-only tool use
 → M09 approval/shadow workflow
 → M10 bounded execution
 → M11 production orchestration
@@ -135,13 +137,14 @@ n8n không giữ Product truth hoặc tự nâng workflow branch thành final po
 
 ```text
 M02 advisory / no tools
-→ M08 read-only tools
+→ M08 n8n AI Agent visual-first comparison
+→ Hermes/OpenAI Agents SDK only if a measured bottleneck justifies another runtime
 → M09 propose ActionIntent
 → M10 governed participation
 → M11 production intelligence within policy
 ```
 
-Agent confidence không thay evidence và không thay execution permission.
+Agent confidence không thay evidence và không thay execution permission. Flowise chỉ ở watchlist/comparison khi n8n Agent graph thật sự khó maintain; không thêm runtime thứ hai chỉ vì feature list hấp dẫn.
 
 ### Development Agent
 
@@ -180,8 +183,9 @@ Candidate hiện hành: GitHub Copilot cloud agent, OpenAI Codex coding agent, A
 
 - `Go` — **deterministic core reference/fallback implementation**, đặc biệt là M00 golden oracle.
 - `DecisionRules` — **visual deterministic rule-engine candidate**; comparison từ M07, adopt chỉ sau parity/fail-closed gate.
-- `n8n` — **primary orchestration reference**; first learning slice ở M04, production relevance tăng từ M06.
-- `Hermes Agent` — **primary Agent runtime reference/candidate** cho read-only tool-use từ M08.
+- `n8n` — **primary orchestration reference** và **visual-first AgentRuntime candidate ở M08**; production relevance tăng từ M06.
+- `Hermes Agent / OpenAI Agents SDK` — **AgentRuntime comparison candidates** khi n8n AI Agent baseline lộ bottleneck đo được.
+- `Flowise` — watchlist/comparison only, không thêm trước khi cần.
 - `GitHub Copilot cloud agent / OpenAI Codex / Anthropic Claude` — **Development Agent candidates** cho issue→PR workflow; không phải runtime authority.
 
 Chi tiết adoption/fallback/replaceability: [`docs/TECHNOLOGY-CANDIDATES.md`](docs/TECHNOLOGY-CANDIDATES.md).
