@@ -11,11 +11,12 @@ DETERMINISTIC CORE FIRST
 ≠ CODE FIRST
 
 NO-CODE WHEN IT IS AUDITABLE
+REUSE AN EXISTING VISUAL RUNTIME BEFORE ADDING A NEW ONE
 AGENT-WRITTEN CODE WHEN CODE IS NECESSARY
 HUMAN WRITES CODE ONLY WHEN IT ADDS LEARNING OR REVIEW VALUE
 ```
 
-Canonical curriculum khóa **contract/behavior**, không khóa mọi behavior vào Go.
+Canonical curriculum khóa **contract/behavior**, không khóa mọi behavior vào Go hoặc một Agent framework cụ thể.
 
 Deterministic Domain/Governance Core vẫn phải giữ:
 
@@ -27,7 +28,7 @@ Deterministic Domain/Governance Core vẫn phải giữ:
 - audit/correlation contracts;
 - invariants như `missing != 0`, `Decision != Execution`.
 
-## Ba implementation profile
+## Ba deterministic implementation profile
 
 ### Profile A — Visual/no-code deterministic core
 
@@ -143,6 +144,21 @@ Chỉ adopt khi:
 - runtime failure fail closed;
 - rollback/export path có thật.
 
+## M08+ — visual-first AgentRuntime
+
+AgentRuntime là abstraction. Khi read-only tool use bắt đầu, ưu tiên dùng runtime đã có trước:
+
+```text
+M08
+n8n AI Agent + explicit read-only tools
+→ CandidateEvidence
+→ deterministic validation
+```
+
+Chỉ thêm Hermes Agent hoặc OpenAI Agents SDK khi cùng fixture/eval set chứng minh n8n AI Agent có bottleneck thật như permission isolation, specialized tool runtime, auditability hoặc capability cần thiết.
+
+Flowise là watchlist/comparison only nếu n8n Agent graph thực sự khó maintain; không thêm một visual runtime thứ hai chỉ để giảm vài node.
+
 ## Development Agent candidate
 
 Ưu tiên workflow:
@@ -174,6 +190,9 @@ AI can generate a rule
 
 coding agent can open a PR
 ≠ code is trusted/merged
+
+AgentRuntime can call a tool
+≠ AgentRuntime can authorize the result/action
 ```
 
 Final authority vẫn phải đến từ deterministic contract đã được version/review/test và Mission gate hiện hành.
