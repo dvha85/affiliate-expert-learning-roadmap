@@ -4,6 +4,8 @@ Chương trình dành cho người mới xây **một Affiliate Intelligence Bot
 
 ## Bắt đầu trong 5 phút
 
+M00 hiện tại cố ý dùng một Go starter nhỏ làm **golden oracle/reference implementation** cho deterministic decision đầu tiên. Điều đó **không có nghĩa mọi Mission sau phải tự viết bằng Go**. Architecture hiện hành ưu tiên deterministic contract trước, no-code/low-code khi vẫn audit/test được và Development Agent khi code thật sự cần.
+
 Chưa cần đọc hết chương trình học. Trước khi chạy bộ khởi đầu (`starter`), hãy kiểm tra môi trường máy và chắc chắn cửa sổ lệnh (`terminal`) đang đứng trong đúng kho mã (`repo`):
 
 ~~~bash
@@ -13,7 +15,7 @@ git rev-parse --show-toplevel
 test -f lab/learner/affiliate-bot/go.mod
 ~~~
 
-Nếu `go version` báo `command not found`, hoặc `git rev-parse` / `test -f` thất bại, **chưa chạy Bot tiếp**. Hãy sửa môi trường hoặc đường dẫn kho mã trước; đây là bước kiểm tra trước khi chạy (`preflight`), không phải bài học hay cổng đạt (`PASS gate`).
+Nếu `go version` báo `command not found`, hoặc `git rev-parse` / `test -f` thất bại, **chưa chạy Bot M00 tiếp**. Hãy sửa môi trường hoặc đường dẫn kho mã trước; đây là bước kiểm tra trước khi chạy (`preflight`) của starter hiện tại, không phải bằng chứng rằng production stack tương lai bắt buộc phải là Go.
 
 Khi bốn lệnh trên đều ổn:
 
@@ -28,7 +30,7 @@ Bạn phải thấy `Bot version: pre-v0.1` và `Decision state: RANK_SCENARIO`.
 
 Nếu bạn chưa truy cập được bằng chứng sản phẩm công khai thật, ghi trạng thái chặn là `BLOCKED_EXTERNAL`/pending và tiếp tục phần kỹ thuật có thể làm bằng dữ liệu mẫu. **Không đổi dữ liệu mẫu thành “real” chỉ để vượt gate.**
 
-Sau lần chạy đầu, dùng [chương trình chuẩn](CURRICULUM.md) để hiểu mục tiêu và ranh giới, [Build-First](BUILD-FIRST.md) để hiểu mô hình thực thi và [Progress](PROGRESS.md) để xem/lưu tiến độ người học.
+Sau lần chạy đầu, dùng [chương trình chuẩn](CURRICULUM.md) để hiểu mục tiêu và ranh giới, [Build-First](BUILD-FIRST.md) để hiểu mô hình thực thi, [Implementation Strategy](docs/IMPLEMENTATION-STRATEGY.md) để hiểu khi nào dùng no-code/Go/Development Agent và [Progress](PROGRESS.md) để xem/lưu tiến độ người học.
 
 ~~~text
 THỬ TRÊN BẰNG CHỨNG THẬT
@@ -46,12 +48,13 @@ THỬ TRÊN BẰNG CHỨNG THẬT
 - **Trục thực thi (`execution spine`):** 12 Mission, M00–M11.
 - **Kiến thức cốt lõi (`Core`):** 7 Part · 21 Chapter · 63 micro-lesson.
 - **Mốc kiểm chứng (`milestone`):** 4 gate trên cùng một Bot, không phải nhiều project rời.
+- **Architecture hiện hành:** [ADR-004 — Deterministic Core + Implementation Flexibility](docs/ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md).
 - **Phần nâng cao (`Advanced`):** chỉ mở khi nút thắt thực tế yêu cầu.
 - **Lịch sử/tham chiếu (`historical/reference`):** các file trong `sources/` và revision cũ không còn quyết định cấu trúc active.
 
 Số lượng 7/21/63 là inventory hiện tại, **không phải bất biến (`invariant`) cần bảo vệ bằng mọi giá**. Chương trình được phép giảm, gộp hoặc thay đổi khi bằng chứng từ người học cho thấy cấu trúc khác tốt hơn.
 
-## “Thông minh” và “tự động” nghĩa là gì?
+## “Thông minh”, “tự động” và “ít code” nghĩa là gì?
 
 Bot thông minh không đồng nghĩa “gọi LLM”. Bot phải:
 
@@ -61,6 +64,23 @@ Bot thông minh không đồng nghĩa “gọi LLM”. Bot phải:
 - biết độ tin cậy (`confidence`), độ bất định (`uncertainty`) và biết từ chối quyết định (`abstain`);
 - nối `Decision → Action → Outcome → Evaluation` (Quyết định → Hành động → Kết quả → Đánh giá);
 - đề xuất cải tiến nhưng không âm thầm tự sửa hành vi đang chạy ở production (môi trường vận hành thật).
+
+Ít code cũng không đồng nghĩa giao authority cho workflow/AI. Canonical rule:
+
+~~~text
+DETERMINISTIC CORE FIRST
+≠ CODE FIRST
+
+NO-CODE WHEN IT IS AUDITABLE
+AGENT-WRITTEN CODE WHEN CODE IS NECESSARY
+~~~
+
+Implementation hiện hành:
+
+- **Go** = deterministic golden oracle/reference/fallback.
+- **DecisionRules** = visual deterministic rule-engine candidate từ M07 nếu parity/fail-closed PASS.
+- **n8n** = orchestration reference và visual-first AgentRuntime candidate từ M08.
+- **Codex / GitHub Copilot cloud agent / Claude coding agent** = Development Agent candidates cho issue→PR workflow; không có merge/runtime authority.
 
 Quyền hành động (`authority`) tăng theo từng gate:
 
@@ -89,11 +109,11 @@ Xuất bản công khai, chi tiêu, đổi cài đặt tài khoản, xóa dữ l
 ## Không gian làm việc
 
 ~~~text
-lab/learner/affiliate-bot/   # nơi người học tự xây
-lab/affiliate-bot/           # bản tham chiếu để đối chiếu sau khi đã tự thử
+lab/learner/affiliate-bot/   # M00 learner starter/golden-oracle path hiện tại
+lab/affiliate-bot/           # legacy engineering reference để đối chiếu sau khi đã tự thử
 ~~~
 
-Không sao chép bản tham chiếu rồi coi là PASS.
+Không sao chép bản tham chiếu rồi coi là PASS. Tương tự, không coi workflow/rule/PR do AI tạo là PASS nếu learner chưa review được behavior/evidence tương ứng.
 
 ## Trạng thái hiện tại — không hard-code learner progress ở README
 
@@ -101,7 +121,8 @@ README không phải nguồn chuẩn của tiến độ người học vì trạ
 
 - **Learner progress hiện hành:** xem [PROGRESS.md](PROGRESS.md). Đây là canonical learner-state source.
 - **Mức sẵn sàng của Mission:** xem [missions/README.md](missions/README.md). Đây là canonical authoring-state source.
-- **Kiến trúc runtime hiện hành:** xem [ADR-003](docs/ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md).
+- **Kiến trúc hiện hành:** xem [ADR-004](docs/ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md).
+- **Runtime separation baseline:** xem [ADR-003](docs/ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md).
 
 Việc biên soạn dần là có chủ đích: pilot Mission hiện hành trước, dùng blocker/thời gian/bằng chứng thực tế để gộp, bỏ hoặc sửa các bài sau. Authoring status và learner progress là hai trục độc lập.
 
@@ -109,7 +130,11 @@ Việc biên soạn dần là có chủ đích: pilot Mission hiện hành trư�
 
 ~~~bash
 python scripts/validate_curriculum.py
+python scripts/validate_mission_status.py
+python scripts/validate_evidence_taxonomy.py
 python scripts/validate_authority.py
+python scripts/validate_language_policy.py
+python scripts/validate_vietnamese_headings.py
 python scripts/validate_hardening.py
 python scripts/validate_build_first.py
 python scripts/validate_agentic_architecture.py
@@ -117,7 +142,7 @@ python scripts/validate_hybrid_runtime.py
 python -m unittest discover -s tests -v
 ~~~
 
-Các bước kiểm tra Go cho cả không gian người học và bản tham chiếu vẫn là điều kiện merge.
+Các bước `gofmt`, `go vet`, `go test` cho learner/reference Go hiện tại vẫn là điều kiện CI vì M00 oracle/reference đang nằm trong repo. Điều này bảo vệ reference behavior, **không biến Go thành dependency bắt buộc cho mọi future Mission implementation**.
 
 ## Quy ước ngôn ngữ
 

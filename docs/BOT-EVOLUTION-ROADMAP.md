@@ -2,6 +2,8 @@
 
 Tài liệu này định nghĩa **trục sản phẩm, thực tế và quyền hành động (`product, reality, authority spine`)** của chương trình Build-First. Người học phát triển một Affiliate Bot duy nhất; mỗi phiên bản phải thêm capability (năng lực) quan sát được, evidence (bằng chứng) đúng loại và safety gate (cổng an toàn) tương ứng.
 
+Architecture implementation hiện hành: [`ADR-004`](ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md).
+
 ## Trục Mission
 
 | Mission | Phiên bản Bot | Part | Mục tiêu phát hành | Mốc thực tế | AI / quyền hành động |
@@ -51,6 +53,45 @@ M00 → M01 → M02 → M03 → M04 → M05
 
 Mission sau không thay thế operating loop (vòng vận hành) của Mission trước. Ví dụ M08 có Agent không được bỏ deterministic baseline, source provenance hoặc outcome measurement đã tạo ở M00–M07.
 
+## Trục implementation — không mặc định code trước
+
+Runtime authority được khóa vào **deterministic contract/behavior**, không khóa vào một ngôn ngữ.
+
+```text
+M00
+Go starter = golden oracle/reference
+
+M01–M06
+implementation nhỏ nhất vẫn deterministic + testable + auditable
+
+M07
+first meaningful visual-rule comparison
+same fixtures/contracts → parity test
+
+M09–M10
+visual rule engine có thể trở thành implementation của policy
+chỉ nếu version/review/fail-closed/parity PASS
+
+M11
+production PASS dựa trên behavior/evidence/recovery
+không dựa vào số dòng Go
+```
+
+Go vẫn là fallback ưu tiên khi rule graph khó audit hơn code, khi cần performance/offline/vendor independence hoặc custom fail-closed enforcement.
+
+Khi code thật sự cần nhưng learner không cần tự gõ implementation detail:
+
+```text
+Issue/spec
+→ Development Agent
+→ code + tests + PR
+→ CI/security checks
+→ human review
+→ merge
+```
+
+Development Agent không nằm trên authority ladder của runtime Bot.
+
 ## Vì sao thứ tự này hợp lý
 
 ### 1. Thực tế trước hạ tầng lớn
@@ -94,6 +135,8 @@ M05 giá trị signal đã đo
 
 Watcher (bộ theo dõi) không được tự động hóa noise chưa xác định. Decision Engine phải biết `WAIT`, `GET_MORE_DATA` và `HUMAN_REVIEW`, không chỉ trả recommendation cho mọi input.
 
+M06 ưu tiên n8n cho schedule/retry/alert thay vì tự viết Go plumbing nếu n8n đã giải quyết use case rõ và audit được.
+
 ### 5. Công cụ chỉ-đọc trước quyền ghi
 
 ```text
@@ -122,7 +165,14 @@ Mỗi bước tăng authority chỉ xảy ra sau khi bước trước có evalua
 | M10 | canary log trong scope/time/budget cap | dry-run đơn lẻ |
 | M11 | trigger→decision→action→outcome→reviewed change trace | self-reported end-to-end demo |
 
-Evidence phải có `real | test | synthetic | replay`. Fixture chứng minh behavior nhưng không tự tạo `REALITY_VERIFIED`.
+Evidence origin và use context phải tách:
+
+```text
+origin / eligibility: real | synthetic
+use context khi relevant: test | replay
+```
+
+Fixture chứng minh behavior nhưng không tự tạo `REALITY_VERIFIED`.
 
 ## Tiến triển của Decision và Outcome
 
@@ -174,7 +224,7 @@ M03      người tự publish sau compliance/tracking gate
 M06      tự động read/watch chỉ trên source/access method được phép
 M08      tool chỉ-đọc trong allowlist
 M09      mọi side effect ở shadow/draft + approval bền vững
-M10      R0/R1 trong allowlist và giới hạn; R2 cần approval bền vững
+M10      R0/RISK1 trong allowlist và giới hạn; RISK2 cần approval bền vững
 M11      cùng policy boundary trong production + recovery/monitoring
 ```
 
@@ -199,6 +249,14 @@ Không tăng AI/authority level chỉ vì framework mới có sẵn. Mission ch�
 6. fallback, audit và acceptable cost;
 7. PASS/REALITY/OPERATED evidence của Mission trước.
 
+Implementation cũng có adoption gate riêng:
+
+```text
+visual/no-code candidate
+→ parity + audit + versioning + fail-closed
+→ mới được thay reference implementation
+```
+
 ## Vòng khép kín cuối cùng
 
 ```text
@@ -209,7 +267,7 @@ CẢM NHẬN / THU THẬP
 → Affiliate Intelligence DecisionPacket hoặc ABSTAIN
    (Product/Offer, Audience/Problem, Content/Channel, EV,
     Evidence, Confidence, Uncertainty, Risk, Next Measurement)
-→ Policy + Risk
+→ Deterministic Policy + Risk
 → ActionIntent
 → tự động trong giới hạn R0/R1 hoặc durable approval cho R2
 → ExecutionRecord
@@ -221,4 +279,4 @@ CẢM NHẬN / THU THẬP
 ↺
 ```
 
-Bot không được âm thầm rewrite production prompt, scoring weight, workflow hoặc policy từ một outcome mới.
+Bot không được âm thầm rewrite production prompt, scoring weight, workflow, rule hoặc policy từ một outcome mới.

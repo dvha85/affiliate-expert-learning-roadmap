@@ -1,10 +1,11 @@
-# Technology References — Runtime và công cụ hỗ trợ cho kiến trúc Hybrid
+# Technology References — Runtime, rule engine và Development Agent cho kiến trúc Hybrid
 
 - **Status:** Reference only — không phải Core/PASS shortcut
 - **Last reviewed:** 2026-09-02
-- **Primary architecture authority:** [`ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md`](ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md)
+- **Primary architecture authority:** [`ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md`](ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md)
+- **Runtime-separation baseline:** [`ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md`](ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md)
 
-Tài liệu này không quyết định learner sequence. Nó ghi reference implementation, comparison candidate và adoption gate cho các runtime/công cụ nằm ngoài Go domain/governance core.
+Tài liệu này không quyết định learner sequence. Nó ghi reference implementation, visual/no-code candidate, code fallback, Development Agent và adoption gate.
 
 Nguyên tắc chung:
 
@@ -15,6 +16,12 @@ Tool available
 Tool adopted
 ≠ tool owns truth
 
+No-code
+≠ no governance
+
+AI generated code/rule
+≠ reviewed production change
+
 Framework capability
 ≠ Bot authority
 ```
@@ -24,16 +31,28 @@ Mọi candidate chỉ được adopt khi giải quyết bottleneck đã quan sá
 ## 1. Canonical ownership
 
 ```text
-Go core
-= evidence / history / deterministic decision / policy / audit
+Deterministic Domain / Governance Core
+= evidence / history / deterministic decision / policy / audit CONTRACTS
+
+Go
+= deterministic core reference/fallback implementation
+
+DecisionRules
+= visual deterministic rule-engine candidate
 
 n8n
 = primary orchestration reference
+= visual-first AgentRuntime candidate khi Agent tool-use bắt đầu
 
 AgentRuntime
-= intelligence role
-Hermes Agent
-= primary reference/candidate implementation cho tool-use stage
+= intelligence role, không phải authority role
+
+Hermes Agent / OpenAI Agents SDK
+= AgentRuntime comparison candidates khi cần runtime chuyên biệt hơn
+
+Development Agent
+= repository engineering worker
+= GitHub Copilot cloud agent / OpenAI Codex / Anthropic Claude candidates
 
 OpenTelemetry
 = telemetry/trace protocol candidate
@@ -51,29 +70,104 @@ Temporal
 = durable execution candidate cho long-running workflow/HITL
 
 OPA
-= policy implementation candidate dưới Go-owned authorization contract
+= policy-as-code candidate khi visual/simple policy không còn đủ rõ
 ```
 
-Windmill là **orchestration comparison candidate**; OpenAI Agents SDK là **AgentRuntime comparison candidate**. Không candidate nào tự trở thành canonical owner chỉ vì framework có feature tương ứng.
+Không candidate nào tự trở thành canonical owner chỉ vì framework có feature tương ứng.
 
-## 2. n8n — primary orchestration reference
+## 2. Go — deterministic reference/fallback, không phải coding quota
+
+M00 Go starter được giữ làm **golden oracle/reference implementation** cho deterministic evidence decision đầu tiên.
+
+Go phù hợp khi:
+
+- visual rule graph khó review hơn code;
+- performance/latency trở thành bottleneck thật;
+- cần offline/local deterministic execution;
+- cần vendor independence;
+- custom invariant/protocol khó biểu diễn bằng visual rule;
+- fail-closed enforcement cần process boundary riêng.
+
+Go không mặc định sở hữu:
+
+- scheduler;
+- webhook/integration plumbing;
+- notification;
+- approval UI/routing;
+- browser acquisition;
+- Agent reasoning;
+- mọi future policy chỉ vì code đã tồn tại.
+
+### Timing
+
+| Mission | Go role |
+|---|---|
+| M00 | **Golden oracle/reference**; learner path hiện tại giữ nguyên |
+| M01–M06 | dùng khi đó là implementation nhỏ nhất rõ/audit được |
+| M07 | oracle cho visual-rule parity comparison |
+| M09–M11 | fallback/reference nếu visual policy hoặc external rule engine không đạt gate |
+
+## 3. DecisionRules — visual deterministic rule-engine candidate
+
+DecisionRules phù hợp với logic dạng decision table/tree/rule flow và có API để evaluate JSON input. Product docs hiện có test/debug/versioning capabilities và AI Assistant có thể hỗ trợ tạo/chỉnh rule; AI Assistant vẫn chỉ là authoring aid, không được auto-publish policy.
+
+Potential role:
+
+```text
+canonical deterministic input
+→ reviewed/versioned DecisionRules rule
+→ deterministic result + reason/trace
+→ canonical Decision/Policy contract
+```
+
+### Candidate timing
+
+- M00: **optional comparison sau khi M00 Go baseline đã PASS**; không thay learner checkpoint và không reset Bài 0.1.
+- M01–M06: không cần cho Core.
+- M07: **first meaningful Core comparison** cho DecisionPacket/abstention/risk table.
+- M09–M10: có thể implement deterministic risk/authorization nếu parity/fail-closed/version gate đã PASS.
+- M11: production candidate nếu active rule version, rollback, audit và SLO đủ rõ.
+
+### Adoption gate
+
+```text
+same canonical input/output contract
++ parity tests with Go/reference oracle
++ same input + same version = same result
++ explicit missing/unknown behavior
++ decision reason/trace available
++ versioned/reviewable rule artifact
++ API/runtime error fails closed
++ rollback/export path documented
++ AI-generated rule cannot auto-publish
++ n8n cannot silently override rule result
+```
+
+Không adopt nếu visual graph khó review hơn code hoặc vendor/runtime failure làm authority ambiguous.
+
+**Official refs:**
+- https://docs.decisionrules.io/doc/api/rule-solver-api
+- https://docs.decisionrules.io/doc/product-updates/release-notes/public-cloud
+
+## 4. n8n — primary orchestration reference
 
 ### Role phù hợp
 
 - trigger / schedule / webhook;
 - API/integration glue;
+- fetch/import/map/transform;
 - analytics/import workflow;
 - notification/alert routing;
+- retry/backoff;
 - approval routing;
-- calling Go service/CLI/API;
-- bounded execution sau Go policy gate.
+- calling deterministic rule/service/API;
+- bounded execution sau deterministic policy gate.
 
-Không đặt canonical authority của các phần sau vào n8n:
+Không đặt canonical authority của các phần sau trực tiếp vào workflow branch:
 
-- Product ranking truth;
-- evidence truth classification;
-- deterministic risk policy;
-- final `ALLOW | DENY | WAIT | HUMAN_REVIEW`;
+- Product/evidence truth;
+- unreviewed scoring semantics;
+- final risk/policy chỉ bằng IF/Switch;
 - canonical business state nếu không có explicit persistence/audit contract.
 
 ### Roadmap learning progression
@@ -81,20 +175,19 @@ Không đặt canonical authority của các phần sau vào n8n:
 | Mission | n8n role |
 |---|---|
 | M00–M03 | Không cần cho Core |
-| M04 | **First read-only learning slice**: manual trigger → import/map → call Go → failure handling; không external mutation |
+| M04 | **First read-only learning slice**: manual trigger → import/map → deterministic validate/reconcile → failure handling |
 | M05 | Optional reporting/orchestration |
 | M06 | **Primary watcher/orchestration reference**: trigger/integration/retry/alert |
-| M07–M08 | Route DecisionPacket / Agent requests nhưng không thay policy |
+| M07 | Route DecisionPacket/rule calls nhưng không thay deterministic authority |
+| M08 | Có thể host **visual-first AI Agent** + approved read-only tools nếu Safe Profile map được |
 | M09 | **Shadow + durable approval routing reference** |
 | M10 | **Bounded governed execution reference** sau deterministic policy gate |
 | M11 | Production orchestration candidate/reference |
 
 ### Adoption gate
 
-n8n chỉ được đưa vào implementation khi giải quyết bottleneck cụ thể và learner chứng minh:
-
 ```text
-Go contract giữ nguyên
+canonical contract giữ nguyên
 + failure/retry behavior rõ
 + idempotency
 + audit/correlation
@@ -103,128 +196,91 @@ Go contract giữ nguyên
 + no authority bypass
 ```
 
-Nếu một Go script/service đơn giản hơn và ít failure surface hơn, không bắt buộc dùng n8n.
+Nếu một manual step hoặc deterministic service đơn giản hơn và ít failure surface hơn, không bắt buộc dùng n8n.
 
-## 3. Windmill — orchestration comparison candidate
+## 5. n8n AI Agent — visual-first AgentRuntime candidate
 
-Windmill đáng spike vì hỗ trợ Go scripts trực tiếp; scripts có thể chạy độc lập, scheduled hoặc ghép thành Flow. Official docs cũng có Git sync/versioning workflow. Đây là lợi thế tiềm năng cho một curriculum lấy Go làm domain language, nhưng **không phải lý do đủ để thay n8n**.
-
-### Candidate timing
-
-- M00–M03: không dùng cho Core.
-- M04: có thể làm **comparison spike** trên đúng read-only import workflow của n8n.
-- M06: chỉ cân nhắc thay/đồng tồn tại nếu measured operational simplicity tốt hơn.
-- M09+: có thể được đánh giá cho approval/execution workflow nếu state/retry/audit contract đáp ứng.
-
-### Adoption gate
-
-Chỉ adopt Windmill thay n8n cho một role khi cùng một bounded use case chứng minh:
-
-```text
-same Go input/output contract
-+ same authority ceiling
-+ Git-reviewable workflow artifacts
-+ retry/error semantics rõ
-+ idempotency proof
-+ secret handling đạt
-+ correlation/audit không kém n8n baseline
-+ measured operational burden thấp hơn hoặc capability cần thiết tốt hơn
-```
-
-Không đổi primary reference trong curriculum chỉ vì code-first UX hợp sở thích hơn.
-
-**Official refs:**
-- https://www.windmill.dev/docs/getting_started/scripts_quickstart/go
-- https://www.windmill.dev/docs/advanced/git_sync
-
-## 4. AgentRuntime — intelligence role
-
-Canonical abstraction là `AgentRuntime`, không phải vendor name.
+Khi M08 bắt đầu read-only tool-use, **first comparison nên ưu tiên runtime đã có** thay vì lập tức thêm một framework code-heavy khác.
 
 Potential role:
 
-- unstructured analysis;
-- research;
-- read-only missing-evidence acquisition;
-- tool use qua explicit Tool Registry;
-- decomposition/delegation;
-- candidate hypotheses/proposals.
-
-Không cho Agent mặc định:
-
-- biến inference thành measured fact;
-- sửa canonical Product/history/scoring input;
-- tự quyết định final risk class;
-- bypass Go policy;
-- publish/send/spend/change account ngoài Mission authority.
-
-### Roadmap progression
-
-| Mission | Agent role |
-|---|---|
-| M00–M01 | Không dùng |
-| M02 | AI advisory, no tools, strict grounding/fallback |
-| M03–M07 | Advisory/analysis only; tool-use chưa phải Core |
-| M08 | **First read-only AgentRuntime tool-use** |
-| M09 | Agent có thể propose `ActionIntent`, không execute |
-| M10 | Governed reasoning trong permission/policy ceiling |
-| M11 | Production intelligence nhưng vẫn không tự tăng authority |
-
-## 5. Hermes Agent — primary Agent reference/candidate
-
-Hermes Agent được giữ như **reference/candidate implementation** để spike ở M08 khi:
-
-- có missing-evidence case thật;
-- manual/deterministic retrieval bắt đầu tốn công;
-- Tool Registry/permission/audit có thể map rõ vào runtime.
-
-Spike phải so:
-
 ```text
-manual/deterministic retrieval baseline
-vs
-Hermes read-only AgentRuntime
+GET_MORE_DATA
+→ n8n Agent receives bounded task
+→ explicit read-only tools / MCP client
+→ CandidateEvidence
+→ Deterministic Core validation
+→ DecisionPacket
 ```
 
-Theo:
-
-- evidence correctness/grounding;
-- unsupported claim rate;
-- tool-call success/failure;
-- permission compliance;
-- prompt-injection resistance;
-- auditability;
-- latency/cost;
-- human intervention rate.
-
-Nếu framework không enforce được permission/audit/fallback theo contract repo, **không adopt** dù demo trông thông minh.
-
-## 6. OpenAI Agents SDK — AgentRuntime comparison candidate
-
-OpenAI Agents SDK hiện cung cấp agent runner với tools, guardrails, handoffs, sessions, tracing, MCP integration và human-in-the-loop approval. Đây là candidate phù hợp để so với Hermes ở M08+, nhưng SDK capability không thay `AGENT SAFE PROFILE` của repo.
+n8n hiện có AI Agent/tool workflow và human-in-the-loop support cho tool calls; capability đó là implementation aid, không thay Safe Profile/policy.
 
 ### Candidate timing
 
-- M02: không dùng SDK tool loop để vượt khỏi AI Advisor A1.
-- M03–M07: optional research/reference, không Core dependency.
-- M08: comparison spike với Hermes cho read-only tool use.
-- M09+: chỉ có thể propose hoặc pause xin approval trong authority ceiling hiện tại.
+- M00–M07: không dùng tool-agent cho Core.
+- M08: **visual-first AgentRuntime spike** nếu explicit Tool Registry/allowlist/audit map được.
+- M09+: Agent chỉ propose/pause xin approval trong authority ceiling hiện hành.
+
+### Adoption gate
+
+- explicit tool allowlist;
+- M08 read-only ceiling;
+- least-privilege credentials;
+- tool output `UNTRUSTED UNTIL DETERMINISTIC VALIDATION`;
+- prompt-injection/tool misuse cases;
+- trace/correlation;
+- deterministic/manual fallback khi Agent unavailable;
+- no workflow branch can convert Agent confidence into authorization.
+
+**Official ref:**
+- https://docs.n8n.io/advanced-ai/human-in-the-loop-tools/
+
+## 6. Hermes Agent — specialized AgentRuntime comparison candidate
+
+Hermes Agent không còn là mandatory/first Agent implementation. Spike khi n8n AI Agent hoặc simpler runtime đã lộ bottleneck thật, ví dụ:
+
+- cần tool runtime isolation/permission model tốt hơn;
+- agent loop/research capability vượt visual workflow;
+- portability/operational profile tốt hơn có thể đo được.
+
+Comparison phải dùng cùng M08 fixture/eval set và Safe Profile.
 
 ### Adoption gate
 
 ```text
-same M08 fixture/eval set
-+ explicit tool allowlist/filter
-+ least-privilege credentials
-+ approval/guardrail behavior tested
-+ MCP server trust boundary explicit nếu dùng MCP
-+ all tool output UNTRUSTED UNTIL GO VALIDATION
-+ deterministic fallback survives provider/runtime failure
-+ trace/correlation maps về repo audit contract
-+ no direct consequential action bypassing Go policy
+same AgentRuntime contract
++ same M08 eval set
++ explicit allowlist / least privilege
++ prompt-injection resistance
++ auditability
++ deterministic fallback
++ measured benefit over n8n AI Agent baseline
 ```
 
-Built-in HITL/guardrails là implementation aid, **không phải bằng chứng rằng policy đã đúng**.
+Nếu benefit không đo được, không thêm runtime mới.
+
+## 7. OpenAI Agents SDK — AgentRuntime comparison candidate
+
+OpenAI Agents SDK cung cấp agent runner, tools, guardrails, handoffs, sessions, tracing, MCP integration và human-in-the-loop capabilities. Đây là code-oriented comparison candidate, không phải reason để bắt learner viết Python/SDK integration.
+
+### Timing
+
+- M02: không dùng tool loop để vượt A1 advisory.
+- M03–M07: optional reference, không Core dependency.
+- M08+: compare khi n8n AI Agent/Hermes baseline đã cho thấy bottleneck cần SDK.
+
+### Adoption gate
+
+```text
+same Safe Profile/eval set
++ explicit tool filters
++ least-privilege credentials
++ HITL/guardrails tested
++ all tool output untrusted until deterministic validation
++ deterministic fallback survives provider/runtime failure
++ trace maps về canonical correlation/audit
++ measured benefit > added code/ops burden
+```
 
 **Official refs:**
 - https://openai.github.io/openai-agents-python/
@@ -232,21 +288,81 @@ Built-in HITL/guardrails là implementation aid, **không phải bằng chứng 
 - https://openai.github.io/openai-agents-python/human_in_the_loop/
 - https://openai.github.io/openai-agents-python/mcp/
 
-## 7. MCP — chuẩn ứng viên cho Tool Registry boundary
+## 8. Flowise — watchlist/comparison only
 
-Model Context Protocol (MCP) là protocol để ứng dụng expose context/tools cho AI clients. Bản spec được kiểm tại thời điểm review là `2026-07-28`; revision này tiếp tục harden authorization và chuyển core transport theo hướng stateless hơn.
+Flowise visual Agentflow/HITL có thể đáng spike nếu n8n Agent graph trở nên khó maintain hoặc Agent-specific visual tooling tạo measured benefit.
 
-MCP phù hợp để chuẩn hóa boundary:
+Default hiện tại:
+
+```text
+DO NOT ADD YET
+```
+
+Adopt chỉ khi một bounded M08/M09 use case chứng minh:
+
+- ít code/ops burden hơn;
+- Safe Profile map rõ;
+- durable pause/resume/audit đạt;
+- không tạo duplicate orchestration layer vô ích.
+
+**Official docs:** https://docs.flowiseai.com/
+
+## 9. Development Agent — coding mà learner không phải tự gõ mọi dòng
+
+Development Agent là lớp **repository engineering**, tách khỏi production AgentRuntime.
+
+Candidate hiện hành trên GitHub:
+
+- GitHub Copilot cloud agent;
+- OpenAI Codex coding agent;
+- Anthropic Claude coding agent.
+
+GitHub hiện hỗ trợ giao issue/prompt cho coding agent để thực hiện thay đổi và mở PR; third-party coding agents Codex/Claude có thể làm việc cùng Copilot cloud agent khi feature/policy của account cho phép.
+
+### Role phù hợp
+
+```text
+issue/spec
+→ research/plan
+→ implement/refactor/tests
+→ pull request
+→ CI/security checks
+→ human review
+→ merge/reject
+```
+
+### Timing
+
+- Có thể dùng từ M00 nếu task là repository engineering.
+- Không phải Mission authority và không unlock A1/A2/A3.
+- Đặc biệt hữu ích khi code cần thiết nhưng learning goal là domain/evidence/review thay vì syntax.
+
+### Adoption gate cho mỗi PR
+
+- acceptance criteria rõ;
+- diff reviewable;
+- tests/regression evidence;
+- CI PASS;
+- dependency/security review khi relevant;
+- human review required cho behavior/policy/runtime changes;
+- không auto-merge consequential policy changes;
+- learner explain-back được behavior quan trọng.
+
+**Official refs:**
+- https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents
+- https://docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents
+
+## 10. MCP — candidate protocol cho Tool Registry boundary
 
 ```text
 AgentRuntime
 → MCP client
 → approved MCP server/tool
 → result
-→ Go validate / ground
+→ Deterministic Core validate / ground
 ```
 
-Nhưng invariant bắt buộc:
+Invariant:
 
 ```text
 MCP tool visible
@@ -259,109 +375,85 @@ MCP auth succeeded
 ≠ consequential action authorized
 ```
 
-### Candidate timing
+### Timing
 
 - M00–M07: không cần cho Core.
-- M08: **first candidate protocol** cho read-only Agent tool boundary.
-- M09+: có thể expose proposal/supporting tools; write/action tool vẫn chịu Mission authority + Go policy + approval.
+- M08: first candidate protocol cho read-only Agent tool boundary.
+- M09+: write/action tool vẫn chịu Mission authority + deterministic policy + approval.
 
-### Adoption gate M08
+### Gate
 
-- explicit server allowlist;
-- explicit tool allowlist/filter;
-- read-only capability ở M08;
-- credentials least privilege;
-- secret/token không nằm trong URL hoặc model-visible text;
-- mỗi call có correlation/audit metadata;
-- timeout/retry/failure semantics rõ;
-- tool output bị coi là untrusted input;
-- Go evidence validator quyết định claim support;
-- sensitive/write tools require separate policy/approval gate ở Mission sau.
+- explicit server/tool allowlist;
+- least privilege;
+- M08 read-only;
+- secret/token không model-visible;
+- correlation/audit metadata;
+- timeout/retry semantics;
+- tool result untrusted;
+- sensitive/write tools separate policy gate.
 
 **Official refs:**
 - https://modelcontextprotocol.io/specification/2026-07-28
 - https://blog.modelcontextprotocol.io/posts/2026-07-28/
 
-## 8. Playwright — controlled browser acquisition candidate
+## 11. Playwright — controlled browser acquisition candidate
 
-Playwright phù hợp khi public source cần browser rendering/interaction để quan sát dữ liệu mà HTTP/API fetch đơn giản không đủ. Nó hỗ trợ Chromium, Firefox và WebKit, cùng headless execution cho automation.
-
-Candidate role:
+Playwright dùng khi public source cần browser rendering/interaction mà HTTP/API fetch đơn giản không đủ.
 
 ```text
 public dynamic page
-→ controlled Playwright session
+→ controlled browser session
 → raw observation/snapshot
 → provenance
-→ Go validation/normalization
+→ Deterministic Core validation/normalization
 ```
 
-### Candidate timing
+### Timing/gate
 
-- M06: deterministic watcher candidate cho **public read-only acquisition** khi source thật yêu cầu browser.
-- M08: có thể expose như read-only Agent tool qua explicit Tool Registry.
-- M09–M10: không tự động biến browser thành publish/purchase/account-change surface.
+- M06 read-only watcher candidate; M08 có thể expose như approved read-only Agent tool.
+- Chỉ sau khi HTTP/API baseline proven insufficient.
+- domain/URL allowlist;
+- bounded navigation/timeout/rate limit;
+- no arbitrary form submit/upload/account mutation;
+- provenance source URL + observed_at;
+- platform terms/compliance reviewed.
 
-### Adoption gate
+**Official ref:** https://playwright.dev/docs/browsers
 
-```text
-plain HTTP/API baseline proven insufficient
-+ domain/URL allowlist
-+ public/read-only profile for M06/M08
-+ bounded navigation/timeout/rate limit
-+ no arbitrary form submit/upload/account mutation
-+ provenance captures source URL + observed_at + acquisition method
-+ page/tool output remains untrusted until Go validation
-+ platform terms/compliance reviewed for target source
-+ browser failure does not mutate canonical state
-```
+## 12. OpenTelemetry — observability protocol candidate ưu tiên
 
-Consequential browser action nếu sau này có phải là **separate Action capability**, không phải side effect ẩn của evidence acquisition.
-
-**Official ref:**
-- https://playwright.dev/docs/browsers
-
-## 9. OpenTelemetry — observability protocol candidate ưu tiên
-
-OpenTelemetry là candidate chuẩn cho cross-runtime traces/metrics. Tại thời điểm review, official Go status ghi **Traces: Stable, Metrics: Stable, Logs: Beta**.
-
-Phù hợp với repo vì correlation có thể đi xuyên:
+OpenTelemetry phù hợp để mang correlation xuyên:
 
 ```text
 Observation
-→ Go DecisionPacket
+→ Deterministic DecisionPacket
 → orchestrator
 → Agent/MCP tool
 → policy/approval
 → execution
 ```
 
-mà không giao canonical business truth cho telemetry backend.
+### Timing
 
-### Candidate timing
+- M04 optional minimal trace spike.
+- M06 recommended khi watcher/orchestration thành runtime thật.
+- M08+ propagate trace/correlation qua Agent/tool boundaries.
 
-- M00–M03: không cần cho PASS.
-- M04: optional minimal trace spike ở first cross-runtime workflow.
-- M06: **recommended adoption point** khi watcher/orchestration trở thành runtime thật.
-- M08+: propagate trace/correlation qua Agent/tool boundaries.
+### Gate
 
-### Adoption gate
-
-- canonical `correlation_id`/trace mapping được định nghĩa trước;
-- Go domain result không phụ thuộc exporter availability;
-- telemetry failure không làm corrupt evidence/history;
-- secret/private payload redaction rõ;
-- semantic attributes đủ để nối Decision → tool/workflow → outcome;
-- sampling không làm mất mandatory audit record;
-- audit record và telemetry được phân biệt rõ: **telemetry != canonical audit state**.
+- canonical `correlation_id` mapping trước;
+- core result không phụ thuộc exporter availability;
+- redaction;
+- sampling không làm mất mandatory audit;
+- telemetry != canonical audit/business state.
 
 **Official refs:**
 - https://opentelemetry.io/docs/languages/go/
 - https://opentelemetry.io/docs/languages/
 
-## 10. Langfuse — optional AI/Agent observability + evaluation backend
+## 13. Langfuse — optional AI/Agent observability + evaluation backend
 
-Langfuse là open-source LLM/AI observability platform có self-host option. Current docs hỗ trợ OpenTelemetry ingestion và experiments/evaluation workflows, vì vậy nó phù hợp làm optional backend cho M02+ eval và M08+ Agent traces.
+Langfuse có thể làm optional backend cho M02+ eval và M08+ Agent traces.
 
 Không đặt vào Langfuse:
 
@@ -370,197 +462,143 @@ Không đặt vào Langfuse:
 - authorization;
 - mandatory audit record duy nhất.
 
-### Candidate timing
-
-- M02: optional eval spike **sau khi** deterministic baseline + frozen eval fixtures tồn tại.
-- M06: optional observability backend qua OpenTelemetry.
-- M08+: useful cho Agent/model/tool trace và regression evaluation.
-
-### Adoption gate
+### Gate
 
 ```text
 manual/repo eval baseline exists first
-+ OpenTelemetry-first trace integration when practical
-+ dataset/eval labels remain versioned/reviewable outside vendor-only state
++ datasets/labels versioned outside vendor-only state
 + secrets/private data redacted
-+ Langfuse score cannot become evidence or policy input by default
-+ export/backend outage does not break deterministic core
++ Langfuse score cannot become evidence/policy input by default
++ backend outage does not break deterministic core
 + measured debugging/eval value > operational cost
 ```
-
-Nếu dashboard đẹp nhưng không cải thiện regression detection, auditability hoặc debugging, không cần adopt.
 
 **Official refs:**
 - https://langfuse.com/self-hosting
 - https://langfuse.com/docs/evaluation/experiments/experiments-via-opentelemetry
-- https://langfuse.com/docs/api-and-data-platform/features/public-api
 
-## 11. Temporal — durable execution candidate cho M09+
+## 14. Windmill — orchestration comparison candidate
 
-Temporal phù hợp cho workflow cần survive process crash, network failure hoặc wait dài rồi resume. Đây là candidate cho **durable execution / long-running HITL**, không phải early orchestration dependency.
+Windmill có thể spike trên cùng M04 read-only workflow khi cần code-friendly scripts/Git sync hoặc operational model khác.
 
-Potential future flow:
+Adopt thay n8n chỉ khi cùng use case chứng minh:
+
+```text
+same deterministic input/output contract
++ same authority ceiling
++ Git-reviewable artifacts
++ retry/idempotency rõ
++ secret handling đạt
++ correlation/audit không kém
++ measured operational burden thấp hơn
+```
+
+**Official refs:**
+- https://www.windmill.dev/docs/getting_started/scripts_quickstart/go
+- https://www.windmill.dev/docs/advanced/git_sync
+
+## 15. Temporal — durable execution candidate cho M09+
+
+Temporal chỉ spike khi có **real long-running durability pain** vượt simple n8n/persisted-state baseline.
 
 ```text
 ActionIntent
 → persist / wait approval
-→ process restart or long delay
+→ restart/delay
 → resume
-→ revalidate Go policy + approval freshness + kill switch
+→ revalidate deterministic policy + approval freshness + kill switch
 → bounded execution
 ```
 
-### Candidate timing
+Gate:
 
-- M00–M08: **không adopt cho Core**.
-- M09: spike chỉ khi shadow/approval flow đã có real durability pain.
-- M10–M11: production candidate khi workflows thực sự cần long-lived recovery semantics.
+- documented durability/recovery need;
+- idempotent/dedup activities;
+- canonical business state external to workflow history;
+- resume revalidates approval/policy/kill switch;
+- operational complexity justified.
 
-### Adoption gate
+**Official ref:** https://docs.temporal.io/
 
-- measured need vượt khả năng của simple Go job/n8n workflow hiện tại;
-- long-running state/retry/recovery requirement documented;
-- every consequential activity idempotent hoặc có dedup key;
-- canonical business state vẫn nằm ở Go-owned persistence contract;
-- resume luôn revalidate approval expiry, policy và kill switch;
-- runtime outage không mất ActionIntent/ExecutionRecord contract;
-- operational complexity/cost justified by failure-recovery benefit;
-- no workflow history is treated as substitute for canonical evidence/history.
+## 16. OPA — complex policy-as-code candidate cho M09+
 
-Temporal durability:
+OPA phù hợp khi policy complexity vượt visual/simple rule và policy-as-code giúp review/test tốt hơn.
 
 ```text
-durable resume
-≠ authorization to continue
-```
-
-**Official ref:**
-- https://docs.temporal.io/
-
-## 12. OPA — policy-as-code implementation candidate cho M09+
-
-Open Policy Agent (OPA) có thể embed vào Go qua SDK/Rego API và phù hợp khi deterministic policy tăng đủ phức tạp để tách policy-as-code giúp review/test tốt hơn.
-
-OPA không thay ownership contract:
-
-```text
-Go-owned canonical inputs
-→ OPA policy evaluation candidate
-→ Go maps/enforces canonical authorization contract
+canonical deterministic inputs
+→ OPA evaluation
+→ canonical authorization mapping/enforcement
 → ALLOW | DENY | WAIT | GET_MORE_DATA | HUMAN_REVIEW
 ```
 
-### Candidate timing
+OPA không bắt buộc phải nằm “bên trong Go”; Go có thể là adapter/reference implementation. Canonical contract mới là authority.
 
-- M00–M08: giữ policy trực tiếp trong Go nếu đơn giản hơn.
-- M09: optional spike khi risk/action policy bắt đầu có nhiều actor/platform/environment rule.
-- M10–M11: adopt chỉ khi policy-as-code có measured maintainability/audit advantage.
+Gate:
 
-### Adoption gate
+- policy complexity chứng minh được;
+- parity tests với current deterministic baseline;
+- Rego bundle versioned/reviewed;
+- evaluation error/timeout fail closed;
+- decision reason/trace audit được;
+- no direct canonical state mutation.
 
-- policy complexity/bottleneck được chứng minh, không adopt vì trend;
-- parity tests với existing deterministic Go policy trước migration;
-- policy bundle/Rego versioned + reviewed trong Git;
-- input schema do Go kiểm soát;
-- evaluation error/timeout fail closed theo contract;
-- decision reason/trace đủ audit;
-- OPA không đọc/mutate canonical state ngoài explicit input;
-- Go boundary vẫn là nơi phát canonical authorization result.
+**Official ref:** https://www.openpolicyagent.org/docs/integration
 
-**Official ref:**
-- https://www.openpolicyagent.org/docs/integration
+## 17. Adoption matrix — default hiện tại
 
-## 13. Adoption matrix — default hiện tại
-
-| Capability | Primary/reference hiện tại | Candidate mới | Earliest meaningful spike | Default decision |
+| Capability | Primary/reference hiện tại | Candidate/comparison | Earliest meaningful spike | Default decision |
 |---|---|---|---|---|
-| Domain/Governance | Go | OPA cho complex policy | M09 | Giữ Go; OPA chỉ khi policy complexity có thật |
-| Orchestration | n8n | Windmill | M04 | n8n vẫn primary; compare trên cùng read-only slice |
-| AgentRuntime | Hermes Agent candidate/reference | OpenAI Agents SDK | M08 | Compare cùng Safe Profile/eval set |
-| Tool boundary | explicit Tool Registry contract | MCP | M08 | MCP preferred protocol candidate, permission vẫn ngoài protocol |
-| Browser acquisition | HTTP/API/manual baseline | Playwright | M06 | Chỉ khi browser thực sự cần |
-| Observability protocol | correlation/audit contract | OpenTelemetry | M04/M06 | Ưu tiên khi bắt đầu cross-runtime |
-| AI/Agent eval backend | repo fixtures/reports | Langfuse | M02 optional | Chỉ sau deterministic/manual eval baseline |
-| Durable workflow | n8n/Go bounded workflow | Temporal | M09 | Chỉ khi long-running durability là bottleneck |
+| Deterministic Domain/Governance | contracts + Go golden oracle | DecisionRules; OPA later | M07 / M09 | no-code visual nếu parity/audit/fail-closed tốt; Go fallback |
+| Orchestration | n8n | Windmill | M04 | n8n primary |
+| AgentRuntime | **n8n AI Agent visual-first candidate** | Hermes; OpenAI Agents SDK; Flowise watchlist | M08 | reuse n8n trước; thêm runtime khi có measured bottleneck |
+| Development Agent | human-reviewed GitHub PR workflow | Copilot cloud agent; Codex; Claude | anytime | delegate code, never delegate merge authority |
+| Tool boundary | explicit Tool Registry | MCP | M08 | MCP preferred protocol candidate |
+| Browser acquisition | HTTP/API/manual | Playwright | M06 | browser only when needed |
+| Observability | correlation/audit contract | OpenTelemetry | M04/M06 | adopt cross-runtime when useful |
+| AI eval backend | repo fixtures/reports | Langfuse | M02 optional | only after baseline |
+| Durable workflow | n8n + persisted canonical state | Temporal | M09 | only on real durability pain |
 
-## 14. Hybrid architecture reference
+## 18. Reference architecture
 
 ```text
-                         Go Core
-          evidence + history + decision + policy
-                            │
-          ┌─────────────────┼─────────────────┐
-          │                 │                 │
-   Orchestration       Intelligence      Observability
-   n8n / Windmill      AgentRuntime      OpenTelemetry
-          │          Hermes / OpenAI           │
-          │                 │               Langfuse
-          │                MCP
-          │                 │
-          └──────── External/read tools ───────┘
-                            │
-                        Playwright
+                  Deterministic Core CONTRACTS
+             evidence + history + decision + policy
+                         /              \
+             Go reference              DecisionRules
+              / fallback               visual candidate
+                         \              /
+                          canonical result
+                                │
+              ┌─────────────────┼─────────────────┐
+              │                 │                 │
+       Orchestration       Intelligence      Observability
+           n8n          n8n AI Agent first   OpenTelemetry
+              │          Hermes / OpenAI           │
+              │                 │               Langfuse
+              │                MCP
+              │                 │
+              └──────── External/read tools ───────┘
+                                │
+                            Playwright
 
-Later, only when justified:
+Development plane (outside runtime authority):
+Issue/spec → Copilot/Codex/Claude → PR → CI → Human Review
+
+Later only when justified:
 Temporal = durable workflow/HITL
-OPA      = complex policy-as-code implementation
+OPA      = complex policy-as-code
+Flowise  = Agent visual runtime comparison
 ```
 
-Required flow cho consequential path vẫn là:
+Required consequential path:
 
 ```text
 Agent/tool candidate evidence/proposal
-→ Go validation/grounding
-→ Go Decision/Policy
+→ Deterministic Core validation/grounding
+→ deterministic Decision/Policy
 → ActionIntent
 → orchestration/durable routing
 → approval/revalidation khi required
 → bounded execution
 → ExecutionRecord
 ```
-
-Không cho phép:
-
-```text
-Agent confidence → direct execution
-MCP tool available → permission granted
-browser navigation → trusted evidence
-Langfuse score → canonical fact
-Temporal resume → permission to execute
-OPA rule exists → bypass Go authorization contract
-```
-
-## 15. Replaceability
-
-| Role | Primary reference | Mandatory? |
-|---|---|---|
-| Domain/Governance core | Go | Go là primary learner path |
-| Orchestration | n8n | Không; contract/behavior mới là gate |
-| Orchestration comparison | Windmill | Không |
-| AgentRuntime | Hermes Agent candidate/reference | Không |
-| AgentRuntime comparison | OpenAI Agents SDK | Không |
-| Tool interoperability | MCP candidate | Không |
-| Browser acquisition | Playwright candidate | Không |
-| Telemetry | OpenTelemetry candidate | Không |
-| AI/Agent observability/eval | Langfuse candidate | Không |
-| Durable execution | Temporal candidate | Không |
-| Policy implementation | OPA candidate | Không |
-
-Một runtime/tool khác có thể thay candidate nếu đáp ứng tốt hơn permission, audit, retry/recovery, cost, security và operational simplicity mà không đổi Mission outcome.
-
-## 16. Freshness note
-
-Các capability, license/deployment model, SDK status, security guidance và tool-permission behavior thay đổi nhanh. Trước mỗi spike/adoption phải kiểm official docs/current version tại thời điểm đó.
-
-Đặc biệt phải re-check trước adoption:
-
-- OpenTelemetry signal/SDK maturity;
-- Langfuse ingestion/self-host/version requirements;
-- MCP specification + authorization revision;
-- Windmill/n8n licensing, Git/versioning và self-host behavior;
-- AgentRuntime tool approval/guardrail semantics;
-- Playwright/browser/platform compatibility;
-- Temporal deployment/durability semantics;
-- OPA SDK/Rego compatibility.
-
-Không đóng băng current feature list thành curriculum truth.
