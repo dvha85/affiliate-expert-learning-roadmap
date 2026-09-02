@@ -1,4 +1,4 @@
-# Phần 0 — FIRST EVIDENCE-BACKED DECISION
+# Phần 0 — Quyết định đầu tiên dựa trên bằng chứng
 
 - Timeline: **Evidence-gated; recalibrate after learner pilot**.
 - **Chapters:** C0–C2

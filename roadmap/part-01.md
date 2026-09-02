@@ -1,4 +1,4 @@
-# Phần 1 — TRUSTWORTHY DATA & GROUNDED AI
+# Phần 1 — Dữ liệu đáng tin cậy và AI có căn cứ bằng chứng
 
 - Timeline: **Evidence-gated; recalibrate after learner pilot**.
 - **Chapters:** C3–C5

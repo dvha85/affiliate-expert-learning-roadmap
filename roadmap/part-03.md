@@ -1,4 +1,4 @@
-# Phần 3 — OUTCOME-DRIVEN IMPROVEMENT
+# Phần 3 — Cải tiến dựa trên outcome
 
 - Timeline: **Evidence-gated; experiment duration follows the declared observation window**.
 - **Chapters:** C9–C11

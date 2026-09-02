@@ -1,4 +1,4 @@
-# Phần 4 — RELIABLE INTELLIGENCE & ORCHESTRATION
+# Phần 4 — Intelligence đáng tin cậy và orchestration
 
 - Timeline: **Evidence-gated; reliability and evaluation cases determine completion**.
 - **Chapters:** C12–C14

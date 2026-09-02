@@ -36,6 +36,9 @@ jobs:
       - name: Run Vietnamese language policy validator
         run: python scripts/validate_language_policy.py
 
+      - name: Run Vietnamese heading validator
+        run: python scripts/validate_vietnamese_headings.py
+
       - name: Run hardening validator
         run: python scripts/validate_hardening.py
 
