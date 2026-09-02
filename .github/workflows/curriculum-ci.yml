@@ -24,6 +24,9 @@ jobs:
       - name: Run curriculum validator
         run: python scripts/validate_curriculum.py
 
+      - name: Run Mission authoring-state validator
+        run: python scripts/validate_mission_status.py
+
       - name: Run authority drift validator
         run: python scripts/validate_authority.py
 

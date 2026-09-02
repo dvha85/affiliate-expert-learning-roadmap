@@ -13,11 +13,13 @@ Mission ≠ Lesson ≠ Milestone ≠ Bot Version
 
 ## Spine
 
+> `status` trong front matter của từng Mission file là **nguồn chuẩn cho authoring state**. Bảng dưới đây chỉ là projection để đọc nhanh và được CI kiểm tra không được drift khỏi front matter.
+
 | Mission | Outcome | Authoring |
 |---|---|---|
 | [M00](M00-first-evidence-backed-decision.md) | First evidence-backed decision | ready |
-| [M01](M01-trustworthy-history.md) | Trustworthy history | draft |
-| [M02](M02-grounded-ai-advisor.md) | Grounded AI advisor | draft |
+| [M01](M01-trustworthy-history.md) | Trustworthy history | ready |
+| [M02](M02-grounded-ai-advisor.md) | Grounded AI advisor | ready |
 | [M03](M03-first-tracked-manual-publish.md) | First tracked manual publish | draft |
 | M04 | Real outcome analytics | planned |
 | M05 | First real improvement loop | planned |
