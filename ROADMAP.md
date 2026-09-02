@@ -1,4 +1,4 @@
-# Roadmap — Outcome-Driven Hybrid Core
+# Roadmap — Core Hybrid hướng outcome
 
 > **Active canonical:** [`CURRICULUM.md`](CURRICULUM.md).
 > Runtime architecture authority: [`docs/ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md`](docs/ADR-003-HYBRID-GO-N8N-AGENT-RUNTIME.md).
@@ -8,7 +8,7 @@ Hai syllabus trong `sources/` là historical research input. Chúng không còn 
 
 Tổng cộng: **7 phần · 21 chương · 63 bài học**.
 
-## Learner execution
+## Cách người học thực thi
 
 ```text
 Open current Mission
@@ -23,7 +23,7 @@ Open current Mission
 
 Roadmap không phải reading order. Framework capability cũng không tự nâng Bot authority.
 
-## Hybrid architecture spine
+## Trục kiến trúc Hybrid
 
 Ba capability lane trưởng thành song song:
 
@@ -50,19 +50,19 @@ Agent investigates / reasons / proposes.
 n8n coordinates when / where / how workflows run.
 ```
 
-## Core index
+## Chỉ mục Core
 
 | Phần | Trọng tâm | Chương | Bài | Missions | Trạng thái |
 |---|---|---:|---:|---|---|
-| [Phần 0](roadmap/part-00.md) | First Evidence-Backed Decision | 0–2 | 9 | M00 | ⬜ |
-| [Phần 1](roadmap/part-01.md) | Trustworthy Data & Grounded AI | 3–5 | 9 | M01–M02 | ⬜ |
-| [Phần 2](roadmap/part-02.md) | First Tracked Market Loop | 6–8 | 9 | M03–M04 | ⬜ |
-| [Phần 3](roadmap/part-03.md) | Outcome-Driven Improvement | 9–11 | 9 | M05 | ⬜ |
-| [Phần 4](roadmap/part-04.md) | Reliable Intelligence & Orchestration | 12–14 | 9 | M06–M07 | ⬜ |
-| [Phần 5](roadmap/part-05.md) | Tool Agent & Governed Automation | 15–17 | 9 | M08–M10 | ⬜ |
-| [Phần 6](roadmap/part-06.md) | Hybrid Production Closed Loop | 18–20 | 9 | M11 | ⬜ |
+| [Phần 0](roadmap/part-00.md) | Quyết định đầu tiên dựa trên bằng chứng | 0–2 | 9 | M00 | ⬜ |
+| [Phần 1](roadmap/part-01.md) | Dữ liệu đáng tin và AI có grounding | 3–5 | 9 | M01–M02 | ⬜ |
+| [Phần 2](roadmap/part-02.md) | Vòng thị trường có tracking đầu tiên | 6–8 | 9 | M03–M04 | ⬜ |
+| [Phần 3](roadmap/part-03.md) | Cải tiến dựa trên outcome | 9–11 | 9 | M05 | ⬜ |
+| [Phần 4](roadmap/part-04.md) | Intelligence đáng tin và orchestration | 12–14 | 9 | M06–M07 | ⬜ |
+| [Phần 5](roadmap/part-05.md) | Tool Agent và tự động hóa có quản trị | 15–17 | 9 | M08–M10 | ⬜ |
+| [Phần 6](roadmap/part-06.md) | Vòng production Hybrid khép kín | 18–20 | 9 | M11 | ⬜ |
 
-## Mission spine + hybrid maturity
+## Trục Mission và mức trưởng thành Hybrid
 
 | Mission | Domain / Governance | Automation / Orchestration | Intelligence / Agent | Evidence |
 |---|---|---|---|---|
@@ -81,7 +81,7 @@ n8n coordinates when / where / how workflows run.
 
 Chi tiết mapping Mission↔Lesson và evidence gate nằm trong [`CURRICULUM.md`](CURRICULUM.md).
 
-## Framework progression
+## Tiến triển framework
 
 ### n8n
 
@@ -117,7 +117,7 @@ Agent confidence không thay evidence và không thay execution permission.
 - `0`, `missing`, `inconclusive` và `not_yet_observable` là bốn trạng thái khác nhau.
 - n8n/Hermes/Agent framework không phải PASS shortcut.
 
-## Milestone gates
+## Các cổng milestone
 
 | Gate | Missions | Demo outcome |
 |---|---|---|
@@ -126,14 +126,14 @@ Agent confidence không thay evidence và không thay execution permission.
 | G3 — First Market Learning Loop | M03–M05 | Tracked publication + real outcome + reviewed improvement + first safe orchestration exposure |
 | G4 — Governed Hybrid Production Loop | M06–M11 | Reliable orchestration + governed Agent/tools/actions + production outcome loop |
 
-## Technology references — không phải dependency cứng
+## Tài liệu tham chiếu công nghệ — không phải dependency cứng
 
 - `n8n` — **primary orchestration reference**; first learning slice ở M04, production relevance tăng từ M06.
 - `Hermes Agent` — **primary Agent runtime reference/candidate** cho read-only tool-use từ M08.
 
 Chi tiết adoption/fallback/replaceability: [`docs/TECHNOLOGY-CANDIDATES.md`](docs/TECHNOLOGY-CANDIDATES.md).
 
-## Advanced modules — ngoài Core/PASS
+## Module nâng cao — ngoài Core/PASS
 
 | ID | Module |
 |---|---|
@@ -152,7 +152,7 @@ Chi tiết adoption/fallback/replaceability: [`docs/TECHNOLOGY-CANDIDATES.md`](d
 
 Advanced module chỉ được mở sau khi có Core evidence và một use case/bottleneck thật.
 
-## Reference — không có PASS
+## Tài liệu tham chiếu — không có PASS
 
 Platform/legal/tax current facts, glossary, provider matrix, deployment recipes, security, technology references và troubleshooting checklists là reference. Nội dung biến động phải có source/freshness metadata.
 
@@ -164,7 +164,7 @@ Platform/legal/tax current facts, glossary, provider matrix, deployment recipes,
 - ✅ Mission/Part PASS
 - ⛔ Blocked, có blocker evidence
 
-## Authority
+## Thứ tự authority
 
 ```text
 CURRICULUM.md
