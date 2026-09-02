@@ -99,7 +99,14 @@ M10  GOVERNED_CANARY_TRAJECTORY
 M11  PRODUCTION_CLOSED_LOOP
 ```
 
-Mỗi evidence phải ghi rõ `real`, `test`, `synthetic` hoặc `replay`. Fixture có thể chứng minh code path, nhưng không tạo `REALITY_VERIFIED`.
+Ở mức khái niệm, evidence phải tách **nguồn gốc/eligibility** khỏi **vai trò sử dụng**:
+
+```text
+origin / eligibility: real | synthetic
+use context khi relevant: test | replay
+```
+
+Hai chiều có thể chồng nhau: một synthetic fixture có thể được dùng cho test; một snapshot từng là real observation có thể được replay về sau. Không ép `real | synthetic | test | replay` thành bốn giá trị loại trừ trên cùng một enum. Fixture có thể chứng minh code path, nhưng không tạo `REALITY_VERIFIED`.
 
 ### Click, order và doanh thu
 
@@ -211,7 +218,7 @@ Observation
 Trường tối thiểu khi relevant:
 
 - source, `observed_at`, freshness và access/permission method;
-- `evidence_kind: real | test | synthetic | replay`;
+- `evidence_kind: real | synthetic` khi contract M00 áp dụng; `test`/`replay` được lưu như role/use context hoặc metadata tương đương khi relevant;
 - `fact | estimate | assumption | unknown`;
 - human prediction trước Bot output;
 - actor thực thi, risk, approval và exact side effect;
