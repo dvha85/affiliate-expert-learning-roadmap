@@ -20,12 +20,30 @@ M01 tạo deterministic Bot v0.1; M02 thêm trustworthy history/replay. M03 mớ
 
 ## Evidence taxonomy
 
-- origin/eligibility: `real | synthetic`;
-- use context khi relevant: `test | replay`;
-- claim: `fact | estimate | assumption | unknown`;
-- `0`, `missing`, `pending`, `not_yet_observable`, `inconclusive` là state khác nhau.
+Canonical semantics:
 
-Synthetic data hữu ích cho test/replay nhưng không chứng minh market reality.
+- origin / eligibility: real | synthetic
+- use context khi relevant: test | replay
+- `evidence_kind: real | synthetic` khi contract M00 áp dụng
+- Không ép `real | synthetic | test | replay` thành bốn giá trị loại trừ trên cùng một enum.
+
+Claim semantics:
+
+```text
+fact | estimate | assumption | unknown
+```
+
+Missing/outcome semantics:
+
+```text
+0
+missing
+pending
+not_yet_observable
+inconclusive
+```
+
+Các state trên không được tự đổi thành nhau để “cho pipeline chạy tiếp”. Synthetic data hữu ích cho test/replay nhưng không chứng minh market reality.
 
 ## Authority progression
 
