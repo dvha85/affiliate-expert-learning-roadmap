@@ -47,7 +47,7 @@ REPOSITORY ENFORCEMENT
 
 ## 4. Repository metadata
 
-Description không được hard-code inventory dễ drift như `23 parts / 671 lessons`.
+Description không được hard-code các con số inventory lịch sử dễ drift.
 
 Mô tả đề xuất:
 
