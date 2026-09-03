@@ -2,6 +2,8 @@
 
 Mục tiêu của repo là giúp người mới xây một **Affiliate Intelligence Bot tiến hóa dần tới tự động hóa cao nhưng vẫn kiểm soát được**.
 
+Nội dung learner-facing ưu tiên tiếng Việt; xem [`docs/VIETNAMESE-LANGUAGE-STYLE.md`](docs/VIETNAMESE-LANGUAGE-STYLE.md).
+
 ## Bắt đầu ở đâu?
 
 1. Đọc [`CURRICULUM.md`](CURRICULUM.md) — nguồn chuẩn về Mission sequence, evidence và authority.
