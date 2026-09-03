@@ -34,9 +34,7 @@ func evidenceKindExplanation(kind string) string {
 func decisionStateExplanation(state decision.State) string {
 	switch state {
 	case decision.StateRankScenario:
-		return "xếp hạng kịch bản; chưa phải khuyến nghị hành động"
-	case decision.StateRecommend:
-		return "đủ điều kiện của baseline hiện tại để đưa ra khuyến nghị sơ bộ"
+		return "xếp hạng kịch bản; chưa phải khuyến nghị hay quyền hành động"
 	case decision.StateGetMoreData:
 		return "chưa đủ bằng chứng; cần thu thập thêm dữ liệu"
 	case decision.StateHumanReview:
@@ -54,7 +52,7 @@ func run(args []string, out io.Writer) error {
 	result := decision.Evaluate(records)
 
 	fmt.Fprintln(out, "Affiliate Bot đang khởi động...")
-	fmt.Fprintln(out, "Phiên bản Bot (Bot version): pre-v0.1")
+	fmt.Fprintln(out, "Phiên bản Bot (Bot version): v0.1 deterministic baseline")
 	fmt.Fprintf(out, "Loại bằng chứng (Evidence kind): %s (%s)\n", result.EvidenceMode, evidenceKindExplanation(result.EvidenceMode))
 	fmt.Fprintf(out, "Số quan sát (Observations) đã nạp: %d\n", len(records))
 	fmt.Fprintf(out, "Phiên bản công thức (Formula version): %s\n", formulaVersion)
@@ -65,14 +63,15 @@ func run(args []string, out io.Writer) error {
 	}
 	fmt.Fprintf(out, "Trạng thái quyết định (Decision state): %s (%s)\n", result.State, decisionStateExplanation(result.State))
 	if len(result.MissingEvidence) == 0 {
-		fmt.Fprintln(out, "Bằng chứng còn thiếu (Missing evidence): không có theo yêu cầu của baseline hiện tại")
+		fmt.Fprintln(out, "Bằng chứng còn thiếu (Missing evidence): không có theo yêu cầu của baseline hiện tại; business evidence vẫn có thể chưa đủ")
 	} else {
 		fmt.Fprintln(out, "Bằng chứng còn thiếu (Missing evidence):")
 		for _, issue := range result.MissingEvidence {
 			fmt.Fprintf(out, "- %s\n", issue)
 		}
 	}
-	fmt.Fprintln(out, "Khoảng trống tiếp theo (Next gap): lưu xếp hạng của con người trước, sau đó so sánh lý do và giả định yếu nhất (weakest assumption).")
+	fmt.Fprintln(out, "Authority boundary: real evidence không tự nâng RANK_SCENARIO thành RECOMMEND; output này không phải approval hay execution permission.")
+	fmt.Fprintln(out, "Khoảng trống tiếp theo (Next gap): so sánh scenario với Human DecisionPacket và ghi assumption/missing evidence cần đo tiếp.")
 	return nil
 }
 
