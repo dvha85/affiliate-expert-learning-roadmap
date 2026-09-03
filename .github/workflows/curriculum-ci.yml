@@ -24,6 +24,9 @@ jobs:
       - name: Run curriculum validator
         run: python scripts/validate_curriculum.py
 
+      - name: Run v2 lesson projection validator
+        run: python scripts/validate_lesson_v2_map.py
+
       - name: Run Mission authoring-state validator
         run: python scripts/validate_mission_status.py
 

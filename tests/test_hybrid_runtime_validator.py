@@ -28,21 +28,51 @@ class HybridRuntimeValidatorTests(unittest.TestCase):
         problems = validator.validate(ROOT)
         self.assertEqual([], problems, "\n".join(str(p) for p in problems))
 
-    def test_early_n8n_adoption_is_rejected(self):
+    def test_early_n8n_agent_adoption_is_rejected_in_v2_m04(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            write(root, "missions/M02-grounded-ai-advisor.md", "Use n8n to run the workflow")
+            write(root, "missions/M04-grounded-ai-advisor.md", "Use n8n AI Agent to run M04")
             problems = []
             validator.check_no_early_runtime_adoption(root, problems)
-            self.assertTrue(any(p.code == "HYB005" and "n8n" in p.message for p in problems))
+            self.assertTrue(any(p.code == "HYB005" for p in problems))
 
     def test_early_decisionrules_adoption_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            write(root, "missions/M00-first-evidence-backed-decision.md", "DecisionRules is mandatory")
+            write(root, "missions/M00-first-safe-market-loop.md", "DecisionRules is mandatory")
             problems = []
             validator.check_no_early_runtime_adoption(root, problems)
             self.assertTrue(any(p.code == "HYB005" and "DecisionRules" in p.message for p in problems))
+
+    def test_part02_rejects_legacy_m04_orchestration_slice(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(
+                root,
+                "roadmap/part-02.md",
+                "M03 Trustworthy History & Measurement + M04 Grounded AI Advisor\n"
+                "Manual/read-only path là baseline\n"
+                "M04: A1 advisory only — không tool use, write, publish, account mutation hay autonomous loop.\n"
+                "structured ≠ grounded\nAI recommendation ≠ execution permission\n"
+                "First orchestration learning slice — M04\n",
+            )
+            problems = []
+            validator.check_part02_boundary(root, problems)
+            self.assertTrue(any(p.code == "HYB006" and "forbidden" in p.message for p in problems))
+
+    def test_part02_requires_a1_no_tool_boundary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(
+                root,
+                "roadmap/part-02.md",
+                "M03 Trustworthy History & Measurement + M04 Grounded AI Advisor\n"
+                "Manual/read-only path là baseline\n"
+                "structured ≠ grounded\nAI recommendation ≠ execution permission\n",
+            )
+            problems = []
+            validator.check_part02_boundary(root, problems)
+            self.assertTrue(any(p.code == "HYB006" and "A1 advisory only" in p.message for p in problems))
 
     def test_part04_must_keep_deterministic_policy_owner(self):
         with tempfile.TemporaryDirectory() as tmp:

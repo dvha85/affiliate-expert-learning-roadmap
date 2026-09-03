@@ -76,22 +76,57 @@ def check_roadmap_maturity(root: Path, problems: list[Problem]) -> None:
 
 
 def check_no_early_runtime_adoption(root: Path, problems: list[Problem]) -> None:
+    # Reality-First v2 keeps M00-M04 free of autonomous/tool runtime adoption.
+    # Legacy v1 mission files are retained for history and must also not be edited
+    # into an early-runtime shortcut.
     early_paths = (
-        "roadmap/part-00.md", "roadmap/part-01.md",
+        "roadmap/part-00.md", "roadmap/part-01.md", "roadmap/part-02.md",
+        "missions/M00-first-safe-market-loop.md",
+        "missions/M01-first-outcome-snapshot.md",
+        "missions/M02-smallest-deterministic-bot.md",
+        "missions/M03-trustworthy-history-and-measurement.md",
+        "missions/M04-grounded-ai-advisor.md",
         "missions/M00-first-evidence-backed-decision.md", "missions/M01-trustworthy-history.md",
         "missions/M02-grounded-ai-advisor.md", "missions/M03-first-tracked-manual-publish.md",
     )
     for rel in early_paths:
         text = read(root, rel)
-        for marker in ("n8n", "Hermes Agent", "DecisionRules"):
+        for marker in ("Hermes Agent", "DecisionRules"):
             if marker in text:
                 problems.append(Problem("HYB005", rel, f"concrete runtime {marker!r} adopted too early"))
 
+    # n8n may be mentioned as a future/non-default option in reference prose, but
+    # M00-M04 must not make it an active execution requirement or Agent runtime.
+    active_v2 = (
+        "missions/M00-first-safe-market-loop.md",
+        "missions/M01-first-outcome-snapshot.md",
+        "missions/M02-smallest-deterministic-bot.md",
+        "missions/M03-trustworthy-history-and-measurement.md",
+        "missions/M04-grounded-ai-advisor.md",
+    )
+    forbidden_n8n = (
+        r"n8n\s+(is|required|mandatory|executes|publishes|owns)",
+        r"n8n AI Agent",
+        r"n8n read-only/import workflow",
+    )
+    for rel in active_v2:
+        reject(root, rel, "HYB005", forbidden_n8n, problems)
+
 
 def check_part02_boundary(root: Path, problems: list[Problem]) -> None:
+    # ADR-005 Reality-First v2 moved the old M04 orchestration slice out of this
+    # stage. Part 02 now ends at deterministic history + A1 grounded advisory.
     require(root, "roadmap/part-02.md", "HYB006", (
-        "First orchestration learning slice — M04", "manual trigger", "n8n read-only/import workflow",
-        "Deterministic Core validate + reconcile", "Human\n= actor duy nhất được publish",
+        "M03 Trustworthy History & Measurement + M04 Grounded AI Advisor",
+        "Manual/read-only path là baseline",
+        "M04: A1 advisory only — không tool use, write, publish, account mutation hay autonomous loop.",
+        "structured ≠ grounded",
+        "AI recommendation ≠ execution permission",
+    ), problems)
+    reject(root, "roadmap/part-02.md", "HYB006", (
+        r"First orchestration learning slice\s*[—-]\s*M04",
+        r"n8n AI Agent.*M04",
+        r"M04.*n8n read-only/import workflow",
     ), problems)
 
 

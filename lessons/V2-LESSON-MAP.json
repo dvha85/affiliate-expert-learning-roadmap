@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "curriculum_version": 2,
+  "authority": "This file is the canonical v2 projection for reusable lesson knowledge. Front matter retained inside v1-authored lesson bodies is historical metadata unless this map says otherwise.",
+  "rules": {
+    "lesson_id_is_reading_order": false,
+    "mission_pull_is_context_driven": true,
+    "legacy_front_matter_may_define_v2_readiness": false,
+    "knowledge_credit_resets_on_migration": false
+  },
+  "lessons": {
+    "0.1": {"body_generation": "v1", "v2_role": "reference", "v2_mission_refs": ["M02"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "0.2": {"body_generation": "v1", "v2_role": "reusable_on_demand", "v2_mission_refs": ["M00", "M02", "M03", "M04"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "0.3": {"body_generation": "v1", "v2_role": "reference", "v2_mission_refs": ["M02"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "1.1": {"body_generation": "v1", "v2_role": "reusable_on_demand", "v2_mission_refs": ["M00", "M02"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "1.2": {"body_generation": "v1", "v2_role": "reusable_on_demand", "v2_mission_refs": ["M00", "M02"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "1.3": {"body_generation": "v1", "v2_role": "reusable_on_demand", "v2_mission_refs": ["M02", "M03"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "2.1": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M02"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "2.2": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M02"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "2.3": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M02", "M07"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "3.1": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M03"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "3.2": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M03"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "3.3": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M03"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "4.1": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M03"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "4.2": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M03"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "4.3": {"body_generation": "v1", "v2_role": "on_demand", "v2_mission_refs": ["M03"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "5.1": {"body_generation": "v1", "v2_role": "reference", "v2_mission_refs": ["M04"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "5.2": {"body_generation": "v1", "v2_role": "reference", "v2_mission_refs": ["M04"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "5.3": {"body_generation": "v1", "v2_role": "reference", "v2_mission_refs": ["M04"], "hard_prerequisites": [], "legacy_front_matter_retained": true},
+    "6.1": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M00"], "hard_prerequisites": []},
+    "6.2": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M00"], "hard_prerequisites": []},
+    "6.3": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M00"], "hard_prerequisites": []},
+    "7.1": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M00"], "hard_prerequisites": []},
+    "7.2": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M01"], "hard_prerequisites": []},
+    "7.3": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M01", "M03"], "hard_prerequisites": []},
+    "8.1": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M04"], "hard_prerequisites": []},
+    "8.2": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M04"], "hard_prerequisites": []},
+    "8.3": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M04"], "hard_prerequisites": []},
+    "9.1": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M05"], "hard_prerequisites": []},
+    "10.1": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M05"], "hard_prerequisites": []},
+    "11.1": {"body_generation": "v2", "v2_role": "on_demand", "v2_mission_refs": ["M05"], "hard_prerequisites": []}
+  }
+}

@@ -1,33 +1,13 @@
-# Phần 1 — Dữ liệu đáng tin cậy và AI có căn cứ bằng chứng
+# Phần 1 — Outcome và deterministic baseline
 
-> **V1 inventory/reference detail.** In v2 this Part is pulled by M01 First
-> Outcome Snapshot and M02 Smallest Deterministic Bot. The History/AI sequence
-> below is retained knowledge lineage, not active Mission numbering.
-
-- Timeline: **Evidence-gated; recalibrate from personal actuals (`n=1`)**.
+- Timeline: **Evidence-gated; M01 và M02 có thể chạy song song sau M00**.
 - **Chapters:** C3–C5
 - **Core:** 9 micro-lessons
-- **Missions:** M01–M02
-- **Outcome:** Bot giữ lịch sử/provenance đáng tin cậy và AI chỉ enrich một deterministic baseline có grounding + fallback.
+- **Mission focus v2:** M01 First Outcome Snapshot + M02 Smallest Deterministic Bot; C3–C5 giữ knowledge lineage cho M03/M04.
 
-## Trạng thái authoring
+## Cách đọc Part 01 trong v2
 
-- **Chương 3:** learner-ready — canonical ingest/identity/validation/normalization.
-- **Chương 4:** learner-ready — append-only history, delta/freshness, second E1 observation + restart.
-- **M01:** learner-ready; Mission chỉ DONE khi Capability + Reality E1 + Operated đều đạt.
-- **Chương 5:** learner-ready — call/skip AI, grounding, evaluation và deterministic fallback.
-- **M02:** learner-ready; Mission chỉ DONE khi Capability + Reality E1 + Operated đều đạt.
-
-## Attempt trước knowledge pull
-
-1. M01 Checkpoint 1: đưa data xấu/ambiguous qua ingest M00 hiện có, quan sát identity/validation gap rồi mới pull Chương 3.
-2. M01 Checkpoint 2: cố ý ghi đè snapshot để quan sát data loss trước khi pull `4.1–4.2`.
-3. M01 Checkpoint 3: second E1 observation + restart + raw change report trước khi pull `4.3`.
-4. M02 Checkpoint 1: human-label eval subset + deterministic baseline trước khi pull `5.1`.
-5. M02 Checkpoint 2: chạy untrusted AI replay outputs trước validation rồi mới pull `5.2`.
-6. M02 Checkpoint 3: chạy valid/invalid/unsupported/unavailable/injection/skip matrix trước khi pull `5.3`.
-
-## Core checklist
+Canonical projection nằm tại [`lessons/V2-LESSON-MAP.json`](../lessons/V2-LESSON-MAP.json). Front matter cũ của `3.x–5.x` là historical v1 metadata, không phải active Mission order.
 
 ### Chương 3 — Minimal trustworthy ingest
 
@@ -35,15 +15,7 @@
 - [ ] **3.2** — [Validation contract, clear errors và failure-path tests](../lessons/part-01/chapter-03/3.2-validation-clear-errors-failure-tests.md)
 - [ ] **3.3** — [Normalization, provenance và source boundary nhỏ nhất](../lessons/part-01/chapter-03/3.3-normalization-provenance-source-boundary.md)
 
-Chương 3 kết thúc ở:
-
-```text
-M00 E1 observation
-→ stable subject identity
-→ strict validation
-→ canonical normalization
-→ provenance-preserving observation
-```
+V2 projection: `3.1–3.3` là active on-demand knowledge cho M03, không phải prerequisite của M01/M02.
 
 ### Chương 4 — History và change observation
 
@@ -51,132 +23,36 @@ M00 E1 observation
 - [ ] **4.2** — [Delta, timestamp, freshness và historical query](../lessons/part-01/chapter-04/4.2-delta-timestamp-freshness-historical-query.md)
 - [ ] **4.3** — [Second observation cycle, restart và change report](../lessons/part-01/chapter-04/4.3-second-observation-restart-change-report.md)
 
-Chương 4 hoàn thành:
+V2 projection: `4.1–4.3` là active on-demand knowledge cho M03 Trustworthy History & Measurement.
 
-```text
-overwrite failure
-→ immutable append-only history
-→ exact duplicate vs conflict
-→ preserve valid out-of-order evidence
-→ historical query by observed_at
-→ delta semantics
-→ freshness(as_of, policy)
-→ second E1 observation
-→ restart proof
-→ deterministic change report
-```
-
-M01 không yêu cầu thị trường phải thay đổi. `UNCHANGED` là Reality outcome hợp lệ nếu t1/t2 đều là E1 observations thật.
-
-### Chương 5 — Grounded AI advisory
+### Chương 5 — Grounded AI advisory reference
 
 - [ ] **5.1** — [Chọn quy tắc tất định hay AI theo giá trị quyết định](../lessons/part-01/chapter-05/5.1-deterministic-rule-hay-ai-theo-decision-value.md)
 - [ ] **5.2** — [Trích xuất có cấu trúc với tham chiếu bằng chứng và độ bất định](../lessons/part-01/chapter-05/5.2-structured-extraction-evidence-refs-uncertainty.md)
 - [ ] **5.3** — [Đánh giá case, từ chối output sai, fallback, chi phí và riêng tư](../lessons/part-01/chapter-05/5.3-eval-rejection-fallback-cost-privacy.md)
 
-Chương 5 chỉ bắt đầu sau M01 PASS và phải hoàn thành flow:
+V2 projection: `5.1–5.3` là detailed reference cho M04. Active M04 sequence nằm ở `8.1–8.3` để tránh nhầm v1 Mission numbering với v2.
 
-```text
-E1 history
-→ human labels before AI
-→ deterministic baseline FIRST
-→ CALL_AI | SKIP_AI
-→ untrusted AI output
-→ strict schema validation
-→ evidence ref exists?
-→ evidence actually supports claim?
-→ fact | hypothesis | missing evidence
-→ grounded advisory | reject | fallback
-→ human-visible analysis
-→ no scoring mutation
-→ no Action
-```
+## M01 active knowledge pull
 
-Rule bắt buộc:
+- `7.2` observation window, zero, missing, pending, not-yet-observable.
+- `7.3` provenance/reconciliation khi source/scope/config ambiguity xuất hiện.
 
-```text
-structured ≠ grounded
-citation/ref exists ≠ claim supported
-AI confidence ≠ evidence
-AI recommendation ≠ execution permission
-```
+M01 không cần database, history engine, AI hay n8n để PASS.
 
-M02 là **AI Advisor (A1)**, không phải Agent runtime: không tool use, không autonomous loop, không write authority và không Action execution.
+## M02 active knowledge pull
 
-Prompt-injection case chỉ PASS khi đồng thời giữ:
+- `0.2` evidence/claim distinction.
+- `2.1` human baseline trước Bot.
+- `2.2` naive score/Expected Value limitation.
+- `2.3` explainable decision, uncertainty và abstain.
 
-```text
-authority containment
-+
-analysis integrity / grounding
-```
+`0.1` là reference cho learner dùng Go builder profile, không phải coding quota.
 
-Tức là injected content không được tăng quyền **và** không được bypass schema/ref/support gate để trở thành grounded fact/scoring input.
+## Part PASS theo v2
 
-M02 chỉ đánh giá analysis/information utility trên E1 eval set. Không được tuyên bố AI tăng conversion/revenue trước khi có outcome evidence ở Mission sau.
-
-## M01 gate trước M02
-
-Trước khi sang M02 phải chứng minh:
-
-```text
-Capability
-+ Reality E1
-+ Operated
-```
-
-Tối thiểu:
-
-- canonical ingest chạy đúng;
-- stable `subject_id` tách `observation_id`;
-- history append-only + durable qua restart;
-- duplicate/conflict/out-of-order semantics rõ;
-- delta không trộn missing/zero/unchanged;
-- freshness dùng explicit `as_of/policy`;
-- ít nhất một subject thật có E1 observations tại t1 và t2;
-- same history/as_of/policy cho report deterministic;
-- M00 behavior không regression;
-- S0, không external side effect.
-
-## M02 gate trước Part 02 / M03
-
-M02 chỉ DONE khi:
-
-```text
-Capability
-+ Reality E1
-+ Operated
-```
-
-Tối thiểu:
-
-- deterministic core chạy khi Advisor absent/unavailable;
-- explicit `CALL_AI | SKIP_AI` + reason;
-- human labels tồn tại trước AI output;
-- strict advisory schema;
-- evidence-ref validity + claim-support grounding;
-- fact/hypothesis/missing tách rõ;
-- unsupported claim không mutate Product/history/scoring facts;
-- injection không tăng authority và không bypass grounding;
-- replay/live execution evidence được phân loại trung thực;
-- valid/invalid/unsupported/fallback/injection/skip cases được vận hành;
-- no tool/write/external side effect;
-- S1 authority ceiling giữ nguyên.
-
-## Part PASS
-
-- [ ] M01–M02 đều có Capability PASS, Reality verified và Operated
-- [ ] Stable subject identity không bị trộn với observation identity
-- [ ] Snapshot cũ không bị overwrite và query history được
-- [ ] Valid out-of-order evidence không bị silently drop
-- [ ] Freshness không được invent khi thiếu policy
-- [ ] Core product decision vẫn chạy khi AI unavailable
-- [ ] Có ít nhất một `SKIP_AI` case hợp lý
-- [ ] Evidence ref tồn tại nhưng không support claim vẫn bị chặn
-- [ ] Unsupported AI claim không trở thành scoring/history fact
-- [ ] Prompt injection không đổi authority và không vượt grounding gates
-- [ ] Replay không bị trình bày như live provider evidence
-- [ ] M02 không claim business lift từ E1-only evaluation
-- [ ] AI không có tool/write/execution authority
+- M01 cần E3 outcome snapshot thật hoặc blocker trung thực; zero/inconclusive hợp lệ.
+- M02 cần deterministic baseline audit được; implementation có thể visual/no-code hoặc Go reference theo ADR-004.
+- M01 + M02 là dependency cho M03; hoàn thành C3–C5 trước không thay Mission evidence gate.
 
 [← Part trước](part-00.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-02.md)
