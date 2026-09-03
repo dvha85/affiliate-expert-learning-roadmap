@@ -180,10 +180,10 @@ def check_mission_semantics(mission_id: str, text: str, front: str, rel: str, pr
     if mission_id == "M00":
         actor = re.search(r'^\s{2}execution_actor:\s*"([^"]+)"\s*$', front, re.MULTILINE)
         side = re.search(r'^\s{2}external_side_effects:\s*(true|false)\s*$', front, re.MULTILINE)
-        if not actor or actor.group(1) != "none" or not side or side.group(1) != "false": problems.append(Problem("BUILD017", rel, "M00 phải khai báo no external execution (execution_actor=none, external_side_effects=false)"))
-        require_semantic(text, (r"public observations|E1", r"DecisionPacket", r"NO external execution|không.*external"), rel, "M00 phải có E1 public evidence + Human DecisionPacket và không external execution", problems)
+        if not actor or actor.group(1) != "none" or not side or side.group(1) != "false": problems.append(Problem("BUILD017", rel, "M00 phải no external execution; legacy human_only manual market loop không còn là M00"))
+        require_semantic(text, (r"public observations|E1", r"DecisionPacket", r"NO external execution|không.*external"), rel, "M00 phải có E1 public evidence + Human DecisionPacket, không external execution; disclosure/tracking thuộc action stage sau", problems)
     elif mission_id == "M01":
-        require_semantic(text, (r"deterministic|tất định", r"RANK_SCENARIO", r"GET_MORE_DATA", r"HUMAN_REVIEW", r"no AI|không AI"), rel, "M01 phải là deterministic Bot với abstention và no AI/tool/action", problems)
+        require_semantic(text, (r"deterministic|tất định", r"RANK_SCENARIO", r"GET_MORE_DATA", r"HUMAN_REVIEW", r"no AI|không AI"), rel, "M01 phải là deterministic Bot với abstention và no AI/tool/action; analytics/export/outcome thật thuộc stage sau", problems)
     elif mission_id == "M02":
         require_semantic(text, (r"append-only", r"replay", r"provenance", r"freshness"), rel, "M02 phải có trustworthy append-only history, provenance/freshness và replay", problems)
     elif mission_id == "M03":
