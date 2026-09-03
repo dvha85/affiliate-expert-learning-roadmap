@@ -1,77 +1,67 @@
-# Roadmap v2 — Reality-First Affiliate Intelligence Bot
+# Roadmap — Affiliate Intelligence Bot có kiểm soát
 
-> Active canonical: [CURRICULUM.md](CURRICULUM.md). Architecture authority:
-> [ADR-004](docs/ADR-004-DETERMINISTIC-CORE-IMPLEMENTATION-FLEXIBILITY.md) and
-> [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md).
+> Sequence authority: [`CURRICULUM.md`](CURRICULUM.md). Learner-facing lesson order: [`curriculum/README.md`](curriculum/README.md).
 
 Tổng cộng: **7 phần · 21 chương · 63 bài học**.
 
-`roadmap/part-00..06.md` continues to index the current 63 knowledge IDs. In
-v2 those IDs are pulled on demand, not read sequentially. Their v1 wording is
-being remapped before any v2 Mission becomes `ready`.
+> Con số trên hiện chỉ giữ **reference knowledge inventory** để provenance/validator cũ còn hoạt động trong quá trình cleanup. Learner mới không học tuần tự theo 63 numeric IDs.
 
-## Cách thực thi
+## Learner progression hiện hành
 
 ```text
-open the current Mission
-→ attempt a small real/manual context
-→ observe a concrete gap
-→ pull at most three knowledge slices
-→ improve/test
-→ collect evidence and explain limits
+BOOT.1 (nếu cần)
+→ M00 real evidence
+→ M01 deterministic Bot
+→ M02 trustworthy history/replay
+→ M03 human action + measurement
+→ M04 grounded AI
+→ M05 reviewed improvement
+→ M06 automatic read-only
+→ M07 read-only Agent
+→ M08 shadow ActionIntent
+→ M09 durable approval + executor
+→ M10 bounded auto-action
+→ M11 production closed loop
 ```
 
-## Chỉ mục Core
+## Mission roadmap
 
-| Phần | Trọng tâm v2 | Chương | Bài | Missions | Trạng thái |
+| Mission | Product outcome | Reality | Authority |
+|---|---|---|---|
+| M00 | First Real Evidence Packet + Human DecisionPacket | E1 | human/read-only |
+| M01 | Smallest Deterministic Bot v0.1 | E0 + E1 support | A0 deterministic |
+| M02 | Trustworthy History + Replay v0.2 | E1/E3-ready | A0 deterministic |
+| M03 | First Tracked Human Action + outcome context | E2→E3 | human executes |
+| M04 | Grounded AI Advisor | E3 | A1 advisory |
+| M05 | Reviewed Improvement | E4 | A1 propose only |
+| M06 | Reliable Automatic Watcher | E4 | automatic read-only |
+| M07 | Read-only Evidence Agent | E4 | A2-RO |
+| M08 | Shadow ActionIntent + Policy | E4 | A3-shadow |
+| M09 | Durable Approval + Controlled Executor | E4/E5-ready | approval-gated |
+| M10 | Governed Canary | E5 | bounded RISK0/RISK1 auto |
+| M11 | Production Closed Loop | E6 | governed production |
+
+## Reference knowledge inventory
+
+Các Part dưới đây vẫn index numeric knowledge IDs cũ trong giai đoạn cleanup. Chúng là **reference**, không phải reading order.
+
+| Phần | Trọng tâm reference | Chương | Bài | Missions | Trạng thái |
 |---|---|---:|---:|---|---|
-| [Phần 0](roadmap/part-00.md) | Reality trước: safe market loop | 0–2 | 9 | M00 | migration |
-| [Phần 1](roadmap/part-01.md) | Outcome snapshot + deterministic baseline | 3–5 | 9 | M01–M02 | migration |
-| [Phần 2](roadmap/part-02.md) | History/measurement + grounded advice | 6–8 | 9 | M03–M04 | migration |
-| [Phần 3](roadmap/part-03.md) | Reviewed improvement | 9–11 | 9 | M05 | migration |
-| [Phần 4](roadmap/part-04.md) | Reliable decisions | 12–14 | 9 | M06–M07 | planned |
-| [Phần 5](roadmap/part-05.md) | Governed tools/actions | 15–17 | 9 | M08–M10 | planned |
-| [Phần 6](roadmap/part-06.md) | Production closed loop | 18–20 | 9 | M11 | planned |
+| [Phần 0](roadmap/part-00.md) | evidence/domain foundations | 0–2 | 9 | M00–M01 | reference |
+| [Phần 1](roadmap/part-01.md) | baseline/history foundations | 3–5 | 9 | M01–M02 | reference |
+| [Phần 2](roadmap/part-02.md) | measurement/grounded AI | 6–8 | 9 | M02–M04 | reference |
+| [Phần 3](roadmap/part-03.md) | reviewed improvement | 9–11 | 9 | M05 | reference |
+| [Phần 4](roadmap/part-04.md) | reliable decisions/watchers | 12–14 | 9 | M06 | reference |
+| [Phần 5](roadmap/part-05.md) | governed tools/actions | 15–17 | 9 | M07–M10 | reference |
+| [Phần 6](roadmap/part-06.md) | production closed loop | 18–20 | 9 | M11 | reference |
 
-## Mission authority and delivery v2
-
-| Mission | Product spine | Evidence | Authority | Delivery |
-|---|---|---|---|---|
-| M00 | first safe market loop | E2 | human_only; no Bot/AI publish | draft |
-| M01 | first outcome snapshot | E3 | manual/read-only | draft |
-| M02 | smallest deterministic Bot | E1 | A0 deterministic | draft |
-| M03 | trustworthy history & measurement | E3 | A0 deterministic | draft |
-| M04 | grounded AI advisor | E3 | A1 advisory, no tools/write | draft |
-| M05 | first reviewed improvement | E4 | A1 propose only | draft |
-| M06 | reliable watcher | E4 | A0 core + A1 triage | planned |
-| M07 | decision + abstention | E4 | A1 advisory | planned |
-| M08 | read-only evidence agent | E4 | A2-RO | planned |
-| M09 | shadow action + approval | E4 | A3-shadow | planned |
-| M10 | bounded governed canary | E5 | A3-limited | planned |
-| M11 | production closed loop | E6 | A3-production | planned |
-
-### Implementation profiles
+## Implementation rule
 
 ```text
-DETERMINISTIC CORE FIRST ≠ CODE FIRST
-human/manual market loop first
-→ no-code when auditable
-→ code/profile only when its behavior needs it
-→ AI never overrides evidence/policy/approval
+DETERMINISTIC CORE FIRST != CODE FIRST
+NO-CODE WHEN AUDITABLE
+AGENT ONLY WHEN IT ADDS MEASURED VALUE
+AUTOMATION ONLY AFTER POLICY + AUDIT + RECOVERY
 ```
 
-Go is a v1 reference and a possible deterministic implementation profile for
-M02+, not an M00 prerequisite. n8n/AgentRuntime may coordinate later but do
-not own final truth, risk or authorization. Development Agent remains an
-implementation helper under PR/CI/human review.
-
-## Status vocabulary
-
-- `planned` — canonical intent exists, no delivered Mission bundle;
-- `draft` — authored but incomplete;
-- `ready` — authoring complete, **not** a delivery/pilot claim;
-- delivered — starter/eval/verification/pilot metadata complete; see
-  `python scripts/report_readiness.py`.
-
-The current v1 Mission projection and migration mapping are in
-[missions/README.md](missions/README.md).
+Go, n8n, AgentRuntime, MCP, Temporal, OPA, rule engines and observability backends remain implementation/reference choices, not learner authority.

@@ -90,8 +90,46 @@ jobs:
       - name: Run Hybrid Runtime validator
         run: python scripts/validate_hybrid_runtime.py
 
-      - name: Run validator regression tests
-        run: python -m unittest discover -s tests -v
+      - name: Test Build-First validator
+        run: python -m unittest tests.test_build_first_validator -v
+
+      - name: Test Agentic Architecture validator
+        run: python -m unittest tests.test_agentic_architecture_validator -v
+
+      - name: Test Hybrid Runtime validator
+        run: python -m unittest tests.test_hybrid_runtime_validator -v
+
+      - name: Test core validator regressions
+        run: |
+          python -m unittest -v \
+            tests.test_contract_registry \
+            tests.test_curriculum_validator \
+            tests.test_evidence_taxonomy_validator \
+            tests.test_hardening_validator \
+            tests.test_lesson_v2_map \
+            tests.test_mission_status_validator \
+            tests.test_privacy_boundary_validator \
+            tests.test_readiness_validator \
+            tests.test_vietnamese_headings_validator
+
+      - name: Test Mission evaluator regressions
+        run: |
+          python -m unittest -v \
+            tests.test_m00_market_evidence_bundle \
+            tests.test_m00_market_loop_pack \
+            tests.test_m01_outcome_snapshot_pack \
+            tests.test_m02_deterministic_pack \
+            tests.test_m02_profile_parity \
+            tests.test_m03_history_pack \
+            tests.test_m04_grounded_advisory_pack \
+            tests.test_m05_reviewed_improvement_pack
+
+      - name: Test migration and scaffold regressions
+        run: |
+          python -m unittest -v \
+            tests.test_migration_and_workspace \
+            tests.test_o00 \
+            tests.test_scaffold_lesson
 
       - name: Set up Go
         uses: actions/setup-go@v5

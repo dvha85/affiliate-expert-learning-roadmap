@@ -49,12 +49,12 @@ class HardeningValidatorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "CURRICULUM.md").write_text(
-                "# Curriculum\nMission-first\nReal Evidence Ladder\n",
+                "# Curriculum\nMission spine\nReal Evidence Ladder\n",
                 encoding="utf-8",
             )
             problems = []
             validator.check_canonical_model(root, problems)
-            self.assertTrue(any(p.code == "AUTH003" and "Core / Advanced / Reference" in p.message for p in problems))
+            self.assertTrue(any(p.code == "AUTH003" and "Reference knowledge inventory" in p.message for p in problems))
 
     def test_duplicate_active_lesson_id_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:

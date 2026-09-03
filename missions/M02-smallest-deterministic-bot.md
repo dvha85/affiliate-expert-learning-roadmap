@@ -1,28 +1,23 @@
 ---
 mission_id: "M02"
-title: "Smallest Deterministic Bot"
+title: "Trustworthy History and Replay"
 status: draft
 curriculum_version: 2
 release_kind: "bot"
-requires_missions: ["M00"]
-bot_version_from: null
-bot_version_to: "v0.1"
+requires_missions: ["M01"]
+bot_version_from: "v0.1"
+bot_version_to: "v0.2"
 estimated_hours: 8
 delivery:
   starter_paths:
-    - "starter-kits/M02-deterministic-baseline/"
-    - "starter-kits/M02-operator-profile/"
-    - "starter-kits/M02-go-builder/"
-  eval_pack: "evals/M02-deterministic-baseline/"
+    - "starter-kits/M03-trustworthy-history/"
+  eval_pack: "evals/M03-trustworthy-history/"
   verification_commands:
-    - "python scripts/validate_m02_deterministic_pack.py"
-    - "python scripts/validate_m02_profile_parity.py"
+    - "python scripts/validate_m03_history_pack.py"
 knowledge:
   required: []
-  on_demand: ["0.2", "2.1", "2.2", "2.3"]
-  reference: []
-milestones:
-  contributes_to: ["G2"]
+  on_demand: []
+  reference: ["3.1", "3.2", "3.3", "4.1", "4.2", "4.3"]
 evidence:
   minimum_level: "E1"
   reality_required: true
@@ -32,135 +27,99 @@ risk_scope:
   execution_actor: "deterministic_only"
 ---
 
-# Mission M02 — Smallest Deterministic Bot
+# Mission M02 — Trustworthy History and Replay
 
 ## Ship Target — Mục tiêu bàn giao
 
-Xây baseline tất định nhỏ nhất có thể audit cho observations/context đã có:
+Nâng v0.1 thành v0.2 bằng history append-only cho Observation và DecisionPacket, có provenance, freshness, replay và correction semantics:
 
 ```text
-known evidence fields
-→ deterministic formula + stable tie-break
-→ RANK_SCENARIO hoặc GET_MORE_DATA/HUMAN_REVIEW
-→ reason + missing evidence + no action
+M00 E1 evidence + M01 deterministic decision
+→ append-only records
+→ replay same input/version
+→ same deterministic result
+→ query history / compare / reconcile
 ```
 
-M02 phát hành v0.1 của Bot, nhưng không gọi AI, model call hay tool. Output
-chỉ là decision-shaped scenario; không phải publish, spend hay execution.
+M02 không fetch, publish, call AI/tool hay mutate evidence cũ tại chỗ.
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 
-Dùng Operator/no-code rule card hoặc Go builder profile sau khi đã thử baseline.
-Hai profile dùng cùng fixtures và phải có parity 100%; Go là golden oracle,
-không phải entrypoint bắt buộc trước M00. Fixture synthetic là E0 để test
-plumbing, không được đổi nhãn thành E1.
+M01 có deterministic baseline v0.1 và ít nhất một input/output trace. Starter/eval hiện tái sử dụng history pack trước reset; naming cũ chỉ là compatibility artifact, không thay Mission authority.
 
 ## Try First — Thử trước
 
-Từ một subset public observations E1 đã có sau M00, human viết trước:
-
-- fields source thực sự support;
-- field nào missing/unknown;
-- rule tối giản mình muốn thử;
-- khi nào Bot phải GET_MORE_DATA thay vì rank.
-
-Sau đó chạy fixture synthetic để thấy safe failure trước khi đọc theory/copy
-formula. Không nhìn output Bot để backfill human assumption.
+Cố ý lưu t1 rồi overwrite bằng t2 và tự hỏi evidence nào biến mất. Sau đó thử replay cùng input + formula version và kiểm output có thay đổi không.
 
 ## Run — Chạy
 
 ```bash
-python starter-kits/M02-deterministic-baseline/run_baseline.py \
-  evals/M02-deterministic-baseline/rankable-observations.json
-python scripts/validate_m02_deterministic_pack.py
-python scripts/validate_m02_profile_parity.py
+python scripts/validate_m03_history_pack.py
 ```
 
-Thay input bằng summary/reference được phép dùng. Không đưa raw account data,
-credential hoặc customer data vào fixture/commit.
+Fixture synthetic chỉ kiểm behavior. Khi đưa E1 thật vào history, giữ provenance/reference và privacy boundary.
 
 ## Observe — Quan sát
 
-Ghi formula version, input/evidence refs, ranking, stable tie-break, reason,
-missing evidence và state. `0` là observed value hợp lệ; `null`/missing dẫn tới
-`GET_MORE_DATA`, không bị convert thành 0.
+Ghi `observation_id`, subject/reference, `observed_at`, `ingested_at`, formula/rule version, DecisionPacket state/reason, duplicate/conflict state và replay result.
 
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
-- `0.2` cho real/synthetic, fact/estimate/assumption/unknown.
-- `2.1–2.3` khi human-vs-Bot baseline, confidence/uncertainty và abstention
-  cần được giải thích tốt hơn.
-
-Không pull AI, database, scheduler hoặc provider integration trong M02.
+`3.1–4.3` chỉ là reference khi identity, normalization, provenance, append-only, freshness hoặc reconciliation trở thành blocker thật.
 
 ## Improve — Cải tiến
 
-Thêm một rule/rationale/validation vì gap cụ thể, bằng test trước. Formula phải
-deterministic, input contract rõ và versioned. Không tối ưu rank để khớp sale,
-không biến assumption thành measured fact và không auto-promote `RECOMMEND`.
+Thêm test cho một failure đã thấy: exact duplicate idempotent, same ID different content → `HUMAN_REVIEW`, out-of-order evidence, correction record, restart/replay hoặc unknown freshness.
 
 ## Tests — Kiểm thử
 
-- rankable input có stable output `RANK_SCENARIO`;
-- missing price/commission/provenance có `GET_MORE_DATA`, action null;
-- observed zero khác missing;
-- code/contract không có AI, model call, tool, write hay external execution.
+- append-only, không overwrite canonical history;
+- exact duplicate idempotent;
+- identity conflict → review;
+- replay cùng input/version → deterministic result;
+- out-of-order query theo world/observed time hợp lệ;
+- missing provenance/freshness → unknown/review;
+- no AI/tool/external action.
 
 ## Reality Check — Kiểm chứng thực tế
 
-Fixture chứng minh deterministic behavior E0. M02 Reality chỉ dùng E1 public
-observation/source/time thật từ M00 hoặc evidence reuse có provenance phù hợp;
-Bot output không tự tạo E1/E2/E3.
+E1 từ M00 có thể được lưu/replay; fixture E0 không được đổi nhãn thành E1. Outcome E3 chưa phải prerequisite của M02.
 
 ## Operate — Vận hành
 
-Lưu input reference, formula version, output state/reason và missing evidence.
-M03 sẽ giữ history/measurement append-only; M02 không tự persist long-term hay
-fetch data.
+Lưu ít nhất hai version/observation cycles hoặc một replay + correction/conflict case, cùng report giải thích result.
 
 ## Failure Case — Tình huống lỗi
 
-Missing/invalid evidence, mixed semantics, equal score, malformed input và
-unknown values phải abstain/review rõ. Không dùng default 0 để tiếp tục rank.
+Overwrite history, duplicate tạo record/action trùng, late arrival bị coi là fresh chỉ vì đến sau, missing provenance hoặc replay khác result mà không đổi version đều phải fail/review.
 
 ## Safety Gate — Cổng an toàn
 
-S0: deterministic local calculation only. Không gọi AI, model call, tool,
-network, credential, file write ngoài output do human chủ động lưu, publish hay
-external execution.
+S0 local deterministic persistence/replay. Không publish, account mutation, AI/tool/network action hay external execution.
 
 ## Evidence — Bằng chứng
 
-Lưu redacted input reference, command, formula version, Decision Context Card
-và output. Dùng `templates/MISSION-EVIDENCE.md`; raw/private source giữ ngoài
-Git. E0 eval fixture phải luôn được gắn synthetic/test.
+Lưu append/replay commands, record refs, version, conflict/reconciliation result và limitation. Raw/private data ở ignored local storage.
 
 ## Explain-back — Giải thích lại
 
-Learner giải thích được formula dùng fact nào, assumption/missing nào làm Bot
-abstain, tại sao output là scenario chứ không phải permission, và vì sao AI
-không thuộc M02.
+Learner phân biệt được `observed_at` và `ingested_at`, vì sao correction không overwrite, provenance support record nào và vì sao replay là nền móng cho eval/recovery sau này.
 
 ## Mission PASS — Tiêu chí PASS
 
 ### Capability
-
-- [ ] Có baseline deterministic, stable tie-break, reason và abstention tests.
+- [ ] Append/query/replay/reconcile deterministic history đúng invariant.
 
 ### Reality
-
-- [ ] Chạy được với E1 source/public observation thật hoặc ghi rõ chỉ có E0
-  engineering fixture; không claim fixture là market evidence.
+- [ ] Nối được ít nhất E1 evidence thật từ M00 vào history hoặc ghi blocker trung thực.
 
 ### Operated
-
-- [ ] Lưu output/input/formula version và next missing-evidence measurement.
+- [ ] Có replay/conflict/correction evidence và next measurement/action context cho M03.
 
 ## Bot Version Result — Kết quả phiên bản Bot
 
-`v0.1`: deterministic advisory baseline, no AI/tool/action. M03 nâng thành
-history/measurement v0.2 sau khi M01 và M02 đều có evidence/context.
+`v0.2`: deterministic history + replay foundation.
 
 ## Next Mission — Mission tiếp theo
 
-M03 — Trustworthy History & Measurement cần M01 + M02. AI chỉ xuất hiện ở M04.
+M03 — First Tracked Human Action + Outcome Context.

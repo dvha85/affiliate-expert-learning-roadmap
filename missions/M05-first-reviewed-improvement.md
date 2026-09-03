@@ -5,8 +5,8 @@ status: draft
 curriculum_version: 2
 release_kind: "bot"
 requires_missions: ["M04"]
-bot_version_from: "v0.3"
-bot_version_to: "v0.4"
+bot_version_from: "v0.4"
+bot_version_to: "v0.5"
 estimated_hours: 10
 delivery:
   starter_paths:
@@ -33,29 +33,34 @@ risk_scope:
 
 ## Ship Target — Mục tiêu bàn giao
 
-Tạo một experiment nhỏ có one main variable và trace liên kết:
+Nâng v0.4 thành v0.5 bằng một improvement loop có review/rollback, không self-modification:
 
 ```text
 Decision → ActionRecord → Outcome → Evaluation
 → ChangeProposal(PENDING_REVIEW)
-→ human release | reject | rollback
+→ human release | reject
+→ rollback target retained
 ```
 
-Outcome chỉ tạo ChangeProposal. Bot/AI không tự sửa prompt, rule, policy,
-workflow, weight, publish hay execution.
+Outcome/AI chỉ được tạo proposal. Không tự sửa prompt, rule, policy, workflow, weight hoặc production behavior.
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 
-M04 v0.3 đã có grounded advisory/fallback và M03 có history/measurement. Bắt
-đầu bằng `starter-kits/M05-reviewed-improvement/`; evaluator fixture là E0 và
-không có market action, account access hay paid tool requirement.
+M04 v0.4 có grounded advisory/fallback. M03 đã cung cấp real ActionRecord/outcome context và M02 giữ replayable history.
 
 ## Try First — Thử trước
 
-Từ one bottleneck có evidence, viết hypothesis, one main variable, primary
-metric, MeasurementContext, window và stop rule **trước** khi xem outcome.
-Nếu traffic không đủ, dự đoán `INCONCLUSIVE`, không kéo thêm biến để làm result
-trông tích cực.
+Trước outcome, freeze:
+
+- bottleneck/evidence;
+- hypothesis;
+- one main variable;
+- primary metric;
+- measurement window;
+- stop rule;
+- rollback target.
+
+Traffic không đủ phải có khả năng kết luận `INCONCLUSIVE`.
 
 ## Run — Chạy
 
@@ -63,96 +68,67 @@ trông tích cực.
 python scripts/validate_m05_reviewed_improvement_pack.py
 ```
 
-Dùng `starter-kits/M05-reviewed-improvement/EXPERIMENT-PLAN.md` và
-`CHANGE-REVIEW.md` ở local/private workspace cho record thật. Fixture chỉ dùng
-để test linkage/review/rollback behavior.
+Fixture chỉ kiểm linkage/review/rollback. E4 cần trace thật.
 
 ## Observe — Quan sát
 
-Ghi frozen time, outcome time, action/measurement IDs, observed value state,
-attribution limitation, content-production time, model/tool cost và net value
-limitation. `0`, missing, pending và `INCONCLUSIVE` vẫn tách biệt.
+Ghi Decision/Action/Outcome/Evaluation IDs, measurement context, observed value state, attribution limitation, production/content cost khi relevant và ChangeProposal status.
 
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
-- `9.1` khi hypothesis chưa nối với bottleneck/outcome.
-- `10.1` khi window, primary metric hoặc honest inference không rõ.
-- `11.1` khi ChangeProposal/review/version/rollback thiếu boundary.
-
-Không thêm agent autonomy để né một measurement/review gap.
+Pull `9.1`, `10.1`, `11.1` khi hypothesis, measurement/inference hoặc review/version/rollback là blocker thật.
 
 ## Improve — Cải tiến
 
-Chạy offline replay/champion–challenger trước; tạo ChangeProposal có evidence
-refs và limitation. Human review quyết định release/reject và rollback plan.
-Không mutate production từ Outcome, evaluation, model output hay scheduler.
+Chạy offline replay/champion–challenger trước. Human review quyết định release/reject; ChangeProposal phải versioned và có rollback path.
 
 ## Tests — Kiểm thử
 
-- experiment thiếu main variable/freeze/window/stop rule fail;
-- trace phải link Decision → ActionRecord → Outcome → Evaluation;
-- inconclusive traffic được giữ honest;
-- production mutation hoặc missing human review/rollback fail;
-- costs/limitations được ghi, ChangeProposal luôn PENDING_REVIEW trước review.
+- thiếu one-variable/freeze/window/stop rule → fail;
+- trace phải nối Decision → ActionRecord → Outcome → Evaluation;
+- low traffic giữ `INCONCLUSIVE`;
+- ChangeProposal ở `PENDING_REVIEW` trước human review;
+- production mutation hoặc missing rollback/review → fail.
 
 ## Reality Check — Kiểm chứng thực tế
 
-E4 cần trace thật có action/outcome/evaluation/review liên kết. Negative hoặc
-inconclusive result vẫn hợp lệ nếu measurement honest. Synthetic replay không
-thay E4; access/channel block phải ghi `BLOCKED_EXTERNAL`.
+E4 cần linked real trace + human review. Negative/inconclusive outcome vẫn hợp lệ nếu measurement trung thực. Synthetic replay không thay E4.
 
 ## Operate — Vận hành
 
-Lưu version/champion/challenger, reviewer, release/reject decision, rollback
-target và next measurement. M05 không deploy silent improvement.
+Lưu version/champion/challenger, reviewer, release/reject decision, rollback target và next measurement.
 
 ## Failure Case — Tình huống lỗi
 
-Nhiều biến đổi cùng lúc, window sau outcome, outcome không link action/context,
-low traffic được gọi lift, AI yêu cầu self-modify hoặc không có rollback đều
-phải block/review.
+Nhiều biến đổi đồng thời, chọn window sau outcome, missing linkage, AI self-modify hoặc gọi inconclusive là lift đều phải block/review.
 
 ## Safety Gate — Cổng an toàn
 
-S1 advisory/propose-only: không tool/write/publish/execution, không paid spend,
-không change account/policy và không tự release. External change chỉ do human
-thực hiện trong scope/approval tương ứng.
+S1 propose-only: không tool/write/publish/execution và không tự release production change.
 
 ## Evidence — Bằng chứng
 
-Dùng [M05 contract](../docs/M05-REVIEWED-IMPROVEMENT-CONTRACT.md), Experiment
-Plan, Change Review, `templates/MISSION-EVIDENCE.md` và redacted summaries.
-Raw data/cost receipts/private context giữ local ignored.
+Dùng M05 contract, Experiment Plan, Change Review và redacted trace summary. Raw/private data giữ local ignored.
 
 ## Explain-back — Giải thích lại
 
-Learner phải giải thích được one-variable boundary, vì sao outcome không tự
-cho phép change, `INCONCLUSIVE` có ý nghĩa gì và release/rollback được review
-ra sao.
+Learner giải thích được vì sao outcome không tự authorize change, `INCONCLUSIVE` nghĩa gì, và review/rollback giữ hệ thống học nhưng không self-modify.
 
 ## Mission PASS — Tiêu chí PASS
 
 ### Capability
-
-- [ ] Tạo được linked experiment/evaluation/proposal/review/rollback record và
-  failure tests.
+- [ ] Linked experiment/evaluation/proposal/review/rollback record + failure tests.
 
 ### Reality
-
-- [ ] Có E4 trace thật với human review, hoặc `BLOCKED_EXTERNAL` được ghi
-  trung thực; fixture không được claim E4.
+- [ ] Có E4 trace thật với human review hoặc blocker được ghi trung thực.
 
 ### Operated
-
-- [ ] Có versioned release/reject decision, rollback target và next measurement.
+- [ ] Có versioned release/reject decision + rollback target + next measurement.
 
 ## Bot Version Result — Kết quả phiên bản Bot
 
-`v0.4`: reviewed improvement proposal only. M06+ authoring chỉ mở sau H1 trust
-repair; live activation vẫn cần personal Reality/evidence gate tương ứng.
+`v0.5`: reviewed improvement proposal loop; still no autonomous external action.
 
 ## Next Mission — Mission tiếp theo
 
-PR9 trust repair + personal validation loop. Xem
-[ADR-006](../docs/ADR-006-PERSONAL-ONLY-VALIDATION.md):
-`AUTHORING_OPEN` không đồng nghĩa `LIVE_ACTIVATION`.
+M06 — Reliable Automatic Watcher.

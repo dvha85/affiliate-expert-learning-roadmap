@@ -1,127 +1,76 @@
-# Lộ trình học Affiliate Intelligence Bot
+# Affiliate Intelligence Bot — lộ trình học và xây hệ thống có kiểm soát
 
-> **Curriculum v2 Personal-only:** M00–M05 có delivery scaffold/eval nhưng
-> personal execution evidence còn trống. M06–M11 tách authoring gate khỏi
-> live activation gate; repository không có gate tuyển/đánh giá nhóm learner.
-> Xem
-> [implementation checklist](docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md).
+Mục tiêu của repo là giúp người mới xây một **Affiliate Intelligence Bot tiến hóa dần tới tự động hóa cao nhưng vẫn kiểm soát được**.
 
-**Curriculum v2 / Reality-First migration is active.** Đây là lộ trình cho
-người mới xây một bot hỗ trợ quyết định Affiliate, nhưng điểm bắt đầu không
-phải là cài Go hay gọi AI: đó là một market loop nhỏ, an toàn và do con người
-kiểm soát.
+Nội dung learner-facing ưu tiên tiếng Việt; xem [`docs/VIETNAMESE-LANGUAGE-STYLE.md`](docs/VIETNAMESE-LANGUAGE-STYLE.md).
 
-Nội dung learner-facing ưu tiên tiếng Việt; xem
-[Quy chuẩn ngôn ngữ](docs/VIETNAMESE-LANGUAGE-STYLE.md).
+## Bắt đầu ở đâu?
 
-Theo dõi phần còn thiếu của migration tại
-[Reality-First implementation checklist](docs/REALITY-FIRST-IMPLEMENTATION-PLAN.md).
+1. Đọc [`CURRICULUM.md`](CURRICULUM.md) — nguồn chuẩn về Mission sequence, evidence và authority.
+2. Mở [`curriculum/README.md`](curriculum/README.md) — learner path hiện hành.
+3. Nếu đã hoàn thành pilot Bài 0.1 trước reset, giữ credit ở [`BOOT.1`](curriculum/BOOT/BOOT.1-run-change-test.md); không cần học lại.
+4. Bắt đầu M00 mới tại [`M00.1`](curriculum/M00/M00.1-affiliate-intelligence-objective.md).
 
-## Bắt đầu đúng chỗ
-
-1. Đọc [CURRICULUM.md](CURRICULUM.md), sequence authority hiện hành.
-2. Chạy [O00 Safe Synthetic Walkthrough](docs/O00-SAFE-SYNTHETIC-WALKTHROUGH.md)
-   để thấy loop an toàn, không tạo PASS hay public action.
-3. Mở [M00 First Safe Market Loop](missions/M00-first-safe-market-loop.md),
-   rồi xem [Mission index](missions/README.md). M00–M05 đã có starter/eval
-   bundle để review, nhưng chưa có personal execution trace được xác thực.
-4. Dùng [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md) và
-   [ADR-006 personal-only validation](docs/ADR-006-PERSONAL-ONLY-VALIDATION.md)
-   khi muốn hiểu sequence và điều kiện tăng capability.
-
-M00 v2 là human-only safe market loop: public observation → human-created
-micro-artifact → disclosure/tracking → human review/manual publish. Bot/AI sẽ
-không publish. O00 chỉ là demo synthetic an toàn và không phải PASS.
-
-Personal progression dùng hai trạng thái riêng:
+## Bot tiến hóa như thế nào?
 
 ```text
-AUTHORING_OPEN ≠ LIVE_ACTIVATION
+real evidence
+→ deterministic advice
+→ trustworthy history/replay
+→ human action + measurement
+→ grounded AI
+→ automatic read-only
+→ read-only evidence agent
+→ shadow action
+→ durable human approval
+→ bounded auto-action
+→ governed production closed loop
 ```
 
-`BLOCKED_EXTERNAL` cho phép tiếp tục scaffold/replay phù hợp nhưng không thay
-E1–E6 và không mở live automation.
+## Control model
 
 ```text
-REAL CONTEXT
-→ human action and evidence
-→ outcome snapshot
-→ smallest deterministic Bot
-→ trustworthy history
-→ grounded AI advisory
-→ reviewed improvement
-→ governed automation
+Evidence
+→ DecisionPacket
+→ ActionIntent
+→ deterministic Policy / Risk
+→ Human Approval khi cần
+→ Controlled Execution
+→ Audit
+→ Outcome
+→ Evaluation
 ```
 
-## What “smart” and “automatic” mean
+Nguyên tắc bắt buộc:
 
 ```text
-DETERMINISTIC CORE FIRST
-≠ CODE FIRST
-
-NO-CODE WHEN IT IS AUDITABLE
-AGENT-WRITTEN CODE WHEN CODE IS NECESSARY
+AI confidence != execution permission
+Decision != Approval != Execution
+Tool result != trusted evidence
 ```
 
-A useful bot carries source/time, separates fact/estimate/assumption/unknown,
-can abstain, and keeps Decision → Action → Outcome → Evaluation traceable.
-AI advice is untrusted input, not evidence or execution permission. Policy,
-risk, approval, audit and kill switch remain mandatory for consequential action.
+## Reality-First, không Publish-First
 
-Go, DecisionRules, n8n and a Development Agent are implementation/reference
-options, not prerequisites for the first learner action. The Go workspace in
-this repository is a v1 reference to preserve and test, pending remapping to
-v2 M02; do not treat it as a v2 M00 quickstart.
+M00 bắt đầu bằng observation thị trường thật nhưng **không yêu cầu publish**. Publish/action thật xuất hiện sau khi learner đã có deterministic baseline và history đủ audit.
 
-## Current readiness and learner state
+## Technology
 
-README không phải nguồn chuẩn của tiến độ người học. The canonical learner-state source is [PROGRESS.md](PROGRESS.md), currently a v1 progress snapshot. The canonical authoring-state source is [missions/README.md](missions/README.md).
-Delivery visibility comes from:
+Go, n8n, AgentRuntime, MCP, rule engine, Temporal, OPA, Langfuse… là implementation/reference options. Tool chỉ được adopt khi giải quyết bottleneck thật và không làm đổi authority ceiling.
 
-```bash
-python scripts/validate_readiness.py
-python scripts/report_readiness.py
+```text
+DETERMINISTIC CORE FIRST != CODE FIRST
 ```
 
-`ready` means authored; it does not mean the learner path or personal execution
-has been completed. Use `--strict` only as an authoring-bundle gate for a new
-v2 Mission.
+## Legacy/reference
 
-## Legacy v1 reference
+Numeric lesson IDs cũ trong `lessons/`, các syllabus trong `sources/` và migration artifacts cũ chỉ còn vai trò reference/provenance trong giai đoạn cleanup. Learner mới không dùng chúng để xác định thứ tự học.
 
-The local tag `curriculum-v1-pre-reality-first` preserves the exact baseline.
-Existing missions, lessons and Go fixtures remain available for provenance and
-regression tests. Learners already on v1 should follow
-[migration rules](docs/CURRICULUM-MIGRATION-v2.md), not have progress silently
-renumbered.
+Snapshot đầy đủ trước curriculum reset:
+
+```text
+archive/pre-curriculum-reset-2026-09-03
+```
 
 ## Repository checks
 
-```bash
-python scripts/validate_curriculum.py
-python scripts/validate_mission_status.py
-python scripts/validate_readiness.py
-python scripts/validate_privacy_boundary.py
-python scripts/validate_o00.py
-python scripts/validate_contract_registry.py
-python scripts/validate_m00_market_loop_pack.py
-python scripts/validate_m00_market_evidence_bundle.py
-python scripts/validate_m01_outcome_snapshot_pack.py
-python scripts/validate_m02_deterministic_pack.py
-python scripts/validate_m02_profile_parity.py
-python scripts/validate_m03_history_pack.py
-python scripts/validate_m04_grounded_advisory_pack.py
-python scripts/validate_m05_reviewed_improvement_pack.py
-python scripts/validate_evidence_taxonomy.py
-python scripts/validate_authority.py
-python scripts/validate_language_policy.py
-python scripts/validate_vietnamese_headings.py
-python scripts/validate_hardening.py
-python scripts/validate_build_first.py
-python scripts/validate_agentic_architecture.py
-python scripts/validate_hybrid_runtime.py
-python -m unittest discover -s tests -v
-```
-
-The Go checks continue to protect the retained v1 reference and learner
-workspace; they do not make Go an all-Mission v2 dependency.
+CI vẫn bảo vệ contracts, evidence semantics, privacy, authority và retained reference implementations trong thời gian migration. Repo hardening sẽ tiếp tục tách CI thành các nhóm dễ chẩn đoán hơn.

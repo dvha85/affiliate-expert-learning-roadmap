@@ -16,7 +16,9 @@ FRONT_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.S)
 MISSION_ID_RE = re.compile(r"(?m)^mission_id:\s*[\"']?(M\d{2})[\"']?\s*$")
 STATUS_RE = re.compile(r"(?m)^status:\s*[\"']?([A-Za-z_-]+)[\"']?\s*$")
 CURRICULUM_VERSION_RE = re.compile(r"(?m)^curriculum_version:\s*(\d+)\s*$")
-CANONICAL_MISSION_RE = re.compile(r"(?m)^\|\s*(M\d{2})\s+—")
+# Mission IDs may appear either as `| M00 — Title | ...` (old projection) or
+# as their own first table cell `| M00 | ...` / `| **M00** | ...`.
+CANONICAL_MISSION_RE = re.compile(r"(?m)^\|\s*(?:\*\*)?(M\d{2})(?:\*\*)?\s*(?:—[^|]*)?\|")
 README_MISSION_RE = re.compile(r"\b(M\d{2})\b")
 FILE_MISSION_RE = re.compile(r"^(M\d{2})-")
 ALLOWED_STATUS = {"planned", "draft", "ready"}
@@ -53,9 +55,6 @@ def read_readme_statuses(root: Path, problems: list[Problem]) -> dict[str, str]:
         return {}
 
     lines = path.read_text(encoding="utf-8").splitlines()
-    # A migration-aware index may project both v2 and a legacy v1 table. When
-    # it has an explicit v2 heading, only that section is canonical. Fixtures
-    # without this heading keep the original all-table behavior.
     v2_heading = next((i for i, raw in enumerate(lines) if raw.strip().lower().startswith("## v2 canonical")), None)
     if v2_heading is not None:
         end = next((i for i in range(v2_heading + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
@@ -108,14 +107,10 @@ def read_front_matter_statuses(root: Path, problems: list[Problem]) -> dict[str,
         mission_id = id_match.group(1)
         curriculum_version = int(version_match.group(1)) if version_match else 2
         if curriculum_version != 2:
-            # V1 files are preserved evidence/reference, not a projection of
-            # the active v2 spine. Their own metadata is validated elsewhere.
             continue
         file_match = FILE_MISSION_RE.match(path.name)
         if not file_match or file_match.group(1) != mission_id:
-            problems.append(
-                Problem("MSTATE009", str(rel), f"mission_id={mission_id} không khớp tên file")
-            )
+            problems.append(Problem("MSTATE009", str(rel), f"mission_id={mission_id} không khớp tên file"))
         if not status_match:
             problems.append(Problem("MSTATE010", str(rel), "Mission front matter thiếu status"))
             continue
