@@ -17,8 +17,8 @@ delivery:
     - "python scripts/validate_m00_market_evidence_bundle.py"
 knowledge:
   required: []
-  on_demand: ["6.1", "6.2", "7.1"]
-  reference: []
+  on_demand: ["6.1", "6.2", "6.3", "7.1"]
+  reference: ["0.2", "1.1", "1.2"]
 milestones:
   contributes_to: ["G1"]
 evidence:
@@ -43,6 +43,7 @@ trạng thái hợp lệ, không cần sale.
 public observation E1
 → human hypothesis + exact-artifact review
 → disclosure + tracking check
+→ human approval
 → human manual publish
 → E2 action record + next measurement
 ```
@@ -55,6 +56,10 @@ authority trong M00.
 Không cần Bot, Go, API key hay account automation. Bắt đầu từ
 `starter-kits/M00-safe-market-loop/`; O00 chỉ giúp nhìn loop synthetic và
 không thay evidence M00.
+
+Lesson `0.x–5.x` còn tồn tại để giữ knowledge credit/history từ v1. V2 không
+coi front matter cũ của các lesson đó là execution order; projection chuẩn xem
+`lessons/V2-LESSON-MAP.json`.
 
 ## Try First — Thử trước
 
@@ -88,9 +93,12 @@ window. Giữ `missing`, `zero`, `pending` và `inconclusive` tách biệt.
 
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
-- On-demand `6.1` khi claim/audience hypothesis yếu.
-- On-demand `6.2` khi disclosure/policy context chưa rõ.
+- On-demand `6.1` khi audience/problem/product-fit hypothesis yếu.
+- On-demand `6.2` khi disclosure/claim/policy context chưa rõ.
+- On-demand `6.3` khi chưa tách rõ Decision, Approval và human Execution.
 - On-demand `7.1` khi chưa tạo được tracking/measurement context tối thiểu.
+- `0.2`, `1.1`, `1.2` chỉ là reference/reusable knowledge khi evidence hoặc
+  affiliate-flow distinction thật sự gây blocker; không phải prerequisite.
 
 Không cần hoàn thành lesson nào trước attempt; pull một slice rồi quay lại
 artifact thật.
@@ -105,7 +113,8 @@ không được tự publish hay được coi là evidence/policy authority.
 
 - valid pack phải có E1, manual publish, disclosure, tracking và no Bot/AI publish;
 - missing source/time, missing disclosure/tracking hoặc Bot/AI publish phải fail;
-- dùng synthetic/sample để gọi E2 phải fail.
+- dùng synthetic/sample để gọi E2 phải fail;
+- approval không được tự biến thành `published`; action record chỉ sinh sau action thật.
 
 ## Reality Check — Kiểm chứng thực tế
 
@@ -121,7 +130,8 @@ thúc, ghi `pending`; M01 mới đọc outcome snapshot thật.
 ## Failure Case — Tình huống lỗi
 
 Thiếu disclosure, tracking, source/time, không kiểm soát channel/account,
-claim không có evidence hoặc bất kỳ Bot/AI publish request nào đều phải block.
+claim không có evidence, publish version khác version đã review, hoặc bất kỳ
+Bot/AI publish request nào đều phải block.
 
 ## Safety Gate — Cổng an toàn
 
@@ -140,14 +150,16 @@ phải có provenance, redaction và limitations.
 
 ## Explain-back — Giải thích lại
 
-Learner phải giải thích được vì sao action là human-only, disclosure/tracking
-đang kiểm gì, evidence nào còn thiếu và observation nào sẽ thay đổi decision.
+Learner phải giải thích được vì sao action là human-only, vì sao
+`Decision ≠ Approval ≠ Execution`, disclosure/tracking đang kiểm gì, evidence
+nào còn thiếu và observation nào sẽ thay đổi decision.
 
 ## Mission PASS — Tiêu chí PASS
 
 ### Capability
 
 - [ ] Tạo/review được exact artifact và complete safety checklist.
+- [ ] Freeze được exact artifact/version trước human execution.
 
 ### Reality
 
