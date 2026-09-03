@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import re
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,8 +36,9 @@ def validate() -> list[str]:
         return ["AUTH002 sources/README.md: source guide is missing"]
 
     guide = SOURCES_README.read_text(encoding="utf-8")
-    if "CURRICULUM.md" not in guide or "active canonical" not in guide.lower():
-        problems.append("AUTH003 sources/README.md: must point to CURRICULUM.md as active canonical authority")
+    authority_markers = ("active canonical", "Authority hiện hành", "nguồn chuẩn hiện hành")
+    if "CURRICULUM.md" not in guide or not any(marker.lower() in guide.lower() for marker in authority_markers):
+        problems.append("AUTH003 sources/README.md: must point to CURRICULUM.md as the current authority")
 
     for phrase in FORBIDDEN_ACTIVE_CLAIMS:
         if phrase in guide:

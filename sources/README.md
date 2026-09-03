@@ -1,93 +1,58 @@
-# Tài liệu nguồn
+# Tài liệu nguồn và archive
 
-Thư mục `sources/` là **kho lưu lịch sử/nghiên cứu (`historical/research archive`)**, không phải nguồn chuẩn đang vận hành của chương trình.
+Thư mục `sources/` là **historical/research archive**, không phải nguồn chuẩn vận hành.
 
-## Nguồn chuẩn đang áp dụng
+## Authority hiện hành
 
-Thứ tự tài liệu đang vận hành:
+Chỉ có một chuỗi authority cho learner/runtime work mới:
 
-1. [`../CURRICULUM.md`](../CURRICULUM.md) — chương trình chuẩn đang áp dụng (`active canonical curriculum`);
-2. [`../ROADMAP.md`](../ROADMAP.md) và các file `../roadmap/part-*.md` — danh mục thực thi (`execution inventory`) của chương trình hiện tại;
-3. [`../docs/SOURCE-MAPPING.md`](../docs/SOURCE-MAPPING.md) — bản đồ truy nguồn (`traceability`) từ chương trình hiện tại về tài liệu lịch sử/đào tạo/nghiên cứu.
+1. [`../CURRICULUM.md`](../CURRICULUM.md) — outcome, sequence, evidence, authority và PASS boundary;
+2. [`../ROADMAP.md`](../ROADMAP.md) — projection learner-facing của curriculum hiện hành;
+3. active Mission/lesson files được curriculum hiện hành tham chiếu;
+4. ADR/operating standards — chi tiết kiến trúc, safety và quality;
+5. `sources/` — provenance, nghiên cứu và lịch sử thiết kế.
 
-Nếu nội dung trong `sources/` mâu thuẫn với các nguồn chuẩn ở trên, **nguồn chuẩn hiện tại được ưu tiên**. Không sửa file lịch sử chỉ để làm nó trông giống trạng thái hiện tại.
+Nếu nội dung trong `sources/` mâu thuẫn với curriculum hiện hành, **curriculum hiện hành thắng**.
 
-## Giáo trình lịch sử
+## Archive trước curriculum reset
 
-- `SYLLABUS-v2026.08.md` — đường cơ sở lịch sử ban đầu (`historical baseline`).
-- `SYLLABUS-v2026.09.md` — revision lịch sử trước đợt thiết kế lại theo outcome.
-- `CURRICULUM-INDEX-v2026.09.md` — chỉ mục chuẩn hóa lịch sử của revision v2026.09.
-
-Các file này vẫn quan trọng để truy `provenance` (nguồn gốc), rationale (lý do thiết kế) và các ý tưởng domain đã sinh ra curriculum hiện tại, nhưng **không còn là manifest đang hoạt động**.
-
-Các con số **23 Part / 89 Chapter / 671 lesson / 14 main projects** thuộc revision lịch sử và không được dùng để mô tả chương trình hiện tại.
-
-## Nguồn bổ sung
-
-- `Noi-dung-dao-tao.txt` — nguồn đào tạo về nhịp học, tiến hóa project và thực hành.
-- `Nghien-cuu.txt` — nguồn nghiên cứu về Affiliate Bot, Product Intelligence, feedback loop (vòng phản hồi), kiến trúc và triển khai.
-
-Các nguồn bổ sung cung cấp evidence/rationale cho thiết kế bài học; chúng không tự động ghi đè chương trình chuẩn.
-
-## Thứ tự ưu tiên nguồn
+Snapshot trước đợt reset ngày 2026-09-03 được giữ tại nhánh:
 
 ```text
-CHƯƠNG TRÌNH CHUẨN ĐANG ÁP DỤNG:
-CURRICULUM.md
-
-DANH MỤC THỰC THI:
-ROADMAP.md + roadmap/part-*.md
-
-TRUY NGUỒN / GIẢI QUYẾT XUNG ĐỘT:
-docs/SOURCE-MAPPING.md
-
-GIÁO TRÌNH / CHỈ MỤC LỊCH SỬ:
-sources/SYLLABUS-v2026.08.md
-sources/SYLLABUS-v2026.09.md
-sources/CURRICULUM-INDEX-v2026.09.md
-
-NGUỒN ĐÀO TẠO / NGHIÊN CỨU BỔ SUNG:
-sources/Noi-dung-dao-tao.txt
-sources/Nghien-cuu.txt
-
-LỚP DỮ KIỆN HIỆN HÀNH:
-docs/FRESHNESS-POLICY.md
-và các knowledge refresh docs
+archive/pre-curriculum-reset-2026-09-03
 ```
 
-Quy tắc tra cứu:
+Dùng snapshot/Git history khi cần xem nguyên văn các syllabus, lesson hoặc migration mapping cũ. Không đưa chúng trở lại learner path chỉ để giữ compatibility.
+
+## Các nguồn lịch sử
+
+- `SYLLABUS-v2026.08.md` — structural baseline lịch sử;
+- `SYLLABUS-v2026.09.md` — archival stub cho revision Go-first trước reset;
+- `CURRICULUM-INDEX-v2026.09.md` — archival stub cho inventory cũ;
+- `Noi-dung-dao-tao.txt` — nguồn đào tạo;
+- `Nghien-cuu.txt` — nguồn nghiên cứu.
+
+Các con số 23 Parts / 89 Chapters / 671 lessons / 14 projects là **historical inventory**, không mô tả chương trình hiện hành.
+
+## Quy tắc công nghệ
+
+Không source historical nào được quyết định rằng Go, n8n, Agent SDK, rule engine hay framework cụ thể là prerequisite chỉ vì revision cũ từng chọn nó.
+
+Curriculum hiện hành giữ nguyên tắc:
 
 ```text
-câu hỏi về lesson / mission hiện tại
-→ CURRICULUM.md
-→ ROADMAP + active part/mission docs
-→ docs/SOURCE-MAPPING.md để truy provenance
-→ nguồn lịch sử/đào tạo/nghiên cứu khi cần rationale
-→ xác minh bên ngoài cho dữ kiện hiện hành
+DETERMINISTIC CORE FIRST
+!= CODE FIRST
+
+implementation is chosen by auditability, safety, evidence and measured need
 ```
 
-Một định danh lịch sử như `S:P/C/L` là vị trí truy provenance, **không mặc định là active lesson ID**.
+Go có thể là deterministic reference/fallback; n8n có thể là orchestration reference; Agent runtime có thể cung cấp intelligence. Không runtime nào tự sở hữu truth, policy hoặc execution authority chỉ vì được chọn làm implementation.
 
-## Quyết định kỹ thuật Go-first
+## Dữ kiện dễ thay đổi
 
-Go vẫn là ngôn ngữ triển khai chính (`primary implementation language`) của Bot track hiện tại. Xem:
-
-- [`../docs/ADR-001-GO-FIRST-BOT-STACK.md`](../docs/ADR-001-GO-FIRST-BOT-STACK.md)
-- [`../CURRICULUM.md`](../CURRICULUM.md)
-
-Các quyết định C#/.NET-first trong giáo trình lịch sử được giữ để truy lịch sử thiết kế, không phải chỉ dẫn triển khai hiện tại.
-
-## Lớp kiến thức hiện hành
-
-Nguồn lịch sử không bị âm thầm sửa bằng nghiên cứu web mới. Các dữ kiện có thể thay đổi theo platform, luật, privacy (quyền riêng tư), API, search, Go runtime hoặc AI/agent protocol được quản lý ở lớp current-state riêng.
-
-Xem:
-
-- [Freshness Policy](../docs/FRESHNESS-POLICY.md)
-- [Affiliate Knowledge Refresh 2026.08](../docs/AFFILIATE-KNOWLEDGE-REFRESH-2026.08.md)
-- [Bot Engineering Refresh 2026.08](../docs/BOT-ENGINEERING-REFRESH-2026.08.md)
-- [Source-to-Roadmap Traceability Map](../docs/SOURCE-MAPPING.md)
+Platform policy, pháp luật, privacy, attribution, SDK/protocol và software version phải đi qua freshness layer ở `docs/`, không được lấy từ syllabus lịch sử làm operating truth.
 
 Nguyên tắc cuối cùng:
 
-> **Lịch sử giữ nguyên là lịch sử. Nguồn chuẩn hiện tại phải duy nhất. Dữ kiện hiện hành phải kiểm chứng được.**
+> **Một nguồn chuẩn hiện hành. Lịch sử giữ ở archive. Dữ kiện hiện hành phải kiểm chứng được.**
