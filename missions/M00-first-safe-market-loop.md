@@ -3,11 +3,20 @@ mission_id: "M00"
 title: "First Real Evidence Packet"
 status: draft
 curriculum_version: 2
-release_kind: "evidence_packet"
+release_kind: "market_artifact"
 requires_missions: []
 bot_version_from: null
 bot_version_to: null
 estimated_hours: 4
+delivery:
+  starter_paths:
+    - "curriculum/M00/"
+  eval_pack: null
+  verification_commands: []
+knowledge:
+  required: []
+  on_demand: []
+  reference: []
 evidence:
   minimum_level: "E1"
   reality_required: true
@@ -39,6 +48,8 @@ public observations E1
 3. [`M00.3`](../curriculum/M00/M00.3-decision-approval-execution.md) — Decision ≠ Approval ≠ Execution.
 
 Không dùng numeric legacy lesson IDs làm reading order.
+
+> `delivery.eval_pack: null` là có chủ đích: Mission đã có learner cards nhưng evaluator pack mới chưa được remap xong. `draft` không được nâng thành `ready` chỉ vì validator cấu trúc PASS.
 
 ## Starting state
 
