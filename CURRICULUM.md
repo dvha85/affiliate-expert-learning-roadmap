@@ -6,7 +6,7 @@
 
 > Learner order được quyết định bởi **Mission spine** bên dưới, không phải số lesson cũ.
 
-Nội dung learner-facing dùng tiếng Việt làm chính. `ActionIntent`, `DecisionPacket`, `PolicyDecision`, `RISK0`… được giữ nguyên khi đó là contract/code identifier và luôn có giải thích tiếng Việt ở lần xuất hiện đầu.
+Nội dung learner-facing dùng tiếng Việt làm chính; xem [`docs/VIETNAMESE-LANGUAGE-STYLE.md`](docs/VIETNAMESE-LANGUAGE-STYLE.md). `ActionIntent`, `DecisionPacket`, `PolicyDecision`, `RISK0`… được giữ nguyên khi đó là contract/code identifier và luôn có giải thích tiếng Việt ở lần xuất hiện đầu.
 
 ## 1. Mục tiêu đầu ra
 
