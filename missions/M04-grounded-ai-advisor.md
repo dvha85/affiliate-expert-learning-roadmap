@@ -5,8 +5,8 @@ status: draft
 curriculum_version: 2
 release_kind: "bot"
 requires_missions: ["M03"]
-bot_version_from: "v0.2"
-bot_version_to: "v0.3"
+bot_version_from: "v0.3"
+bot_version_to: "v0.4"
 estimated_hours: 10
 delivery:
   starter_paths:
@@ -33,41 +33,33 @@ risk_scope:
 
 ## Ship Target — Mục tiêu bàn giao
 
-Nâng v0.2 thành v0.3 với grounded AI advisory có evidence refs và fallback:
+Nâng Bot v0.3 thành v0.4 bằng AI advisory có grounding và deterministic fallback:
 
 ```text
-M03 evidence/history + deterministic baseline FIRST
+M03 evidence/history/outcome context
 → CALL_AI | SKIP_AI
 → untrusted candidate advisory
-→ reference-validity + claim-support checks
+→ evidence-reference + claim-support validation
 → grounded | rejected | unavailable | skipped
-→ fallback baseline preserved, action null
+→ deterministic fallback preserved
+→ action: null
 ```
 
-AI có thể tóm tắt fact/hypothesis/missing evidence, nhưng không là source of
-truth, không sửa scoring/history và không có tool/write/publish/execution.
+AI có thể hỗ trợ phân tích/tóm tắt/hypothesis nhưng không là source of truth, không sửa canonical evidence/history và không có tool/write/publish/execution.
 
 ## Starting Bot State — Trạng thái Bot ban đầu
 
-M03 v0.2 có provenance/freshness/missing semantics. Bắt đầu bằng
-`starter-kits/M04-grounded-advisory/` replay-only gate; Core không yêu cầu API
-key, paid model hay live provider. Replay là evaluation fixture, không claim
-provider live đã hoạt động.
-
-Lesson `5.1–5.3` được giữ làm detailed v1 reference. V2 active pull dùng
-`8.1–8.3`; projection chuẩn xem `lessons/V2-LESSON-MAP.json`.
+M03 v0.3 đã có deterministic decision, replayable history và tracked human-action/outcome context. Starter/eval của M04 là replay-first; không cần API key để chứng minh grounding/fallback behavior.
 
 ## Try First — Thử trước
 
-Trước khi gọi bất kỳ model nào, human freeze deterministic baseline và tự ghi:
+Human freeze deterministic baseline rồi ghi trước:
 
-- fact nào evidence thực sự support;
-- fact nào chưa support;
-- hypothesis/missing evidence nào có thể hỏi AI hỗ trợ diễn giải;
-- fallback expected nếu AI malformed/unavailable/unsupported;
-- `CALL_AI` hay `SKIP_AI` và reason.
-
-Chạy candidate unsupported claim để thấy parse JSON không đồng nghĩa grounded.
+- fact nào evidence support;
+- claim nào chưa support;
+- câu hỏi nào AI có thể tạo thêm decision value;
+- fallback mong đợi nếu output malformed/unsupported/unavailable;
+- khi nào `SKIP_AI` tốt hơn `CALL_AI`.
 
 ## Run — Chạy
 
@@ -75,103 +67,68 @@ Chạy candidate unsupported claim để thấy parse JSON không đồng nghĩa
 python scripts/validate_m04_grounded_advisory_pack.py
 ```
 
-Starter validates replay candidate against explicit evidence. Không đưa secret,
-raw customer/account data hay instruction untrusted vào prompt/log/commit.
+Replay fixture là E0 engineering evidence. Không đưa secret/raw customer/account data vào prompt/log/commit.
 
 ## Observe — Quan sát
 
-Ghi `advisor_execution_kind: replay | live`, input evidence refs, baseline
-version, routing decision, candidate schema, support/rejection reason, fallback
-reason, model/prompt version khi relevant và redaction limitation. Evidence refs
-tồn tại vẫn chưa đủ: field/value phải support claim.
+Ghi routing decision, evidence refs, deterministic baseline version, candidate schema, support/rejection reason, fallback reason, execution kind (`replay | live`) và redaction limitation.
 
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
-- `8.1` khi chưa biết CALL_AI hay SKIP_AI theo decision value và contract.
-- `8.2` khi schema/ref tồn tại nhưng claim-support hoặc uncertainty chưa rõ.
-- `8.3` khi eval, rejected output, fallback, injection hoặc privacy lộ gap.
-- `5.1–5.3` là reference sâu từ v1, không phải prerequisite hay active sequence.
-
-Không add agent runtime, tool registry hay write permission trong M04.
+Pull `8.1–8.3` khi AI routing, schema/grounding hoặc eval/fallback thật sự là blocker. Numeric lesson cũ chỉ là reference, không phải reading order.
 
 ## Improve — Cải tiến
 
-Thêm one explicit check/fixture sau failure: malformed schema, unknown ref,
-unsupported field/value, unavailable provider, prompt-injection-like text hoặc
-secret redaction. Giữ baseline immutable; accepted advisory không được mutate
-observed fact, score/rank hay policy.
+Thêm một explicit validation/fixture sau mỗi failure: malformed schema, unknown ref, unsupported claim, unavailable provider, injection-like source text hoặc secret leakage. Không nới authority để làm test xanh.
 
 ## Tests — Kiểm thử
 
-- valid grounded replay có evidence refs và exact field/value support;
+- grounded output phải có evidence refs và exact field/value support;
 - unknown ref/unsupported claim bị rejected;
-- unavailable/malformed/prompt injection fixture dùng fallback;
+- malformed/unavailable/injection case dùng fallback;
 - `SKIP_AI` là behavior hợp lệ có reason;
-- no tool, write, publish hoặc execution; action luôn null;
-- replay được gắn replay, không gọi là live evidence.
+- no tool, write, publish hoặc execution;
+- replay không được gọi là live evidence.
 
 ## Reality Check — Kiểm chứng thực tế
 
-M04 sử dụng E3 source/history thật từ M01/M03 khi có access. Evaluator replay
-chỉ chứng minh gate. Live provider là optional và nếu chưa chạy phải ghi
-`live_provider_verified: pending`, không đổi replay thành real/live.
+M04 dùng E3 evidence/outcome context thật từ M03 khi có access. Replay chỉ chứng minh gate. Live provider chưa chạy phải ghi `pending`, không giả verified.
 
 ## Operate — Vận hành
 
-Log redacted input/evidence/baseline/advisor versions, routing/status/fallback và
-next measurement. Monitor unsupported/rejection rate; khi evidence stale/missing,
-SKIP_AI hoặc fallback/GET_MORE_DATA thay vì nới authority.
+Log redacted input/evidence/baseline/advisor versions, routing/status/fallback và next measurement. Evidence stale/missing phải fallback/abstain thay vì tăng confidence/permission.
 
 ## Failure Case — Tình huống lỗi
 
-Malformed candidate, invented CVR/revenue, valid ref nhưng sai field/value,
-provider timeout, malicious public text hoặc prompt requesting tool access phải
-reject/fallback. Không retry bằng cách nới schema, bỏ grounding hoặc tăng
-permission.
+Invented CVR/revenue, valid ref nhưng sai field/value, provider timeout, prompt injection hoặc request đòi tool/write phải reject/fallback.
 
 ## Safety Gate — Cổng an toàn
 
-S1 advisory-only: không tool, write, publish, execution, network side effect,
-credential/account access hoặc change policy/weights. Human quyết định mọi
-external action sau scope/approval Mission sau.
+S1 advisory-only: không tool, write, publish, execution, credential/account access hay policy mutation.
 
 ## Evidence — Bằng chứng
 
-Dùng `[M04 contract](../docs/M04-GROUNDED-ADVISORY-CONTRACT.md)`, evaluator
-replay, `templates/MISSION-EVIDENCE.md` và redacted summary. Evidence refs phải
-resolve được nhưng raw/private data không commit. Dùng
-`starter-kits/M04-grounded-advisory/ADVISORY-EVALUATION-RECORD.md`; replay phải
-ghi `live_provider_verified: pending`, không tự nhận là live.
+Dùng M04 contract/eval record và redacted summary. Evidence refs phải resolve; raw/private payload ở ignored local storage.
 
 ## Explain-back — Giải thích lại
 
-Learner giải thích được grounded khác plausible, evidence ref khác claim
-support, fallback bảo toàn baseline ra sao, khi nào SKIP_AI tốt hơn CALL_AI và
-tại sao AI advisory không có execution authority.
+Learner giải thích được grounded khác plausible, evidence ref khác claim support, fallback bảo toàn deterministic baseline ra sao và vì sao AI không có execution authority.
 
 ## Mission PASS — Tiêu chí PASS
 
 ### Capability
-
-- [ ] Có grounded/rejected/unavailable/skipped behaviors, evidence refs và
-  fallback tests; no tool/write/execute.
+- [ ] Grounded/rejected/unavailable/skipped behaviors + fallback tests đều hoạt động.
 
 ### Reality
-
-- [ ] Nối replay/live status trung thực với E3 evidence references; không claim
-  fixture/live provider thiếu access là verified.
+- [ ] Nối E3 evidence references trung thực; replay/live labeling đúng.
 
 ### Operated
-
-- [ ] Có redacted evaluation record, fallback/rejection review và next
-  measurement before M05 proposes an improvement.
+- [ ] Có evaluation record + rejection/fallback review + next measurement.
 
 ## Bot Version Result — Kết quả phiên bản Bot
 
-`v0.3`: A1 grounded advisory only. M05 mới đề xuất improvement từ outcome qua
-review/version/rollback, không tự sửa model/prompt/policy.
+`v0.4`: grounded A1 advisory, no tools/write/action.
 
 ## Next Mission — Mission tiếp theo
 
-M05 — First Reviewed Improvement, nối Outcome → Evaluation → proposal/review/
-rollback.
+M05 — First Reviewed Improvement.
