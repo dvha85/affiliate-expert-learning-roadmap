@@ -21,7 +21,7 @@ func TestBaselineRanksByCommissionPerOrderThenID(t *testing.T) {
 	}
 }
 
-func TestEvaluateUsesConcreteSafeStates(t *testing.T) {
+func TestEvaluateUsesSafeStatesWithoutAutoRecommendation(t *testing.T) {
 	price, rate := 10.0, 0.1
 	synthetic := observation.Record{
 		ID: "A", ProductName: "A", SourceURL: "sample://a",
@@ -29,7 +29,7 @@ func TestEvaluateUsesConcreteSafeStates(t *testing.T) {
 		EvidenceKind: observation.EvidenceSynthetic, Price: &price, Currency: "TEST", CommissionRate: &rate,
 	}
 	if got := Evaluate([]observation.Record{synthetic}).State; got != StateRankScenario {
-		t.Fatalf("expected scenario state, got %s", got)
+		t.Fatalf("expected synthetic scenario state, got %s", got)
 	}
 
 	missing := synthetic
@@ -43,15 +43,16 @@ func TestEvaluateUsesConcreteSafeStates(t *testing.T) {
 		t.Fatalf("expected human-review state, got %s", got)
 	}
 
-	// This is a unit-test schema case, not Reality evidence.
+	// Schema case only: real provenance must NOT auto-promote a weak scenario
+	// into RECOMMEND. Reality improves evidence eligibility, not authority.
 	real := synthetic
 	real.SourceURL = "https://example.test/product-a"
 	real.AccessMethod = observation.AccessPublicManual
 	real.EvidenceKind = observation.EvidenceReal
 	real.Currency = "VND"
 	result := Evaluate([]observation.Record{real})
-	if result.State != StateRecommend || result.EvidenceMode != observation.EvidenceReal {
-		t.Fatalf("expected real/recommend result, got mode=%s state=%s", result.EvidenceMode, result.State)
+	if result.State != StateRankScenario || result.EvidenceMode != observation.EvidenceReal {
+		t.Fatalf("expected real evidence to remain scenario-only, got mode=%s state=%s", result.EvidenceMode, result.State)
 	}
 
 	otherCurrency := synthetic
