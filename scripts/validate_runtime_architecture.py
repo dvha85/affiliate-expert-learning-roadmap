@@ -67,18 +67,21 @@ def check_implementation_strategy(root: Path, problems: list[Problem]) -> None:
 
 def check_roadmap_maturity(root: Path, problems: list[Problem]) -> None:
     require(root, "ROADMAP.md", "HYB004", (
-        "DETERMINISTIC CORE FIRST ≠ CODE FIRST", "M00 | first safe market loop",
-        "M01 | first outcome snapshot", "M02 | smallest deterministic Bot",
-        "M04 | grounded AI advisor", "A1 advisory, no tools/write",
-        "M08 | read-only evidence agent", "M09 | shadow action + approval",
-        "M10 | bounded governed canary", "Development Agent",
+        "M00 real evidence",
+        "M01 deterministic Bot",
+        "M02 trustworthy history/replay",
+        "M04 grounded AI",
+        "M07 read-only Agent",
+        "M08 shadow ActionIntent",
+        "M09 durable approval + executor",
+        "M10 bounded auto-action",
+        "M11 production closed loop",
+        "DETERMINISTIC CORE FIRST != CODE FIRST",
+        "AUTOMATION ONLY AFTER POLICY + AUDIT + RECOVERY",
     ), problems)
 
 
 def check_no_early_runtime_adoption(root: Path, problems: list[Problem]) -> None:
-    # Reality-First v2 keeps M00-M04 free of autonomous/tool runtime adoption.
-    # Legacy v1 mission files are retained for history and must also not be edited
-    # into an early-runtime shortcut.
     early_paths = (
         "roadmap/part-00.md", "roadmap/part-01.md", "roadmap/part-02.md",
         "missions/M00-first-safe-market-loop.md",
@@ -95,8 +98,6 @@ def check_no_early_runtime_adoption(root: Path, problems: list[Problem]) -> None
             if marker in text:
                 problems.append(Problem("HYB005", rel, f"concrete runtime {marker!r} adopted too early"))
 
-    # n8n may be mentioned as a future/non-default option in reference prose, but
-    # M00-M04 must not make it an active execution requirement or Agent runtime.
     active_v2 = (
         "missions/M00-first-safe-market-loop.md",
         "missions/M01-first-outcome-snapshot.md",
@@ -114,8 +115,6 @@ def check_no_early_runtime_adoption(root: Path, problems: list[Problem]) -> None
 
 
 def check_part02_boundary(root: Path, problems: list[Problem]) -> None:
-    # ADR-005 Reality-First v2 moved the old M04 orchestration slice out of this
-    # stage. Part 02 now ends at deterministic history + A1 grounded advisory.
     require(root, "roadmap/part-02.md", "HYB006", (
         "M03 Trustworthy History & Measurement + M04 Grounded AI Advisor",
         "Manual/read-only path là baseline",
@@ -210,9 +209,11 @@ def check_negative_authority_drift(root: Path, problems: list[Problem]) -> None:
 
 def check_readme_status_source(root: Path, problems: list[Problem]) -> None:
     require(root, "README.md", "HYB015", (
-        "canonical learner-state source", "canonical authoring-state source",
-        "README không phải nguồn chuẩn của tiến độ người học", "DETERMINISTIC CORE FIRST",
-        "DecisionRules", "Development Agent",
+        "CURRICULUM.md",
+        "curriculum/README.md",
+        "Decision != Approval != Execution",
+        "DETERMINISTIC CORE FIRST != CODE FIRST",
+        "Tool chỉ được adopt khi giải quyết bottleneck thật",
     ), problems)
     reject(root, "README.md", "HYB015", (r"Người học chưa bắt đầu",), problems)
 
