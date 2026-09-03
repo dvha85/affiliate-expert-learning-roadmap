@@ -16,8 +16,8 @@ delivery:
     - "python scripts/validate_m04_grounded_advisory_pack.py"
 knowledge:
   required: []
-  on_demand: ["5.1", "5.2", "5.3"]
-  reference: []
+  on_demand: ["8.1", "8.2", "8.3"]
+  reference: ["5.1", "5.2", "5.3"]
 milestones:
   contributes_to: ["G3"]
 evidence:
@@ -37,6 +37,7 @@ Nâng v0.2 thành v0.3 với grounded AI advisory có evidence refs và fallback
 
 ```text
 M03 evidence/history + deterministic baseline FIRST
+→ CALL_AI | SKIP_AI
 → untrusted candidate advisory
 → reference-validity + claim-support checks
 → grounded | rejected | unavailable | skipped
@@ -53,6 +54,9 @@ M03 v0.2 có provenance/freshness/missing semantics. Bắt đầu bằng
 key, paid model hay live provider. Replay là evaluation fixture, không claim
 provider live đã hoạt động.
 
+Lesson `5.1–5.3` được giữ làm detailed v1 reference. V2 active pull dùng
+`8.1–8.3`; projection chuẩn xem `lessons/V2-LESSON-MAP.json`.
+
 ## Try First — Thử trước
 
 Trước khi gọi bất kỳ model nào, human freeze deterministic baseline và tự ghi:
@@ -60,7 +64,8 @@ Trước khi gọi bất kỳ model nào, human freeze deterministic baseline v�
 - fact nào evidence thực sự support;
 - fact nào chưa support;
 - hypothesis/missing evidence nào có thể hỏi AI hỗ trợ diễn giải;
-- fallback expected nếu AI malformed/unavailable/unsupported.
+- fallback expected nếu AI malformed/unavailable/unsupported;
+- `CALL_AI` hay `SKIP_AI` và reason.
 
 Chạy candidate unsupported claim để thấy parse JSON không đồng nghĩa grounded.
 
@@ -76,15 +81,16 @@ raw customer/account data hay instruction untrusted vào prompt/log/commit.
 ## Observe — Quan sát
 
 Ghi `advisor_execution_kind: replay | live`, input evidence refs, baseline
-version, candidate schema, support/rejection reason, fallback reason, model/
-prompt version khi relevant và redaction limitation. Evidence refs tồn tại vẫn
-chưa đủ: field/value phải support claim.
+version, routing decision, candidate schema, support/rejection reason, fallback
+reason, model/prompt version khi relevant và redaction limitation. Evidence refs
+tồn tại vẫn chưa đủ: field/value phải support claim.
 
 ## Knowledge Pull — Lấy kiến thức đúng lúc
 
-- `5.1` khi chưa biết CALL_AI hay SKIP_AI theo decision value.
-- `5.2` khi schema, evidence refs, uncertainty/hypothesis cần rõ.
-- `5.3` khi eval, rejected output, fallback, cost hoặc privacy lộ gap.
+- `8.1` khi chưa biết CALL_AI hay SKIP_AI theo decision value và contract.
+- `8.2` khi schema/ref tồn tại nhưng claim-support hoặc uncertainty chưa rõ.
+- `8.3` khi eval, rejected output, fallback, injection hoặc privacy lộ gap.
+- `5.1–5.3` là reference sâu từ v1, không phải prerequisite hay active sequence.
 
 Không add agent runtime, tool registry hay write permission trong M04.
 
@@ -100,6 +106,7 @@ observed fact, score/rank hay policy.
 - valid grounded replay có evidence refs và exact field/value support;
 - unknown ref/unsupported claim bị rejected;
 - unavailable/malformed/prompt injection fixture dùng fallback;
+- `SKIP_AI` là behavior hợp lệ có reason;
 - no tool, write, publish hoặc execution; action luôn null;
 - replay được gắn replay, không gọi là live evidence.
 
@@ -111,15 +118,16 @@ chỉ chứng minh gate. Live provider là optional và nếu chưa chạy phả
 
 ## Operate — Vận hành
 
-Log redacted input/evidence/baseline/advisor versions, status/fallback và next
-measurement. Monitor unsupported/rejection rate; khi evidence stale/missing,
+Log redacted input/evidence/baseline/advisor versions, routing/status/fallback và
+next measurement. Monitor unsupported/rejection rate; khi evidence stale/missing,
 SKIP_AI hoặc fallback/GET_MORE_DATA thay vì nới authority.
 
 ## Failure Case — Tình huống lỗi
 
 Malformed candidate, invented CVR/revenue, valid ref nhưng sai field/value,
 provider timeout, malicious public text hoặc prompt requesting tool access phải
-reject/fallback. Không retry thành publish/execution.
+reject/fallback. Không retry bằng cách nới schema, bỏ grounding hoặc tăng
+permission.
 
 ## Safety Gate — Cổng an toàn
 
@@ -138,8 +146,8 @@ ghi `live_provider_verified: pending`, không tự nhận là live.
 ## Explain-back — Giải thích lại
 
 Learner giải thích được grounded khác plausible, evidence ref khác claim
-support, fallback bảo toàn baseline ra sao và tại sao AI advisory không có
-execution authority.
+support, fallback bảo toàn baseline ra sao, khi nào SKIP_AI tốt hơn CALL_AI và
+tại sao AI advisory không có execution authority.
 
 ## Mission PASS — Tiêu chí PASS
 
