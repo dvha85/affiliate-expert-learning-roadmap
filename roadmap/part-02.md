@@ -1,32 +1,42 @@
 # Phần 2 — Trustworthy intelligence trước Agent
 
-Trong curriculum v2, Part 02 phục vụ **M03 — Trustworthy History & Measurement** và **M04 — Grounded AI Advisor**. Human market publish đã được đưa lên M00; các label M03/M04 kiểu v1 không còn là active sequence.
+- Timeline: **Evidence-gated; M03 cần M01+M02, M04 cần M03**.
+- **Chapters:** C6–C8
+- **Core:** 9 micro-lessons
+- **Mission focus v2:** M03 Trustworthy History & Measurement + M04 Grounded AI Advisor.
 
-## Canonical lesson projection
+## Cách đọc Part 02 trong v2
 
-Dùng [`lessons/V2-LESSON-MAP.json`](../lessons/V2-LESSON-MAP.json). Mission có thể pull lesson ngoài Part vật lý; lesson ID là knowledge inventory, không phải reading order.
+Canonical projection nằm tại [`lessons/V2-LESSON-MAP.json`](../lessons/V2-LESSON-MAP.json). Mission có thể pull lesson ngoài Part vật lý; lesson ID là knowledge inventory, không phải reading order.
 
-## M03 — Trustworthy History & Measurement
+### Chương 6 — Compliant micro-experiment knowledge
 
-Active on-demand knowledge:
+- [ ] **6.1** — [Audience problem, product fit và content angle có thể kiểm](../lessons/part-02/chapter-06/6.1-audience-problem-product-fit-content-angle.md)
+- [ ] **6.2** — [Proof, claims, disclosure và platform boundary hiện hành](../lessons/part-02/chapter-06/6.2-proof-claims-disclosure-platform-boundary.md)
+- [ ] **6.3** — [Human review, manual publish và Decision khác Execution](../lessons/part-02/chapter-06/6.3-human-review-manual-publish-decision-execution.md)
 
-- `3.1–3.3` — subject/observation identity, validation, normalization, provenance.
-- `4.1–4.3` — append-only history, delta/freshness, restart/change report.
-- `7.3` — MeasurementContext/reconciliation khi analytics source/scope/config cần nối vào history.
+V2 projection: `6.1–6.3` là active on-demand knowledge cho M00. `6.3` khóa invariant `Decision ≠ Approval ≠ Execution` và human-only external action.
 
-Implementation semantics thuộc Deterministic Core. Không cần n8n nếu manual/read-only path đã đủ; chỉ thêm orchestration khi repeated plumbing tạo bottleneck thật.
+### Chương 7 — Track real market signals
 
-## M04 — Grounded AI Advisor
+- [ ] **7.1** — [Tracking ID, link, impression, click và outcome event](../lessons/part-02/chapter-07/7.1-tracking-id-utm-link-impression-click-outcome.md)
+- [ ] **7.2** — [Observation window, zero, missing và not-yet-observable](../lessons/part-02/chapter-07/7.2-observation-window-zero-missing-not-yet-observable.md)
+- [ ] **7.3** — [Import analytics/export, provenance và reconciliation](../lessons/part-02/chapter-07/7.3-import-analytics-export-provenance-reconciliation.md)
 
-Active v2 knowledge:
+V2 projection:
+- `7.1` active cho M00.
+- `7.2` active cho M01.
+- `7.3` reusable cho M01/M03.
 
-- `8.1` — advisory contract và `CALL_AI | SKIP_AI`.
-- `8.2` — evidence-ref validity, claim-support và uncertainty gate.
-- `8.3` — eval/reject/fallback, prompt-injection-like content và privacy boundary.
+Manual/read-only path là baseline. n8n chỉ được thêm khi orchestration/plumbing tạo bottleneck thật; workflow success không được bypass canonical validation/reconciliation.
 
-Detailed v1 lessons `5.1–5.3` vẫn là reference, không phải prerequisite.
+### Chương 8 — Grounded AI advisory
 
-Flow bắt buộc:
+- [ ] **8.1** — [Grounded advisory contract và CALL_AI hay SKIP_AI](../lessons/part-02/chapter-08/8.1-grounded-advisory-contract-call-skip.md)
+- [ ] **8.2** — [Evidence refs, claim support và uncertainty gate](../lessons/part-02/chapter-08/8.2-evidence-refs-claim-support-uncertainty.md)
+- [ ] **8.3** — [Eval, reject, fallback, injection và privacy boundary](../lessons/part-02/chapter-08/8.3-eval-reject-fallback-injection-privacy.md)
+
+Chương 8 là active M04 path:
 
 ```text
 E3 evidence/history
@@ -39,6 +49,13 @@ E3 evidence/history
 → no Action
 ```
 
+Detailed v1 lessons `5.1–5.3` vẫn là reference sâu, không phải prerequisite.
+
+## Authority ceiling
+
+M03: deterministic/local/read-only truth handling.
+M04: A1 advisory only — không tool use, write, publish, account mutation hay autonomous loop.
+
 Invariant:
 
 ```text
@@ -47,20 +64,5 @@ ref exists ≠ claim supported
 AI confidence ≠ evidence
 AI recommendation ≠ execution permission
 ```
-
-## Knowledge lineage C6–C8
-
-- `6.1–6.3` và `7.1` hiện là active on-demand knowledge cho M00.
-- `7.2` active cho M01; `7.3` reusable cho M01/M03.
-- `8.1–8.3` là active M04 grounded-advisory chapter.
-
-Việc lesson nằm trong Part 02 vật lý không ép learner học nó tại Part 02; Mission-first projection quyết định lúc pull.
-
-## Authority ceiling
-
-M03: deterministic/local/read-only truth handling.
-M04: A1 advisory only — không tool use, write, publish, account mutation hay autonomous loop.
-
-n8n/Agent runtime không được dùng để che một deterministic history/grounding contract chưa đúng.
 
 [← Part trước](part-01.md) · [Roadmap tổng](../ROADMAP.md) · [Part tiếp theo →](part-03.md)
