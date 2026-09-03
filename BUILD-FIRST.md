@@ -1,56 +1,85 @@
-# Build-First, Reality-First v2
+# Build-First, Reality-First — Mission-based
 
-> Canonical sequence: [CURRICULUM.md](CURRICULUM.md). This execution model
-> follows [ADR-005](docs/ADR-005-REALITY-FIRST-CURRICULUM.md), while retaining
-> deterministic-core and governed-action boundaries from ADR-004.
+> Canonical sequence: [`CURRICULUM.md`](CURRICULUM.md). Đây là execution model cho learner path hiện hành; historical numeric lesson mapping không được ghi đè Mission spine.
 
-## The learner loop
+## Learner loop
 
 ```text
 DO A SMALL THING A REAL PERSON CAN VERIFY
 → observe the gap
-→ pull the smallest knowledge slice
-→ improve and test
+→ pull the smallest useful knowledge slice
+→ improve/test
 → save evidence
-→ decide the next measurement
+→ explain limitations
+→ choose the next measurement
 ```
 
-O00 is a safe synthetic walkthrough only. M00 is the first PASS candidate: a
-human observes, makes/reviews a small affiliate artifact, adds disclosure and
-tracking as applicable, and manually publishes. Bot/AI has no publish authority.
-M01 gets an outcome snapshot and M02 supplies the smallest deterministic
-baseline in parallel after M00. AI appears only at M04 as grounded, no-tool
-advisory.
+O00 là synthetic walkthrough, không PASS. M00 là first Reality candidate nhưng **không Publish-First**: learner thu public observations E1 và tạo Human DecisionPacket, không external execution.
+
+M01 tạo deterministic Bot v0.1; M02 thêm trustworthy history/replay. M03 mới là external action đầu tiên, do human review và tự execute, có tracking/measurement context. AI xuất hiện ở M04 dưới dạng grounded advisory, không tool/write/execute.
 
 ## Evidence taxonomy
 
-- origin / eligibility: real | synthetic
-- use context khi relevant: test | replay
-- `evidence_kind: real | synthetic` khi contract M00 áp dụng
-- Không ép `real | synthetic | test | replay` thành bốn giá trị loại trừ trên cùng một enum.
+- origin/eligibility: `real | synthetic`;
+- use context khi relevant: `test | replay`;
+- claim: `fact | estimate | assumption | unknown`;
+- `0`, `missing`, `pending`, `not_yet_observable`, `inconclusive` là state khác nhau.
 
-Synthetic data is useful for O00 and tests, but never proves market reality.
-Missing, zero, pending and inconclusive must remain distinct.
+Synthetic data hữu ích cho test/replay nhưng không chứng minh market reality.
 
 ## Authority progression
 
 ```text
-M00 human_only manual publish
-→ M01 manual/read-only outcome
-→ M02–M03 A0 deterministic
+M00 human/read-only evidence + DecisionPacket
+→ M01 A0 deterministic Bot
+→ M02 A0 history/replay
+→ M03 human-only external action + measurement
 → M04–M05 A1 advisory/propose-only
-→ M08 A2 read-only tools
-→ M09–M11 governed action only through policy/risk/approval/audit
+→ M06 automatic read-only watcher
+→ M07 A2 read-only tools
+→ M08 A3 shadow ActionIntent/policy
+→ M09 approval-gated execution
+→ M10 bounded governed automation
+→ M11 governed production
 ```
+
+Invariant:
+
+```text
+Decision != Approval != Execution
+AI confidence != execution permission
+real evidence != automatic recommendation
+Agent proposal != authorization
+```
+
+## Implementation principle
 
 ```text
 DETERMINISTIC CORE FIRST
-≠ CODE FIRST
+!= CODE FIRST
 
-NO-CODE WHEN IT IS AUDITABLE
-AGENT-WRITTEN CODE WHEN CODE IS NECESSARY
+NO-CODE WHEN AUDITABLE
+CODE WHEN IT REDUCES AMBIGUITY
+AGENT WHEN DETERMINISTIC LOGIC IS NOT ENOUGH
+AUTOMATION ONLY AFTER POLICY + AUDIT + RECOVERY
 ```
 
-Every Mission declares `delivery` separately from authoring status. A `ready`
-file is not a beginner-ready delivery until starter/eval/verification/pilot
-metadata supports the claim.
+Go là deterministic reference/fallback khi code phù hợp. n8n có thể orchestration. AgentRuntime cung cấp intelligence trong permission ceiling. Không tool/runtime nào tự trở thành source of truth hay policy authority.
+
+## Delivery vs learner PASS
+
+Mỗi Mission khai báo authoring/delivery riêng. `draft`, `ready`, fixture PASS hoặc CI xanh không tự tạo Reality/PASS. Mission PASS phải theo Capability + Reality + Operated contract của Mission đó.
+
+## External action boundary
+
+External action đầu tiên thuộc M03:
+
+```text
+review exact action
+→ disclosure/policy/tracking check khi áp dụng
+→ human manual execution
+→ ActionRecord
+→ outcome window
+```
+
+Từ M09 trở đi, machine execution chỉ được mở qua deterministic policy/risk, durable approval khi cần, revalidation, idempotency, audit và kill switch.
