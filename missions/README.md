@@ -2,15 +2,17 @@
 
 Learner order is defined by `CURRICULUM.md` and this Mission spine. Numeric legacy lesson IDs do not define the learning order.
 
+`Status` chỉ dùng authoring vocabulary chuẩn: `planned`, `draft`, `ready`. Các từ như reset/remap/delivery state phải mô tả ở nội dung khác, không trộn vào authoring state.
+
 | Mission | Outcome | Authority | Status |
 |---|---|---|---|
 | O00 | Safe synthetic walkthrough, no PASS | no side effect | orientation |
 | [M00](M00-first-safe-market-loop.md) | First Real Evidence Packet + Human DecisionPacket | human/read-only | draft |
-| M01 | Smallest Deterministic Bot v0.1 | A0 deterministic | reset target |
-| M02 | Trustworthy History + Replay v0.2 | A0 deterministic | reset target |
-| M03 | First Tracked Human Action + outcome context | human executes | reset target |
-| [M04](M04-grounded-ai-advisor.md) | Grounded AI Advisor | A1 advisory | draft/remap |
-| [M05](M05-first-reviewed-improvement.md) | Reviewed Improvement | A1 propose only | draft/remap |
+| M01 | Smallest Deterministic Bot v0.1 | A0 deterministic | draft |
+| M02 | Trustworthy History + Replay v0.2 | A0 deterministic | draft |
+| M03 | First Tracked Human Action + outcome context | human executes | draft |
+| [M04](M04-grounded-ai-advisor.md) | Grounded AI Advisor | A1 advisory | draft |
+| [M05](M05-first-reviewed-improvement.md) | Reviewed Improvement | A1 propose only | draft |
 | M06 | Reliable Automatic Watcher | automatic read-only | planned |
 | M07 | Read-only Evidence Agent | A2-RO | planned |
 | M08 | Shadow ActionIntent + Policy | A3-shadow | planned |
@@ -25,6 +27,8 @@ O00 → M00 → M01 → M02 → M03 → M04 → M05 → M06 → M07 → M08 → 
 ```
 
 M00 is intentionally **Reality-First but not Publish-First**. External publish/action begins at M03 after deterministic advice/history exist.
+
+M01–M05 vẫn là `draft` cho tới khi Mission file/starter/eval/verification hiện hành được remap đầy đủ theo spine mới. CI xanh không tự nâng chúng thành `ready`.
 
 ## Legacy files
 
